@@ -1,0 +1,471 @@
+/* ==========================================================================
+   noan-ai — 슬라이드 덱 스타일 (tools/CONTRACT.md 준수)
+   ========================================================================== */
+
+html,body{
+  height:100%;
+}
+body{
+  background:var(--paper);
+  color:var(--text);
+}
+
+.deck{
+  height:100vh;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+  scroll-behavior:smooth;
+}
+
+.deck > section.slide{
+  min-height:100vh;
+  scroll-snap-align:start;
+  display:grid;
+  place-items:center;
+  padding:48px 56px;
+  position:relative;
+}
+
+section.slide.dark{
+  background:var(--ink);
+  color:#EAF3F0;
+}
+section.slide.dark .s-sub,
+section.slide.dark .s-info,
+section.slide.dark .s-foot,
+section.slide.dark .s-lead{
+  color:#C7DAD4;
+}
+
+.slide-inner{
+  width:100%;
+  max-width:var(--maxw);
+}
+
+/* ==========================================================================
+   슬라이드 안 등장 애니메이션 (스크롤 스냅이라 보이는 건 하나뿐)
+   ========================================================================== */
+.slide-inner{
+  animation:noan-slide-in .4s ease-out both;
+}
+@keyframes noan-slide-in{
+  from{ opacity:0; transform:translateY(20px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* ==========================================================================
+   타이포 — 1280x720 에서도 잘리지 않도록 clamp 기반
+   ========================================================================== */
+.s-title{
+  font-size:clamp(34px,3.4vw,52px);
+  line-height:1.15;
+  font-weight:800;
+}
+.s-sub{
+  font-size:clamp(20px,1.6vw,26px);
+  color:var(--text-dim);
+  margin-top:12px;
+}
+.s-lead{
+  font-size:clamp(20px,1.5vw,24px);
+  margin-top:16px;
+  max-width:70ch;
+}
+.s-info{
+  font-size:clamp(16px,1.1vw,18px);
+  color:var(--text-dim);
+  margin-top:10px;
+}
+.s-foot{
+  font-size:clamp(14px,1vw,16px);
+  color:var(--text-dim);
+  margin-top:24px;
+}
+
+/* ==========================================================================
+   표지 배경 원
+   ========================================================================== */
+.slide .orb{
+  position:absolute;
+  border-radius:50%;
+  background:var(--ink2);
+  opacity:.55;
+  filter:blur(2px);
+  animation:noan-orb-float 20s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
+}
+.slide .orb:nth-child(1){
+  width:380px;
+  height:380px;
+  top:-140px;
+  right:-100px;
+}
+.slide .orb:nth-child(2){
+  width:260px;
+  height:260px;
+  bottom:-110px;
+  left:8%;
+  animation-delay:-8s;
+}
+@keyframes noan-orb-float{
+  0%,100%{ transform:translate(0,0) scale(1); }
+  50%{ transform:translate(-24px,20px) scale(1.08); }
+}
+
+/* ==========================================================================
+   카드 그리드
+   ========================================================================== */
+.cards{
+  display:grid;
+  gap:24px;
+  perspective:1200px;
+}
+.cards.cols-2{ grid-template-columns:repeat(2,1fr); }
+.cards.cols-3{ grid-template-columns:repeat(3,1fr); }
+.cards.cols-4{ grid-template-columns:repeat(4,1fr); }
+@media (max-width:900px){
+  .cards.cols-2,
+  .cards.cols-3,
+  .cards.cols-4{
+    grid-template-columns:1fr;
+  }
+}
+
+.card3d{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:24px;
+  transform-style:preserve-3d;
+  transition:transform .25s ease-out, opacity .6s ease-out, translate .6s ease-out;
+  transform:rotateX(8deg) translateY(30px);
+  opacity:0;
+}
+.card3d.is-in{
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);
+  opacity:1;
+}
+.card3d.gold{ border:2px solid var(--gold); }
+.card3d.mint{ border-color:var(--mint); }
+.card3d.warm{ border-color:var(--warm); }
+
+/* ==========================================================================
+   장면 슬라이드 (2열: 좌 고민 / 우 도구)
+   ========================================================================== */
+.scene{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:32px;
+}
+@media (max-width:900px){
+  .scene{
+    grid-template-columns:1fr;
+  }
+}
+.pain{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:28px;
+}
+.tool{
+  background:var(--card);
+  border:2px solid var(--mint);
+  border-radius:var(--radius);
+  padding:28px;
+}
+.steps{
+  list-style:none;
+  counter-reset:noan-step;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.steps li{
+  counter-increment:noan-step;
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+}
+.steps li::before{
+  content:counter(noan-step);
+  flex:0 0 auto;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:var(--mint);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-weight:700;
+  font-size:16px;
+}
+
+/* ==========================================================================
+   시연 화면
+   ========================================================================== */
+.demo{
+  aspect-ratio:16/9;
+  background:var(--line);
+  border-radius:var(--radius);
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  color:var(--mute);
+  font-size:20px;
+}
+.demo video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.demo-placeholder{
+  color:var(--mute);
+  font-size:20px;
+}
+
+/* ==========================================================================
+   설문 / 폼
+   ========================================================================== */
+.poll{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.poll iframe{
+  width:100%;
+  min-height:420px;
+  border:0;
+  border-radius:var(--radius);
+  background:var(--card);
+}
+
+/* ==========================================================================
+   타이머
+   ========================================================================== */
+.timer{
+  font-variant-numeric:tabular-nums;
+  cursor:pointer;
+  font-size:clamp(48px,8vw,120px);
+  font-weight:800;
+}
+.timer.is-done{
+  color:var(--warm);
+}
+
+/* ==========================================================================
+   체크리스트
+   ========================================================================== */
+.checklist{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.checklist li{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:clamp(20px,1.5vw,24px);
+}
+.checklist input[type="checkbox"]{
+  width:24px;
+  height:24px;
+  min-width:24px;
+  min-height:24px;
+}
+.checklist li.is-checked{
+  color:var(--mint);
+}
+
+/* ==========================================================================
+   진행 HUD
+   ========================================================================== */
+.hud{
+  position:fixed;
+  right:20px;
+  bottom:16px;
+  display:flex;
+  gap:14px;
+  font-variant-numeric:tabular-nums;
+  z-index:40;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 16px;
+  font-size:15px;
+}
+.hud-time.is-over{
+  color:var(--warm);
+  font-weight:700;
+}
+
+/* ==========================================================================
+   목차 오버레이
+   ========================================================================== */
+.toc{
+  position:fixed;
+  inset:0;
+  background:rgba(14,59,51,.9);
+  color:#fff;
+  z-index:60;
+  overflow:auto;
+  padding:48px;
+  display:none;
+}
+.toc.is-open{
+  display:grid;
+  gap:12px;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  align-content:start;
+}
+.toc a,
+.toc button{
+  display:flex;
+  align-items:center;
+  min-height:44px;
+  padding:10px 16px;
+  border-radius:10px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.2);
+  color:#fff;
+  text-decoration:none;
+  font-size:17px;
+  cursor:pointer;
+}
+
+/* ==========================================================================
+   블랙아웃
+   ========================================================================== */
+.blackout{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:80;
+  display:none;
+}
+.blackout.is-on{
+  display:block;
+}
+
+/* ==========================================================================
+   발표자 노트
+   ========================================================================== */
+aside.notes{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  max-height:32vh;
+  overflow:auto;
+  background:rgba(14,59,51,.94);
+  color:#fff;
+  padding:16px 24px;
+  font-size:17px;
+  z-index:50;
+  display:none;
+}
+body.notes-on aside.notes.is-active{
+  display:block;
+}
+.note-pace{
+  color:var(--gold);
+  font-weight:700;
+}
+
+/* ==========================================================================
+   온라인 상태 점 (덱 버전)
+   ========================================================================== */
+.deck .online-dot{
+  position:fixed;
+  right:20px;
+  top:16px;
+  z-index:40;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--mute);
+}
+.deck .online-dot.is-online{
+  background:#3FAE93;
+}
+
+/* ==========================================================================
+   AI 지도
+   ========================================================================== */
+.aimap{
+  width:100%;
+  height:100%;
+}
+.slide-map{
+  padding:0;
+}
+.slide-map .slide-inner{
+  max-width:none;
+  height:100vh;
+  display:grid;
+  grid-template-columns:1fr 320px;
+}
+.map-panel{
+  border-left:1px solid var(--line);
+  padding:32px 24px;
+  overflow:auto;
+  background:var(--card);
+}
+.aimap .node{
+  cursor:pointer;
+}
+.aimap .node text{
+  font-size:15px;
+}
+svg.aimap[data-zoom="1"] .node:not([data-jne="1"]){
+  opacity:.25;
+}
+svg.aimap[data-zoom="1"] .node[data-jne="1"] circle{
+  stroke:var(--gold);
+  stroke-width:3;
+}
+svg.aimap[data-zoom="2"] .node:not(.is-focus){
+  opacity:.18;
+}
+.zoomer{
+  transition:transform .8s cubic-bezier(.4,0,.2,1);
+}
+@media (max-width:900px){
+  .slide-map .slide-inner{
+    grid-template-columns:1fr;
+    height:auto;
+    min-height:100vh;
+  }
+  .map-panel{
+    border-left:0;
+    border-top:1px solid var(--line);
+  }
+}
+
+/* ==========================================================================
+   모션 축소
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce){
+  .zoomer{
+    transition:none;
+  }
+  .card3d{
+    animation:none;
+    transition:none;
+    transform:none;
+    opacity:1;
+  }
+  .slide .orb{
+    animation:none;
+  }
+  .slide-inner{
+    animation:none;
+  }
+}

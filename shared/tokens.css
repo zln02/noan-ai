@@ -1,0 +1,135 @@
+/* ==========================================================================
+   noan-ai — 디자인 토큰 (tools/CONTRACT.md 준수, 값 변경 금지)
+   ========================================================================== */
+
+:root{
+  /* 브랜드 토큰 (계약 고정값) */
+  --ink:#0E3B33;
+  --ink2:#155146;
+  --mint:#3FAE93;
+  --mint2:#7FD6C2;
+  --warm:#D97A38;
+  --stop:#B4524A;
+  --paper:#F6F9F8;
+  --card:#FFFFFF;
+  --mute:#61756F;
+  --line:#D9E5E1;
+  --gold:#E3B341;
+
+  /* 파생 토큰 */
+  --font: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --fs-body: 20px;
+  --fs-h1: 44px;
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(14,59,51,.10);
+  --maxw: 1280px;
+  --text: #16211D;
+  --text-dim: var(--mute);
+}
+
+/* ==========================================================================
+   다크 모드 — --paper/--card/--line/--mute/텍스트색만 재정의, 브랜드색 유지
+   ========================================================================== */
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#0F1512;
+    --card:#182420;
+    --line:#2A3B35;
+    --mute:#9FB3AC;
+    --text:#EAF3F0;
+    --text-dim:#B7CAC4;
+  }
+}
+
+/* ==========================================================================
+   프로젝터 모드 — html[data-projector], 다크모드보다 뒤에 선언해 우선 적용
+   ========================================================================== */
+html[data-projector]{
+  --mute:#3F4F49;
+  --line:#B8C8C2;
+  --mint2:#3FAE93;
+  --fs-body:22px;
+  --fs-h1:48px;
+  --shadow:none;
+}
+html[data-projector] .card{
+  border-width:2px;
+}
+html[data-projector] .card3d{
+  border-width:2px;
+}
+
+/* ==========================================================================
+   최소 리셋
+   ========================================================================== */
+*,*::before,*::after{
+  box-sizing:border-box;
+}
+html,body{
+  margin:0;
+}
+body{
+  font-family:var(--font);
+  font-size:var(--fs-body);
+  color:var(--text);
+  background:var(--paper);
+}
+img{
+  max-width:100%;
+  display:block;
+}
+h1,h2,h3,h4,h5,h6,p,ul,ol,figure,blockquote{
+  margin:0;
+}
+
+/* ==========================================================================
+   접근성 / 유틸리티
+   ========================================================================== */
+:focus-visible{
+  outline:3px solid var(--warm);
+  outline-offset:2px;
+}
+
+/* icons.js 가 뱉는 배지 SVG의 텍스트 라벨 */
+.ico-badge text{
+  font-family:var(--font);
+}
+
+/* 표 가로 스크롤 래퍼 */
+.tw{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* 스킵 링크 — 포커스 전 화면 밖, 포커스 시 노출 */
+.skip{
+  position:absolute;
+  left:-9999px;
+  top:0;
+  z-index:100;
+  background:var(--ink);
+  color:#fff;
+  padding:12px 20px;
+  border-radius:0 0 var(--radius) 0;
+  text-decoration:none;
+  font-weight:700;
+}
+.skip:focus{
+  left:0;
+}
+
+/* ==========================================================================
+   모션 축소 — 등장 애니메이션·tilt·전환·떠다니는 원 전부 무효화
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation:none !important;
+    transition:none !important;
+  }
+  .card.tilt,
+  .card3d,
+  .orb,
+  .zoomer{
+    transform:none !important;
+  }
+}

@@ -1,0 +1,15 @@
+# 학교 실물 자료 — 절대 public 에 올라가면 안 된다
+private/
+
+# 빌드 보조(아이콘 추출용). 산출물 shared/icons.js 는 커밋한다
+tools/node_modules/
+tools/package-lock.json
+tools/icons-raw.json
+tools/icons-missing.txt
+
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+tools/_s1text.json
+tools/map-fragment.html
