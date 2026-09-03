@@ -480,7 +480,9 @@
       var hid = location.hash.slice(1);
       for (var i = 0; i < slides.length; i++) { if (slides[i].id === hid) { hashIdx = i; break; } }
     }
-    if (hashIdx >= 0) slides[hashIdx].scrollIntoView({ behavior: 'auto', block: 'start' });
+    /* 'auto' 는 CSS 의 scroll-behavior:smooth 를 따라가서 첫 페인트 도중 취소되는 일이 있다.
+       첫 진입만 즉시 이동시킨다. 좌우 이동은 setCurrent 가 'smooth' 를 직접 넘기므로 그대로다. */
+    if (hashIdx >= 0) slides[hashIdx].scrollIntoView({ behavior: 'instant', block: 'start' });
     setCurrent(hashIdx >= 0 ? hashIdx : 0, { scroll: false });
 
     setupScrollObserver();
