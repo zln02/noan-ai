@@ -65,6 +65,7 @@
 </footer>
 <script src="../shared/icons.js"></script>
 <script src="../shared/site.js"></script>
+<script src="items.js"></script>
 <script>
 /* 학생 작품 — items.json 에서 consent:true 인 것만 그린다 */
 (function () {
@@ -105,14 +106,21 @@
   }
 
   function fail() {
-    empty('목록을 불러오지 못했습니다. file:// 로 열면 브라우저가 읽기를 막습니다.');
+    empty('목록을 불러오지 못했습니다.');
   }
 
-  if (!window.fetch) { fail(); return; }
+  /* file:// 로 열면 크롬이 fetch 를 막는다. 그때는 items.js 가 실어둔
+     같은 내용(window.SHOWCASE_ITEMS)으로 그린다. tools/sync-data.js 가 둘을 맞춘다. */
+  function fallback() {
+    if (window.SHOWCASE_ITEMS) { render(window.SHOWCASE_ITEMS); return true; }
+    return false;
+  }
+
+  if (!window.fetch) { if (!fallback()) fail(); return; }
   fetch('items.json')
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(render)
-    .catch(fail);
+    .catch(function () { if (!fallback()) fail(); });
 })();
 </script>
 </body>

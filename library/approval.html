@@ -35,7 +35,7 @@
 <section class="section">
   <div class="wrap">
     <h2 class="section-title">현황</h2>
-    <div class="tw" id="approvalTable" aria-live="polite">
+    <div id="approvalTable" aria-live="polite">
       <p class="muted">불러오는 중…</p>
     </div>
     <p class="muted small">원천은 노션 「✅ 도구 승인 현황」 DB 이고, 이 쪽은 사본입니다. 바뀌면 <code>library/approval.json</code> 을 고칩니다.</p>
@@ -52,6 +52,7 @@
 </footer>
 <script src="../shared/icons.js"></script>
 <script src="../shared/site.js"></script>
+<script src="approval.js"></script>
 <script>
 /* 도구 승인 현황 — approval.json 을 읽어 표를 그린다. 외부 요청 없음 */
 (function () {
@@ -86,7 +87,7 @@
   }
 
   function render(rows) {
-    var h = '<table><thead><tr>';
+    var h = '<div class="tw"><table><thead><tr>';
     for (var c = 0; c < COLS.length; c++) {
       h += '<th scope="col" class="nw">' + esc(HEAD[COLS[c]] || COLS[c]) + '</th>';
     }
@@ -96,21 +97,27 @@
       for (var j = 1; j < COLS.length; j++) h += cell(rows[i], COLS[j]);
       h += '</tr>';
     }
-    h += '</tbody></table>';
+    h += '</tbody></table></div>';
     box.innerHTML = h;
   }
 
   function fail() {
     box.innerHTML = '<p class="muted">표를 불러오지 못했습니다. ' +
-      '파일을 <code>file://</code> 로 열면 브라우저가 읽기를 막습니다. ' +
-      '<a href="approval.json">approval.json</a> 을 직접 여시거나 사이트 주소로 여세요.</p>';
+      '<a href="approval.json">approval.json</a> 을 직접 여세요.</p>';
   }
 
-  if (!window.fetch) { fail(); return; }
+  /* file:// 로 열면 크롬이 fetch 를 막는다. 그때는 approval.js 가 실어둔
+     같은 내용(window.APPROVAL_DATA)으로 그린다. tools/sync-data.js 가 둘을 맞춘다. */
+  function fallback() {
+    if (window.APPROVAL_DATA) { render(window.APPROVAL_DATA); return true; }
+    return false;
+  }
+
+  if (!window.fetch) { if (!fallback()) fail(); return; }
   fetch('approval.json')
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(render)
-    .catch(fail);
+    .catch(function () { if (!fallback()) fail(); });
 })();
 </script>
 </body>

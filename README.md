@@ -59,6 +59,16 @@ cd tools && npm install simple-icons && node gen-icons.js > icons-raw.json && no
 ```
 OpenAI·Adobe·Microsoft·Canva·CapCut·Copilot 은 simple-icons 에서 삭제된 브랜드라 텍스트 배지로 렌더된다.
 
+## 데이터 파일
+`library/approval.json` 과 `showcase/items.json` 이 원본이다.
+`file://` 로 열면 크롬이 `fetch` 를 막으므로 같은 내용을 담은 `.js` 짝을 함께 둔다.
+**JSON 을 고치면 반드시 아래를 돌려라.**
+```bash
+node tools/sync-data.js          # approval.js / items.js 다시 생성
+node tools/sync-data.js --check  # 어긋났는지만 검사
+```
+`approval.js` · `items.js` 는 자동 생성 파일이다. 손으로 고치지 않는다.
+
 ## 진행 상황
 - [x] 1단계 — shared/ 전부, 랜딩, 덱 슬라이드 1~9(표지 ~ AI 전체 지도)
 - [x] 2단계 — 덱 슬라이드 10~24, 나머지 페이지(404/training/class/library/request/about/showcase/docs), 추가 요구사항 A·B·D, C1 도구 승인 현황
