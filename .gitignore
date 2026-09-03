@@ -13,3 +13,6 @@ Thumbs.db
 desktop.ini
 tools/_s1text.json
 tools/map-fragment.html
+
+# 교육청 저작물 — 원본 PDF 는 커밋하지 않는다. 분석 결과(docs/manual-*.md)만 올린다
+docs/manual/
