@@ -133,3 +133,39 @@ h1,h2,h3,h4,h5,h6,p,ul,ol,figure,blockquote{
     transform:none !important;
   }
 }
+
+/* ==========================================================================
+   유틸리티 추가 (2단계) — 기존 규칙은 그대로 두고 아래에 덧붙인다
+   ========================================================================== */
+
+/* 화면에서만 숨기고 보조기기에는 읽히는 텍스트 */
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  clip-path:inset(50%);
+  white-space:nowrap;
+  border:0;
+}
+
+/* 아직 확인이 안 된 값 — 화면에 그대로 남긴다 */
+.todo{
+  color:var(--warm);
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* 파일이 없어 감춘 요소 (QR·스크린샷 onerror) */
+.is-gone{
+  display:none !important;
+}
+
+/* 이모지 아이콘 */
+.emoji{
+  font-style:normal;
+  line-height:1;
+}

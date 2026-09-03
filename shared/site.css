@@ -386,3 +386,270 @@ h2{
   font-size:32px;
   line-height:1.2;
 }
+
+/* ==========================================================================
+   2단계 추가 — 기존 규칙은 수정하지 않고 아래에 덧붙인다
+   ========================================================================== */
+
+/* ---------- 표 ---------- */
+.tw table{
+  width:100%;
+  border-collapse:collapse;
+  text-align:left;
+}
+.tw th,
+.tw td{
+  padding:14px 16px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+}
+.tw thead th{
+  font-size:17px;
+  color:var(--text-dim);
+  border-bottom:2px solid var(--line);
+  white-space:nowrap;
+}
+.tw tbody th{
+  font-weight:700;
+}
+.tw caption{
+  text-align:left;
+  font-weight:700;
+  padding-bottom:10px;
+}
+.tw [data-icon]{
+  display:inline-block;
+  vertical-align:middle;
+  margin-right:8px;
+}
+
+/* ---------- 번호 단계 ---------- */
+.steps{
+  list-style:none;
+  counter-reset:noan-step;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.steps li{
+  counter-increment:noan-step;
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+}
+.steps li::before{
+  content:counter(noan-step);
+  flex:0 0 auto;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:var(--mint);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-weight:700;
+  font-size:16px;
+}
+
+/* ---------- 목록 ---------- */
+.plain{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.plain li{
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+}
+.plain li:last-child{
+  border-bottom:0;
+}
+
+/* ---------- 스크린샷 자리 ---------- */
+.shots{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:20px;
+}
+@media (max-width:720px){
+  .shots{
+    grid-template-columns:1fr;
+  }
+}
+.shot{
+  aspect-ratio:16/10;
+  max-width:720px;
+  width:100%;
+  background:var(--paper);
+  border:1px dashed var(--line);
+  border-radius:var(--radius);
+  display:grid;
+  place-items:center;
+  color:var(--mute);
+  font-size:15px;
+  text-align:center;
+  padding:8px;
+  overflow:hidden;
+}
+.shot{
+  position:relative;
+}
+.shot::before{
+  content:attr(data-ph);
+  color:var(--mute);
+  font-size:15px;
+}
+.shot img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:var(--radius);
+}
+
+/* ---------- 알림 카드 ---------- */
+.card.warn{
+  border:2px solid var(--warm);
+}
+.card.gold{
+  border:2px solid var(--gold);
+}
+.card.mint{
+  border:2px solid var(--mint);
+}
+.muted{
+  color:var(--text-dim);
+}
+.small{
+  font-size:16px;
+}
+.stack > * + *{
+  margin-top:16px;
+}
+
+/* ---------- 폼 자리 ---------- */
+.formbox{
+  background:var(--paper);
+  border:1px dashed var(--line);
+  border-radius:var(--radius);
+  min-height:420px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:32px;
+  color:var(--text-dim);
+}
+.formbox iframe{
+  width:100%;
+  min-height:420px;
+  border:0;
+  border-radius:var(--radius);
+  background:var(--card);
+}
+
+/* ---------- 안전 규칙 2열 ---------- */
+.rules{
+  width:100%;
+  border-collapse:collapse;
+}
+.rules th,
+.rules td{
+  padding:12px 16px;
+  border:1px solid var(--line);
+  vertical-align:top;
+  width:50%;
+}
+.rules thead th{
+  font-size:20px;
+}
+.rules .yes{
+  color:var(--mint);
+}
+.rules .no{
+  color:var(--stop);
+}
+
+/* ---------- 인쇄: rules.html A4 한 장 ---------- */
+@media print{
+  /* 다크 모드로 보고 있어도 종이에는 검은 글자로 나가야 한다.
+     브랜드색(mint/warm/gold/stop)은 건드리지 않는다. */
+  :root{
+    --paper:#FFFFFF;
+    --card:#FFFFFF;
+    --line:#B9CBC5;
+    --mute:#3F4F49;
+    --text:#16211D;
+    --text-dim:#3F4F49;
+  }
+  @page{
+    size:A4 portrait;
+    margin:12mm;
+  }
+  html,body{
+    background:#fff;
+  }
+  body{
+    font-size:11pt;
+  }
+  .print-sheet{
+    padding:0;
+  }
+  .print-sheet h1{
+    font-size:20pt;
+    margin-bottom:4pt;
+  }
+  .print-sheet h2{
+    font-size:13pt;
+  }
+  .print-sheet .section{
+    padding:8pt 0;
+  }
+  .print-sheet .rules th,
+  .print-sheet .rules td{
+    padding:5pt 7pt;
+    font-size:10.5pt;
+  }
+  .no-print{
+    display:none !important;
+  }
+  a[href]::after{
+    content:"";
+  }
+}
+
+/* 승인 상태 — 시범 중(파랑). 기호를 앞에 두어 색 없이도 읽힌다 */
+.state-try{ color:#2F6DB5; }
+.state-sym{ font-weight:800; margin-right:6px; }
+
+/* 큰 한 줄 */
+.big{
+  font-size:28px;
+  font-weight:800;
+  line-height:1.25;
+}
+
+/* 줄바꿈 금지 셀 */
+.nw{
+  white-space:nowrap;
+}
+
+/* 카드 전체가 링크인 경우 — 밑줄·링크색을 지우고 제목에만 hover 표시 */
+a.card{
+  display:block;
+  color:inherit;
+  text-decoration:none;
+}
+a.card:hover .card-title,
+a.card:focus-visible .card-title{
+  text-decoration:underline;
+}
+a.card .badge{
+  margin-bottom:12px;
+}
+a.card .btn{
+  margin-top:16px;
+}

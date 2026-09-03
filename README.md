@@ -11,11 +11,23 @@
 
 ## 구조
 ```
-index.html          랜딩
-training/s1.html    1회차 덱
-shared/             tokens.css site.css deck.css deck.js site.js icons.js
-tools/              원고·계약·생성 스크립트 (사이트가 읽지 않음)
-private/            (gitignore) 학교 실물 자료
+index.html            랜딩
+404.html              없는 쪽 안내
+training/index.html   회차 목록
+training/s1.html      1회차 덱 (슬라이드 1~24)
+training/s2.html      2회차 — 투표로 결정, 준비 중
+class/index.html      학생 수업 — 준비 중
+library/index.html    교육청 지원 도구 5 + 시작법 + 스크린샷 자리
+library/rules.html    안전 규칙 한 장 (인쇄하면 A4 한 장)
+library/approval.html 도구 승인 현황 (approval.json 을 읽어 렌더)
+request/index.html    요청하기 (노션 폼 자리)
+about/index.html      코디네이터 소개
+showcase/index.html   학생 작품 — 준비 중 (items.json, consent:true 만 렌더)
+docs/handover.md      인수인계 (뼈대)
+shared/               tokens.css site.css deck.css deck.js site.js icons.js
+tools/                원고·계약·생성 스크립트 (사이트가 읽지 않음)
+assets/               QR·스크린샷 (3단계에서 생성. 없으면 화면에서 자동으로 숨김)
+private/              (gitignore) 학교 실물 자료
 ```
 
 ## 덱 조작 (training/s1.html)
@@ -49,8 +61,10 @@ OpenAI·Adobe·Microsoft·Canva·CapCut·Copilot 은 simple-icons 에서 삭제�
 
 ## 진행 상황
 - [x] 1단계 — shared/ 전부, 랜딩, 덱 슬라이드 1~9(표지 ~ AI 전체 지도)
-- [ ] 2단계 — 덱 슬라이드 10~24, 나머지 페이지(training/class/library/request/about), 추가 요구사항 A·B·D, C1 도구 승인 현황
-- [ ] 3단계 — 검증, GitHub Pages 활성화, QR 생성
+- [x] 2단계 — 덱 슬라이드 10~24, 나머지 페이지(404/training/class/library/request/about/showcase/docs), 추가 요구사항 A·B·D, C1 도구 승인 현황
+- [ ] 3단계 — GitHub Pages 활성화, QR 생성(`assets/qr-*.svg`), 스크린샷·시연 영상 채우기, 노션 폼 URL 연결
+
+2단계에서 `shared/*.css` 에는 규칙을 **덧붙이기만** 했다(기존 줄 삭제 0). `shared/*.js` 와 `index.html` 은 손대지 않았다.
 
 ## 채워야 할 것
 - `data-form=""` 2곳 — 덱 투표 슬라이드, `request/index.html` (노션 폼 공개 URL)

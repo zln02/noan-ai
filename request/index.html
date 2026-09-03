@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>요청하기 · 노안중 AI교육</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="오래 걸리는 일을 알려주시면 제가 만듭니다">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/site.css">
+</head>
+<body>
+<a class="skip" href="#main">본문으로</a>
+<header class="nav"><div class="nav-in">
+  <a class="brand" href="../index.html">노안중 AI교육</a>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
+  <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
+    <a href="../training/index.html">연수</a><a href="../class/index.html">수업</a>
+    <a href="../library/index.html">자료실</a><a href="../request/index.html">요청하기</a>
+    <a href="../about/index.html">소개</a>
+  </nav>
+  <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
+</div></header>
+<main id="main">
+
+<div class="hero">
+  <div class="wrap">
+    <p class="eyebrow">요청하기</p>
+    <h1>"이 일이 오래 걸려요"</h1>
+    <p class="lede">"이거 만들어 주세요"보다 <strong>"이 일이 오래 걸려요"</strong>라고 말씀해 주시는 게 좋습니다. 그래야 제가 자동화할 지점을 찾습니다.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">폼으로 보내기</h2>
+    <div class="formbox" id="requestForm" data-form="">
+      <p>폼 주소가 정해지면 여기에 바로 뜹니다. 그때까지는 아래 방법으로 알려주세요.</p>
+    </div>
+    <p class="stack"><button class="btn" type="button" id="requestFormLink" disabled>폼 링크 열기</button></p>
+    <p class="muted small">화면에 폼이 안 보이면 위 버튼으로 새 창에서 여세요.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">폼 말고도 됩니다</h2>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3 class="card-title">교무실에서 말로</h3>
+        <p class="card-lede">수 · 목 오전에는 학교에 있습니다. 지나가다 편하게 부르세요.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">종이 쪽지로</h3>
+        <p class="card-lede">연수 때 나눠드린 종이에 한 줄 적어 두시면 제가 걷어갑니다.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">메신저로</h3>
+        <p class="card-lede">업무 메신저로 보내주셔도 됩니다. 학생 이름이 들어가는 자료는 파일로 주지 마세요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">이렇게 적어주시면 빠릅니다</h2>
+    <ol class="steps">
+      <li>어떤 일인지 한 줄 — 예: "체육대회 안내 팜플렛을 매년 외주로 맡깁니다"</li>
+      <li>언제까지 필요한지 — 날짜만 적어주셔도 됩니다</li>
+      <li>지금은 얼마나 걸리는지 — "한 번에 서너 시간" 정도면 충분합니다</li>
+    </ol>
+    <div class="card warn stack">
+      <h3 class="card-title">보내실 때 한 가지</h3>
+      <p class="card-lede">학생 이름 · 사진 · 성적이 들어간 파일은 보내지 마세요. 지워서 주시거나, 교무실에서 함께 보겠습니다.</p>
+      <p><a href="../library/rules.html">안전 규칙 한 장 보기</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <p>AI교육 코디네이터 박진영 · 수·목 오전 교무실</p>
+    <p>근거: 전남교육청 「AI 활용 가이드라인」</p>
+    <p><a href="../library/rules.html">안전 규칙 한 장</a></p>
+  </div>
+</footer>
+<script src="../shared/icons.js"></script>
+<script src="../shared/site.js"></script>
+<script>
+/* 노션 폼 자리 — data-form 이 채워지면 iframe 과 링크를 살린다 */
+(function () {
+  'use strict';
+  var box = document.getElementById('requestForm');
+  var link = document.getElementById('requestFormLink');
+  var src = box && box.getAttribute('data-form');
+  if (!src) return;
+  var iframe = document.createElement('iframe');
+  iframe.src = src; iframe.title = '요청 폼'; iframe.loading = 'lazy';
+  box.innerHTML = '';
+  box.appendChild(iframe);
+  var a = document.createElement('a');
+  a.className = 'btn btn-primary';
+  a.href = src; a.target = '_blank'; a.rel = 'noopener';
+  a.textContent = '폼 링크 열기';
+  link.parentNode.replaceChild(a, link);
+})();
+</script>
+</body>
+</html>

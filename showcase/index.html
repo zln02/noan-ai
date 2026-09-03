@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학생 작품 · 노안중 AI교육</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="학생이 만든 것 — 동의를 받은 작품만 올립니다">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/site.css">
+</head>
+<body>
+<a class="skip" href="#main">본문으로</a>
+<header class="nav"><div class="nav-in">
+  <a class="brand" href="../index.html">노안중 AI교육</a>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
+  <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
+    <a href="../training/index.html">연수</a><a href="../class/index.html">수업</a>
+    <a href="../library/index.html">자료실</a><a href="../request/index.html">요청하기</a>
+    <a href="../about/index.html">소개</a>
+  </nav>
+  <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
+</div></header>
+<main id="main">
+
+<div class="hero">
+  <div class="wrap">
+    <p class="eyebrow">학생 작품</p>
+    <h1>준비 중입니다</h1>
+    <p class="lede">수업이 시작되면 학생이 만든 것을 여기에 올립니다. <strong>동의를 받은 작품만</strong> 올리고, 이름 대신 학년만 적습니다.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">작품</h2>
+    <div class="grid cols-3" id="showcaseGrid" aria-live="polite">
+      <p class="muted">불러오는 중…</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="card warn">
+      <h2 class="card-title">올리는 규칙</h2>
+      <ul>
+        <li>학생 동의(<code>consent</code>)가 있는 것만 올립니다.</li>
+        <li>얼굴이 나오는 사진은 올리지 않습니다. 화면·작품·뒷모습만.</li>
+        <li>이름 대신 학년과 교과만 적습니다.</li>
+      </ul>
+      <p><a href="../library/rules.html">안전 규칙 한 장 보기</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <p>AI교육 코디네이터 박진영 · 수·목 오전 교무실</p>
+    <p>근거: 전남교육청 「AI 활용 가이드라인」</p>
+    <p><a href="../library/rules.html">안전 규칙 한 장</a></p>
+  </div>
+</footer>
+<script src="../shared/icons.js"></script>
+<script src="../shared/site.js"></script>
+<script>
+/* 학생 작품 — items.json 에서 consent:true 인 것만 그린다 */
+(function () {
+  'use strict';
+  var grid = document.getElementById('showcaseGrid');
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function empty(msg) {
+    grid.innerHTML = '<p class="muted">' + msg + '</p>';
+  }
+
+  function render(items) {
+    if (!items || !items.length) { empty('아직 올린 작품이 없습니다. 준비 중입니다.'); return; }
+    var shown = [];
+    for (var i = 0; i < items.length; i++) {
+      if (items[i] && items[i].consent === true) shown.push(items[i]);
+    }
+    if (!shown.length) { empty('동의를 받은 작품이 아직 없습니다. 준비 중입니다.'); return; }
+    var h = '';
+    for (var j = 0; j < shown.length; j++) {
+      var it = shown[j];
+      h += '<article class="card tilt">';
+      if (it.image) {
+        h += '<div class="shot"><img src="' + esc(it.image) + '" alt="' +
+          esc(it.title || '학생 작품') + '" loading="lazy"></div>';
+      }
+      h += '<h3 class="card-title">' + esc(it.title || '제목 없음') + '</h3>';
+      if (it.desc) h += '<p class="card-lede">' + esc(it.desc) + '</p>';
+      if (it.grade || it.subject) {
+        h += '<p class="muted small">' + esc([it.grade, it.subject].filter(Boolean).join(' · ')) + '</p>';
+      }
+      h += '</article>';
+    }
+    grid.innerHTML = h;
+  }
+
+  function fail() {
+    empty('목록을 불러오지 못했습니다. file:// 로 열면 브라우저가 읽기를 막습니다.');
+  }
+
+  if (!window.fetch) { fail(); return; }
+  fetch('items.json')
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(render)
+    .catch(fail);
+})();
+</script>
+</body>
+</html>

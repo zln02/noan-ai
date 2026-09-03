@@ -469,3 +469,338 @@ svg.aimap[data-zoom="2"] .node:not(.is-focus){
     animation:none;
   }
 }
+
+/* ==========================================================================
+   2단계 추가 — 기존 규칙은 수정하지 않고 아래에 덧붙인다
+   ========================================================================== */
+
+/* ---------- 슬라이드 안 텍스트 ---------- */
+.slide .eyebrow{
+  display:inline-block;
+  font-weight:700;
+  color:var(--mint);
+  letter-spacing:.02em;
+  margin-bottom:12px;
+}
+.slide.dark .eyebrow{
+  color:var(--mint2);
+}
+.slide .card-title{
+  font-size:24px;
+  font-weight:700;
+  line-height:1.3;
+}
+.slide .card-lede{
+  color:var(--text-dim);
+  margin-top:10px;
+  line-height:1.5;
+}
+.slide.dark .card-lede{
+  color:#C9DCD6;
+}
+.slide .s-big{
+  font-size:clamp(30px,3.4vw,44px);
+  font-weight:800;
+  line-height:1.2;
+  margin-top:24px;
+}
+.slide .card3d .num{
+  display:inline-grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:var(--mint);
+  color:#fff;
+  font-weight:800;
+  font-size:18px;
+  margin-bottom:14px;
+}
+.slide .arrow{
+  align-self:center;
+  justify-self:center;
+  color:var(--mute);
+  font-size:32px;
+}
+@media (max-width:900px){
+  .slide .arrow{
+    transform:rotate(90deg);
+  }
+}
+.slide ul,
+.slide ol{
+  padding-left:1.2em;
+  line-height:1.6;
+}
+.slide .plain{
+  list-style:none;
+  padding-left:0;
+}
+.slide .plain li{
+  padding:10px 0;
+  border-bottom:1px solid var(--line);
+}
+.slide .plain li:last-child{
+  border-bottom:0;
+}
+
+/* ---------- 슬라이드 안 표 ---------- */
+.slide table{
+  width:100%;
+  border-collapse:collapse;
+  text-align:left;
+}
+.slide th,
+.slide td{
+  padding:14px 16px;
+  border-bottom:1px solid var(--line);
+  vertical-align:middle;
+}
+.slide thead th{
+  font-size:16px;
+  color:var(--text-dim);
+  text-transform:none;
+}
+.slide tbody th{
+  font-weight:700;
+  white-space:nowrap;
+}
+.slide th [data-icon],
+.slide td [data-icon],
+.slide .badge [data-icon]{
+  display:inline-block;
+  vertical-align:middle;
+  margin-right:8px;
+}
+.slide.dark th,
+.slide.dark td{
+  border-bottom-color:rgba(255,255,255,.18);
+}
+.slide .num-cell{
+  font-variant-numeric:tabular-nums;
+  color:var(--mint);
+  font-weight:800;
+}
+
+/* ---------- 도구 배지 ---------- */
+.slide .badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:16px;
+  white-space:nowrap;
+}
+.slide.dark .badge{
+  background:rgba(255,255,255,.10);
+  border-color:rgba(255,255,255,.22);
+  color:#fff;
+}
+
+/* ---------- 장면 슬라이드 보조 ---------- */
+.pain-label{
+  font-size:16px;
+  font-weight:700;
+  color:var(--warm);
+  margin-bottom:10px;
+}
+.pain-title{
+  font-size:26px;
+  font-weight:700;
+  line-height:1.3;
+  margin-bottom:16px;
+}
+.pain ul{
+  margin:0;
+  padding-left:1.1em;
+  color:var(--text-dim);
+  line-height:1.7;
+}
+.tool-line{
+  font-size:24px;
+  font-weight:700;
+  margin:14px 0 18px;
+}
+.scene + .demo,
+.scene + .s-foot{
+  margin-top:24px;
+}
+.scene.accent-warm .tool{
+  border-color:var(--warm);
+}
+.scene.accent-warm .steps li::before{
+  background:var(--warm);
+}
+
+/* ---------- 폼 자리 (data-form 이 비었을 때) ---------- */
+.poll-note{
+  background:var(--paper);
+  border:1px dashed var(--line);
+  border-radius:var(--radius);
+  padding:28px;
+  text-align:center;
+  color:var(--text-dim);
+}
+.poll .btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:0 24px;
+  font-size:20px;
+  font-weight:700;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:var(--mint);
+  color:#fff;
+  text-decoration:none;
+  cursor:pointer;
+  align-self:flex-start;
+}
+.poll .btn[disabled]{
+  background:var(--card);
+  color:var(--mute);
+  cursor:not-allowed;
+}
+
+/* ---------- 라이브 요청 슬롯 ---------- */
+.req li{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:16px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px 20px;
+}
+.req .req-no{
+  font-weight:800;
+  white-space:nowrap;
+}
+.req .req-slot{
+  min-height:36px;
+  padding:6px 10px;
+  border-bottom:2px dashed var(--line);
+  color:var(--text);
+}
+.req .req-slot:empty::before{
+  content:attr(data-ph);
+  color:var(--mute);
+}
+.req li.is-checked{
+  border-color:var(--mint);
+}
+.req label{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:18px;
+  white-space:nowrap;
+  cursor:pointer;
+}
+@media (max-width:900px){
+  .req li{
+    grid-template-columns:1fr;
+    align-items:stretch;
+  }
+}
+
+/* ---------- 타이머 / 마무리 ---------- */
+.timer{
+  display:inline-block;
+  margin-top:24px;
+}
+.end-grid{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:32px;
+  align-items:start;
+}
+@media (max-width:900px){
+  .end-grid{
+    grid-template-columns:1fr;
+  }
+}
+.deck .qr{
+  width:240px;
+  background:#fff;
+  border-radius:var(--radius);
+  padding:12px;
+  display:grid;
+  place-items:center;
+}
+.qr-cap{
+  margin-top:10px;
+  text-align:center;
+  font-size:16px;
+}
+.slide .link-line{
+  margin-top:20px;
+}
+.slide .link-line a{
+  color:var(--mint);
+}
+.slide.dark .link-line a{
+  color:var(--mint2);
+}
+
+/* ---------- 장비 카드 ---------- */
+.gear-ico{
+  font-size:40px;
+  display:block;
+  margin-bottom:12px;
+}
+
+/* 시연 화면 높이 — 1280x720 에서도 한 화면에 들어오도록 */
+.slide .demo{
+  height:clamp(110px,18vh,260px);
+  width:auto;
+  max-width:100%;
+  margin:20px auto 0;
+}
+
+/* 표지 배경 원이 가로 스크롤바를 만들지 않도록 덱에서 가로만 잘라낸다.
+   슬라이드에 overflow 를 걸면 position:fixed 인 발표자 노트가 슬라이드에 묶이므로 여기서 처리한다. */
+.deck{
+  overflow-x:hidden;
+}
+
+/* 마무리 슬라이드 표 제목 간격 */
+.end-grid h3{
+  margin:24px 0 10px;
+}
+.end-grid > div > h3:first-child{
+  margin-top:0;
+}
+
+/* 지도 슬라이드는 여백 없이 화면을 꽉 채운다.
+   .slide-map{padding:0} 가 .deck > section.slide 의 padding 에 밀리므로 같은 자리에서 다시 못 박는다. */
+.deck > section.slide.slide-map{
+  padding:0;
+}
+
+/* 목차 — 슬라이드가 24장이라 여러 열로 편다.
+   .toc-list 가 없던 규칙이라 여기서 새로 잡는다. */
+.toc.is-open{
+  grid-template-columns:1fr;
+  align-content:start;
+}
+.toc > a{
+  justify-self:start;
+}
+.toc-list{
+  display:grid;
+  gap:10px;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  align-content:start;
+}
+
+/* 마무리 슬라이드 표는 조금 촘촘하게 — 표 2개가 한 화면에 들어오도록 */
+.end-grid th,
+.end-grid td{
+  padding:10px 14px;
+}
