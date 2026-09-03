@@ -81,6 +81,7 @@ aside.notes                      기본 display:none, .notes-on 일 때 하단 �
 .orb                             표지 배경 원 2개, 20s loop
 ```
 `<section class="slide" id="s7" data-t="8" data-title="현 위치② 셋 다 비슷합니다">`
+- ※ id s4·s5는 의도적으로 비어 있다. 소개를 3장에서 1장으로 줄이면서 삭제했다. 번호를 재사용하지 말 것.
 - id 는 s1..s24, data-t 는 목표 경과(분), data-title 은 목차용.
 
 ## deck.js API/동작
