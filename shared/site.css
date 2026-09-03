@@ -653,3 +653,14 @@ a.card .badge{
 a.card .btn{
   margin-top:16px;
 }
+
+/* 한글 줄바꿈 — 단어 중간에서 끊기지 않게 */
+body{
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+
+/* 열이 많은 표는 짓눌리지 않게 최소 너비를 주고 .tw 안에서 가로로 스크롤시킨다 */
+.tw table.wide{
+  min-width:1120px;
+}
