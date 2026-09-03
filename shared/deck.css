@@ -1290,14 +1290,12 @@ html[data-projector] .deck > section.slide.tone-mint{
 
 /* 카테고리 이름은 노드보다 위에 읽혀야 한다 */
 .aimap .cat-label{
-  font-size:17px;
+  font-size:15.5px;
   font-weight:800;
-  fill:var(--mint);
+  fill:var(--ink);
   letter-spacing:.02em;
-  paint-order:stroke;
-  stroke:var(--paper);
-  stroke-width:5px;
-  stroke-linejoin:round;
+  paint-order:normal;
+  stroke:none;
 }
 
 /* 그리는 순서 — 원을 먼저, 라벨을 나중에 (SVG 는 뒤에 온 것이 위로 온다).
@@ -1348,10 +1346,22 @@ html[data-projector] .aimap .node-bg{
 /* 카테고리 구역 — 노드 무리를 하나의 영역으로 묶어 보여준다.
    두꺼운 둥근 선으로 볼록껍질을 부풀려 자연스러운 덩어리를 만든다. */
 .aimap .cat-zone{
-  fill:rgba(63,174,147,.055);
-  stroke:rgba(63,174,147,.10);
-  stroke-width:26;
+  fill:rgba(63,174,147,.06);
+  stroke:rgba(63,174,147,.11);
+  stroke-width:18;
   stroke-linejoin:round;
+  stroke-linecap:round;
+}
+
+/* 카테고리 이름은 알약 위에 앉힌다 */
+.aimap .cat-chip{
+  fill:#fff;
+  stroke:rgba(63,174,147,.35);
+  stroke-width:1.5;
+}
+html[data-projector] .aimap .cat-chip{
+  stroke:var(--mint);
+  stroke-width:2;
 }
 .aimap .cat:hover .cat-zone{
   fill:rgba(63,174,147,.13);
