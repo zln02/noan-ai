@@ -87,7 +87,7 @@
   }
 
   function render(rows) {
-    var h = '<div class="tw"><table><thead><tr>';
+    var h = '<div class="tw"><table class="wide"><thead><tr>';
     for (var c = 0; c < COLS.length; c++) {
       h += '<th scope="col" class="nw">' + esc(HEAD[COLS[c]] || COLS[c]) + '</th>';
     }
