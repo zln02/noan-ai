@@ -1344,3 +1344,25 @@ html[data-projector] .aimap .node-bg{
   color:#9FBDB4;
   font-weight:600;
 }
+
+/* 카테고리 구역 — 노드 무리를 하나의 영역으로 묶어 보여준다.
+   두꺼운 둥근 선으로 볼록껍질을 부풀려 자연스러운 덩어리를 만든다. */
+.aimap .cat-zone{
+  fill:rgba(63,174,147,.055);
+  stroke:rgba(63,174,147,.10);
+  stroke-width:26;
+  stroke-linejoin:round;
+}
+.aimap .cat:hover .cat-zone{
+  fill:rgba(63,174,147,.13);
+  stroke:rgba(63,174,147,.13);
+}
+/* 줌 1 에서는 교육청 도구가 도드라져야 하므로 구역을 뒤로 물린다 */
+svg.aimap[data-zoom="1"] .cat-zone,
+svg.aimap[data-zoom="2"] .cat-zone{
+  opacity:.4;
+}
+html[data-projector] .aimap .cat-zone{
+  fill:rgba(63,174,147,.10);
+  stroke:rgba(63,174,147,.10);
+}
