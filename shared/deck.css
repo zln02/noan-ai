@@ -1127,3 +1127,130 @@ html[data-projector] .slide .s-quote{
   background:transparent;
   border-left-width:6px;
 }
+
+/* ==========================================================================
+   3단계(g) — 시연 화면 자리, 구간 톤, 노안중 표기, 일러스트
+   ========================================================================== */
+
+/* ---------- 1. 시연 화면 — 오른쪽 카드 아래로 ----------
+   좌(문제) / 우(해결 + 화면) 두 칸 구조. 캡처가 없으면 상자를 아예 감추고
+   그 자리는 오른쪽 카드가 차지한다. 빈 회색 상자보다 없는 편이 낫다. */
+.scene{
+  align-items:start;
+}
+.scene > .pain{
+  grid-column:1;
+  grid-row:1 / span 2;
+}
+.scene > .tool{
+  grid-column:2;
+  grid-row:1;
+}
+.scene > .demo{
+  grid-column:2;
+  grid-row:2;
+  width:100%;
+  height:auto;
+  aspect-ratio:16/9;
+  max-height:clamp(150px,23vh,320px);
+  margin:16px 0 0;
+}
+/* 캡처가 아직 없으면 통째로 감춘다 */
+.demo:not([data-src]),
+.demo[data-src=""]{
+  display:none;
+}
+/* 화면 캡처는 잘리면 안 된다 */
+.scene > .demo video,
+.scene > .demo img{
+  object-fit:contain;
+  background:var(--line);
+}
+@media (max-width:900px){
+  .scene > .pain,
+  .scene > .tool,
+  .scene > .demo{
+    grid-column:1;
+    grid-row:auto;
+  }
+}
+
+/* ---------- 2. 구간 톤 ----------
+   24장이 다 하얗면 두 시간 동안 눈이 지친다. 채도는 올리지 않는다. */
+.deck > section.slide.tone-cream{
+  background:
+    radial-gradient(1100px 560px at 10% -12%, rgba(63,174,147,.09), transparent 62%),
+    radial-gradient(820px 460px at 104% 112%, rgba(227,179,65,.10), transparent 58%),
+    var(--tone-cream);
+}
+.deck > section.slide.tone-mint{
+  background:
+    radial-gradient(1100px 560px at 10% -12%, rgba(63,174,147,.14), transparent 62%),
+    radial-gradient(820px 460px at 104% 112%, rgba(227,179,65,.06), transparent 58%),
+    var(--tone-mint);
+}
+/* 프로젝터 모드 — 그라데이션은 걷되 구간 색은 남긴다(전부 흰색이 되면 구간이 사라진다) */
+html[data-projector] .deck > section.slide.tone-cream{
+  background:var(--tone-cream);
+}
+html[data-projector] .deck > section.slide.tone-mint{
+  background:var(--tone-mint);
+}
+
+/* ---------- 3. 노안중 표기 ---------- */
+.slide .school-line{
+  font-size:clamp(15px,1.1vw,17px);
+  font-weight:700;
+  letter-spacing:.04em;
+  color:var(--mint2);
+  margin-bottom:14px;
+}
+.slide .school-foot{
+  margin-top:18px;
+  font-size:clamp(14px,1vw,16px);
+  color:#C7DAD4;
+  letter-spacing:.02em;
+}
+
+/* ---------- 4. 일러스트 — 여는 장과 닫는 장 두 곳만 ---------- */
+.illust{
+  position:absolute;
+  right:56px;
+  bottom:56px;
+  pointer-events:none;
+  z-index:1;
+}
+.illust img{
+  display:block;
+  height:180px;
+  width:auto;
+}
+.illust.is-end{
+  bottom:auto;
+  top:50%;
+  transform:translateY(-50%);
+  opacity:.9;
+}
+.illust.is-end img{
+  height:200px;
+}
+.illust.is-gone{
+  display:none;
+}
+@media (max-width:1100px){
+  .illust{
+    display:none;
+  }
+}
+
+/* 마무리 슬라이드에 교훈 한 줄이 늘어 720p 여유가 12px 로 줄었다. 그만큼 회수한다 */
+.slide .school-foot{
+  margin-top:10px;
+}
+.end-grid h3{
+  margin:14px 0 6px;
+}
+.end-grid th,
+.end-grid td{
+  padding:8px 14px;
+}

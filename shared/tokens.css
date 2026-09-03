@@ -169,3 +169,21 @@ h1,h2,h3,h4,h5,h6,p,ul,ol,figure,blockquote{
   font-style:normal;
   line-height:1;
 }
+
+/* ==========================================================================
+   3단계(g) — 슬라이드 구간 톤 (파생 토큰). 브랜드색은 그대로 두고 바탕만 아주 옅게
+   ========================================================================== */
+:root{
+  --tone-cream:#FAF7F1;
+  --tone-mint:#F1F8F5;
+  /* 헤더 로고 — 라이트는 잉크, 다크는 민트2. 양쪽 4.5:1 이상 */
+  --brand-fg:var(--ink);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --brand-fg:var(--mint2);
+  }
+}
+html[data-projector]{
+  --brand-fg:var(--ink);
+}

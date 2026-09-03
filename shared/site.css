@@ -763,3 +763,20 @@ body{
     margin-top:8px;
   }
 }
+
+/* 헤더 로고 — 다크 모드에서 --ink 가 배경에 묻히던 것 */
+.brand{
+  color:var(--brand-fg);
+}
+
+/* 배지형 링크 — 기본 링크색·밑줄 제거. 방문 후에도 같은 색 */
+a.badge,
+a.badge:visited{
+  color:inherit;
+  text-decoration:none;
+}
+a.badge:hover,
+a.badge:focus-visible{
+  text-decoration:underline;
+  border-color:var(--mint);
+}
