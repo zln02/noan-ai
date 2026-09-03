@@ -17,8 +17,8 @@
   <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
   <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
     <a href="training/index.html">연수</a><a href="class/index.html">수업</a>
-    <a href="library/index.html">자료실</a><a href="request/index.html">요청하기</a>
-    <a href="about/index.html">소개</a>
+    <a href="contest/index.html">대회</a><a href="library/index.html">자료실</a>
+    <a href="request/index.html">요청하기</a><a href="about/index.html">소개</a>
   </nav>
   <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
 </div></header>
@@ -44,6 +44,17 @@
       <h3 class="card-title">생성형 AI, 이미 갖고 계신 것부터</h3>
       <p class="card-lede">9/7(월) 13:00 · 2시간 · 노트북 지참</p>
       <span class="btn btn-primary">덱 열기</span>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">대회</h2>
+    <a class="card tilt" href="contest/index.html">
+      <h3 class="card-title" id="contestCount">지금 나갈 수 있는 대회</h3>
+      <p class="card-lede">마감이 지난 대회는 저절로 접힙니다. 여는 날짜 기준으로 다시 셉니다.</p>
+      <span class="btn btn-primary">대회 보기</span>
     </a>
   </div>
 </section>
@@ -128,5 +139,25 @@
 </footer>
 <script src="shared/icons.js"></script>
 <script src="shared/site.js"></script>
+<script src="shared/contest.js"></script>
+<script src="contest/items.js"></script>
+<script>
+/* 대회 건수 — 하드코딩하지 않고 대회 페이지와 같은 계산식으로 센다 */
+(function () {
+  'use strict';
+  var el = document.getElementById('contestCount');
+  function show(items) {
+    if (!items || !items.length) return;
+    var n = window.NoanContest.classify(items).open.length;
+    el.textContent = '지금 나갈 수 있는 대회 ' + n + '건';
+  }
+  function fallback() { if (window.CONTEST_ITEMS) { show(window.CONTEST_ITEMS); return true; } return false; }
+  if (!window.fetch) { fallback(); return; }
+  fetch('contest/items.json')
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(show)
+    .catch(function () { fallback(); });
+})();
+</script>
 </body>
 </html>
