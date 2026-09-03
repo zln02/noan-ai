@@ -1317,3 +1317,30 @@ html[data-projector] .aimap .node-bg{
   stroke:var(--mute);
   stroke-width:2;
 }
+
+/* ---------- 표지 ----------
+   제목 → 두 줄 안내 → 구분선 → 연수 정보 3줄 → 학교 한 줄 */
+.slide-inner.cover .s-title{
+  max-width:22ch;
+}
+.slide-inner.cover .s-sub{
+  line-height:1.5;
+  margin-top:18px;
+}
+.cover-rule{
+  border:0;
+  border-top:1px solid rgba(255,255,255,.24);
+  max-width:560px;
+  margin:32px 0 24px;
+}
+.slide-inner.cover .s-info{
+  margin-top:5px;
+}
+.slide-inner.cover .s-info:first-of-type{
+  margin-top:0;
+}
+.school-line.is-foot{
+  margin:28px 0 0;
+  color:#9FBDB4;
+  font-weight:600;
+}
