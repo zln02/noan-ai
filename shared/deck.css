@@ -1442,7 +1442,7 @@ html[data-projector] .aimap .cat-zone{
   top:4px;
   right:0;
   z-index:2;
-  height:32px;
+  height:28px;
   width:auto;
 }
 .slide-inner:has(> .part-mark) > .s-title{
@@ -1570,4 +1570,37 @@ html[data-projector] .aimap .cat-zone{
 }
 .slide .illust.is-end img{
   height:150px;
+}
+
+/* ---------- 표지 하단 띠 (템플릿 p1) ----------
+   강사 · 일시 · 장소. 본문 s-info 와 내용이 겹쳐 보여도 둔다 — 띠는 메타정보다.
+   다만 자리는 겹치면 안 된다. 표지 아래에 띠 높이만큼 비워둔다. */
+.slide-inner.cover:has(> .cover-band){
+  padding-bottom:56px;
+}
+.slide .cover-band{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  margin:0;
+  padding:14px 0 0;
+  border-top:1px solid rgba(127,214,194,.28);
+  font-size:15px;
+  letter-spacing:.02em;
+  color:var(--mint2);
+}
+
+/* 목차 장의 노아리가 세 번째 카드 모서리를 물지 않게 오른쪽 아래로 더 내린다 */
+#s2 .illust{
+  right:20px;
+  bottom:16px;
+}
+#s2 .illust img{
+  height:158px;
+}
+
+/* 가운뎃점이 줄머리로 내려가지 않게 묶는 조각 */
+.nb{
+  white-space:nowrap;
 }
