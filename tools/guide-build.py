@@ -78,10 +78,6 @@ ol.st li:before{content:counter(s);position:absolute;left:0;top:1px;width:6mm;he
      padding:9px 13px;font-size:11pt;line-height:1.55;}
 .shotwrap{position:relative;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#F2F9F7;}
 .shotwrap img{width:100%;display:block;}
-.ph{min-height:105mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-    border:2px dashed var(--mint);border-radius:4px;background:#F2F9F7;color:var(--ink2);
-    font-size:11pt;text-align:center;padding:9mm;line-height:1.6;}
-.ph .fn{font-family:monospace;font-size:10pt;color:var(--mint);}
 .mark{position:absolute;border:3px solid var(--red);border-radius:50%;}
 .mark span{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:3px;
            background:var(--red);color:#fff;font-size:8.5pt;font-weight:700;
@@ -172,14 +168,23 @@ def toc():
 
 
 def shot(t):
-    marks = "".join(
-        f'<div class="mark" style="left:{l}%;top:{tp}%;width:{w}%;height:{h}%">'
-        f'{f"<span>{lb}</span>" if lb else ""}</div>' for l, tp, w, h, lb in t.get("marks", []))
-    p = pathlib.Path("shots") / t["shot"]
-    if p.exists():
-        return f'<div class="shotwrap"><img src="{p}" alt="{t["title"]} 화면">{marks}</div>'
-    return (f'<div class="shotwrap"><div class="ph"><div>화면 캡처 자리</div>'
-            f'<div class="fn">{t["shot"]}</div><div>{t["title"]}</div></div>{marks}</div>')
+    """캡처가 있으면 오른쪽 칸을 만들고, 없으면 빈 문자열을 준다.
+
+    없는 캡처를 점선 자리로 채우지 않는다 — 파일명은 선생님께 보일 것이 아니다.
+    파일이 assets/guide/ 에 들어오는 순간 저절로 다시 살아난다.
+    """
+    if not t.get("shot"):
+        return ""
+    for base in ("../assets/guide", "shots"):
+        p = pathlib.Path(base) / t["shot"]
+        if p.exists():
+            marks = "".join(
+                f'<div class="mark" style="left:{l}%;top:{tp}%;width:{w}%;height:{h}%">'
+                f'{f"<span>{lb}</span>" if lb else ""}</div>'
+                for l, tp, w, h, lb in t.get("marks", []))
+            src = p.as_posix()
+            return f'<div class="shotwrap"><img src="{src}" alt="{t["title"]} 화면">{marks}</div>'
+    return ""
 
 
 def card(t, i, n):
@@ -194,6 +199,8 @@ def card(t, i, n):
     if t.get("prompt_note"):
         left.append(f'<div class="prnote">{t["prompt_note"]}</div>')
     left.append(f'<div class="cau">{t["caution"]}</div>')
+    sh = shot(t)
+    right = f'<div class="right">{sh}</div>' if sh else ''
     mn = t.get("min") or [0, 0]
     mins = (f'<div class="mins">보통 <b>{mn[0]}분</b> 걸리던 일이 <b>{mn[1]}분</b> 쯤으로 줄어듭니다. '
             f'<span style="font-size:9.5pt">— 초기 추정입니다. 해보시고 알려주세요.</span></div>') if mn[0] else ''
@@ -204,7 +211,7 @@ def card(t, i, n):
             f'<div class="when">{t["when"]}</div></div></div>'
             f'<div class="path">[ {seq} ]</div>'
             f'<div class="body"><div class="left">{"".join(left)}{mins}</div>'
-            f'<div class="right">{shot(t)}</div></div>'
+            f'{right}</div>'
             + foot(f'{t["tool"]} · 노안중학교 AI 안내서', f'{i} / {n} · {META["updated"]}')
             + '</section>')
 
