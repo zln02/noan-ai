@@ -1376,3 +1376,198 @@ html[data-projector] .aimap .cat-zone{
   fill:rgba(63,174,147,.10);
   stroke:rgba(63,174,147,.10);
 }
+
+/* ==========================================================================
+   3단계(j) — 덱 레이아웃을 템플릿 기준으로. 기존 규칙은 그대로 두고 아래에 덧붙인다.
+   색 토큰은 새로 만들지 않는다 (--ink/--mint/--mint2 등 기존 토큰만 사용).
+   ========================================================================== */
+
+/* ---------- 0. 카드 통일 — 모서리 24px · 그림자 한 겹 · 흰 배경 ---------- */
+.slide .card3d{
+  border-radius:24px;
+  box-shadow:0 8px 24px rgba(14,59,51,.06);
+  background:#fff;
+}
+
+/* ---------- 1. 본문 공통 머리(PART 알약 + 로고 + 구분선) / 발(쪽번호) ----------
+   part-mark·s-logo·s-pagefoot는 absolute라 카드 그리드·지도(slide-map)의
+   그리드 흐름에 끼지 않는다. 대신 슬라이드-inner 위/아래에 자리를 비워둔다. */
+.slide-inner{
+  position:relative;
+}
+/* 머리는 제목 줄 옆에 붙는다 — 세로를 따로 먹지 않아야 24장이 1280×720 한 화면에 들어간다 */
+.slide-inner:has(> .part-mark){
+  padding-top:14px;
+}
+.slide-inner:has(> .part-mark) > .eyebrow,
+.slide-inner:has(> .part-mark) > .s-title{
+  padding-left:76px;
+}
+.slide-inner:has(> .s-pagefoot){
+  padding-bottom:24px;
+}
+/* 발이 붙는 본문 장은 슬라이드 아래 여백을 조금 줄인다 — 720 한 화면 확보 */
+.slide:has(> .slide-inner > .s-pagefoot){
+  padding-bottom:34px;
+}
+.part-mark{
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:2;
+  width:60px;
+  /* 제목 줄 안에서 끝나야 한다 — 110px 이면 아래 부제를 덮는다 */
+  height:88px;
+  border-radius:16px;
+  background:var(--ink);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.part-mark span{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.1em;
+}
+.part-mark b{
+  font-size:30px;
+  font-weight:800;
+  line-height:1;
+}
+.s-logo{
+  position:absolute;
+  top:4px;
+  right:0;
+  z-index:2;
+  height:32px;
+  width:auto;
+}
+.slide-inner:has(> .part-mark) > .s-title{
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.s-pagefoot{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  margin:0;
+  text-align:center;
+  font-size:14px;
+  color:var(--mute);
+}
+@media print{
+  .part-mark,
+  .s-logo,
+  .s-pagefoot{
+    display:none;
+  }
+}
+
+/* ---------- 2. 제목 두 굵기 — 문장은 그대로, 굵기만 앞/뒤 대비 ---------- */
+.s-title{
+  font-weight:300;
+}
+.s-title b,
+.s-title strong{
+  font-weight:800;
+}
+
+/* ---------- 3. 장면 슬라이드(s12~s16) — 좌우 칸 머리띠 ----------
+   기존 .pain-label(좌) · .tool > .badge(우) 요소를 옮기지 않고
+   CSS로만 머리띠 모양을 준다. 두 칸의 padding(24px)만큼 밀어 가장자리에 붙인다. */
+.scene .pain > .pain-label{
+  display:block;
+  margin:-24px -24px 20px;
+  padding:10px 24px;
+  background:var(--ink);
+  color:#fff;
+  border-radius:18px 18px 0 0;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.scene .tool > .badge{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin:-24px -24px 20px;
+  padding:10px 24px;
+  background:var(--mint2);
+  color:var(--ink);
+  border:0;
+  border-radius:18px 18px 0 0;
+  font-size:14px;
+  font-weight:800;
+  white-space:normal;
+}
+
+/* ---------- 4. s17~s20 — 2x2 카드 (s17만 4열 → 2열, 900px 아래는 기존처럼 1열) ---------- */
+@media (min-width:901px){
+  .slide .cards.cols-4{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+/* ---------- 5. 노아리 — 떠 있는 동작, 모션 축소/인쇄에서 끔 (3(i) 2절) ---------- */
+.noari{
+  animation:noari-float 3.6s ease-in-out infinite;
+}
+@keyframes noari-float{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-7px); }
+}
+@media (prefers-reduced-motion: reduce){
+  .noari{
+    animation:none;
+  }
+}
+@media print{
+  .noari,
+  .cover-figure{
+    display:none;
+  }
+}
+
+/* ---------- 6. 표지(s1) — 하단 띠 · 오른쪽 원형 배경 위 노아리 ---------- */
+.cover-figure{
+  position:absolute;
+  right:64px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:1;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  background:rgba(255,255,255,.08);
+  display:grid;
+  place-items:center;
+  pointer-events:none;
+}
+.cover-figure img{
+  display:block;
+  height:220px;
+  width:auto;
+}
+@media (max-width:1100px){
+  .cover-figure{
+    display:none;
+  }
+}
+
+/* ---------- 마무리 장 — 노아리가 QR 을 가리지 않게 ----------
+   `.illust.is-end` 는 원래 세로 가운데였는데, 그 자리에 QR 이 있다.
+   QR 은 사이트 주소라 가리면 안 된다. 오른쪽 아래 빈자리로 내린다. */
+.slide .illust.is-end{
+  top:auto;
+  bottom:28px;
+  right:40px;
+  transform:none;
+}
+.slide .illust.is-end img{
+  height:150px;
+}
