@@ -18,11 +18,11 @@ training/s2.html      2회차 — 투표로 결정, 준비 중
 class/index.html      학생 수업 — 준비 중
 library/index.html    교육청 지원 도구 5 + 시작법
 library/rules.html    안전 규칙 한 장 (인쇄 A4)
-library/approval.html 도구 승인 현황 (approval.json 을 읽어 렌더)
-library/approval.json 승인 현황 사본 — 원천은 노션 DB
+library/approval.html 도구 승인 현황 (data/approval.json 을 읽어 렌더)
+data/approval.json   승인 현황 사본 — 원천은 노션 DB
 request/index.html    요청하기 (노션 폼 자리)
 about/index.html      코디네이터 소개
-showcase/index.html   학생 작품 — 준비 중 (items.json, consent:true 만 렌더)
+showcase/index.html   학생 작품 — 준비 중 (data/showcase.json, consent:true 만 렌더)
 shared/               tokens.css site.css deck.css deck.js site.js icons.js
 tools/                원고·계약·생성 스크립트 (사이트가 읽지 않음)
 private/              (gitignore) 학교 실물 자료 — 절대 커밋하지 않는다
@@ -44,7 +44,7 @@ private/              (gitignore) 학교 실물 자료 — 절대 커밋하지 �
   파일이 없으면 화면에서 자동으로 숨겨진다.
 - `assets/shots/*.png` — 자료실 도구별 스크린샷 3장씩. 개인정보가 없는 화면만.
 - `[확인 필요]` 표기 — ThinQ Sentinel 내용, CX 프로젝트명, 장비 수량·상태, 미리캔버스 인증 경로, 아이모두 접속 URL, 교육청 가이드라인 원문 링크.
-- `showcase/items.json` — 학생 동의를 받은 작품만.
+- `data/showcase.json` — 학생 동의를 받은 작품만.
 
 ## 5. 스크린샷 자리
 <!-- 사이트 각 쪽 스크린샷을 여기에 붙인다 (준비 중) -->

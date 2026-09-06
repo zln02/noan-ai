@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """노안중 AI 안내서 — 업무 기준 카드형 빌더.
 
-tasks.json 하나가 원본이다. 인쇄본(A4 가로)과 웹이 같은 데이터에서 나온다.
+data/tasks.json 하나가 원본이다. 인쇄본(A4 가로)과 웹이 같은 데이터에서 나온다.
 
   python3 build2.py        guide-print.html 생성
 """
 import json
 import pathlib
 
-D = json.loads(pathlib.Path("tasks.json").read_text(encoding="utf-8"))
+DATA = next(p for p in (pathlib.Path("../data/tasks.json"), pathlib.Path("tasks.json")) if p.exists())
+D = json.loads(DATA.read_text(encoding="utf-8"))
 META, GROUPS, TASKS = D["meta"], D["groups"], D["tasks"]
 GMAP = {g["id"]: g for g in GROUPS}
 

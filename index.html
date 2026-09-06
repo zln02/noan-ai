@@ -150,7 +150,7 @@
 <script src="shared/icons.js"></script>
 <script src="shared/site.js"></script>
 <script src="shared/contest.js"></script>
-<script src="contest/items.js"></script>
+<script src="data/contest.js"></script>
 <script>
 /* 대회 건수 — 하드코딩하지 않고 대회 페이지와 같은 계산식으로 센다 */
 (function () {
@@ -163,7 +163,7 @@
   }
   function fallback() { if (window.CONTEST_ITEMS) { show(window.CONTEST_ITEMS); return true; } return false; }
   if (!window.fetch) { fallback(); return; }
-  fetch('contest/items.json')
+  fetch('data/contest.json')
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(show)
     .catch(function () { fallback(); });

@@ -110,3 +110,5 @@ aside.notes                      기본 display:none, .notes-on 일 때 하단 �
 - 포커스 링 `:focus-visible { outline:3px solid var(--warm); outline-offset:2px }`
 - 제목 계층 h1→h2→h3 건너뛰지 않기. 덱은 슬라이드마다 h2(표지만 h1).
 - 대비 4.5:1 이상. --mute 위 흰 배경 OK.
+
+- **데이터는 `data/` 에만 둔다.** JSON 이 원본이고, `node tools/sync-data.js` 가 짝이 되는 `.js` 를 만든다. 페이지 폴더에 JSON 을 두지 마라.

@@ -19,10 +19,10 @@ training/s2.html      2회차 — 투표로 결정, 준비 중
 class/index.html      학생 수업 — 준비 중
 library/index.html    교육청 지원 도구 5 + 시작법 + 스크린샷 자리
 library/rules.html    안전 규칙 한 장 (인쇄하면 A4 한 장)
-library/approval.html 도구 승인 현황 (approval.json 을 읽어 렌더)
+library/approval.html 도구 승인 현황 (data/approval.json 을 읽어 렌더)
 request/index.html    요청하기 (노션 폼 자리)
 about/index.html      코디네이터 소개
-showcase/index.html   학생 작품 — 준비 중 (items.json, consent:true 만 렌더)
+showcase/index.html   학생 작품 — 준비 중 (data/showcase.json, consent:true 만 렌더)
 docs/handover.md      인수인계 (뼈대)
 shared/               tokens.css site.css deck.css deck.js site.js icons.js
 tools/                원고·계약·생성 스크립트 (사이트가 읽지 않음)
@@ -60,14 +60,14 @@ cd tools && npm install simple-icons && node gen-icons.js > icons-raw.json && no
 OpenAI·Adobe·Microsoft·Canva·CapCut·Copilot 은 simple-icons 에서 삭제된 브랜드라 텍스트 배지로 렌더된다.
 
 ## 데이터 파일
-`library/approval.json` 과 `showcase/items.json` 이 원본이다.
+`data/` 안의 `*.json` 이 원본이다. 모든 데이터는 `data/` 에만 둔다.
 `file://` 로 열면 크롬이 `fetch` 를 막으므로 같은 내용을 담은 `.js` 짝을 함께 둔다.
 **JSON 을 고치면 반드시 아래를 돌려라.**
 ```bash
-node tools/sync-data.js          # approval.js / items.js 다시 생성
+node tools/sync-data.js          # data/*.js 다시 생성
 node tools/sync-data.js --check  # 어긋났는지만 검사
 ```
-`approval.js` · `items.js` 는 자동 생성 파일이다. 손으로 고치지 않는다.
+`data/*.js` 는 자동 생성 파일이다. 손으로 고치지 않는다.
 
 ## 진행 상황
 - [x] 1단계 — shared/ 전부, 랜딩, 덱 슬라이드 1~9(표지 ~ AI 전체 지도)

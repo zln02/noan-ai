@@ -84,9 +84,9 @@
 <script src="../shared/icons.js"></script>
 <script src="../shared/site.js"></script>
 <script src="../shared/contest.js"></script>
-<script src="items.js"></script>
+<script src="../data/contest.js"></script>
 <script>
-/* 대회 목록 — items.json 을 읽고, file:// 로 막히면 items.js 로 대체한다 */
+/* 대회 목록 — data/contest.json 을 읽고, file:// 로 막히면 data/contest.js 로 대체한다 */
 (function () {
   'use strict';
   var C = window.NoanContest;
@@ -175,7 +175,7 @@
 
   function fail() {
     countLine.textContent = '목록을 불러오지 못했습니다.';
-    openGrid.innerHTML = '<p class="muted"><a href="items.json">items.json</a> 을 직접 여세요.</p>';
+    openGrid.innerHTML = '<p class="muted"><a href="../data/contest.json">contest.json</a> 을 직접 여세요.</p>';
   }
 
   function fallback() {
@@ -184,7 +184,7 @@
   }
 
   if (!window.fetch) { if (!fallback()) fail(); return; }
-  fetch('items.json')
+  fetch('../data/contest.json')
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(render)
     .catch(function () { if (!fallback()) fail(); });

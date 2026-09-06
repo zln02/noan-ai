@@ -1,5 +1,5 @@
 /* 자동 생성 파일 — 손으로 고치지 마라.
-   원본은 contest/items.json 이다. 고친 뒤 `node tools/sync-data.js` 를 돌려라.
+   원본은 data/contest.json 이다. 고친 뒤 `node tools/sync-data.js` 를 돌려라.
    file:// 로 열었을 때 fetch 가 막히면 이 전역 변수로 대체한다. */
 window.CONTEST_ITEMS = [
  {
