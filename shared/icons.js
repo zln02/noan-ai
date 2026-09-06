@@ -218,7 +218,44 @@
     }
   }
 
+  /* ==========================================================================
+   * ICONS — 단색 선 아이콘 18개 (외부 아이콘셋 복사 없음, 자체 제작)
+   * NoanIcons.icon(name, size) -> ".slot-ico" 로 감싼 24x24 SVG 문자열
+   * 사전에 없는 이름은 빈 문자열(슬롯이 통째로 사라지게)
+   * ========================================================================== */
+  var ICONS = {
+    "wallet-off": '<path d="M4 8h13a3 3 0 0 1 3 3v1"/><path d="M20 15v1a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V8"/><path d="M4 8V6a2 2 0 0 1 2-2h9"/><circle cx="16" cy="14.5" r="1.1"/><path d="M3 3l18 18"/>',
+    "hand": '<path d="M8 12V4.5a1.5 1.5 0 0 1 3 0V11"/><path d="M11 11V3.5a1.5 1.5 0 0 1 3 0V11"/><path d="M14 11.5V5.5a1.5 1.5 0 0 1 3 0V12"/><path d="M17 12v-2a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.5 6.5-6 6.5h-2.5c-2.1 0-3.5-1-4.4-2.7L5.2 14.4a1.3 1.3 0 0 1 2.2-1.4L8.5 15"/>',
+    "shield": '<path d="M12 3.2 19 6v5.5c0 5-3 7.7-7 9.3-4-1.6-7-4.3-7-9.3V6z"/><path d="M8.7 12.2l2.3 2.3 4.3-4.7"/>',
+    "bot": '<rect x="5" y="9.5" width="14" height="10.5" rx="3"/><path d="M12 9.5V5.5"/><circle cx="12" cy="4.2" r="1.1"/><circle cx="9" cy="14.5" r="1"/><circle cx="15" cy="14.5" r="1"/><path d="M9 17.5h6"/>',
+    "image": '<rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M4 17l5-5 3 3 4-5 5 6"/>',
+    "search-doc": '<path d="M6 3h9l3 3v6.5"/><path d="M15 3v3h3"/><path d="M6 3v16a1 1 0 0 0 1 1h5.5"/><circle cx="15.5" cy="16.5" r="3"/><path d="M17.8 18.8 20 21"/>',
+    "school": '<path d="M3 10 12 4l9 6"/><path d="M5 10v9.5h14V10"/><path d="M9.5 19.5V14h5v5.5"/>',
+    "book": '<path d="M12 6.3c-2-1.6-5-2.1-8-1.7v13c3-.4 6 .1 8 1.7 2-1.6 5-2.1 8-1.7v-13c-3-.4-6 .1-8 1.7z"/><path d="M12 6.3v13"/>',
+    "gavel": '<rect x="1.8" y="9.3" width="8.5" height="4" rx="1" transform="rotate(-45 6.05 11.3)"/><path d="M13 8l4.7 4.7"/><path d="M9.3 15.3l-5 5"/><path d="M3 20.5h7.5"/>',
+    "letter": '<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 6.5l9 7 9-7"/>',
+    "flyer": '<rect x="5" y="3.5" width="14" height="18" rx="1.5"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>',
+    "slides": '<rect x="3" y="5" width="18" height="12" rx="1.5"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 13l3-3 2 2 4-4.5"/>',
+    "doc-long": '<rect x="6" y="3" width="12" height="18" rx="1.5"/><path d="M9 7.5h6"/><path d="M9 11.5h6"/><path d="M9 15.5h4"/>',
+    "mic": '<rect x="9" y="3" width="6" height="10.5" rx="3"/><path d="M6 11a6 6 0 0 0 12 0"/><path d="M12 17v3"/><path d="M9 20.5h6"/>',
+    "laptop": '<rect x="4" y="5" width="16" height="10.5" rx="1.5"/><path d="M2 19h20"/>',
+    "tablet": '<rect x="6" y="3" width="12" height="18" rx="2"/><circle cx="12" cy="18" r="0.8"/>',
+    "printer-3d": '<rect x="4" y="9.5" width="16" height="9.5" rx="1.5"/><path d="M8 9.5V5.5h8v4"/><path d="M12 12v4"/><path d="M9 13.6h6"/>',
+    "monitor": '<rect x="3" y="4.5" width="18" height="12" rx="1.5"/><path d="M8 20.5h8"/><path d="M12 16.5v4"/>'
+  };
+
+  /* icon(name, size) -> ".slot-ico" 조각 문자열. 없으면 '' (슬롯 통째로 사라짐) */
+  function icon(name, size) {
+    var body = ICONS[name];
+    if (!body) return '';
+    var s = size || 64;
+    return '<span class="slot-ico"><svg width="' + s + '" height="' + s + '" viewBox="0 0 24 24" ' +
+      'stroke="currentColor" stroke-width="1.75" fill="none" stroke-linecap="round" stroke-linejoin="round" ' +
+      'role="img" aria-label="' + esc(name) + '" focusable="false">' + body + '</svg></span>';
+  }
+
   global.NoanIcons = { render: render, mount: mount, PATHS: PATHS, BADGES: BADGES };
+  global.NoanIcons.icon = icon;
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () { mount(); });
   } else {
