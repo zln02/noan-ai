@@ -780,3 +780,215 @@ a.badge:focus-visible{
   text-decoration:underline;
   border-color:var(--mint);
 }
+
+/* ===== A 디자인 층 ===== */
+
+.card,
+.card-hero{
+  background:var(--card);
+  border:1px solid var(--line);
+  box-shadow:0 8px 24px rgba(14,59,51,.06);
+}
+.card{
+  border-radius:16px;
+}
+.card-hero{
+  border-radius:24px;
+  padding:40px;
+}
+
+.nav{
+  background:var(--card);
+  border-bottom:1px solid var(--line);
+}
+.brand img{
+  height:32px;
+  width:auto;
+  vertical-align:middle;
+  margin-right:8px;
+}
+
+.badge.mint{ background:var(--mint); color:#fff; }
+.badge.warm{ background:var(--warm); color:#fff; }
+.badge.ink{ background:var(--ink); color:#fff; }
+.badge.mint,
+.badge.warm,
+.badge.ink{
+  font-size:12px;
+}
+
+.grid.cols-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+@media (max-width:720px){
+  .grid.cols-3{
+    grid-template-columns:1fr;
+  }
+}
+
+.hero-a{
+  display:grid;
+  grid-template-columns:1.1fr 1fr;
+  gap:32px;
+  align-items:center;
+}
+.hero-a .hero-left{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.hero-a h1{
+  font-size:clamp(44px,6vw,54px);
+  font-weight:900;
+  letter-spacing:-1.5px;
+  margin:16px 0 12px;
+}
+.hero-a .accent{
+  color:var(--mint);
+}
+.hero-a .lede{
+  font-size:17px;
+  line-height:1.6;
+  color:var(--ink2);
+}
+.hero-a .btn-row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+.hero-a .hero-visual{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:280px;
+}
+.hero-a .hero-visual::before{
+  content:"";
+  position:absolute;
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  background:var(--tone-mint);
+  z-index:0;
+}
+.hero-a .orb{
+  position:absolute;
+  border-radius:50%;
+  z-index:1;
+  animation:noan-orb-float 6s ease-in-out infinite;
+}
+.hero-a .orb.orb-1{ width:56px; height:56px; background:var(--mint2); top:12%; left:8%; }
+.hero-a .orb.orb-2{ width:36px; height:36px; background:var(--gold); bottom:18%; left:4%; animation-delay:1.2s; }
+.hero-a .orb.orb-3{ width:44px; height:44px; background:var(--warm); top:8%; right:10%; animation-delay:2.4s; }
+.hero-a .noari{
+  position:relative;
+  z-index:2;
+  height:240px;
+  width:auto;
+  animation:noan-orb-float 7s ease-in-out infinite;
+}
+
+@media (max-width:720px){
+  .hero-a{
+    grid-template-columns:1fr;
+  }
+  .hero-a .hero-visual{
+    order:-1;
+    min-height:200px;
+  }
+  .hero-a .noari{
+    height:160px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero-a .orb,
+  .hero-a .noari{
+    animation:none;
+  }
+}
+
+/* 뱃지는 글자만큼만 — 히어로에서 한 줄을 통째로 먹지 않게 */
+.hero-a .badge{
+  align-self:flex-start;
+  width:fit-content;
+}
+
+/* ===== A 디자인 층 — 하위 페이지 확장 ===== */
+
+.hero-a.is-compact{
+  grid-template-columns:1fr auto;
+}
+.hero-a.is-compact .hero-visual{
+  min-height:120px;
+}
+.hero-a.is-compact .hero-visual::before{
+  width:120px;
+  height:120px;
+}
+.hero-a.is-compact .noari{
+  height:120px;
+}
+@media (max-width:720px){
+  .hero-a.is-compact{
+    grid-template-columns:1fr;
+  }
+  .hero-a.is-compact .hero-visual{
+    order:-1;
+    min-height:100px;
+  }
+}
+
+.card.is-centered{
+  max-width:640px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.dday.is-urgent{
+  border-color:var(--warm);
+  color:#fff;
+  background:var(--warm);
+}
+.dday.is-soon,
+.dday.is-far,
+.dday.is-wait,
+.dday.is-past{
+  border-color:var(--mint);
+  color:#fff;
+  background:var(--mint);
+}
+
+/* 노아리 높이 — 3(i) 표대로. 페이지마다 다르다 */
+.hero-a.is-compact .noari{
+  height:120px;
+}
+#page-about .hero-a .noari{
+  height:150px;
+}
+#page-class .hero-a .noari{
+  height:130px;
+}
+#page-404 .hero-a .noari{
+  height:140px;
+}
+
+/* ---------- 번호 단계 — 줄이 쪼개지던 것 정정 ----------
+   li 가 flex 라 <strong>·글자·<a> 가 저마다 칸을 차지해 세로로 쪼개졌다.
+   820px 에서는 글자가 한 자씩 끊겨 읽을 수 없었다. 번호만 왼쪽에 얹고
+   본문은 보통 글줄로 흐르게 한다. */
+.steps li{
+  display:block;
+  position:relative;
+  padding-left:46px;
+  min-height:32px;
+}
+.steps li::before{
+  position:absolute;
+  left:0;
+  top:0;
+}

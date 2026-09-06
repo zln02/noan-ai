@@ -6,7 +6,8 @@
 <title>노안중 AI 안내서 — 무엇을 하시려고요?</title>
 <meta name="robots" content="noindex">
 <meta name="description" content="업무·수업에서 AI 도구를 쓰는 열여섯 가지 방법. 하시려는 일을 찾아 그 쪽만 보시면 됩니다.">
-<link rel="icon" href="data:,">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/site.css">
 <link rel="stylesheet" href="guide.css">
@@ -110,6 +111,11 @@
     var meta = DATA.meta;
     var h = '';
     h += '<div class="g-searchhead">';
+    h += '<picture class="g-noari">' +
+         '<source srcset="../assets/noari/noari-read.webp" type="image/webp">' +
+         '<img class="noari" src="../assets/noari/noari-read.png" alt="노안중학교 마스코트 노아리" ' +
+         'width="150" height="150" loading="lazy" onerror="this.remove()">' +
+         '</picture>';
     h += '<h1>' + esc(meta.sub) + '</h1>';
     h += '<input id="gSearch" class="g-search" type="search" placeholder="예: 통신문, 회의록, 퀴즈…" value="' + esc(searchTerm) + '" aria-label="하시려는 일 검색">';
     h += '</div>';

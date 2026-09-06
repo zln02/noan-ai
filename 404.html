@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="shared/tokens.css">
 <link rel="stylesheet" href="shared/site.css">
 </head>
-<body>
+<body id="page-404">
 <a class="skip" href="#main">본문으로</a>
 <header class="nav"><div class="nav-in">
   <a class="brand" href="index.html">노안중 AI교육</a>
@@ -23,15 +23,28 @@
 </div></header>
 <main id="main">
 
-<div class="hero">
+<section class="section">
   <div class="wrap">
-    <p class="eyebrow">404</p>
-    <h1>찾으시는 쪽이 없습니다</h1>
-    <p class="lede">주소가 바뀌었거나, 아직 만들지 않은 쪽입니다. 처음 화면에서 다시 찾아보세요.</p>
-    <p><a class="btn btn-primary" href="index.html">처음 화면으로</a>
-    <a class="btn" href="request/index.html">필요한 걸 요청하기</a></p>
+    <div class="card card-hero hero-a is-compact">
+      <div class="hero-left">
+        <span class="badge mint">404</span>
+        <h1>찾으시는 쪽이 없습니다</h1>
+        <p class="lede">주소가 바뀌었거나, 아직 만들지 않은 쪽입니다. 처음 화면에서 다시 찾아보세요.</p>
+        <p><a class="btn btn-primary" href="index.html">처음 화면으로</a>
+        <a class="btn" href="request/index.html">필요한 걸 요청하기</a></p>
+      </div>
+      <div class="hero-visual">
+        <span class="orb orb-1" aria-hidden="true"></span>
+        <span class="orb orb-2" aria-hidden="true"></span>
+        <span class="orb orb-3" aria-hidden="true"></span>
+        <picture>
+          <source srcset="assets/noari/noari-explorer.webp" type="image/webp">
+          <img class="noari" src="assets/noari/noari-explorer.png" alt="노안중학교 마스코트 노아리" width="140" height="140" loading="lazy" onerror="this.closest('picture').remove()">
+        </picture>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
 <section class="section">
   <div class="wrap">

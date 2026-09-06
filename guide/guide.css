@@ -440,3 +440,29 @@
   color:var(--ink2);
   font-weight:700;
 }
+
+/* 첫 화면 오른쪽 노아리 — 검색줄과 겹치지 않게 제목 옆에 앉힌다 */
+.g-searchhead{
+  position:relative;
+}
+.g-noari{
+  position:absolute;
+  right:0;
+  top:-8px;
+  pointer-events:none;
+}
+.g-noari img{
+  height:150px;
+  width:auto;
+  display:block;
+}
+@media (max-width:820px){
+  .g-noari{
+    display:none;
+  }
+}
+@media print{
+  .g-noari{
+    display:none;
+  }
+}

@@ -19,7 +19,8 @@ const PAIRS = [
   { json: 'data/approval.json', js: 'data/approval.js', global: 'APPROVAL_DATA' },
   { json: 'data/showcase.json', js: 'data/showcase.js', global: 'SHOWCASE_ITEMS' },
   { json: 'data/contest.json',  js: 'data/contest.js',  global: 'CONTEST_ITEMS' },
-  { json: 'data/tasks.json',    js: 'data/tasks.js',    global: 'GUIDE_TASKS' }
+  { json: 'data/tasks.json',    js: 'data/tasks.js',    global: 'GUIDE_TASKS' },
+  { json: 'data/schedule.json', js: 'data/schedule.js', global: 'SCHEDULE_DATA' }
 ];
 
 function build(pair) {

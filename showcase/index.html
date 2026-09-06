@@ -24,13 +24,15 @@
 </div></header>
 <main id="main">
 
-<div class="hero">
+<section class="section">
   <div class="wrap">
-    <p class="eyebrow">학생 작품</p>
-    <h1>준비 중입니다</h1>
-    <p class="lede">수업이 시작되면 학생이 만든 것을 여기에 올립니다. <strong>동의를 받은 작품만</strong> 올리고, 이름 대신 학년만 적습니다.</p>
+    <div class="card card-hero">
+      <span class="badge mint">학생 작품</span>
+      <h1>준비 중입니다</h1>
+      <p class="lede">수업이 시작되면 학생이 만든 것을 여기에 올립니다. <strong>동의를 받은 작품만</strong> 올리고, 이름 대신 학년만 적습니다.</p>
+    </div>
   </div>
-</div>
+</section>
 
 <section class="section">
   <div class="wrap">
@@ -77,7 +79,9 @@
   }
 
   function empty(msg) {
-    grid.innerHTML = '<p class="muted">' + msg + '</p>';
+    grid.innerHTML = '<p class="muted">' + msg + '</p>' +
+      '<picture><source srcset="../assets/noari/noari-cheer.webp" type="image/webp">' +
+      '<img class="noari" src="../assets/noari/noari-cheer.png" alt="노안중학교 마스코트 노아리" width="160" height="160" loading="lazy" onerror="this.closest(\'picture\').remove()"></picture>';
   }
 
   function render(items) {

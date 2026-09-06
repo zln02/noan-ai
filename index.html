@@ -6,7 +6,8 @@
 <title>노안중 AI교육</title>
 <meta name="robots" content="noindex">
 <meta name="description" content="노안중학교 AI교육 코디네이터 안내 사이트">
-<link rel="icon" href="data:,">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="shared/tokens.css">
 <link rel="stylesheet" href="shared/site.css">
 </head>
@@ -24,27 +25,50 @@
 </div></header>
 <main id="main">
 
-<div class="hero dark">
-  <div class="orb"></div>
-  <div class="orb"></div>
-  <div class="wrap">
-    <p class="eyebrow">노안중학교 · AI 중점학교 · 2026 2학기</p>
-    <h1>노안중 AI교육</h1>
-    <p class="lede">선생님 문서 시간을 줄이고, 학생이 AI를 안전하게 써보게 합니다.</p>
-    <a class="btn btn-primary" href="training/index.html">연수 자료 보기</a>
-    <a class="btn btn-ghost" href="request/index.html">요청하기</a>
-  </div>
-</div>
+  <section class="section">
+    <div class="wrap">
+      <div class="card card-hero hero-a">
+        <div class="hero-left">
+          <span class="badge mint" id="scheduleBadge">연수 일정 확인 중</span>
+          <p class="eyebrow">노안중학교 · AI 중점학교 · 2026 2학기</p>
+          <h1>노안중 <span class="accent">AI교육</span></h1>
+          <p class="lede">선생님 문서 시간을 줄이고, 학생이 AI를 안전하게 써보게 합니다.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="training/index.html">연수 자료 보기</a>
+            <a class="btn btn-ghost" href="request/index.html">요청하기</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <span class="orb orb-1" aria-hidden="true"></span>
+          <span class="orb orb-2" aria-hidden="true"></span>
+          <span class="orb orb-3" aria-hidden="true"></span>
+          <picture>
+            <source srcset="assets/noari/noari-walk.webp" type="image/webp">
+            <img class="noari" src="assets/noari/noari-walk.png" alt="노안중학교 마스코트 노아리" width="240" height="240" loading="lazy" onerror="this.closest('picture').remove()">
+          </picture>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<section class="section">
-  <div class="wrap">
-    <a class="card tilt" href="guide/index.html">
-      <h3 class="card-title">무엇을 하시려고요? — 업무별 AI 안내서 16가지</h3>
-      <p class="card-lede">하려는 일을 고르면 어떤 도구를 어떻게 쓰는지 바로 안내해 드립니다.</p>
-      <span class="btn btn-primary">안내서 보기</span>
-    </a>
-  </div>
-</section>
+  <section class="section">
+    <div class="wrap">
+      <div class="grid cols-3">
+        <a class="card" href="guide/index.html">
+          <h3 class="card-title">무엇을 하시려고요? — 업무별 AI 안내서 16가지</h3>
+          <p class="card-lede">하려는 일을 고르면 어떤 도구를 어떻게 쓰는지 바로 안내해 드립니다.</p>
+        </a>
+        <a class="card" href="training/index.html">
+          <h3 class="card-title">다음 연수</h3>
+          <p class="card-lede">이번 학기 연수 일정과 신청 방법을 확인하세요.</p>
+        </a>
+        <a class="card" href="library/index.html">
+          <h3 class="card-title">이미 갖고 계신 것</h3>
+          <p class="card-lede">이미 쓰고 있는 도구를 더 잘 쓰는 방법을 모았습니다.</p>
+        </a>
+      </div>
+    </div>
+  </section>
 
 <section class="section">
   <div class="wrap">
@@ -151,6 +175,7 @@
 <script src="shared/site.js"></script>
 <script src="shared/contest.js"></script>
 <script src="data/contest.js"></script>
+<script src="data/schedule.js"></script>
 <script>
 /* 대회 건수 — 하드코딩하지 않고 대회 페이지와 같은 계산식으로 센다 */
 (function () {
@@ -166,6 +191,44 @@
   fetch('data/contest.json')
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(show)
+    .catch(function () { fallback(); });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var el = document.getElementById('scheduleBadge');
+  if (!el) return;
+  var WD = ['일','월','화','수','목','금','토'];
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function render(items) {
+    if (!items || !items.length) return;
+    var now = new Date();
+    var todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    var todayMid = new Date(todayKey);
+    var withDates = items
+      .filter(function (it) { return it && it.date; })
+      .map(function (it) { return { it: it, dMid: new Date(it.date) }; })
+      .filter(function (x) { return !isNaN(x.dMid.getTime()); })
+      .sort(function (a, b) { return a.dMid - b.dMid; });
+    var next = null;
+    for (var i = 0; i < withDates.length; i++) {
+      if (withDates[i].dMid >= todayMid) { next = withDates[i]; break; }
+    }
+    if (!next) {
+      el.textContent = '지난 연수';
+      return;
+    }
+    var diffDays = Math.round((next.dMid - todayMid) / 86400000);
+    var dLabel = diffDays === 0 ? '오늘' : ('D-' + diffDays);
+    var mmdd = (next.dMid.getMonth() + 1) + '/' + next.dMid.getDate() + '(' + WD[next.dMid.getDay()] + ')';
+    el.textContent = '다음 연수 ' + dLabel + ' · ' + mmdd + ' ' + (next.it.time || '');
+  }
+  function fallback() { if (window.SCHEDULE_DATA) { render(window.SCHEDULE_DATA); return true; } return false; }
+  if (!window.fetch) { fallback(); return; }
+  fetch('data/schedule.json')
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(render)
     .catch(function () { fallback(); });
 })();
 </script>
