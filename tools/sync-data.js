@@ -18,7 +18,8 @@ const ROOT = path.join(__dirname, '..');
 const PAIRS = [
   { json: 'library/approval.json', js: 'library/approval.js', global: 'APPROVAL_DATA' },
   { json: 'showcase/items.json',   js: 'showcase/items.js',   global: 'SHOWCASE_ITEMS' },
-  { json: 'contest/items.json',    js: 'contest/items.js',    global: 'CONTEST_ITEMS' }
+  { json: 'contest/items.json',    js: 'contest/items.js',    global: 'CONTEST_ITEMS' },
+  { json: 'guide/tasks.json',      js: 'guide/tasks.js',      global: 'GUIDE_TASKS' }
 ];
 
 function build(pair) {

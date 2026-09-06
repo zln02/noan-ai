@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>노안중 AI 안내서 — 무엇을 하시려고요?</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="업무·수업에서 AI 도구를 쓰는 열여섯 가지 방법. 하시려는 일을 찾아 그 쪽만 보시면 됩니다.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/site.css">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<a class="skip" href="#main">본문으로</a>
+<header class="nav"><div class="nav-in">
+  <a class="brand" href="../index.html">노안중 AI교육</a>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
+  <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
+    <a href="../training/index.html">연수</a><a href="../guide/index.html">안내서</a><a href="../class/index.html">수업</a>
+    <a href="../contest/index.html">대회</a><a href="../library/index.html">자료실</a>
+    <a href="../request/index.html">요청하기</a><a href="../about/index.html">소개</a>
+  </nav>
+  <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
+</div></header>
+<main id="main">
+
+<div class="g-printbar"><div class="wrap">
+  <span>이 안내서는 종이로도 있습니다. 같은 내용입니다.</span>
+  <a href="노안중_AI안내서.pdf">[ 인쇄용 PDF 내려받기 — A4 가로 18쪽 ]</a>
+  <span>필요한 쪽만 뽑아 인쇄하셔도 됩니다.</span>
+</div></div>
+
+<div id="gApp" class="wrap" aria-live="polite">
+  <p class="muted" style="padding:40px 0;">불러오는 중…</p>
+</div>
+
+<div class="g-askmore wrap">
+  이 일이 오래 걸려요 → <a href="../request/index.html">요청하기</a>
+</div>
+
+</main>
+
+<script src="tasks.js"></script>
+<script src="../shared/site.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var app = document.getElementById('gApp');
+  var DATA = null;     // { meta, groups, tasks }
+  var GMAP = null;     // id -> group
+  var searchTerm = '';
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /* ---------- 목록 화면 ---------- */
+
+  function matches(task, term) {
+    if (!term) return true;
+    var hay = [task.title, task.when].concat(task.keywords || []).join(' ').toLowerCase();
+    return hay.indexOf(term) !== -1;
+  }
+
+  function cardHtml(t) {
+    var g = GMAP[t.group];
+    var warmCls = g.color === 'warm' ? ' g-cardwarm' : '';
+    return '<a class="g-card' + warmCls + '" href="#' + esc(t.no) + '">' +
+      '<div class="g-no">' + esc(t.no) + '</div>' +
+      '<div class="g-title">' + esc(t.title) + '</div>' +
+      '<div class="g-when">' + esc(t.when) + '</div>' +
+      '</a>';
+  }
+
+  function groupsHtml(term) {
+    var h = '';
+    var any = false;
+    for (var gi = 0; gi < DATA.groups.length; gi++) {
+      var g = DATA.groups[gi];
+      var items = DATA.tasks.filter(function (t) { return t.group === g.id; })
+                             .filter(function (t) { return matches(t, term); });
+      var tagCls = g.color === 'warm' ? 'g-warm' : 'g-mint';
+      h += '<div class="g-group">';
+      h += '<div class="g-group-head"><span class="g-tag ' + tagCls + '">' + esc(g.label) + '</span>' +
+           '<span class="g-group-sub">' + esc(g.sub) + '</span></div>';
+      if (items.length) {
+        any = true;
+        h += '<div class="g-list">' + items.map(cardHtml).join('') + '</div>';
+      } else {
+        h += '<p class="g-empty">이 안에서는 찾으시는 것이 없습니다.</p>';
+      }
+      h += '</div>';
+    }
+    if (!any && term) {
+      h += '<p class="g-empty">검색어와 맞는 것이 없습니다. 다른 낱말로 찾아보십시오.</p>';
+    }
+    return h;
+  }
+
+  /* 검색은 결과 칸만 다시 그린다 — 입력칸을 새로 만들면 한글 입력이 끊긴다 */
+  function renderResults() {
+    var box = document.getElementById('gResults');
+    if (box) box.innerHTML = groupsHtml(searchTerm.trim().toLowerCase());
+  }
+
+  function renderList() {
+    var meta = DATA.meta;
+    var h = '';
+    h += '<div class="g-searchhead">';
+    h += '<h1>' + esc(meta.sub) + '</h1>';
+    h += '<input id="gSearch" class="g-search" type="search" placeholder="예: 통신문, 회의록, 퀴즈…" value="' + esc(searchTerm) + '" aria-label="하시려는 일 검색">';
+    h += '</div>';
+    if (meta.tip) {
+      h += '<div class="g-tip"><b>도구가 안 보이실 때</b>' + esc(meta.tip) + '</div>';
+    }
+    h += '<div id="gResults">' + groupsHtml(searchTerm.trim().toLowerCase()) + '</div>';
+
+    app.innerHTML = h;
+
+    var input = document.getElementById('gSearch');
+    if (input) {
+      input.addEventListener('input', function () {
+        searchTerm = input.value;
+        renderResults();
+      });
+    }
+  }
+
+  /* ---------- 상세 화면 ---------- */
+
+  function markHtml(m) {
+    var left = m[0], top = m[1], w = m[2], h = m[3], label = m[4];
+    var span = label ? '<span>' + esc(label) + '</span>' : '';
+    return '<div class="g-mark" style="left:' + left + '%;top:' + top + '%;width:' + w + '%;height:' + h + '%">' + span + '</div>';
+  }
+
+  function shotHtml(t) {
+    var marks = (t.marks || []).map(markHtml).join('');
+    var src = '../assets/guide/' + t.shot;
+    return '<div class="g-shotwrap">' +
+      '<img class="g-shotimg" src="' + esc(src) + '" alt="' + esc(t.title) + ' 화면" data-shot="' + esc(t.shot) + '" data-title="' + esc(t.title) + '">' +
+      '<div class="g-ph" hidden><div>화면 캡처 자리</div><div class="g-fn">' + esc(t.shot) + '</div><div>' + esc(t.title) + '</div></div>' +
+      marks +
+      '</div>';
+  }
+
+  function pathHtml(t) {
+    var parts = t.path.slice();
+    var last = parts.pop();
+    var seq = parts.map(esc).join(' &gt; ');
+    if (seq) seq += ' &gt; ';
+    seq += '<b>' + esc(last) + '</b>';
+    return '<div class="g-path">[ ' + seq + ' ]</div>';
+  }
+
+  function stepsHtml(t) {
+    return '<ol class="g-steps">' + t.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>';
+  }
+
+  function promptHtml(t) {
+    if (!t.prompt) return '';
+    var id = 'gPrompt-' + t.id;
+    return '<div class="g-prompt">' +
+      '<span class="g-prompt-lab">그대로 붙여넣으세요</span>' +
+      '<pre id="' + id + '">' + esc(t.prompt) + '</pre>' +
+      '<button type="button" class="g-copybtn" data-target="' + id + '">복사</button>' +
+      '<span class="g-copyhint" hidden></span>' +
+      '</div>';
+  }
+
+  function noteHtml(t) {
+    if (!t.prompt_note) return '';
+    return '<div class="g-note">' + esc(t.prompt_note) + '</div>';
+  }
+
+  function cautionHtml(t) {
+    if (!t.caution) return '';
+    return '<div class="g-caution">' + esc(t.caution) + '</div>';
+  }
+
+  function minsHtml(t) {
+    var mn = t.min || [0, 0];
+    if (!mn[0]) return '';
+    return '<p class="g-mins">보통 <b>' + esc(mn[0]) + '분</b> 걸리던 일이 <b>' + esc(mn[1]) + '분</b> 쯤으로 줄어듭니다. ' +
+      '— 초기 추정입니다. 해보시고 알려주세요.</p>';
+  }
+
+  function pagerHtml(idx) {
+    var n = DATA.tasks.length;
+    var prev = idx > 0 ? DATA.tasks[idx - 1] : null;
+    var next = idx < n - 1 ? DATA.tasks[idx + 1] : null;
+    var h = '<div class="g-pager">';
+    h += prev ? '<a href="#' + esc(prev.no) + '">← 이전</a>' : '<span>← 이전</span>';
+    h += next ? '<a href="#' + esc(next.no) + '">다음 →</a>' : '<span>다음 →</span>';
+    h += '</div>';
+    return h;
+  }
+
+  function renderDetail(t, idx) {
+    var g = GMAP[t.group];
+    var tagCls = g.color === 'warm' ? 'g-warm' : 'g-mint';
+
+    var h = '';
+    h += '<div class="g-detail-top">';
+    h += '<a class="g-back" href="#">← 목록으로</a>';
+    h += pagerHtml(idx);
+    h += '</div>';
+
+    h += '<div class="g-head">';
+    h += '<div class="g-bignum">' + esc(t.no) + '</div>';
+    h += '<div class="g-headmain"><h1>' + esc(t.title) + '</h1>' +
+         '<span class="g-tag ' + tagCls + '">' + esc(g.label) + '</span></div>';
+    h += '<div class="g-headright"><div class="g-when-detail">' + esc(t.when) + '</div></div>';
+    h += '</div>';
+
+    h += pathHtml(t);
+    h += '<p class="g-toolline">도구: ' + esc(t.tool) + '</p>';
+
+    h += '<div class="g-body">';
+    h += '<div class="g-left">';
+    h += stepsHtml(t);
+    h += promptHtml(t);
+    h += noteHtml(t);
+    h += cautionHtml(t);
+    h += minsHtml(t);
+    h += '</div>';
+    h += '<div class="g-right">' + shotHtml(t) + '</div>';
+    h += '</div>';
+
+    app.innerHTML = h;
+    bindCopyButtons();
+    bindShotFallback();
+  }
+
+  function bindShotFallback() {
+    var img = app.querySelector('.g-shotimg');
+    if (!img) return;
+    function toPlaceholder() {
+      img.hidden = true;
+      var ph = img.parentElement.querySelector('.g-ph');
+      if (ph) ph.hidden = false;
+    }
+    img.addEventListener('error', toPlaceholder);
+    /* 이미 실패한 뒤에 붙었을 때(캐시된 404) */
+    if (img.complete && !img.naturalWidth) toPlaceholder();
+  }
+
+  function bindCopyButtons() {
+    var btns = app.querySelectorAll('.g-copybtn');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function (e) {
+        var btn = e.currentTarget;
+        var pre = document.getElementById(btn.getAttribute('data-target'));
+        var hint = btn.parentElement.querySelector('.g-copyhint');
+        var text = pre.textContent;
+        var label = btn.textContent;
+
+        function done() {
+          btn.textContent = '복사됨';
+          if (hint) hint.hidden = true;
+          setTimeout(function () { btn.textContent = label; }, 1500);
+        }
+        function manual() {
+          try {
+            var range = document.createRange();
+            range.selectNodeContents(pre);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+          } catch (err) { /* 선택이 안 되면 안내 문구만 보여준다 */ }
+          if (hint) {
+            hint.hidden = false;
+            hint.textContent = 'Ctrl+C 를 누르세요';
+          }
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, manual);
+        } else {
+          manual();
+        }
+      });
+    }
+  }
+
+  /* ---------- 라우팅 ---------- */
+
+  /* 해시는 인쇄본과 같은 번호다 — #08b. 옛 링크를 위해 id 도 받는다 */
+  function findTask(key) {
+    var i;
+    for (i = 0; i < DATA.tasks.length; i++) {
+      if (DATA.tasks[i].no === key) return i;
+    }
+    for (i = 0; i < DATA.tasks.length; i++) {
+      if (DATA.tasks[i].id === key) return i;
+    }
+    return -1;
+  }
+
+  function route() {
+    var id = decodeURIComponent(location.hash.replace(/^#/, ''));
+    if (id) {
+      var idx = findTask(id);
+      if (idx !== -1) {
+        renderDetail(DATA.tasks[idx], idx);
+        window.scrollTo(0, 0);
+        return;
+      }
+    }
+    renderList();
+  }
+
+  /* ---------- 데이터 로딩 ---------- */
+
+  function boot(data) {
+    DATA = data;
+    GMAP = {};
+    for (var i = 0; i < DATA.groups.length; i++) GMAP[DATA.groups[i].id] = DATA.groups[i];
+    window.addEventListener('hashchange', route);
+    route();
+  }
+
+  function fail() {
+    app.innerHTML = '<p class="muted" style="padding:40px 0;">안내서를 불러오지 못했습니다. ' +
+      '<a href="tasks.json">tasks.json</a> 을 직접 여세요.</p>';
+  }
+
+  function fallback() {
+    if (window.GUIDE_TASKS) { boot(window.GUIDE_TASKS); return true; }
+    return false;
+  }
+
+  if (!window.fetch) { if (!fallback()) fail(); }
+  else {
+    fetch('tasks.json')
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(boot)
+      .catch(function () { if (!fallback()) fail(); });
+  }
+})();
+</script>
+</body>
+</html>
