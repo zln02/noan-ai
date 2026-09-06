@@ -20,7 +20,8 @@ const PAIRS = [
   { json: 'data/showcase.json', js: 'data/showcase.js', global: 'SHOWCASE_ITEMS' },
   { json: 'data/contest.json',  js: 'data/contest.js',  global: 'CONTEST_ITEMS' },
   { json: 'data/tasks.json',    js: 'data/tasks.js',    global: 'GUIDE_TASKS' },
-  { json: 'data/schedule.json', js: 'data/schedule.js', global: 'SCHEDULE_DATA' }
+  { json: 'data/schedule.json', js: 'data/schedule.js', global: 'SCHEDULE_DATA' },
+  { json: 'data/guides.json', js: 'data/guides.js', global: 'GUIDES_DATA' }
 ];
 
 function build(pair) {
@@ -50,6 +51,26 @@ for (const pair of PAIRS) {
   }
   fs.writeFileSync(dest, out);
   console.log('생성    ' + pair.js + '  <-  ' + pair.json);
+}
+
+/* 푸터의 「최종 수정」 은 손으로 고치지 않는다. 돌릴 때마다 오늘 날짜로 맞춘다. */
+const LASTMOD = path.join(ROOT, 'index.html');
+const now = new Date();
+const pad = (n) => String(n).padStart(2, '0');
+/* UTC 로 찍으면 새벽에 하루 전으로 적힌다. 이 학교가 사는 시간대로 적는다 */
+const today = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+const page = fs.readFileSync(LASTMOD, 'utf8');
+const stamped = page.replace(/(<span data-lastmod>)[^<]*(<\/span>)/, '$1' + today + '$2');
+if (stamped !== page) {
+  if (check) {
+    console.error('어긋남  index.html 의 최종 수정 날짜 — `node tools/sync-data.js` 를 돌려라');
+    drift++;
+  } else {
+    fs.writeFileSync(LASTMOD, stamped);
+    console.log('갱신    index.html 최종 수정 -> ' + today);
+  }
+} else {
+  console.log('그대로  index.html 최종 수정');
 }
 
 if (check && drift) process.exit(1);

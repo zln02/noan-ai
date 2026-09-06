@@ -53,7 +53,7 @@
     <h2 class="section-title">교육청이 지원하는 도구 5</h2>
     <div class="grid cols-2">
 
-      <div class="card tilt">
+      <div class="card tilt" id="card-miricanvas">
         <span class="badge"><span data-icon="miricanvas" data-icon-size="24"></span>미리캔버스 Pro</span>
         <h3 class="card-title">가정통신문 · 팜플렛 · 발표자료</h3>
         <p class="card-lede">교육청 MOU로 교직원 무료. AI 프레젠테이션·AI 이미지·템플릿 50만 개. 화면에서 바로 인쇄 주문도 됩니다.</p>
@@ -79,7 +79,7 @@
         </div>
       </div>
 
-      <div class="card tilt">
+      <div class="card tilt" id="card-gemini">
         <span class="badge"><span data-icon="googlegemini" data-icon-size="24"></span>Gemini</span>
         <h3 class="card-title">긴 공문을 읽고 근거를 댑니다</h3>
         <p class="card-lede">아이모두 계정에 포함되어 있습니다. 공문 PDF를 올리고 "우리 학교가 해야 할 일만 정리해줘"라고 물어보세요. 개인정보가 들어간 공문은 올리지 않습니다.</p>
@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      <div class="card tilt">
+      <div class="card tilt" id="card-classroom">
         <span class="badge"><span data-icon="googleclassroom" data-icon-size="24"></span>구글 클래스룸</span>
         <h3 class="card-title">과제 배부 · 수합</h3>
         <p class="card-lede">아이모두에 포함됩니다. 유튜브 양방향 퀴즈도 여기서 만듭니다. 학생 계정은 학교 확인이 필요합니다.</p>
@@ -149,6 +149,20 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">공식 안내 — 아직 카드가 없는 도구</h2>
+    <div id="guidesUnmatched" aria-live="polite"><p class="muted small">불러오는 중…</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title">더 배우고 싶으시면</h2>
+    <div id="guidesCourses" aria-live="polite"><p class="muted small">불러오는 중…</p></div>
+  </div>
+</section>
+
 </main>
 <footer class="site-foot">
   <div class="wrap">
@@ -159,5 +173,101 @@
 </footer>
 <script src="../shared/icons.js"></script>
 <script src="../shared/site.js"></script>
+<script src="../data/guides.js"></script>
+<script>
+/* 도구별 공식 안내 링크 — guides.json 을 읽어 카드에 붙이거나 목록·연수 섹션에 뿌린다.
+   외부 요청 없음. file:// 로 열면 fetch 가 막히므로 GUIDES_DATA(guides.js) 로 대체한다. */
+(function () {
+  'use strict';
+  var CARD_ID = {
+    '구글 클래스룸': 'card-classroom',
+    '미리캔버스': 'card-miricanvas',
+    'Gemini': 'card-gemini'
+  };
+  var BADGE = {
+    link:    { cls: 'badge mint', label: '공식 안내 있음' },
+    summary: { cls: 'badge warm', label: '공식 안내 + 우리 요약' },
+    make:    { cls: 'badge ink',  label: '우리가 만듦' }
+  };
+  var unmatchedBox = document.getElementById('guidesUnmatched');
+  var coursesBox = document.getElementById('guidesCourses');
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function officialLine(item) {
+    var b = BADGE[item.verdict] || { cls: 'badge', label: '' };
+    return '<p class="card-lede small">' +
+      '<a class="guide-official" href="' + esc(item.url) + '" target="_blank" rel="noopener">공식 안내 보기</a> ' +
+      '<span class="' + b.cls + '">' + esc(b.label) + '</span></p>';
+  }
+
+  function renderUnmatched(items) {
+    if (!unmatchedBox) return;
+    if (!items.length) { unmatchedBox.innerHTML = ''; return; }
+    var h = '<ul class="guide-list">';
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      var b = BADGE[it.verdict] || { cls: 'badge', label: '' };
+      h += '<li><strong>' + esc(it.tool) + '</strong> ' +
+        '<span class="' + b.cls + '">' + esc(b.label) + '</span> — ' +
+        '<a href="' + esc(it.url) + '" target="_blank" rel="noopener">공식 안내 보기</a></li>';
+    }
+    h += '</ul>';
+    unmatchedBox.innerHTML = h;
+  }
+
+  function renderCourses(items) {
+    if (!coursesBox) return;
+    if (!items.length) { coursesBox.innerHTML = ''; return; }
+    var h = '<ul class="guide-course-list">';
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      var note = it.note ? ' <span class="small muted">(' + esc(it.note) + ')</span>' : '';
+      h += '<li><a href="' + esc(it.url) + '" target="_blank" rel="noopener">' + esc(it.tool) + '</a>' + note + '</li>';
+    }
+    h += '</ul>';
+    coursesBox.innerHTML = h;
+  }
+
+  function render(data) {
+    var unmatched = [];
+    var courses = [];
+    for (var i = 0; i < data.length; i++) {
+      var item = data[i];
+      if (item.kind === 'official') {
+        var cardId = CARD_ID[item.tool];
+        var el = cardId && document.getElementById(cardId);
+        if (el) {
+          el.insertAdjacentHTML('beforeend', officialLine(item));
+        } else {
+          unmatched.push(item);
+        }
+      } else if (item.kind === 'course') {
+        courses.push(item);
+      }
+    }
+    renderUnmatched(unmatched);
+    renderCourses(courses);
+  }
+
+  function fail() {
+    if (unmatchedBox) unmatchedBox.innerHTML = '<p class="muted small">목록을 불러오지 못했습니다.</p>';
+    if (coursesBox) coursesBox.innerHTML = '<p class="muted small">목록을 불러오지 못했습니다.</p>';
+  }
+
+  function fallback() {
+    if (window.GUIDES_DATA) { render(window.GUIDES_DATA); return true; }
+    return false;
+  }
+
+  if (!window.fetch) { if (!fallback()) fail(); return; }
+  fetch('../data/guides.json')
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(render)
+    .catch(function () { if (!fallback()) fail(); });
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,137 @@
+/* 자동 생성 파일 — 손으로 고치지 마라.
+   원본은 data/guides.json 이다. 고친 뒤 `node tools/sync-data.js` 를 돌려라.
+   file:// 로 열었을 때 fetch 가 막히면 이 전역 변수로 대체한다. */
+window.GUIDES_DATA = [
+ {
+  "tool": "구글 클래스룸",
+  "kind": "official",
+  "verdict": "link",
+  "url": "https://support.google.com/edu/classroom/answer/9582854?hl=ko-KR",
+  "source": "support.google.com",
+  "note": "한국어 단계별, 스크린샷",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "웨일클래스",
+  "kind": "official",
+  "verdict": "link",
+  "url": "https://help.whale.naver.com/ko/whaleclass/teacher/opening-a-class/",
+  "source": "help.whale.naver.com",
+  "note": "벤더 공식 도움말 + edwith 영상",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "미리캔버스",
+  "kind": "official",
+  "verdict": "link",
+  "url": "https://help.miricanvas.com/hc/ko/articles/50160277897881",
+  "source": "help.miricanvas.com",
+  "note": "전남교육청 전용 Pro 가이드가 헬프센터에 이미 있다",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "퀴즈앤",
+  "kind": "official",
+  "verdict": "summary",
+  "url": "https://www.youtube.com/playlist?list=PLzYWRhwOj8eDARKT4IZWSls9yV8Zznkow",
+  "source": "www.youtube.com",
+  "note": "공식 영상 13편. 문서 없음",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "패들렛",
+  "kind": "official",
+  "verdict": "summary",
+  "url": "https://padlet.help/l/ko/article/2dwkca6pwg-",
+  "source": "padlet.help",
+  "note": "유료 학교계정 전제. 무료 기준 카드 1장 필요",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "캔바",
+  "kind": "official",
+  "verdict": "summary",
+  "url": "https://www.canva.com/help/about-canva-for-education/",
+  "source": "www.canva.com",
+  "note": "영어 위주. 교사 인증 절차 카드 1장 필요",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "구글 프레젠테이션+Gemini",
+  "kind": "official",
+  "verdict": "summary",
+  "url": "https://support.google.com/docs/answer/16961475?hl=ko",
+  "source": "support.google.com",
+  "note": "영어 프롬프트만. 전남 계정에서 켜져 있는지 확인 필요",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "NotebookLM",
+  "kind": "official",
+  "verdict": "summary",
+  "url": "https://support.google.com/notebooklm/answer/16164461?hl=ko",
+  "source": "support.google.com",
+  "note": "화면엔 「Gemini Notebook」. 업무 예시 없음",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "Gemini",
+  "kind": "official",
+  "verdict": "summary",
+  "url": "https://support.google.com/gemini/answer/14620100?hl=ko&co=DASHER._Family%3DEducation",
+  "source": "support.google.com",
+  "note": "교사 프롬프트 예시 없음 → 우리 안내서가 그것",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "유레카",
+  "kind": "official",
+  "verdict": "summary",
+  "url": "https://www.jbedu.kr/board/view.jbedu?boardId=BBS_0000093&menuCd=DOM_000000505005000000&startPage=3&dataSid=444707",
+  "source": "www.jbedu.kr",
+  "note": "2021 전북 PDF. 전남 접속 경로 카드 1장 직접",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "JNE GPT",
+  "kind": "official",
+  "verdict": "make",
+  "url": "https://docs.wrks.ai/user-guide/specific-organizations/sengpt.md",
+  "source": "docs.wrks.ai",
+  "note": "서울 senGPT 문서를 골격으로. 전남 버전 없음",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "웨일 UBT",
+  "kind": "official",
+  "verdict": "make",
+  "url": "https://whalespace.io/features/whaleubt",
+  "source": "whalespace.io",
+  "note": "절차형 가이드 자체가 없음. 2회차 이후",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "미리캔버스 「AI 기능 가이드북」",
+  "kind": "course",
+  "url": "https://blog.miricanvas.com/",
+  "source": "blog.miricanvas.com",
+  "note": "공식 가이드북",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "티처빌 × 미리캔버스 8시간 과정",
+  "kind": "course",
+  "url": "https://www.teacherville.co.kr/trainapply/jobtrainapply/b2gCreditCourseDetail.edu?operationCourseGetSeq=O1005857&organizationGetSeq=1969",
+  "source": "www.teacherville.co.kr",
+  "note": "깊게 배우고 싶은 분 · 직무연수 8h 인정",
+  "checked": "2026-09-06"
+ },
+ {
+  "tool": "전남창의융합교육원 아이모두 웨비나",
+  "kind": "course",
+  "url": "http://www.jngjedu.kr/news/articleView.html?idxno=115997",
+  "source": "www.jngjedu.kr",
+  "note": "",
+  "checked": "2026-09-06"
+ }
+];

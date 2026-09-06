@@ -992,3 +992,38 @@ a.badge:focus-visible{
   left:0;
   top:0;
 }
+
+/* ==========================================================================
+   자료실 — 공식 안내 목록 · 연수 목록 (guides.json)
+   ========================================================================== */
+.guide-list,
+.guide-course-list{
+  margin:0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:10px;
+}
+.guide-list li,
+.guide-course-list li{
+  padding:10px 14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:10px;
+}
+.guide-list li .badge{
+  margin:0 2px;
+}
+
+/* 가이드 링크도 사이트 색으로 — 기본 파랑이 팔레트를 깬다 */
+.guide-list a,
+.guide-course-list a,
+.guide-official a{
+  color:var(--ink2);
+  font-weight:700;
+}
+.guide-list a:hover,
+.guide-course-list a:hover,
+.guide-official a:hover{
+  color:var(--mint);
+}
