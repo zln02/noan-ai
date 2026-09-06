@@ -115,8 +115,8 @@ window.GUIDE_TASKS = {
    ],
    "tool": "NotebookLM",
    "path": [
-    "도구모음 1쪽",
-    "NotebookLM"
+    "도구모음",
+    "NotebookLM (화면에는 Gemini Notebook)"
    ],
    "steps": [
     "새 노트북을 만들고 공문 PDF를 올립니다",
@@ -126,15 +126,7 @@ window.GUIDE_TASKS = {
    "prompt": "이 공문에서 네 가지만 뽑아 주세요.\n1. 우리 학교가 해야 할 일\n2. 기한\n3. 담당 부서\n4. 제출 서식 이름\n각 항목이 몇 쪽에 있는지 함께 적어 주세요.",
    "prompt_note": null,
    "shot": "02-nlm.png",
-   "marks": [
-    [
-     55,
-     62,
-     34,
-     16,
-     "출처 쪽수"
-    ]
-   ],
+   "marks": [],
    "caution": "개인정보가 담긴 쪽은 빼고 올리십시오. 요약본이 아니라 원문이 근거입니다 — 기한은 반드시 원문에서 다시 확인하십시오.",
    "min": [
     30,
