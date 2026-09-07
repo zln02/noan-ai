@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회차 · 노안중 AI교육 운영</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="AI교육 운영 층 — 연수 회차 운영 기록">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/tokens.css">
+<link rel="stylesheet" href="../../shared/site.css">
+</head>
+<body>
+<a class="skip" href="#main">본문으로</a>
+<header class="nav"><div class="nav-in">
+  <a class="brand" href="../index.html">AI교육 운영</a>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
+  <nav id="navmenu" class="nav-menu" aria-label="운영 메뉴">
+    <a href="../index.html">홈</a><a href="../log/index.html">기록</a>
+    <a href="../sessions/index.html">회차</a><a href="../handover/index.html">인수인계</a>
+    <a class="nav-exit" href="../../index.html">선생님 사이트로</a>
+  </nav>
+  <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
+</div></header>
+<main id="main">
+
+<section class="section">
+  <div class="wrap">
+    <div class="card card-hero">
+      <span class="badge mint">회차</span>
+      <h1>연수 회차</h1>
+      <p class="lede">회차별 운영 수치입니다. 참석·설문이 아직이면 그렇다고 그대로 적습니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="grid cols-2" id="sessionGrid" aria-live="polite">
+      <p class="muted">불러오는 중…</p>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <p>운영 층 — 외부에 공개하지 않습니다.</p>
+    <p><a href="../../index.html">선생님 사이트로</a></p>
+  </div>
+</footer>
+<script src="../../data/sessions.js"></script>
+<script>
+/* 회차 — sessions.json 한 건 = 카드 한 장. deck 값은 사이트 루트 기준 상대경로라 앞에 ../../ 를 붙인다 */
+(function () {
+  'use strict';
+  var grid = document.getElementById('sessionGrid');
+  if (!grid) return;
+
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  function render(items) {
+    if (!items || !items.length) {
+      grid.innerHTML = '<p class="muted">아직 회차가 없습니다.</p>';
+      return;
+    }
+    var sorted = items.slice().sort(function (a, b) { return (a.no || 0) - (b.no || 0); });
+    var h = '';
+    for (var i = 0; i < sorted.length; i++) {
+      var it = sorted[i];
+      h += '<div class="card">';
+      if (typeof it.no !== 'undefined') h += '<span class="badge">' + esc(it.no) + '회차</span>';
+      h += '<h3 class="card-title">' + esc(it.title || '(제목 없음)') + '</h3>';
+      h += '<p class="muted small">' + esc(it.date || '') + (it.time ? ' ' + esc(it.time) : '') + '</p>';
+      if (it.deck) h += '<p><a class="btn btn-ghost" href="../../' + esc(it.deck) + '">덱 열기</a></p>';
+      if (typeof it.minutes === 'number') h += '<p class="card-lede small"><strong>소요</strong> ' + it.minutes + '분</p>';
+      h += '<p class="card-lede small"><strong>참석</strong> ' + (it.attendees != null ? esc(it.attendees) : '집계 전') + '</p>';
+      h += '<p class="card-lede small"><strong>설문 요약</strong> ' + (it.survey_summary != null ? esc(it.survey_summary) : '설문 전') + '</p>';
+      if (it.next) h += '<p class="card-lede small"><strong>다음</strong> ' + esc(it.next) + '</p>';
+      h += '</div>';
+    }
+    grid.innerHTML = h;
+  }
+
+  function fail() { grid.innerHTML = '<p class="muted">회차를 불러오지 못했습니다.</p>'; }
+  function fallback() { if (window.SESSIONS_DATA) { render(window.SESSIONS_DATA); return true; } return false; }
+  if (!window.fetch) { if (!fallback()) fail(); }
+  else {
+    fetch('../../data/sessions.json')
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(render)
+      .catch(function () { if (!fallback()) fail(); });
+  }
+})();
+</script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

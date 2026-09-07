@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기록 · 노안중 AI교육 운영</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="AI교육 운영 층 — 활동 기록 타임라인">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/tokens.css">
+<link rel="stylesheet" href="../../shared/site.css">
+</head>
+<body>
+<a class="skip" href="#main">본문으로</a>
+<header class="nav"><div class="nav-in">
+  <a class="brand" href="../index.html">AI교육 운영</a>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
+  <nav id="navmenu" class="nav-menu" aria-label="운영 메뉴">
+    <a href="../index.html">홈</a><a href="../log/index.html">기록</a>
+    <a href="../sessions/index.html">회차</a><a href="../handover/index.html">인수인계</a>
+    <a class="nav-exit" href="../../index.html">선생님 사이트로</a>
+  </nav>
+  <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
+</div></header>
+<main id="main">
+
+<section class="section">
+  <div class="wrap">
+    <div class="card card-hero">
+      <span class="badge mint">기록</span>
+      <h1>기록 타임라인</h1>
+      <p class="lede">노션 「📅 활동 기록」 을 내려받은 것입니다. 사진·다음 액션·성취기준 연계는 여기 들어오지 않습니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="filters">
+      <label class="sr-only" for="filterKind">구분으로 거르기</label>
+      <select id="filterKind"><option value="">구분 전체</option></select>
+      <label class="sr-only" for="filterTool">도구로 거르기</label>
+      <select id="filterTool"><option value="">도구 전체</option></select>
+      <label class="sr-only" for="filterMonth">월로 거르기</label>
+      <select id="filterMonth"><option value="">월 전체</option></select>
+    </div>
+    <div id="logTimeline" aria-live="polite"><p class="muted">불러오는 중…</p></div>
+  </div>
+</section>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <p>운영 층 — 외부에 공개하지 않습니다.</p>
+    <p><a href="../../index.html">선생님 사이트로</a></p>
+  </div>
+</footer>
+<script src="../../data/log.js"></script>
+<script>
+/* 기록 타임라인 — log.json (title date kind audience period what issue tools minutes report) 만 화면에 낸다.
+   여기 없는 필드(사진·다음 액션·성취기준)는 만들지 않는다. */
+(function () {
+  'use strict';
+  var timeline = document.getElementById('logTimeline');
+  var kindSel = document.getElementById('filterKind');
+  var toolSel = document.getElementById('filterTool');
+  var monthSel = document.getElementById('filterMonth');
+  var ALL = [];
+
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  function uniqueSorted(list) {
+    var seen = {};
+    var out = [];
+    for (var i = 0; i < list.length; i++) {
+      var v = list[i];
+      if (v && !seen[v]) { seen[v] = true; out.push(v); }
+    }
+    out.sort();
+    return out;
+  }
+
+  function fillSelect(sel, values) {
+    var first = sel.options[0];
+    var h = first ? first.outerHTML : '';
+    for (var i = 0; i < values.length; i++) {
+      h += '<option value="' + esc(values[i]) + '">' + esc(values[i]) + '</option>';
+    }
+    sel.innerHTML = h;
+  }
+
+  function monthOf(dateStr) {
+    return (typeof dateStr === 'string' ? dateStr : '').slice(0, 7);
+  }
+
+  function toolList(it) {
+    var t = it && it.tools;
+    if (Array.isArray(t)) return t;
+    return t ? [t] : [];
+  }
+
+  function buildFilters(items) {
+    var kinds = uniqueSorted(items.map(function (it) { return it.kind; }).filter(Boolean));
+    var toolsFlat = [];
+    for (var i = 0; i < items.length; i++) toolsFlat = toolsFlat.concat(toolList(items[i]));
+    var tools = uniqueSorted(toolsFlat);
+    var months = uniqueSorted(items.map(function (it) { return monthOf(it.date); }).filter(Boolean));
+    fillSelect(kindSel, kinds);
+    fillSelect(toolSel, tools);
+    fillSelect(monthSel, months);
+  }
+
+  function matches(it) {
+    if (kindSel.value && it.kind !== kindSel.value) return false;
+    if (toolSel.value && toolList(it).indexOf(toolSel.value) === -1) return false;
+    if (monthSel.value && monthOf(it.date) !== monthSel.value) return false;
+    return true;
+  }
+
+  function cardHtml(it) {
+    var h = '<div class="card">';
+    if (it.kind) h += '<span class="badge">' + esc(it.kind) + '</span>';
+    h += '<h3 class="card-title">' + esc(it.title || '(제목 없음)') + '</h3>';
+    var meta = [];
+    if (it.audience) meta.push('대상 ' + esc(it.audience));
+    if (it.period) meta.push('차시 ' + esc(it.period));
+    if (meta.length) h += '<p class="muted small">' + meta.join(' · ') + '</p>';
+    if (it.what) h += '<p class="card-lede"><strong>한 일</strong> — ' + esc(it.what) + '</p>';
+    if (it.issue) h += '<p class="card-lede"><strong>문제·해결</strong> — ' + esc(it.issue) + '</p>';
+    var tools = toolList(it).join(', ');
+    if (tools) h += '<p class="card-lede small"><strong>도구</strong> ' + esc(tools) + '</p>';
+    if (typeof it.minutes === 'number') h += '<p class="card-lede small"><strong>소요</strong> ' + it.minutes + '분</p>';
+    if (it.report) h += '<p class="card-lede small"><strong>보고서 반영</strong> ' + esc(it.report) + '</p>';
+    h += '</div>';
+    return h;
+  }
+
+  function render() {
+    if (!ALL.length) {
+      timeline.innerHTML = '<p class="muted">아직 기록이 없습니다. <code>node tools/sync-notion.js</code> 로 노션에서 내려받습니다.</p>';
+      return;
+    }
+    var filtered = ALL.filter(matches);
+    if (!filtered.length) {
+      timeline.innerHTML = '<p class="muted">조건에 맞는 기록이 없습니다.</p>';
+      return;
+    }
+    var sorted = filtered.slice().sort(function (a, b) { return String(b.date || '').localeCompare(String(a.date || '')); });
+    var h = '<ul class="log-tl">';
+    for (var i = 0; i < sorted.length; i++) {
+      var it = sorted[i];
+      h += '<li><p class="log-date">' + esc(it.date || '날짜 없음') + '</p>' + cardHtml(it) + '</li>';
+    }
+    h += '</ul>';
+    timeline.innerHTML = h;
+  }
+
+  function init(items) {
+    ALL = items || [];
+    buildFilters(ALL);
+    render();
+    kindSel.addEventListener('change', render);
+    toolSel.addEventListener('change', render);
+    monthSel.addEventListener('change', render);
+  }
+
+  function fail() {
+    timeline.innerHTML = '<p class="muted">기록을 불러오지 못했습니다.</p>';
+  }
+  function fallback() { if (window.LOG_DATA) { init(window.LOG_DATA); return true; } return false; }
+  if (!window.fetch) { if (!fallback()) fail(); }
+  else {
+    fetch('../../data/log.json')
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(init)
+      .catch(function () { if (!fallback()) fail(); });
+  }
+})();
+</script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

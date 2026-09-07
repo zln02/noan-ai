@@ -1027,3 +1027,89 @@ a.badge:focus-visible{
 .guide-official a:hover{
   color:var(--mint);
 }
+
+/* ==========================================================================
+   운영 층 (ops/) — 3단계 추가. 기존 규칙은 그대로 두고 아래에 덧붙인다
+   ========================================================================== */
+
+/* 운영 내비 — 맨 오른쪽 "선생님 사이트로" */
+.nav-menu a.nav-exit{
+  margin-left:auto;
+}
+
+/* 진행률 막대 — 이번 달 근무 시간 */
+.meter{
+  height:16px;
+  border-radius:999px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  overflow:hidden;
+  margin-bottom:10px;
+}
+.meter > span{
+  display:block;
+  height:100%;
+  background:var(--mint);
+}
+.meter.is-over > span{
+  background:var(--stop);
+}
+
+/* 기록 타임라인 — 세로선 */
+.log-tl{
+  position:relative;
+  margin:0;
+  padding:0 0 0 28px;
+  list-style:none;
+  border-left:2px solid var(--line);
+}
+.log-tl li{
+  position:relative;
+  padding:0 0 28px 20px;
+}
+.log-tl li:last-child{
+  padding-bottom:0;
+}
+.log-tl li::before{
+  content:"";
+  position:absolute;
+  left:-31px;
+  top:6px;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--mint);
+  border:2px solid var(--card);
+}
+.log-tl .log-date{
+  font-weight:700;
+  color:var(--mute);
+  margin-bottom:8px;
+}
+
+/* 기록 필터 — 구분·도구·월 */
+.filters{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.filters select{
+  min-height:44px;
+  padding:6px 12px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--card);
+  color:var(--text);
+  font-size:16px;
+  font-family:var(--font);
+}
+
+/* 운영 층 링크도 사이트 색으로 (기본 파랑이 팔레트를 깬다) */
+.ops-nav a,
+main a:not(.btn):not(.card):not(.brand){
+  color:var(--ink2);
+}
+main a:not(.btn):not(.card):not(.brand):hover{
+  color:var(--mint);
+}

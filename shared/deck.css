@@ -2148,3 +2148,20 @@ html[data-projector] .slide .s-panel{
 .s-flow{
   align-items:flex-start;
 }
+
+/* 어두운 장 위의 흰 카드는 글자색을 잉크로 되돌린다 (s24 와 같은 증상) */
+.slide.dark .s-card,
+.slide.dark .s-card h1,
+.slide.dark .s-card h2,
+.slide.dark .s-card h3,
+.slide.dark .s-card p,
+.slide.dark .s-card li,
+.slide.dark .s-card th,
+.slide.dark .s-card td{
+  color:var(--ink);
+}
+.slide.dark .s-card .s-lead,
+.slide.dark .s-card .s-foot,
+.slide.dark .s-card .muted{
+  color:var(--ink2);
+}
