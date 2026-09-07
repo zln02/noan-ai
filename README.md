@@ -1,81 +1,147 @@
-# 노안중 AI교육
+# 노안중 AI교육 운영 사이트
 
-노안중학교 AI교육 코디네이터 운영 사이트. 교원 연수 덱과 자료실을 담는다.
-빌드 도구 없는 순수 HTML/CSS/JS. 파일을 열어 글자를 고치고 저장하면 그대로 반영된다.
+전남 나주 노안중학교(교육부 AI 중점학교) AI교육 코디네이터가 4개월 동안 운영·기록·인수인계에 쓴 사이트.
+빌드 도구 없는 순수 HTML/CSS/JS. **외부 요청 0건** — `file://` 로 열어도 그대로 돈다.
 
-## 원칙
-- 외부 요청 0건. CDN·웹폰트·외부 이미지·WebGL 금지. `file://` 로 열어도 네트워크 요청이 없어야 한다.
-- 트래킹·애널리틱스 금지.
-- **학생 이름·사진·성적이 들어간 자료는 `private/` 에만 둔다.** `private/` 는 git 에 올라가지 않는다.
-- 문구는 연수 대본이다. `tools/copy-*.txt` 가 원본이며 임의로 다듬지 않는다.
+배포: <https://zln02.github.io/noan-ai/> · 안내서: <https://zln02.github.io/noan-ai/guide/>
+
+---
+
+## 무엇을 푸는가
+
+교사 12명, 코디네이터 1명, 4개월. 문제는 도구가 없는 게 아니라 **있는데 안 쓰는 것**이었다.
+
+| 문제 | 이 저장소의 답 |
+|---|---|
+| 교육청이 이미 준 도구(아이모두 44개)를 안 쓴다 | 업무별 안내서 **16장** + 연수 덱 24장 |
+| 4개월 뒤 결과보고서를 몰아서 써야 한다 | 근무일마다 5분 기록이 그대로 보고서 원천이 되게 |
+| 후임자에게 넘길 것이 사람 머릿속에만 있다 | `/ops/handover` 한 쪽 |
+
+## 설계 원칙
+
+이 저장소에서 봐 주셨으면 하는 건 화면이 아니라 아래 여섯 가지다.
+
+**외부 요청 0건.** CDN·웹폰트·트래킹이 없다. 아이콘은 SVG path 를 저장소에 넣어 쓴다.
+학교 네트워크가 죽어도 연수가 진행된다. 이건 취향이 아니라 요구사항이었다 —
+강당 와이파이를 믿고 슬라이드를 짤 수 없다.
+
+**빌드 도구 없음.** npm run 이 없다. 후임자가 IDE 없이 메모장으로 글자를 고치고 저장하면 반영된다.
+넘겨받을 사람이 개발자가 아니다.
+
+**데이터는 JSON 한 벌.** `Notion → tools/sync-notion.js → data/*.json → 페이지`.
+토큰은 환경변수로만 읽는다. 저장소에도 브라우저에도 남기지 않는다.
+
+**JSON 과 JS 를 짝으로 둔다.** 크롬은 `file://` 에서 `fetch` 를 막는다.
+그래서 `tools/sync-data.js` 가 JSON 마다 `window.X_DATA` 를 담은 `.js` 를 만든다.
+페이지는 `fetch` 를 먼저 쓰고 막히면 전역 변수로 넘어간다. USB 로 들고 가도 뜬다.
+
+**개인정보 경계를 코드로 지킨다.** 사진·이름·성적은 `private/`(gitignore)와 노션에만.
+sync 스크립트는 내보낼 필드를 **허용 목록**으로 못 박고, 본문에서 사람 이름 같은 문자열이
+잡히면 **아무것도 쓰지 않고 멈춘다.** 사람의 주의력에 기대지 않는다.
+
+**관객을 나눈다.** 선생님(`/`)과 운영(`/ops/`)이 다른 층이다.
+선생님 내비에 「기록」은 없다. `/ops/` 는 링크로만 가고 `noindex` 다.
 
 ## 구조
+
 ```
-index.html            랜딩
-404.html              없는 쪽 안내
-training/index.html   회차 목록
-training/s1.html      1회차 덱 (슬라이드 1~24)
-training/s2.html      2회차 — 투표로 결정, 준비 중
-class/index.html      학생 수업 — 준비 중
-library/index.html    교육청 지원 도구 5 + 시작법 + 스크린샷 자리
-library/rules.html    안전 규칙 한 장 (인쇄하면 A4 한 장)
-library/approval.html 도구 승인 현황 (data/approval.json 을 읽어 렌더)
-request/index.html    요청하기 (노션 폼 자리)
-about/index.html      코디네이터 소개
-showcase/index.html   학생 작품 — 준비 중 (data/showcase.json, consent:true 만 렌더)
-docs/handover.md      인수인계 (뼈대)
-shared/               tokens.css site.css deck.css deck.js site.js icons.js
-tools/                원고·계약·생성 스크립트 (사이트가 읽지 않음)
-assets/               QR·스크린샷 (3단계에서 생성. 없으면 화면에서 자동으로 숨김)
-private/              (gitignore) 학교 실물 자료
+noan-ai/
+├── index.html                  선생님 홈
+├── guide/                      업무별 AI 안내서 16장 (QR 이 가리키는 곳)
+├── training/                   연수 덱 24장
+├── library/  contest/  request/  about/  class/  showcase/
+├── ops/                        운영 층 — 홈 · 기록 · 회차 · 인수인계
+├── data/                       ★ 모든 데이터가 여기 한 곳
+│   ├── tasks.json      안내서 16장의 원본 (인쇄본과 같은 원천)
+│   ├── guides.json     도구별 공식 안내 판정 12건 + 외부 연수 3건
+│   ├── schedule.json   연수 일정 (D-day 계산의 원천)
+│   ├── log.json        활동 기록 (노션에서 내려받음)
+│   ├── sessions.json   회차별 기록
+│   ├── approval.json   도구 승인 현황
+│   └── contest.json  showcase.json
+├── shared/   tokens.css  site.css  deck.css  icons.js  deck.js  site.js
+├── assets/   noari/(마스코트)  guide/(캡처)  qr-*.svg
+├── tools/    sync-data.js  sync-notion.js  check-copy.js  guide-build.py  CONTRACT.md
+├── docs/     decisions.md  handover.md  cli/  manual-findings.md  shots/
+├── private/  (gitignore) 학교 실물 자료
+└── README.md  LICENSE
 ```
 
-## 덱 조작 (training/s1.html)
-| 키 | 동작 |
-|---|---|
-| `→` `Space` `Enter` `PageDown` | 다음 |
-| `←` `Backspace` `PageUp` | 이전 |
-| `F` `F5` | 전체화면 |
-| `.` `B` | 블랙아웃 (질문 받을 때) |
-| `N` | 발표자 노트 |
-| `Esc` | 목차 |
-| `Z` | 지도 줌 0→1→2 |
-| `P` | 프로젝터 모드 (강당용 고대비·큰 글자) |
+## 데이터 흐름
 
-발표 전에 `P` 를 한 번 누르고 뒷자리에서 가독성을 확인한다.
-터치 기기에서는 좌우 스와이프로 넘긴다.
+```
+  ┌─────────┐   sync-notion.js    ┌──────────────┐   sync-data.js   ┌──────────────┐
+  │ Notion  │ ──────────────────▶ │ data/*.json  │ ───────────────▶ │ data/*.js    │
+  │ (원천)  │   토큰=환경변수      │  (원본)      │  file:// 폴백    │ window.X_DATA│
+  └─────────┘   이름 잡히면 정지   └──────────────┘                  └──────────────┘
+                                          │                                 │
+                                          └──────────┬──────────────────────┘
+                                                     ▼
+                                      페이지: fetch 먼저, 막히면 전역 변수
+```
 
-## 시연 영상 변환
-GIF 는 쓰지 않는다. `private/` 안에 mp4 로 두고 `.demo` 의 `data-src` 에 경로를 넣는다.
+인쇄본도 같은 원천에서 나온다. `tools/guide-build.py` 가 `data/tasks.json` 하나로
+A4 가로 18쪽 PDF 를 만든다. 화면과 종이의 문장이 갈라질 수 없는 구조다.
+
+## 로컬에서 보기
+
+`index.html` 을 더블클릭한다. 끝이다. 서버도 설치도 필요 없다.
+
+## 갱신하기
+
 ```bash
-ffmpeg -i in.mov -vf "scale=1280:-2,fps=24" -c:v libx264 -crf 28 -an out.mp4
+# 1. 노션에 적는다 (활동 기록 · 도구 승인 현황)
+# 2. 내려받는다
+NOTION_TOKEN=... NOTION_LOG_DB=... node tools/sync-notion.js
+# 3. file:// 폴백 짝을 다시 만든다 (푸터의 「최종 수정」도 오늘 날짜로 찍힌다)
+node tools/sync-data.js
+# 4. 커밋
 ```
 
-## 아이콘
-`shared/icons.js` 는 simple-icons(CC0) 에서 추출한 path 와 텍스트 배지 사전이다.
-재생성:
+덱이나 안내서의 문장을 만졌다면:
+
 ```bash
-cd tools && npm install simple-icons && node gen-icons.js > icons-raw.json && node build-icons.js
+node tools/check-copy.js      # 대본 141문장이 덱에 그대로 있는지
+node tools/sync-data.js --check
 ```
-OpenAI·Adobe·Microsoft·Canva·CapCut·Copilot 은 simple-icons 에서 삭제된 브랜드라 텍스트 배지로 렌더된다.
 
-## 데이터 파일
-`data/` 안의 `*.json` 이 원본이다. 모든 데이터는 `data/` 에만 둔다.
-`file://` 로 열면 크롬이 `fetch` 를 막으므로 같은 내용을 담은 `.js` 짝을 함께 둔다.
-**JSON 을 고치면 반드시 아래를 돌려라.**
-```bash
-node tools/sync-data.js          # data/*.js 다시 생성
-node tools/sync-data.js --check  # 어긋났는지만 검사
-```
-`data/*.js` 는 자동 생성 파일이다. 손으로 고치지 않는다.
+## 결과
 
-## 진행 상황
-- [x] 1단계 — shared/ 전부, 랜딩, 덱 슬라이드 1~9(표지 ~ AI 전체 지도)
-- [x] 2단계 — 덱 슬라이드 10~24, 나머지 페이지(404/training/class/library/request/about/showcase/docs), 추가 요구사항 A·B·D, C1 도구 승인 현황
-- [ ] 3단계 — GitHub Pages 활성화, QR 생성(`assets/qr-*.svg`), 스크린샷·시연 영상 채우기, 노션 폼 URL 연결
+*2026-12 결과보고서 작성 시 손으로 채운다. 자동 집계하지 않는다 — 숫자를 자랑하려고
+만든 사이트가 아니라 일을 줄이려고 만든 사이트다.*
 
-2단계에서 `shared/*.css` 에는 규칙을 **덧붙이기만** 했다(기존 줄 삭제 0). `shared/*.js` 와 `index.html` 은 손대지 않았다.
+- 연수 __회 · 참석 __명
+- 업무별 안내서 16장 (인쇄본 A4 가로 18쪽)
+- 도구별 공식 안내 판정 12건
+- 활동 기록 __건
 
-## 채워야 할 것
-- `data-form=""` 2곳 — 덱 투표 슬라이드, `request/index.html` (노션 폼 공개 URL)
-- `[확인 필요]` 표기 — ThinQ Sentinel 내용, CX 프로젝트명, 장비 수량, 미리캔버스 인증 경로, 아이모두 접속 URL, 교육청 가이드라인 원문 링크
+## 인수인계
+
+[`/ops/handover`](ops/handover/index.html) — 이 자리가 하는 일, 연간 흐름, 계정 발급 절차,
+파일 위치, 첫날 할 일 5개, 미해결 목록.
+큰 결정의 이유는 [`docs/decisions.md`](docs/decisions.md) 에 날짜와 함께 적어 두었다.
+
+## 라이선스
+
+코드는 MIT ([LICENSE](LICENSE)).
+마스코트 「노아리」와 학교 로고·교표는 **노안중학교 소유이며 재사용을 허락하지 않는다**
+(`assets/noari/`, `assets/logo.png`). 저장소를 참고하실 때 그 파일들은 빼고 보시면 된다.
+
+---
+
+## In English
+
+A public-school operations site built by a single AI-education coordinator at Noan Middle School
+(Naju, Jeonnam, Korea) over one semester. Plain HTML/CSS/JS — **no build step, no CDN, no
+tracking, zero external requests** — because the school's Wi-Fi cannot be trusted during a
+teacher-training session, and the person inheriting this repository is not a developer.
+
+Three things are worth a look. **The privacy boundary is enforced in code, not in a policy
+document**: the Notion sync ships an allow-list of exportable fields and halts the whole
+export when a string that looks like a student's name appears in the body text.
+**Every JSON file has a generated JS twin** (`window.X_DATA`) so that pages still render from a
+USB stick when Chrome blocks `fetch` on `file://`. And **the same JSON produces both the web
+guide and the printed A4 booklet**, so screen and paper cannot drift apart.
+
+The site is split into two audiences: teachers at `/`, operations at `/ops/` (noindex, linked
+from nowhere). Design decisions and their reasons are logged in `docs/decisions.md`.

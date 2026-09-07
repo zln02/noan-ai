@@ -1,0 +1,36 @@
+MIT License
+
+Copyright (c) 2026 박진영 (Park Jinyoung), 노안중학교 AI교육 코디네이터
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+이 MIT 허가는 **코드에만** 적용된다.
+
+다음은 노안중학교의 소유이며 재사용을 허락하지 않는다:
+
+- `assets/noari/` — 마스코트 「노아리」 그림 일체
+- `assets/logo.png`, `assets/favicon-32.png`, `assets/apple-touch-icon.png` — 학교 로고·교표
+- `guide/노안중_AI안내서.pdf`, `data/tasks.json` 의 문장 — 학교 연수 자료
+- `docs/manual-*.md` — 전라남도교육청 매뉴얼 분석 결과 (원본 저작물은 교육청 소유)
+
+This MIT grant covers the code only. The school mascot artwork, school marks, and
+training materials listed above belong to Noan Middle School and are not licensed
+for reuse.
