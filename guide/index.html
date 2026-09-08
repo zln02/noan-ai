@@ -44,6 +44,7 @@
 
 <script src="../data/tasks.js"></script>
 <script src="../data/quicktasks.js"></script>
+<script src="../data/guides.js"></script>
 <script src="../shared/site.js"></script>
 <script>
 (function () {
@@ -53,6 +54,7 @@
   var DATA = null;          // { meta, groups, tasks }
   var GMAP = null;          // id -> group
   var QUICKTASKS = [];
+  var GUIDES = [];
   var searchTerm = '';
 
   function esc(s) {
@@ -177,14 +179,16 @@
     if (!t.shot) return '';
     var marks = (t.marks || []).map(markHtml).join('');
     var src = '../assets/guide/' + t.shot;
-    return '<div class="g-right" hidden>' +
+    return '<section class="g-section g-shot-section" hidden>' +
+      '<h2>시연 영상 / 캡처</h2>' +
       '<div class="g-shotwrap">' +
       '<img class="g-shotimg" src="' + esc(src) + '" alt="' + esc(t.title) + ' 화면">' +
       marks +
-      '</div></div>';
+      '</div></section>';
   }
 
   function pathHtml(t) {
+    if (!t.path || !t.path.length) return '';
     var parts = t.path.slice();
     var last = parts.pop();
     var seq = parts.map(esc).join(' &gt; ');
@@ -194,7 +198,9 @@
   }
 
   function stepsHtml(t) {
-    return '<ol class="g-steps">' + t.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>';
+    return '<ol class="g-steps">' + t.steps.map(function (s) {
+      return '<li>' + esc(s) + '</li>';
+    }).join('') + '</ol>';
   }
 
   function promptHtml(t) {
@@ -225,6 +231,25 @@
       '— 초기 추정입니다. 해보시고 알려주세요.</p>';
   }
 
+  function manualsHtml(t) {
+    var items = GUIDES.filter(function (guide) {
+      return guide.tool === t.tool;
+    });
+
+    if (!items.length) return '';
+
+    return '<details class="g-section g-fold">' +
+      '<summary>공식 매뉴얼</summary>' +
+      '<div class="g-fold-body"><ul class="g-manuals">' +
+      items.map(function (guide) {
+        var label = guide.note || guide.source || guide.tool;
+        return '<li><a href="' + esc(guide.url) + '">' + esc(label) + '</a>' +
+          (guide.source ? '<span>' + esc(guide.source) + '</span>' : '') +
+          '</li>';
+      }).join('') +
+      '</ul></div></details>';
+  }
+
   function pagerHtml(idx) {
     var n = DATA.tasks.length;
     var prev = idx > 0 ? DATA.tasks[idx - 1] : null;
@@ -242,7 +267,10 @@
 
     var h = '';
     h += '<div class="g-detail-top">';
+    h += '<div class="g-detail-actions">';
     h += '<a class="g-back" href="#">← 목록으로</a>';
+    h += '<a class="g-request" href="../request/index.html">요청하기</a>';
+    h += '</div>';
     h += pagerHtml(idx);
     h += '</div>';
 
@@ -250,21 +278,47 @@
     h += '<div class="g-bignum">' + esc(t.no) + '</div>';
     h += '<div class="g-headmain"><h1>' + esc(t.title) + '</h1>' +
          '<span class="g-tag ' + tagCls + '">' + esc(g.label) + '</span></div>';
-    h += '<div class="g-headright"><div class="g-when-detail">' + esc(t.when) + '</div></div>';
     h += '</div>';
-
-    h += pathHtml(t);
-    h += '<p class="g-toolline">도구: ' + esc(t.tool) + '</p>';
 
     h += '<div class="g-body">';
-    h += '<div class="g-left">';
-    h += stepsHtml(t);
-    h += promptHtml(t);
-    h += noteHtml(t);
-    h += cautionHtml(t);
+
+    h += '<section class="g-section">';
+    h += '<h2>이런 때 씁니다</h2>';
+    h += '<div class="g-when-detail">' + esc(t.when) + '</div>';
     h += minsHtml(t);
-    h += '</div>';
+    h += '</section>';
+
+    h += '<section class="g-section">';
+    h += '<h2>추천 도구</h2>';
+    h += '<p class="g-toolline">도구: ' + esc(t.tool) + '</p>';
+    h += pathHtml(t);
+    h += '</section>';
+
+    h += '<section class="g-section">';
+    h += '<h2>3단계 사용법</h2>';
+    h += stepsHtml(t);
+    h += '</section>';
+
+    h += '<section class="g-section">';
+    h += '<h2>복사할 프롬프트</h2>';
+    if (t.prompt) {
+      h += promptHtml(t);
+      h += noteHtml(t);
+    } else {
+      h += noteHtml(t);
+    }
+    h += '</section>';
+
     h += shotHtml(t);
+
+    if (t.caution) {
+      h += '<details class="g-section g-fold">';
+      h += '<summary>꼭 확인할 것</summary>';
+      h += '<div class="g-fold-body">' + cautionHtml(t) + '</div>';
+      h += '</details>';
+    }
+
+    h += manualsHtml(t);
     h += '</div>';
 
     app.innerHTML = h;
@@ -277,13 +331,29 @@
   function bindShotFallback() {
     var img = app.querySelector('.g-shotimg');
     if (!img) return;
-    var col = app.querySelector('.g-right');
-    function show() { if (col) col.hidden = false; }
-    function drop() { if (col && col.parentNode) col.parentNode.removeChild(col); }
+    var section = app.querySelector('.g-shot-section');
+    var body = app.querySelector('.g-body');
+
+    function show() {
+      if (section) section.hidden = false;
+      if (body) body.classList.add('g-has-shot');
+    }
+
+    function drop() {
+      if (section && section.parentNode) {
+        section.parentNode.removeChild(section);
+      }
+      if (body) body.classList.remove('g-has-shot');
+    }
+
     img.addEventListener('load', show);
     img.addEventListener('error', drop);
+
     /* 이미 끝난 뒤에 붙었을 때(캐시) */
-    if (img.complete) { if (img.naturalWidth) show(); else drop(); }
+    if (img.complete) {
+      if (img.naturalWidth) show();
+      else drop();
+    }
   }
 
   function bindCopyButtons() {
@@ -301,6 +371,7 @@
           if (hint) hint.hidden = true;
           setTimeout(function () { btn.textContent = label; }, 1500);
         }
+
         function manual() {
           try {
             var range = document.createRange();
@@ -356,10 +427,15 @@
   function boot(data) {
     DATA = data;
     GMAP = {};
-    for (var i = 0; i < DATA.groups.length; i++) GMAP[DATA.groups[i].id] = DATA.groups[i];
-    loadQuicktasks(function () {
-      window.addEventListener('hashchange', route);
-      route();
+    for (var i = 0; i < DATA.groups.length; i++) {
+      GMAP[DATA.groups[i].id] = DATA.groups[i];
+    }
+
+    loadGuides(function () {
+      loadQuicktasks(function () {
+        window.addEventListener('hashchange', route);
+        route();
+      });
     });
   }
 
@@ -369,8 +445,40 @@
   }
 
   function fallback() {
-    if (window.GUIDE_TASKS) { boot(window.GUIDE_TASKS); return true; }
+    if (window.GUIDE_TASKS) {
+      boot(window.GUIDE_TASKS);
+      return true;
+    }
     return false;
+  }
+
+  function guidesFallback() {
+    if (window.GUIDES_DATA) {
+      GUIDES = window.GUIDES_DATA;
+      return true;
+    }
+    return false;
+  }
+
+  function loadGuides(done) {
+    if (!window.fetch) {
+      guidesFallback();
+      done();
+      return;
+    }
+
+    fetch('../data/guides.json')
+      .then(function (r) {
+        return r.ok ? r.json() : Promise.reject(r.status);
+      })
+      .then(function (data) {
+        GUIDES = data;
+        done();
+      })
+      .catch(function () {
+        guidesFallback();
+        done();
+      });
   }
 
   function quicktasksFallback() {
@@ -389,7 +497,9 @@
     }
 
     fetch('../data/quicktasks.json')
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (r) {
+        return r.ok ? r.json() : Promise.reject(r.status);
+      })
       .then(function (data) {
         QUICKTASKS = data;
         done();
@@ -400,12 +510,17 @@
       });
   }
 
-  if (!window.fetch) { if (!fallback()) fail(); }
-  else {
+  if (!window.fetch) {
+    if (!fallback()) fail();
+  } else {
     fetch('../data/tasks.json')
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (r) {
+        return r.ok ? r.json() : Promise.reject(r.status);
+      })
       .then(boot)
-      .catch(function () { if (!fallback()) fail(); });
+      .catch(function () {
+        if (!fallback()) fail();
+      });
   }
 })();
 </script>
