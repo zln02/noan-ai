@@ -23,7 +23,8 @@ const PAIRS = [
   { json: 'data/schedule.json', js: 'data/schedule.js', global: 'SCHEDULE_DATA' },
   { json: 'data/guides.json', js: 'data/guides.js', global: 'GUIDES_DATA' },
   { json: 'data/log.json', js: 'data/log.js', global: 'LOG_DATA' },
-  { json: 'data/sessions.json', js: 'data/sessions.js', global: 'SESSIONS_DATA' }
+  { json: 'data/sessions.json', js: 'data/sessions.js', global: 'SESSIONS_DATA' },
+  { json: 'data/quicktasks.json', js: 'data/quicktasks.js', global: 'QUICKTASKS' }
 ];
 
 function build(pair) {
