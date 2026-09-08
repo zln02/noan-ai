@@ -815,17 +815,6 @@ svg.aimap[data-zoom="2"] .node:not(.is-focus){
    그래서 덱을 여는 페이지(deck.css 를 읽는 페이지)만 다크 모드를 따르지 않는다.
    일반 페이지(site.css)는 다크 모드를 그대로 지원한다.
    html[data-projector] 는 이보다 우선순위가 높아 프로젝터 모드가 계속 이긴다. */
-@media (prefers-color-scheme: dark){
-  :root{
-    --paper:#F6F9F8;
-    --card:#FFFFFF;
-    --line:#D9E5E1;
-    --mute:#61756F;
-    --text:#16211D;
-    --text-dim:#61756F;
-  }
-}
-
 /* ---------- 2. 그림자 — 두 겹으로 얕게. 프로젝터 모드는 --shadow:none 이 이긴다 ---------- */
 :root{
   --shadow: 0 1px 2px rgba(14,59,51,.05), 0 14px 30px -12px rgba(14,59,51,.18);
