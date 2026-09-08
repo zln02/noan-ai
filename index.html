@@ -3,544 +3,785 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>노안중 AI교육</title>
+<title>노안중 AI 안내서 — 무엇을 하시려고요?</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="노안중학교 AI교육 코디네이터 안내 사이트">
+<meta name="description" content="업무·수업에서 AI 도구를 쓰는 열여섯 가지 방법. 하시려는 일을 찾아 그 쪽만 보시면 됩니다.">
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="shared/tokens.css">
 <link rel="stylesheet" href="shared/site.css">
+<link rel="stylesheet" href="guide/guide.css">
 </head>
-<body class="home-page">
+<body>
 <a class="skip" href="#main">본문으로</a>
 
-<header class="nav home-nav">
-  <div class="nav-in">
-    <a class="home-brand" href="index.html" aria-label="노안중학교 홈">
-      <img src="assets/logo.png" alt="노안중학교" width="144" height="36">
-      <span class="brand-divider" aria-hidden="true"></span>
-      <span class="brand-copy">
-        <strong>AI와 함께, 더 나은 오늘</strong>
-        <span>선생님의 수업과 학교를 응원합니다.</span>
-      </span>
+<header class="g-header">
+  <div class="g-wrap g-header-inner">
+    <a class="g-brand" href="index.html" aria-label="노안중학교 AI교육 포털">
+      <img src="assets/logo.png" alt="노안중학교" width="120" height="40">
+      <span class="g-brand-ai">AI교육 포털</span>
     </a>
 
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navmenu" aria-label="메뉴 열기">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </button>
-
-    <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
+    <nav class="g-nav" aria-label="주요 메뉴">
       <a href="training/index.html">연수</a>
       <a href="showcase/index.html">활용 사례</a>
       <a href="library/index.html">자료실</a>
       <a href="request/index.html">요청하기</a>
+      <a class="g-nav-cta" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>
+        아이모두 바로가기
+      </a>
     </nav>
-
-    <div class="nav-actions">
-      <button class="search-button" type="button" aria-label="검색">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
-          <path d="m16.5 16.5 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-        </svg>
-      </button>
-      <a class="nav-cta" href="https://ai.jne.kr/" target="_blank" rel="noopener">아이모두 바로가기 ↗</a>
-    </div>
   </div>
 </header>
 
 <main id="main">
-  <section class="home-hero">
-    <div class="hero-inner">
-      <div class="hero-copy">
-        <p class="hero-eyebrow">선생님의 오늘을 응원하는</p>
-        <h1>노안중 <span>AI교육</span> 포털</h1>
-        <p class="hero-lede">
-          아이모두와 함께, 우리 학교의 수업과 업무가<br>
-          더 편리하고 더 의미있어질 수 있도록<br>
-          AI교육 코디네이터가 항상 함께합니다.
-        </p>
-        <div class="hero-actions">
-          <a class="hero-button hero-button-primary" href="training/index.html">이번 연수 자료 보기 →</a>
-          <a class="hero-button hero-button-secondary" href="request/index.html">도움 요청하기 →</a>
-        </div>
-        <p class="hero-schedule" id="scheduleBadge" aria-live="polite">연수 일정 확인 중</p>
-      </div>
-
-      <figure class="hero-figure">
-        <img class="hero-photo" src="assets/hero-school.jpg" alt="" onerror="this.closest('.hero-figure').classList.add('is-empty')">
-        <figcaption class="hero-quote">
-          <blockquote>“AI는 어려운 기술이 아니라 선생님의 시간을 지켜주는 든든한 동료입니다.”</blockquote>
-          <p>노안중학교 AI교육 코디네이터</p>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="help-section" aria-labelledby="help-title">
-    <div class="wrap">
-      <div class="help-shell">
-        <div class="help-heading">
-          <h2 id="help-title">지금 필요한 도움</h2>
-          <p>어떤 도움이 필요하신가요?</p>
-        </div>
-
-        <div class="help-links">
-          <a class="help-card help-card-blue" href="guide/index.html#01">
-            <span class="help-icon" data-line-icon="doc-long" aria-hidden="true"></span>
-            <span class="help-card-copy">
-              <strong>문서 작성</strong>
-              <span>가정통신문·기안문<br>보고서 초안 등</span>
-            </span>
-          </a>
-
-          <a class="help-card help-card-mint" href="guide/index.html#02">
-            <span class="help-icon" data-line-icon="search-doc" aria-hidden="true"></span>
-            <span class="help-card-copy">
-              <strong>긴 자료 읽기</strong>
-              <span>긴 공문 요약<br>여러 자료 비교</span>
-            </span>
-          </a>
-
-          <a class="help-card help-card-purple" href="guide/index.html#06">
-            <span class="help-icon" data-line-icon="slides" aria-hidden="true"></span>
-            <span class="help-card-copy">
-              <strong>발표자료 만들기</strong>
-              <span>수업 자료·발표 자료<br>포스터·안내물</span>
-            </span>
-          </a>
-
-          <a class="help-card help-card-yellow" href="guide/index.html#07">
-            <span class="help-icon" data-line-icon="letter" aria-hidden="true"></span>
-            <span class="help-card-copy">
-              <strong>설문 / 수업</strong>
-              <span>설문지·활동지<br>문항 제작 등</span>
-            </span>
-          </a>
-
-          <article class="help-card help-card-imodu">
-            <div>
-              <strong>아이모두 바로가기 ↗</strong>
-              <p>더 많은 AI 도구와 사용법은 아이모두에서!</p>
-            </div>
-            <a href="https://ai.jne.kr/" target="_blank" rel="noopener">아이모두 열기 →</a>
-          </article>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-panels" aria-label="학교 AI교육 소식">
-    <div class="wrap">
-      <div class="panel-grid">
-        <article class="home-panel">
-          <div class="panel-title-row">
-            <h2>이번 연수 자료</h2>
-            <a href="training/index.html">전체 보기 →</a>
-          </div>
-          <div class="panel-intro">
-            <span class="panel-icon" data-line-icon="book" aria-hidden="true"></span>
-            <div>
-              <h3>AI와 함께하는 수업, 실제로 해봐요</h3>
-              <p>연수에서 사용한 자료를 다시 확인할 수 있어요.</p>
-            </div>
-          </div>
-          <ul class="panel-list" id="scheduleList" aria-live="polite">
-            <li class="panel-empty">연수 일정 확인 중</li>
-          </ul>
-        </article>
-
-        <article class="home-panel">
-          <div class="panel-title-row">
-            <h2>우리 학교 활용 사례</h2>
-            <a href="showcase/index.html">전체 보기 →</a>
-          </div>
-          <div class="panel-intro">
-            <span class="panel-icon" data-line-icon="school" aria-hidden="true"></span>
-            <div>
-              <h3>선생님들의 실제 활용 이야기</h3>
-              <p>우리 학교의 생생한 사례를 만나보세요.</p>
-            </div>
-          </div>
-          <ul class="panel-list" id="showcaseList" aria-live="polite">
-            <li class="panel-empty">사례 확인 중</li>
-          </ul>
-        </article>
-
-        <article class="home-panel">
-          <div class="panel-title-row">
-            <h2>공지사항</h2>
-            <a href="contest/index.html">전체 보기 →</a>
-          </div>
-          <div class="panel-intro panel-intro-contest">
-            <span class="panel-icon panel-icon-warm" aria-hidden="true">📣</span>
-            <div>
-              <h3>새로운 소식과 일정을 확인하세요.</h3>
-              <p id="contestCount" aria-live="polite">지금 나갈 수 있는 대회</p>
-            </div>
-          </div>
-          <ul class="panel-list" id="contestList" aria-live="polite">
-            <li class="panel-empty">공지사항 확인 중</li>
-          </ul>
-          <a class="coordinator-card" href="request/">
-            <span class="coordinator-icon" aria-hidden="true">🎧</span>
-            <span>
-              <strong>코디네이터에게 요청하기 →</strong>
-              <small>궁금한 점이나 도움이 필요하면 언제든지!</small>
-            </span>
-          </a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="tools-section" aria-labelledby="tools-title">
-    <div class="wrap">
-      <div class="tools-shell">
-        <div class="tools-heading">
-          <div>
-            <h2 id="tools-title">자주 사용하는 도구 바로가기</h2>
-            <p>아이모두에서 자주 사용하는 도구를 빠르게 열 수 있어요.</p>
-          </div>
-          <a href="https://ai.jne.kr/" target="_blank" rel="noopener">아이모두에서 더 보기 →</a>
-        </div>
-
-        <div class="tool-list">
-          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
-            <span data-icon="openai" data-icon-size="28"></span>
-            <strong>JNE GPT</strong>
-          </a>
-          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
-            <span data-icon="notebooklm" data-icon-size="28"></span>
-            <strong>NotebookLM</strong>
-          </a>
-          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
-            <span data-icon="miricanvas" data-icon-size="28"></span>
-            <strong>미리캔버스</strong>
-          </a>
-          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
-            <span data-icon="googlegemini" data-icon-size="28"></span>
-            <strong>Gemini</strong>
-          </a>
-          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
-            <span data-icon="eureka" data-icon-size="28"></span>
-            <strong>유레카</strong>
-          </a>
-          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
-            <span data-icon="googleclassroom" data-icon-size="28"></span>
-            <strong>클래스룸</strong>
-          </a>
-          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
-            <span data-icon="padlet" data-icon-size="28"></span>
-            <strong>패들렛</strong>
-          </a>
-          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
-            <span data-icon="canva" data-icon-size="28"></span>
-            <strong>캔바</strong>
-          </a>
-          <a class="tool-card tool-card-more" href="library/index.html">
-            <span class="more-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <strong>더보기</strong>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="site-foot home-foot">
-  <div class="wrap footer-grid">
-    <div class="footer-brand">
-      <img src="assets/logo.png" alt="노안중학교" width="144" height="36">
-      <p>어제보다 더 나은 오늘, 함께 만드는 더 나은 교육</p>
-    </div>
-
-    <div class="footer-coordinator">
-      <span aria-hidden="true">📍</span>
-      <div>
-        <strong>AI교육 코디네이터 박진영</strong>
-        <p>수 · 목 오전 교무실에서 만날 수 있어요.</p>
-      </div>
-    </div>
-
-    <p class="footer-cheer">선생님의 오늘도 응원합니다.</p>
-
-    <div class="footer-qr">
-      <img src="assets/qr-site.svg" alt="노안중 AI교육 사이트 QR 코드" width="100" height="100" onerror="this.parentNode.classList.add('is-gone')">
-      <p>지금 바로 접속해 보세요!</p>
+  <div class="g-printbar">
+    <div class="g-wrap">
+      <span>이 안내서는 종이로도 있습니다. 같은 내용입니다.</span>
+      <a href="guide/노안중_AI안내서.pdf">[ 인쇄용 PDF 내려받기 — A4 가로 18쪽 ]</a>
+      <span>필요한 쪽만 뽑아 인쇄하셔도 됩니다.</span>
     </div>
   </div>
 
-  <div class="wrap">
-    <p><a href="guide/index.html">업무별 안내서</a> · <a href="class/index.html">수업</a> · <a href="contest/index.html">대회</a> · <a href="about/index.html">소개</a> · <a href="library/rules.html">안전 규칙 한 장</a></p>
+  <div id="gListView">
+    <section class="g-hero g-wrap" aria-labelledby="gHeroTitle">
+      <div class="g-hero-inner">
+        <figure class="g-hero-visual">
+          <picture>
+            <source srcset="assets/guide-hero-sm.jpg" media="(max-width: 860px)">
+            <img
+              src="assets/guide-hero.jpg"
+              alt="AI와 함께, 더 나은 수업을 만드는 노안중학교"
+              width="1600"
+              height="975"
+              onerror="this.hidden=true;this.closest('.g-hero-visual').classList.add('is-empty')">
+          </picture>
+        </figure>
+
+        <div class="g-hero-copy">
+          <span class="g-hero-badge">선생님의 오늘을 조금 더 가볍게</span>
+          <h1 id="gHeroTitle">무엇을 하시려고요?</h1>
+          <p>업무에 맞는 AI 활용 방법을 빠르게 찾아드립니다.</p>
+
+          <form id="gSearchForm" class="g-search-form" role="search">
+            <span class="g-search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+            </span>
+            <label class="sr-only" for="gSearch">하시려는 일 검색</label>
+            <input
+              id="gSearch"
+              type="search"
+              autocomplete="off"
+              placeholder="예) 가정통신문, 회의록, 긴 공문, 활동지, 설문, 발표자료">
+            <button type="submit">검색</button>
+          </form>
+
+          <div class="g-popular-scroll" role="group" aria-label="많이 찾는 업무">
+            <button type="button" data-no="01">가정통신문</button>
+            <button type="button" data-no="04">회의록</button>
+            <button type="button" data-no="02">긴 공문</button>
+            <button type="button" data-no="11">활동지·문항</button>
+            <button type="button" data-no="07">설문</button>
+            <button type="button" data-no="06">발표자료</button>
+            <button type="button" data-no="06">수업자료</button>
+          </div>
+
+          <p class="g-hero-tagline">외우실 필요 없습니다. 하시려는 일을 한 줄 치시면 됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="g-guide-section" aria-labelledby="gGuideTitle">
+      <div class="g-wrap">
+        <div class="g-panel">
+          <div class="g-section-heading">
+            <h2 id="gGuideTitle">업무별 안내서</h2>
+            <p>원하는 업무를 선택하면, 추천 도구와 사용 방법을 바로 확인할 수 있어요.</p>
+            <button
+              id="gAllToggle"
+              class="g-all-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="gAllTasks">
+              전체 보기 →
+            </button>
+          </div>
+
+          <div id="gQuickCards" class="g-quick-grid" aria-live="polite">
+            <p class="g-muted">불러오는 중…</p>
+          </div>
+
+          <details id="gAllTasks" class="g-all-tasks">
+            <summary>16가지 전체 보기</summary>
+            <div id="gResults" class="g-results"></div>
+          </details>
+
+          <div id="gTip"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="g-first-section" aria-labelledby="gFirstTitle">
+      <div class="g-wrap">
+        <div class="g-first-panel">
+          <div class="g-first-heading">
+            <h2 id="gFirstTitle">처음 오셨나요?</h2>
+            <p>3단계만 따라하면, 누구나 쉽게 시작할 수 있어요.</p>
+          </div>
+
+          <ol class="g-first-steps">
+            <li>
+              <span class="g-first-number">1</span>
+              <div>
+                <h3>하시려는 일을 찾기</h3>
+                <p>위 검색창에서 업무를 검색하거나 카드를 선택하세요.</p>
+              </div>
+              <span class="g-first-arrow" aria-hidden="true">›</span>
+            </li>
+            <li>
+              <span class="g-first-number">2</span>
+              <div>
+                <h3>안내서대로 따라 하기</h3>
+                <p>추천 도구와 사용 방법, 예시를 확인하세요.</p>
+              </div>
+              <span class="g-first-arrow" aria-hidden="true">›</span>
+            </li>
+            <li>
+              <span class="g-first-number">3</span>
+              <div>
+                <h3>바로 업무에 적용하기</h3>
+                <p>복사한 프롬프트로 지금 바로 시작해 보세요.</p>
+              </div>
+              <span class="g-first-arrow" aria-hidden="true">›</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="g-support-section" aria-label="추가 지원">
+      <div class="g-wrap g-support-grid">
+        <article class="g-support-card">
+          <span class="g-support-icon" data-static-icon="book" aria-hidden="true"></span>
+          <div class="g-support-copy">
+            <h2>업무별 안내서</h2>
+            <p>QR로 들어와 바로 사용할 수 있습니다.</p>
+          </div>
+          <span class="g-support-divider" aria-hidden="true"></span>
+          <span class="g-support-qr">
+            <img
+              src="assets/qr-guide.svg"
+              alt="업무별 안내서 QR 코드"
+              width="76"
+              height="76"
+              onerror="this.parentElement.hidden=true">
+          </span>
+          <span class="g-support-qrtext">QR 스캔하고<br>바로 시작하세요.</span>
+        </article>
+
+        <article class="g-support-card g-support-ask">
+          <span class="g-support-icon" data-static-icon="hand" aria-hidden="true"></span>
+          <div class="g-support-copy">
+            <h2>도움이 필요하신가요?</h2>
+            <p>AI교육 코디네이터에게 바로 요청하세요.</p>
+          </div>
+          <a class="g-support-cta" href="request/index.html">
+            요청하기
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 5 7 7-7 7"></path></svg>
+          </a>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <div id="gDetailView" class="g-wrap" hidden aria-live="polite"></div>
+</main>
+
+<footer class="g-footer">
+  <div class="g-wrap g-footer-grid">
+    <div class="g-footer-brand">
+      <img src="assets/logo.png" alt="노안중학교" width="120" height="40">
+    </div>
+
+    <div class="g-footer-coordinator">
+      <strong>AI교육 코디네이터 박진영</strong>
+      <p>수 · 목 오전 교무실에서 만날 수 있어요.</p>
+    </div>
+
+    <p class="g-footer-slogan">어제보다 더 나은 오늘, 함께 만드는 더 나은 교육</p>
+
+    <p class="g-footer-links"><a href="class/index.html">수업</a> · <a href="contest/index.html">대회</a> · <a href="about/index.html">소개</a> · <a href="library/rules.html">안전 규칙 한 장</a></p>
   </div>
 </footer>
 
+<script src="data/tasks.js"></script>
+<script src="data/quicktasks.js"></script>
+<script src="data/guides.js"></script>
 <script src="shared/icons.js"></script>
-<script src="shared/site.js"></script>
-<script src="shared/contest.js"></script>
-<script src="data/contest.js"></script>
-<script src="data/schedule.js"></script>
-<script src="data/showcase.js"></script>
 <script>
 (function () {
   'use strict';
 
-  var DAY = 86400000;
-  var scheduleBadge = document.getElementById('scheduleBadge');
-  var scheduleList = document.getElementById('scheduleList');
-  var showcaseList = document.getElementById('showcaseList');
-  var contestList = document.getElementById('contestList');
-  var contestCount = document.getElementById('contestCount');
-  var weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+  var listView = document.getElementById('gListView');
+  var detailView = document.getElementById('gDetailView');
+  var quickCards = document.getElementById('gQuickCards');
+  var results = document.getElementById('gResults');
+  var allTasks = document.getElementById('gAllTasks');
+  var allToggle = document.getElementById('gAllToggle');
+  var searchForm = document.getElementById('gSearchForm');
+  var searchInput = document.getElementById('gSearch');
+  var tipBox = document.getElementById('gTip');
 
-  function pad(value) {
-    return value < 10 ? '0' + value : String(value);
+  var DATA = null;
+  var GROUPS = {};
+  var QUICKTASKS = [];
+  var GUIDES = [];
+  var searchTerm = '';
+
+  var ICON_MAP = {
+    '가정통신문': 'letter',
+    '회의록': 'mic',
+    '긴 공문': 'doc-long',
+    '활동지 · 문항': 'book',
+    '활동지·문항': 'book',
+    '설문': 'shield',
+    '발표자료': 'slides',
+    '수업자료': 'school',
+    '자료 여러 개 비교': 'search-doc',
+    '자료 비교': 'search-doc',
+    '문서 검토': 'search-doc'
+  };
+
+  function esc(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 
-  function parseLocalDate(value) {
-    var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ''));
-    if (!match) return null;
-    return new Date(+match[1], +match[2] - 1, +match[3]);
+  function icon(name, size) {
+    if (!name || !window.NoanIcons || !window.NoanIcons.icon) return '';
+    return window.NoanIcons.icon(name, size);
   }
 
-  function formatDate(value) {
-    var date = parseLocalDate(value);
-    if (!date || isNaN(date.getTime())) return '';
-    return date.getFullYear() + '.' + pad(date.getMonth() + 1) + '.' + pad(date.getDate());
-  }
-
-  function clear(element) {
-    while (element.firstChild) element.removeChild(element.firstChild);
-  }
-
-  function makeLineIcon(name, size) {
-    var holder = document.createElement('span');
-    holder.className = 'list-icon';
-    holder.setAttribute('aria-hidden', 'true');
-    if (window.NoanIcons) holder.innerHTML = window.NoanIcons.icon(name, size || 22);
-    return holder;
-  }
-
-  function loadData(url, fallbackName, render) {
-    function fallback() {
-      if (Object.prototype.hasOwnProperty.call(window, fallbackName)) {
-        render(window[fallbackName]);
-        return true;
-      }
-      return false;
-    }
-
-    if (!window.fetch) {
-      fallback();
-      return;
-    }
-
-    fetch(url)
-      .then(function (response) {
-        return response.ok ? response.json() : Promise.reject(response.status);
-      })
-      .then(render)
-      .catch(function () {
-        fallback();
-      });
-  }
-
-  function renderScheduleBadge(items) {
-    if (!scheduleBadge) return;
-
-    if (!items || !items.length) {
-      scheduleBadge.textContent = '다음 회차는 투표로 정합니다.';
-      return;
-    }
-
-    var now = new Date();
-    var todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
-    var todayMidnight = parseLocalDate(todayKey);
-    var datedItems = items
-      .filter(function (item) {
-        return item && item.date;
-      })
-      .map(function (item) {
-        return { item: item, date: parseLocalDate(item.date) };
-      })
-      .filter(function (entry) {
-        return entry.date && !isNaN(entry.date.getTime());
-      })
-      .sort(function (a, b) {
-        return a.date - b.date;
-      });
-
-    var next = null;
-    for (var i = 0; i < datedItems.length; i++) {
-      if (datedItems[i].date >= todayMidnight) {
-        next = datedItems[i];
-        break;
-      }
-    }
-
-    if (!next) {
-      scheduleBadge.textContent = '지난 연수';
-      return;
-    }
-
-    var difference = Math.round((next.date - todayMidnight) / DAY);
-    var dayLabel = difference === 0 ? '오늘' : 'D-' + difference;
-    var dateLabel = (next.date.getMonth() + 1) + '/' + next.date.getDate() +
-      '(' + weekdays[next.date.getDay()] + ')';
-
-    scheduleBadge.textContent = '다음 연수 ' + dayLabel + ' · ' + dateLabel +
-      ' ' + (next.item.time || '');
-  }
-
-  function renderSchedule(items) {
-    renderScheduleBadge(items);
-    clear(scheduleList);
-
-    if (!items || !items.length) {
-      var empty = document.createElement('li');
-      empty.className = 'panel-empty';
-      empty.textContent = '다음 회차는 투표로 정합니다.';
-      scheduleList.appendChild(empty);
-      return;
-    }
-
-    items.forEach(function (item) {
-      if (!item) return;
-
-      var row = document.createElement('li');
-      var link = document.createElement('a');
-      var main = document.createElement('span');
-      var title = document.createElement('strong');
-      var date = document.createElement('time');
-
-      link.href = 'training/index.html';
-      main.className = 'list-main';
-      title.textContent = item.no + '회차 | ' + (item.title || '');
-      date.dateTime = item.date || '';
-      date.textContent = formatDate(item.date);
-
-      main.appendChild(makeLineIcon('book', 20));
-      main.appendChild(title);
-      link.appendChild(main);
-      link.appendChild(date);
-      row.appendChild(link);
-      scheduleList.appendChild(row);
-    });
-  }
-
-  function renderShowcase(items) {
-    clear(showcaseList);
-
-    if (!items || !items.length) {
-      var empty = document.createElement('li');
-      var text = document.createElement('span');
-      var request = document.createElement('a');
-
-      empty.className = 'panel-empty panel-empty-with-link';
-      text.textContent = '첫 사례를 모으는 중입니다.';
-      request.href = 'request/';
-      request.textContent = '요청하기 →';
-
-      empty.appendChild(text);
-      empty.appendChild(request);
-      showcaseList.appendChild(empty);
-      return;
-    }
-
-    items.forEach(function (item) {
-      if (!item) return;
-
-      var row = document.createElement('li');
-      var link = document.createElement('a');
-      var main = document.createElement('span');
-      var title = document.createElement('strong');
-
-      link.href = item.link || item['링크'] || 'showcase/index.html';
-      main.className = 'list-main';
-      title.textContent = item.title || item['제목'] || '';
-
-      main.appendChild(makeLineIcon('school', 20));
-      main.appendChild(title);
-      link.appendChild(main);
-      row.appendChild(link);
-      showcaseList.appendChild(row);
-    });
-  }
-
-  function renderContest(items) {
-    var classified = window.NoanContest ?
-      window.NoanContest.classify(items || []) :
-      { open: [] };
-
-    var openItems = classified.open || [];
-    contestCount.textContent = '지금 나갈 수 있는 대회 ' + openItems.length + '건';
-    clear(contestList);
-
-    if (!openItems.length) {
-      var empty = document.createElement('li');
-      empty.className = 'panel-empty';
-      empty.textContent = '지금 나갈 수 있는 대회 0건';
-      contestList.appendChild(empty);
-      return;
-    }
-
-    openItems.slice(0, 4).forEach(function (item) {
-      var row = document.createElement('li');
-      var link = document.createElement('a');
-      var main = document.createElement('span');
-      var title = document.createElement('strong');
-      var side = document.createElement('span');
-      var date = document.createElement('time');
-      var days = window.NoanContest.daysLeft(item);
-
-      link.href = item['링크'] || 'contest/index.html';
-      if (item['링크']) {
-        link.target = '_blank';
-        link.rel = 'noopener';
-      }
-
-      main.className = 'list-main';
-      side.className = 'list-side';
-      title.textContent = item['대회명'] || '';
-      date.dateTime = item['마감'] || '';
-      date.textContent = formatDate(item['마감']);
-
-      main.appendChild(makeLineIcon('flyer', 20));
-      main.appendChild(title);
-
-      if (days !== null && days >= 0 && days <= 7) {
-        var badge = document.createElement('span');
-        badge.className = 'deadline-badge';
-        badge.textContent = '마감임박';
-        side.appendChild(badge);
-      }
-
-      side.appendChild(date);
-      link.appendChild(main);
-      link.appendChild(side);
-      row.appendChild(link);
-      contestList.appendChild(row);
-    });
-  }
-
-  function mountLineIcons() {
-    if (!window.NoanIcons) return;
-
-    var nodes = document.querySelectorAll('[data-line-icon]');
+  function mountStaticIcons() {
+    var nodes = document.querySelectorAll('[data-static-icon]');
     for (var i = 0; i < nodes.length; i++) {
-      nodes[i].innerHTML = window.NoanIcons.icon(
-        nodes[i].getAttribute('data-line-icon'),
-        24
+      nodes[i].innerHTML = icon(
+        nodes[i].getAttribute('data-static-icon'),
+        nodes[i].classList.contains('g-support-icon') ? 40 : 24
       );
+      if (!nodes[i].innerHTML) nodes[i].remove();
     }
   }
 
-  mountLineIcons();
-  loadData('data/schedule.json', 'SCHEDULE_DATA', renderSchedule);
-  loadData('data/showcase.json', 'SHOWCASE_ITEMS', renderShowcase);
-  loadData('data/contest.json', 'CONTEST_ITEMS', renderContest);
+  function taskByNo(no) {
+    if (!DATA) return null;
+    for (var i = 0; i < DATA.tasks.length; i++) {
+      if (DATA.tasks[i].no === no) return DATA.tasks[i];
+    }
+    return null;
+  }
+
+  function findTask(key) {
+    if (!DATA) return -1;
+    var i;
+
+    for (i = 0; i < DATA.tasks.length; i++) {
+      if (DATA.tasks[i].no === key) return i;
+    }
+
+    for (i = 0; i < DATA.tasks.length; i++) {
+      if (DATA.tasks[i].id === key) return i;
+    }
+
+    return -1;
+  }
+
+  function cardIconName(item) {
+    return ICON_MAP[item.label] || '';
+  }
+
+  function quickCardHtml(item, index) {
+    var linked = taskByNo(item.no) || {};
+    var title = item.label || linked.title;
+    var description = item.desc || linked.when;
+    var tool = item.tool || linked.tool;
+    var iconName = cardIconName(item);
+    var iconHtml = icon(iconName, 30);
+
+    return '<a class="g-quick-card g-pastel-' + ((index % 6) + 1) +
+      '" href="#' + esc(item.no) + '">' +
+      (iconHtml ? '<span class="g-card-icon" aria-hidden="true">' + iconHtml + '</span>' : '') +
+      '<h3>' + esc(title) + '</h3>' +
+      '<p class="g-card-desc">' + esc(description) + '</p>' +
+      '<div class="g-card-bottom">' +
+        '<span class="g-tool-label">추천 도구</span>' +
+        '<span class="g-tool-pill">' + esc(tool) + '</span>' +
+      '</div>' +
+      '<span class="g-card-arrow" aria-hidden="true">→</span>' +
+    '</a>';
+  }
+
+  function renderQuickCards() {
+    var cards = QUICKTASKS.slice();
+
+    if (cards.length < 9) {
+      var hasLesson = cards.some(function (item) {
+        return item.label === '수업자료';
+      });
+
+      if (!hasLesson) {
+        cards.push({
+          label: '수업자료',
+          no: '06'
+        });
+      }
+    }
+
+    quickCards.innerHTML = cards.map(quickCardHtml).join('');
+  }
+
+  function matches(task, term) {
+    if (!term) return true;
+
+    var haystack = [
+      task.no,
+      task.title,
+      task.when,
+      task.tool
+    ].concat(task.keywords || []).join(' ').toLowerCase();
+
+    return haystack.indexOf(term) !== -1;
+  }
+
+  function allTaskCardHtml(task) {
+    return '<a class="g-result-card" href="#' + esc(task.no) + '">' +
+      '<span class="g-result-no">' + esc(task.no) + '</span>' +
+      '<span class="g-result-copy">' +
+        '<strong>' + esc(task.title) + '</strong>' +
+        '<span>' + esc(task.when) + '</span>' +
+      '</span>' +
+      '<span class="g-result-arrow" aria-hidden="true">→</span>' +
+    '</a>';
+  }
+
+  function renderResults() {
+    if (!DATA) return;
+
+    var term = searchTerm.trim().toLowerCase();
+    var html = '';
+    var found = false;
+
+    for (var i = 0; i < DATA.groups.length; i++) {
+      var group = DATA.groups[i];
+      var items = DATA.tasks.filter(function (task) {
+        return task.group === group.id && matches(task, term);
+      });
+
+      html += '<section class="g-result-group" aria-labelledby="gGroup-' + esc(group.id) + '">' +
+        '<div class="g-result-heading">' +
+          '<h3 id="gGroup-' + esc(group.id) + '">' + esc(group.label) + '</h3>' +
+          '<p>' + esc(group.sub) + '</p>' +
+        '</div>';
+
+      if (items.length) {
+        found = true;
+        html += '<div class="g-result-grid">' +
+          items.map(allTaskCardHtml).join('') +
+        '</div>';
+      } else {
+        html += '<p class="g-empty">이 안에서는 찾으시는 것이 없습니다.</p>';
+      }
+
+      html += '</section>';
+    }
+
+    if (!found && term) {
+      html += '<p class="g-empty g-empty-all">검색어와 맞는 것이 없습니다. 다른 낱말로 찾아보십시오.</p>';
+    }
+
+    results.innerHTML = html;
+  }
+
+  function updateAllToggle() {
+    if (!allToggle || !allTasks) return;
+    allToggle.setAttribute('aria-expanded', allTasks.open ? 'true' : 'false');
+    allToggle.textContent = allTasks.open ? '접기 ↑' : '전체 보기 →';
+  }
+
+  function openTask(no) {
+    if (no) location.hash = '#' + no;
+  }
+
+  function markHtml(mark) {
+    var label = mark[4] ? '<span>' + esc(mark[4]) + '</span>' : '';
+
+    return '<span class="g-mark" style="left:' + Number(mark[0]) +
+      '%;top:' + Number(mark[1]) +
+      '%;width:' + Number(mark[2]) +
+      '%;height:' + Number(mark[3]) + '%">' +
+      label +
+    '</span>';
+  }
+
+  function shotHtml(task) {
+    if (!task.shot) return '';
+
+    return '<section class="g-section g-shot-section" hidden>' +
+      '<h2>시연 영상 / 캡처</h2>' +
+      '<div class="g-shot-wrap">' +
+        '<img class="g-shot-img" src="assets/guide/' + esc(task.shot) +
+          '" alt="' + esc(task.title) + ' 화면">' +
+        (task.marks || []).map(markHtml).join('') +
+      '</div>' +
+    '</section>';
+  }
+
+  function pathHtml(task) {
+    if (!task.path || !task.path.length) return '';
+
+    var parts = task.path.slice();
+    var last = parts.pop();
+    var path = parts.map(esc).join(' &gt; ');
+
+    if (path) path += ' &gt; ';
+    path += '<b>' + esc(last) + '</b>';
+
+    return '<div class="g-path">[ ' + path + ' ]</div>';
+  }
+
+  function stepsHtml(task) {
+    return '<ol class="g-detail-steps">' +
+      task.steps.map(function (step) {
+        return '<li>' + esc(step) + '</li>';
+      }).join('') +
+    '</ol>';
+  }
+
+  function promptHtml(task) {
+    if (!task.prompt) return '';
+
+    var id = 'gPrompt-' + task.id;
+
+    return '<div class="g-prompt">' +
+      '<span class="g-prompt-lab">그대로 붙여넣으세요</span>' +
+      '<pre id="' + esc(id) + '">' + esc(task.prompt) + '</pre>' +
+      '<button type="button" class="g-copybtn" data-target="' + esc(id) + '">복사</button>' +
+      '<span class="g-copyhint" role="status" hidden></span>' +
+    '</div>';
+  }
+
+  function noteHtml(task) {
+    if (!task.prompt_note) return '';
+    return '<div class="g-note">' + esc(task.prompt_note) + '</div>';
+  }
+
+  function minsHtml(task) {
+    var mins = task.min || [0, 0];
+
+    if (!mins[0]) return '';
+
+    return '<p class="g-mins">보통 <b>' + esc(mins[0]) +
+      '분</b> 걸리던 일이 <b>' + esc(mins[1]) +
+      '분</b> 쯤으로 줄어듭니다. — 초기 추정입니다. 해보시고 알려주세요.</p>';
+  }
+
+  function manualsHtml(task) {
+    var manuals = GUIDES.filter(function (guide) {
+      return guide.tool === task.tool;
+    });
+
+    if (!manuals.length) return '';
+
+    return '<details class="g-section g-fold">' +
+      '<summary>공식 매뉴얼</summary>' +
+      '<div class="g-fold-body"><ul class="g-manuals">' +
+        manuals.map(function (guide) {
+          var label = guide.note || guide.source || guide.tool;
+
+          return '<li>' +
+            '<a href="' + esc(guide.url) + '">' + esc(label) + '</a>' +
+            (guide.source ? '<span>' + esc(guide.source) + '</span>' : '') +
+          '</li>';
+        }).join('') +
+      '</ul></div>' +
+    '</details>';
+  }
+
+  function pagerHtml(index) {
+    var previous = index > 0 ? DATA.tasks[index - 1] : null;
+    var next = index < DATA.tasks.length - 1 ? DATA.tasks[index + 1] : null;
+
+    return '<nav class="g-pager" aria-label="안내서 이동">' +
+      (previous ?
+        '<a href="#' + esc(previous.no) + '">← 이전</a>' :
+        '<span aria-disabled="true">← 이전</span>') +
+      (next ?
+        '<a href="#' + esc(next.no) + '">다음 →</a>' :
+        '<span aria-disabled="true">다음 →</span>') +
+    '</nav>';
+  }
+
+  function renderDetail(task, index) {
+    var group = GROUPS[task.group];
+
+    var html =
+      '<div class="g-detail-top">' +
+        '<div class="g-detail-actions">' +
+          '<a class="g-back" href="#">← 목록으로</a>' +
+          '<a class="g-request" href="request/index.html">요청하기</a>' +
+        '</div>' +
+        pagerHtml(index) +
+      '</div>' +
+
+      '<header class="g-detail-head">' +
+        '<span class="g-big-number">' + esc(task.no) + '</span>' +
+        '<div>' +
+          '<h1>' + esc(task.title) + '</h1>' +
+          '<span class="g-group-tag">' + esc(group.label) + '</span>' +
+        '</div>' +
+      '</header>' +
+
+      '<div class="g-detail-body">' +
+        '<section class="g-section">' +
+          '<h2>이런 때 씁니다</h2>' +
+          '<p class="g-when-detail">' + esc(task.when) + '</p>' +
+          minsHtml(task) +
+        '</section>' +
+
+        '<section class="g-section">' +
+          '<h2>추천 도구</h2>' +
+          '<p class="g-tool-line">도구: ' + esc(task.tool) + '</p>' +
+          pathHtml(task) +
+        '</section>' +
+
+        '<section class="g-section">' +
+          '<h2>3단계 사용법</h2>' +
+          stepsHtml(task) +
+        '</section>' +
+
+        '<section class="g-section">' +
+          '<h2>복사할 프롬프트</h2>' +
+          promptHtml(task) +
+          noteHtml(task) +
+        '</section>' +
+
+        shotHtml(task) +
+
+        (task.caution ?
+          '<details class="g-section g-fold">' +
+            '<summary>꼭 확인할 것</summary>' +
+            '<div class="g-fold-body">' +
+              '<div class="g-caution">' + esc(task.caution) + '</div>' +
+            '</div>' +
+          '</details>' : '') +
+
+        manualsHtml(task) +
+      '</div>';
+
+    detailView.innerHTML = html;
+    listView.hidden = true;
+    detailView.hidden = false;
+
+    bindCopyButtons();
+    bindShotFallback();
+  }
+
+  function bindShotFallback() {
+    var image = detailView.querySelector('.g-shot-img');
+    if (!image) return;
+
+    var section = detailView.querySelector('.g-shot-section');
+    var body = detailView.querySelector('.g-detail-body');
+
+    function showShot() {
+      if (section) section.hidden = false;
+      if (body) body.classList.add('g-has-shot');
+    }
+
+    function removeShot() {
+      if (section && section.parentNode) section.parentNode.removeChild(section);
+      if (body) body.classList.remove('g-has-shot');
+    }
+
+    image.addEventListener('load', showShot);
+    image.addEventListener('error', removeShot);
+
+    if (image.complete) {
+      if (image.naturalWidth) showShot();
+      else removeShot();
+    }
+  }
+
+  function bindCopyButtons() {
+    var buttons = detailView.querySelectorAll('.g-copybtn');
+
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function (event) {
+        var button = event.currentTarget;
+        var pre = document.getElementById(button.getAttribute('data-target'));
+        var hint = button.parentElement.querySelector('.g-copyhint');
+        var originalLabel = button.textContent;
+
+        function success() {
+          button.textContent = '복사됨';
+          if (hint) hint.hidden = true;
+
+          window.setTimeout(function () {
+            button.textContent = originalLabel;
+          }, 1500);
+        }
+
+        function manualCopy() {
+          try {
+            var range = document.createRange();
+            var selection = window.getSelection();
+
+            range.selectNodeContents(pre);
+            selection.removeAllRanges();
+            selection.addRange(range);
+          } catch (error) {
+          }
+
+          if (hint) {
+            hint.hidden = false;
+            hint.textContent = '본문을 선택했습니다. Ctrl+C 를 누르세요';
+          }
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(pre.textContent).then(success, manualCopy);
+        } else {
+          manualCopy();
+        }
+      });
+    }
+  }
+
+  function renderTip() {
+    if (!DATA.meta || !DATA.meta.tip) {
+      tipBox.innerHTML = '';
+      return;
+    }
+
+    tipBox.innerHTML =
+      '<div class="g-tip"><b>도구가 안 보이실 때</b><p>' +
+      esc(DATA.meta.tip) +
+      '</p></div>';
+  }
+
+  function route() {
+    if (!DATA) return;
+
+    var key = decodeURIComponent(location.hash.replace(/^#/, ''));
+
+    if (key) {
+      var index = findTask(key);
+
+      if (index !== -1) {
+        renderDetail(DATA.tasks[index], index);
+        window.scrollTo(0, 0);
+        return;
+      }
+    }
+
+    detailView.hidden = true;
+    detailView.innerHTML = '';
+    listView.hidden = false;
+    renderQuickCards();
+    renderResults();
+    renderTip();
+  }
+
+  function fail() {
+    quickCards.innerHTML =
+      '<p class="g-muted">안내서를 불러오지 못했습니다. ' +
+      '<a href="data/tasks.json">tasks.json</a> 을 직접 여세요.</p>';
+  }
+
+  function boot(data) {
+    DATA = data;
+    GROUPS = {};
+
+    for (var i = 0; i < DATA.groups.length; i++) {
+      GROUPS[DATA.groups[i].id] = DATA.groups[i];
+    }
+
+    window.addEventListener('hashchange', route);
+    route();
+  }
+
+  function loadJson(path, fallbackName) {
+    if (!window.fetch) {
+      return Promise.resolve(window[fallbackName] || null);
+    }
+
+    return fetch(path)
+      .then(function (response) {
+        if (!response.ok) return Promise.reject(response.status);
+        return response.json();
+      })
+      .catch(function () {
+        return window[fallbackName] || null;
+      });
+  }
+
+  allToggle.addEventListener('click', function () {
+    allTasks.open = !allTasks.open;
+    updateAllToggle();
+
+    if (allTasks.open) {
+      allTasks.scrollIntoView({ block: 'nearest' });
+    }
+  });
+
+  allTasks.addEventListener('toggle', updateAllToggle);
+
+  searchInput.addEventListener('input', function () {
+    searchTerm = searchInput.value;
+    allTasks.open = true;
+    updateAllToggle();
+    renderResults();
+  });
+
+  searchForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    searchTerm = searchInput.value;
+    allTasks.open = true;
+    updateAllToggle();
+    renderResults();
+  });
+
+  var popularButtons = document.querySelectorAll('.g-popular-scroll button');
+
+  for (var i = 0; i < popularButtons.length; i++) {
+    popularButtons[i].addEventListener('click', function (event) {
+      openTask(event.currentTarget.getAttribute('data-no'));
+    });
+  }
+
+  mountStaticIcons();
+
+  Promise.all([
+    loadJson('data/tasks.json', 'GUIDE_TASKS'),
+    loadJson('data/quicktasks.json', 'QUICKTASKS'),
+    loadJson('data/guides.json', 'GUIDES_DATA')
+  ]).then(function (loaded) {
+    var tasksData = loaded[0];
+
+    QUICKTASKS = loaded[1] || [];
+    GUIDES = loaded[2] || [];
+
+    if (!tasksData) {
+      fail();
+      return;
+    }
+
+    boot(tasksData);
+  }).catch(fail);
 })();
 </script>
 </body>

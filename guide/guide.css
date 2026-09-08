@@ -1821,3 +1821,16 @@ a {
     margin: 12mm;
   }
 }
+
+/* 안내서가 사이트 첫 화면이 된 뒤 — 푸터의 나머지 쪽 링크 */
+.g-footer-links {
+  margin: 0;
+}
+
+.g-footer-links a {
+  color: #8494A8;
+}
+
+.g-footer-links a:hover {
+  color: var(--g-blue);
+}

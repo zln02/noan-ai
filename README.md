@@ -3,7 +3,7 @@
 전남 나주 노안중학교(교육부 AI 중점학교) AI교육 코디네이터가 4개월 동안 운영·기록·인수인계에 쓴 사이트.
 빌드 도구 없는 순수 HTML/CSS/JS. **외부 요청 0건** — `file://` 로 열어도 그대로 돈다.
 
-배포: <https://zln02.github.io/noan-ai/> · 안내서: <https://zln02.github.io/noan-ai/guide/>
+배포: <https://zln02.github.io/noan-ai/> — 첫 화면이 업무별 안내서다. QR 이 가리키는 곳.
 
 ---
 
@@ -46,8 +46,8 @@ sync 스크립트는 내보낼 필드를 **허용 목록**으로 못 박고, 본
 
 ```
 noan-ai/
-├── index.html                  선생님 홈
-├── guide/                      업무별 AI 안내서 16장 (QR 이 가리키는 곳)
+├── index.html                  ★ 첫 화면 = 업무별 AI 안내서 16장 (QR 이 가리키는 곳)
+├── guide/                      안내서 인쇄본 PDF · 옛 주소(/guide/)를 첫 화면으로 넘기는 쪽
 ├── training/                   연수 덱 24장
 ├── library/  contest/  request/  about/  class/  showcase/
 ├── ops/                        운영 층 — 홈 · 기록 · 회차 · 인수인계
