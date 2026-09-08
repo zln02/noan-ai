@@ -43,14 +43,16 @@
 </main>
 
 <script src="../data/tasks.js"></script>
+<script src="../data/quicktasks.js"></script>
 <script src="../shared/site.js"></script>
 <script>
 (function () {
   'use strict';
 
   var app = document.getElementById('gApp');
-  var DATA = null;     // { meta, groups, tasks }
-  var GMAP = null;     // id -> group
+  var DATA = null;          // { meta, groups, tasks }
+  var GMAP = null;          // id -> group
+  var QUICKTASKS = [];
   var searchTerm = '';
 
   function esc(s) {
@@ -101,6 +103,16 @@
     return h;
   }
 
+  function quicktasksHtml() {
+    return '<div class="g-quicktasks">' +
+      QUICKTASKS.map(function (task) {
+        return '<button type="button" class="g-quicktask" data-no="' + esc(task.no) + '">' +
+          esc(task.label) +
+          '</button>';
+      }).join('') +
+      '</div>';
+  }
+
   /* 검색은 결과 칸만 다시 그린다 — 입력칸을 새로 만들면 한글 입력이 끊긴다 */
   function renderResults() {
     var box = document.getElementById('gResults');
@@ -109,6 +121,7 @@
 
   function renderList() {
     var meta = DATA.meta;
+    var term = searchTerm.trim().toLowerCase();
     var h = '';
     h += '<div class="g-searchhead">';
     h += '<picture class="g-noari">' +
@@ -117,12 +130,16 @@
          'width="150" height="150" loading="lazy" onerror="this.remove()">' +
          '</picture>';
     h += '<h1>' + esc(meta.sub) + '</h1>';
-    h += '<input id="gSearch" class="g-search" type="search" placeholder="예: 통신문, 회의록, 퀴즈…" value="' + esc(searchTerm) + '" aria-label="하시려는 일 검색">';
+    h += '<input id="gSearch" class="g-search" type="search" placeholder="가정통신문, 회의록, 긴 공문, 활동지, 설문, 발표자료" value="' + esc(searchTerm) + '" aria-label="하시려는 일 검색">';
     h += '</div>';
+    h += quicktasksHtml();
+    h += '<details id="gAllTasks" class="g-alltasks"' + (term ? ' open' : '') + '>';
+    h += '<summary>16가지 전체 보기</summary>';
+    h += '<div id="gResults">' + groupsHtml(term) + '</div>';
+    h += '</details>';
     if (meta.tip) {
       h += '<div class="g-tip"><b>도구가 안 보이실 때</b>' + esc(meta.tip) + '</div>';
     }
-    h += '<div id="gResults">' + groupsHtml(searchTerm.trim().toLowerCase()) + '</div>';
 
     app.innerHTML = h;
 
@@ -130,7 +147,18 @@
     if (input) {
       input.addEventListener('input', function () {
         searchTerm = input.value;
+        if (searchTerm.trim()) {
+          var allTasks = document.getElementById('gAllTasks');
+          if (allTasks) allTasks.open = true;
+        }
         renderResults();
+      });
+    }
+
+    var quickButtons = app.querySelectorAll('.g-quicktask');
+    for (var i = 0; i < quickButtons.length; i++) {
+      quickButtons[i].addEventListener('click', function (e) {
+        location.hash = '#' + e.currentTarget.getAttribute('data-no');
       });
     }
   }
@@ -329,8 +357,10 @@
     DATA = data;
     GMAP = {};
     for (var i = 0; i < DATA.groups.length; i++) GMAP[DATA.groups[i].id] = DATA.groups[i];
-    window.addEventListener('hashchange', route);
-    route();
+    loadQuicktasks(function () {
+      window.addEventListener('hashchange', route);
+      route();
+    });
   }
 
   function fail() {
@@ -341,6 +371,33 @@
   function fallback() {
     if (window.GUIDE_TASKS) { boot(window.GUIDE_TASKS); return true; }
     return false;
+  }
+
+  function quicktasksFallback() {
+    if (window.QUICKTASKS) {
+      QUICKTASKS = window.QUICKTASKS;
+      return true;
+    }
+    return false;
+  }
+
+  function loadQuicktasks(done) {
+    if (!window.fetch) {
+      quicktasksFallback();
+      done();
+      return;
+    }
+
+    fetch('../data/quicktasks.json')
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (data) {
+        QUICKTASKS = data;
+        done();
+      })
+      .catch(function () {
+        quicktasksFallback();
+        done();
+      });
   }
 
   if (!window.fetch) { if (!fallback()) fail(); }

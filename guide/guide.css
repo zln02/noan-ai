@@ -31,6 +31,7 @@
 }
 .g-search{
   width:100%;
+  min-height:56px;
   font-size:20px;
   padding:14px 18px;
   border:1px solid var(--line);
@@ -38,6 +39,50 @@
   background:var(--card);
   color:var(--text);
   margin-top:18px;
+}
+.g-search:focus{
+  border-color:var(--mint);
+}
+.g-quicktasks{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:18px 0 22px;
+}
+.g-quicktask{
+  min-height:44px;
+  appearance:none;
+  border:1px solid var(--mint);
+  border-radius:999px;
+  background:rgba(63,174,147,.10);
+  color:var(--ink2);
+  padding:9px 18px;
+  font:inherit;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.25;
+  cursor:pointer;
+}
+.g-quicktask:hover{
+  background:rgba(63,174,147,.18);
+}
+.g-alltasks{
+  margin-top:4px;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.g-alltasks summary{
+  padding:17px 2px;
+  color:var(--ink2);
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+}
+.g-alltasks[open] summary{
+  border-bottom:1px solid var(--line);
+}
+.g-alltasks #gResults{
+  padding-bottom:28px;
 }
 .g-tip{
   margin:16px 0 0;
@@ -130,6 +175,35 @@
 }
 
 @media (max-width:480px){
+  .g-searchhead{
+    padding:20px 0 4px;
+  }
+  .g-searchhead h1{
+    font-size:32px;
+    line-height:1.2;
+  }
+  .g-search{
+    min-height:52px;
+    margin-top:12px;
+    padding:11px 14px;
+    font-size:17px;
+  }
+  .g-quicktasks{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin:14px 0 18px;
+  }
+  .g-quicktask{
+    width:100%;
+    min-height:42px;
+    padding:8px 10px;
+    font-size:15px;
+  }
+  .g-alltasks summary{
+    padding:14px 2px;
+    font-size:17px;
+  }
   .g-list{
     grid-template-columns:1fr;
   }
