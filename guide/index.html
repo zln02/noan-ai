@@ -18,15 +18,20 @@
 <header class="g-header">
   <div class="g-wrap g-header-inner">
     <a class="g-brand" href="../index.html" aria-label="노안중학교 AI교육 홈">
-      <img src="../assets/logo.png" alt="노안중학교" width="160" height="44">
-      <span class="g-brand-divider" aria-hidden="true"></span>
-      <span class="g-brand-ai">AI교육</span>
+      <img src="../assets/logo.png" alt="노안중학교" width="120" height="40">
+      <span class="g-brand-ai">AI교육 포털</span>
     </a>
 
-    <a class="g-home-link" href="../index.html">
-      <span class="g-home-icon" data-static-icon="school" aria-hidden="true"></span>
-      <span>홈으로</span>
-    </a>
+    <nav class="g-nav" aria-label="주요 메뉴">
+      <a href="../training/index.html">연수</a>
+      <a href="../showcase/index.html">활용 사례</a>
+      <a href="../library/index.html">자료실</a>
+      <a href="../request/index.html">요청하기</a>
+      <a class="g-nav-cta" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>
+        아이모두 바로가기
+      </a>
+    </nav>
   </div>
 </header>
 
@@ -40,78 +45,80 @@
   </div>
 
   <div id="gListView">
-    <section class="g-hero" aria-labelledby="gHeroTitle">
-      <div class="g-wrap g-hero-inner">
-        <div class="g-hero-copy">
-          <span class="g-hero-badge">AI 업무별 안내서</span>
-          <h1 id="gHeroTitle">무엇을 하시려고요?</h1>
-          <p>선생님의 실제 업무에 맞는<br>AI 활용 방법을 빠르게 찾아드립니다.</p>
-        </div>
-
+    <section class="g-hero g-wrap" aria-labelledby="gHeroTitle">
+      <div class="g-hero-inner">
         <figure class="g-hero-visual">
-          <img
-            src="../assets/hero-school.jpg"
-            alt=""
-            width="620"
-            height="450"
-            onerror="this.hidden=true;this.parentElement.classList.add('is-empty')">
+          <picture>
+            <source srcset="../assets/guide-hero-sm.jpg" media="(max-width: 860px)">
+            <img
+              src="../assets/guide-hero.jpg"
+              alt="AI와 함께, 더 나은 수업을 만드는 노안중학교"
+              width="1600"
+              height="975"
+              onerror="this.hidden=true;this.closest('.g-hero-visual').classList.add('is-empty')">
+          </picture>
         </figure>
 
-        <form id="gSearchForm" class="g-search-form" role="search">
-          <span class="g-search-icon" data-static-icon="search-doc" aria-hidden="true"></span>
-          <label class="sr-only" for="gSearch">하시려는 일 검색</label>
-          <input
-            id="gSearch"
-            type="search"
-            autocomplete="off"
-            placeholder="예) 가정통신문, 회의록, 긴 공문, 활동지, 설문, 발표자료…">
-          <button type="submit">검색</button>
-        </form>
-      </div>
-    </section>
+        <div class="g-hero-copy">
+          <span class="g-hero-badge">선생님의 오늘을 조금 더 가볍게</span>
+          <h1 id="gHeroTitle">무엇을 하시려고요?</h1>
+          <p>업무에 맞는 AI 활용 방법을 빠르게 찾아드립니다.</p>
 
-    <section class="g-popular" aria-labelledby="gPopularTitle">
-      <div class="g-wrap g-popular-row">
-        <h2 id="gPopularTitle">많이 찾는 업무</h2>
-        <div class="g-popular-scroll">
-          <button type="button" data-no="01">가정통신문</button>
-          <button type="button" data-no="04">회의록</button>
-          <button type="button" data-no="02">긴 공문</button>
-          <button type="button" data-no="11">활동지·문항</button>
-          <button type="button" data-no="07">설문</button>
-          <button type="button" data-no="06">발표자료</button>
-          <button type="button" data-no="06">수업자료</button>
+          <form id="gSearchForm" class="g-search-form" role="search">
+            <span class="g-search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+            </span>
+            <label class="sr-only" for="gSearch">하시려는 일 검색</label>
+            <input
+              id="gSearch"
+              type="search"
+              autocomplete="off"
+              placeholder="예) 가정통신문, 회의록, 긴 공문, 활동지, 설문, 발표자료">
+            <button type="submit">검색</button>
+          </form>
+
+          <div class="g-popular-scroll" role="group" aria-label="많이 찾는 업무">
+            <button type="button" data-no="01">가정통신문</button>
+            <button type="button" data-no="04">회의록</button>
+            <button type="button" data-no="02">긴 공문</button>
+            <button type="button" data-no="11">활동지·문항</button>
+            <button type="button" data-no="07">설문</button>
+            <button type="button" data-no="06">발표자료</button>
+            <button type="button" data-no="06">수업자료</button>
+          </div>
+
+          <p class="g-hero-tagline">외우실 필요 없습니다. 하시려는 일을 한 줄 치시면 됩니다.</p>
         </div>
       </div>
     </section>
 
     <section class="g-guide-section" aria-labelledby="gGuideTitle">
       <div class="g-wrap">
-        <div class="g-section-heading">
-          <div>
+        <div class="g-panel">
+          <div class="g-section-heading">
             <h2 id="gGuideTitle">업무별 안내서</h2>
             <p>원하는 업무를 선택하면, 추천 도구와 사용 방법을 바로 확인할 수 있어요.</p>
+            <button
+              id="gAllToggle"
+              class="g-all-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="gAllTasks">
+              전체 보기 →
+            </button>
           </div>
-          <button
-            id="gAllToggle"
-            class="g-all-toggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="gAllTasks">
-            전체 보기 →
-          </button>
+
+          <div id="gQuickCards" class="g-quick-grid" aria-live="polite">
+            <p class="g-muted">불러오는 중…</p>
+          </div>
+
+          <details id="gAllTasks" class="g-all-tasks">
+            <summary>16가지 전체 보기</summary>
+            <div id="gResults" class="g-results"></div>
+          </details>
+
+          <div id="gTip"></div>
         </div>
-
-        <div id="gQuickCards" class="g-quick-grid" aria-live="polite">
-          <p class="g-muted">불러오는 중…</p>
-        </div>
-
-        <details id="gAllTasks" class="g-all-tasks">
-          <summary>16가지 전체 보기</summary>
-          <div id="gResults" class="g-results"></div>
-        </details>
-
-        <div id="gTip"></div>
       </div>
     </section>
 
@@ -126,27 +133,27 @@
           <ol class="g-first-steps">
             <li>
               <span class="g-first-number">1</span>
-              <span class="g-first-icon" data-static-icon="search-doc" aria-hidden="true"></span>
               <div>
                 <h3>하시려는 일을 찾기</h3>
                 <p>위 검색창에서 업무를 검색하거나 카드를 선택하세요.</p>
               </div>
+              <span class="g-first-arrow" aria-hidden="true">›</span>
             </li>
             <li>
               <span class="g-first-number">2</span>
-              <span class="g-first-icon" data-static-icon="book" aria-hidden="true"></span>
               <div>
                 <h3>안내서대로 따라 하기</h3>
                 <p>추천 도구와 사용 방법, 예시를 확인하세요.</p>
               </div>
+              <span class="g-first-arrow" aria-hidden="true">›</span>
             </li>
             <li>
               <span class="g-first-number">3</span>
-              <span class="g-first-icon" data-static-icon="hand" aria-hidden="true"></span>
               <div>
                 <h3>바로 업무에 적용하기</h3>
                 <p>복사한 프롬프트로 지금 바로 시작해 보세요.</p>
               </div>
+              <span class="g-first-arrow" aria-hidden="true">›</span>
             </li>
           </ol>
         </div>
@@ -156,21 +163,33 @@
     <section class="g-support-section" aria-label="추가 지원">
       <div class="g-wrap g-support-grid">
         <article class="g-support-card">
+          <span class="g-support-icon" data-static-icon="book" aria-hidden="true"></span>
           <div class="g-support-copy">
-            <h2>더 많은 AI 도구가 궁금하다면?</h2>
-            <p>아이모두에서 다양한 도구와 사용법을 확인할 수 있어요.</p>
-            <a href="https://ai.jne.kr/" target="_blank" rel="noopener">아이모두 바로가기 ↗</a>
+            <h2>업무별 안내서</h2>
+            <p>QR로 들어와 바로 사용할 수 있습니다.</p>
           </div>
-          <span class="g-support-icon" data-static-icon="bot" aria-hidden="true"></span>
+          <span class="g-support-divider" aria-hidden="true"></span>
+          <span class="g-support-qr">
+            <img
+              src="../assets/qr-guide.svg"
+              alt="업무별 안내서 QR 코드"
+              width="76"
+              height="76"
+              onerror="this.parentElement.hidden=true">
+          </span>
+          <span class="g-support-qrtext">QR 스캔하고<br>바로 시작하세요.</span>
         </article>
 
-        <article class="g-support-card">
+        <article class="g-support-card g-support-ask">
+          <span class="g-support-icon" data-static-icon="hand" aria-hidden="true"></span>
           <div class="g-support-copy">
             <h2>도움이 필요하신가요?</h2>
-            <p>AI교육 코디네이터에게 언제든지 요청하세요.</p>
-            <a href="../request/index.html">도움 요청하기 →</a>
+            <p>AI교육 코디네이터에게 바로 요청하세요.</p>
           </div>
-          <span class="g-support-icon" data-static-icon="hand" aria-hidden="true"></span>
+          <a class="g-support-cta" href="../request/index.html">
+            요청하기
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 5 7 7-7 7"></path></svg>
+          </a>
         </article>
       </div>
     </section>
@@ -182,25 +201,15 @@
 <footer class="g-footer">
   <div class="g-wrap g-footer-grid">
     <div class="g-footer-brand">
-      <img src="../assets/logo.png" alt="노안중학교" width="144" height="40">
+      <img src="../assets/logo.png" alt="노안중학교" width="120" height="40">
     </div>
-
-    <p class="g-footer-slogan">어제보다 더 나은 오늘, 함께 만드는 더 나은 교육</p>
 
     <div class="g-footer-coordinator">
       <strong>AI교육 코디네이터 박진영</strong>
       <p>수 · 목 오전 교무실에서 만날 수 있어요.</p>
     </div>
 
-    <div class="g-footer-qr">
-      <img
-        src="../assets/qr-site.svg"
-        alt="노안중 AI교육 사이트 QR 코드"
-        width="92"
-        height="92"
-        onerror="this.parentElement.hidden=true">
-      <p>지금 바로 접속해 보세요!</p>
-    </div>
+    <p class="g-footer-slogan">어제보다 더 나은 오늘, 함께 만드는 더 나은 교육</p>
   </div>
 </footer>
 
@@ -260,8 +269,7 @@
     for (var i = 0; i < nodes.length; i++) {
       nodes[i].innerHTML = icon(
         nodes[i].getAttribute('data-static-icon'),
-        nodes[i].classList.contains('g-support-icon') ? 58 :
-          nodes[i].classList.contains('g-first-icon') ? 32 : 24
+        nodes[i].classList.contains('g-support-icon') ? 40 : 24
       );
       if (!nodes[i].innerHTML) nodes[i].remove();
     }
