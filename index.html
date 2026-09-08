@@ -11,225 +11,533 @@
 <link rel="stylesheet" href="shared/tokens.css">
 <link rel="stylesheet" href="shared/site.css">
 </head>
-<body>
+<body class="home-page">
 <a class="skip" href="#main">본문으로</a>
-<header class="nav"><div class="nav-in">
-  <a class="brand" href="index.html">노안중 AI교육</a>
-  <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
-  <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
-    <a href="training/index.html">연수</a><a href="guide/index.html">안내서</a><a href="class/index.html">수업</a>
-    <a href="contest/index.html">대회</a><a href="library/index.html">자료실</a>
-    <a href="request/index.html">요청하기</a><a href="about/index.html">소개</a>
-  </nav>
-  <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
-</div></header>
+
+<header class="nav home-nav">
+  <div class="nav-in">
+    <a class="home-brand" href="index.html" aria-label="노안중학교 홈">
+      <img src="assets/logo.png" alt="노안중학교" width="144" height="36">
+      <span class="brand-divider" aria-hidden="true"></span>
+      <span class="brand-copy">
+        <strong>AI와 함께, 더 나은 오늘</strong>
+        <span>선생님의 수업과 학교를 응원합니다.</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navmenu" aria-label="메뉴 열기">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+
+    <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
+      <a class="is-active" href="index.html" aria-current="page">홈</a>
+      <a href="training/">연수 자료</a>
+      <a href="showcase/">학교 활용 사례</a>
+      <a href="request/">요청하기</a>
+      <a href="contest/">소식</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="search-button" type="button" aria-label="검색">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle>
+          <path d="m16.5 16.5 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+      </button>
+      <a class="nav-cta" href="https://ai.jne.kr/" target="_blank" rel="noopener">아이모두 바로가기 ↗</a>
+    </div>
+  </div>
+</header>
+
 <main id="main">
+  <section class="home-hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-eyebrow">선생님의 오늘을 응원하는</p>
+        <h1>노안중 <span>AI교육</span> 포털</h1>
+        <p class="hero-lede">
+          아이모두와 함께, 우리 학교의 수업과 업무가<br>
+          더 편리하고 더 의미있어질 수 있도록<br>
+          AI교육 코디네이터가 항상 함께합니다.
+        </p>
+        <div class="hero-actions">
+          <a class="hero-button hero-button-primary" href="training/index.html">이번 연수 자료 보기 →</a>
+          <a class="hero-button hero-button-secondary" href="request/index.html">도움 요청하기 →</a>
+        </div>
+        <p class="hero-schedule" id="scheduleBadge" aria-live="polite">연수 일정 확인 중</p>
+      </div>
 
-  <section class="section">
+      <figure class="hero-figure">
+        <img class="hero-photo" src="assets/hero-school.jpg" alt="" onerror="this.closest('.hero-figure').classList.add('is-empty')">
+        <figcaption class="hero-quote">
+          <blockquote>“AI는 어려운 기술이 아니라 선생님의 시간을 지켜주는 든든한 동료입니다.”</blockquote>
+          <p>노안중학교 AI교육 코디네이터</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="help-section" aria-labelledby="help-title">
     <div class="wrap">
-      <div class="card card-hero hero-a">
-        <div class="hero-left">
-          <span class="badge mint" id="scheduleBadge">연수 일정 확인 중</span>
-          <p class="eyebrow">노안중학교 · AI 중점학교 · 2026 2학기</p>
-          <h1>노안중 <span class="accent">AI교육</span></h1>
-          <p class="lede">선생님 문서 시간을 줄이고, 학생이 AI를 안전하게 써보게 합니다.</p>
-          <div class="btn-row">
-            <a class="btn btn-primary" href="training/index.html">연수 자료 보기</a>
-            <a class="btn btn-ghost" href="request/index.html">요청하기</a>
+      <div class="help-shell">
+        <div class="help-heading">
+          <h2 id="help-title">지금 필요한 도움</h2>
+          <p>어떤 도움이 필요하신가요?</p>
+        </div>
+
+        <div class="help-links">
+          <a class="help-card help-card-blue" href="guide/index.html#01">
+            <span class="help-icon" data-line-icon="doc-long" aria-hidden="true"></span>
+            <span class="help-card-copy">
+              <strong>문서 작성</strong>
+              <span>가정통신문·기안문<br>보고서 초안 등</span>
+            </span>
+          </a>
+
+          <a class="help-card help-card-mint" href="guide/index.html#02">
+            <span class="help-icon" data-line-icon="search-doc" aria-hidden="true"></span>
+            <span class="help-card-copy">
+              <strong>긴 자료 읽기</strong>
+              <span>긴 공문 요약<br>여러 자료 비교</span>
+            </span>
+          </a>
+
+          <a class="help-card help-card-purple" href="guide/index.html#06">
+            <span class="help-icon" data-line-icon="slides" aria-hidden="true"></span>
+            <span class="help-card-copy">
+              <strong>발표자료 만들기</strong>
+              <span>수업 자료·발표 자료<br>포스터·안내물</span>
+            </span>
+          </a>
+
+          <a class="help-card help-card-yellow" href="guide/index.html#07">
+            <span class="help-icon" data-line-icon="letter" aria-hidden="true"></span>
+            <span class="help-card-copy">
+              <strong>설문 / 수업</strong>
+              <span>설문지·활동지<br>문항 제작 등</span>
+            </span>
+          </a>
+
+          <article class="help-card help-card-imodu">
+            <div>
+              <strong>아이모두 바로가기 ↗</strong>
+              <p>더 많은 AI 도구와 사용법은 아이모두에서!</p>
+            </div>
+            <a href="https://ai.jne.kr/" target="_blank" rel="noopener">아이모두 열기 →</a>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-panels" aria-label="학교 AI교육 소식">
+    <div class="wrap">
+      <div class="panel-grid">
+        <article class="home-panel">
+          <div class="panel-title-row">
+            <h2>이번 연수 자료</h2>
+            <a href="training/index.html">전체 보기 →</a>
           </div>
-        </div>
-        <div class="hero-visual">
-          <span class="orb orb-1" aria-hidden="true"></span>
-          <span class="orb orb-2" aria-hidden="true"></span>
-          <span class="orb orb-3" aria-hidden="true"></span>
-          <picture>
-            <source srcset="assets/noari/noari-walk.webp" type="image/webp">
-            <img class="noari" src="assets/noari/noari-walk.png" alt="노안중학교 마스코트 노아리" width="240" height="240" loading="lazy" onerror="this.closest('picture').remove()">
-          </picture>
-        </div>
+          <div class="panel-intro">
+            <span class="panel-icon" data-line-icon="book" aria-hidden="true"></span>
+            <div>
+              <h3>AI와 함께하는 수업, 실제로 해봐요</h3>
+              <p>연수에서 사용한 자료를 다시 확인할 수 있어요.</p>
+            </div>
+          </div>
+          <ul class="panel-list" id="scheduleList" aria-live="polite">
+            <li class="panel-empty">연수 일정 확인 중</li>
+          </ul>
+        </article>
+
+        <article class="home-panel">
+          <div class="panel-title-row">
+            <h2>우리 학교 활용 사례</h2>
+            <a href="showcase/index.html">전체 보기 →</a>
+          </div>
+          <div class="panel-intro">
+            <span class="panel-icon" data-line-icon="school" aria-hidden="true"></span>
+            <div>
+              <h3>선생님들의 실제 활용 이야기</h3>
+              <p>우리 학교의 생생한 사례를 만나보세요.</p>
+            </div>
+          </div>
+          <ul class="panel-list" id="showcaseList" aria-live="polite">
+            <li class="panel-empty">사례 확인 중</li>
+          </ul>
+        </article>
+
+        <article class="home-panel">
+          <div class="panel-title-row">
+            <h2>공지사항</h2>
+            <a href="contest/index.html">전체 보기 →</a>
+          </div>
+          <div class="panel-intro panel-intro-contest">
+            <span class="panel-icon panel-icon-warm" aria-hidden="true">📣</span>
+            <div>
+              <h3>새로운 소식과 일정을 확인하세요.</h3>
+              <p id="contestCount" aria-live="polite">지금 나갈 수 있는 대회</p>
+            </div>
+          </div>
+          <ul class="panel-list" id="contestList" aria-live="polite">
+            <li class="panel-empty">공지사항 확인 중</li>
+          </ul>
+          <a class="coordinator-card" href="request/">
+            <span class="coordinator-icon" aria-hidden="true">🎧</span>
+            <span>
+              <strong>코디네이터에게 요청하기 →</strong>
+              <small>궁금한 점이나 도움이 필요하면 언제든지!</small>
+            </span>
+          </a>
+        </article>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="tools-section" aria-labelledby="tools-title">
     <div class="wrap">
-      <div class="grid cols-3">
-        <a class="card" href="guide/index.html">
-          <h3 class="card-title">무엇을 하시려고요? — 업무별 AI 안내서 16가지</h3>
-          <p class="card-lede">하려는 일을 고르면 어떤 도구를 어떻게 쓰는지 바로 안내해 드립니다.</p>
-        </a>
-        <a class="card" href="training/index.html">
-          <h3 class="card-title">다음 연수</h3>
-          <p class="card-lede">이번 학기 연수 일정과 신청 방법을 확인하세요.</p>
-        </a>
-        <a class="card" href="library/index.html">
-          <h3 class="card-title">이미 갖고 계신 것</h3>
-          <p class="card-lede">이미 쓰고 있는 도구를 더 잘 쓰는 방법을 모았습니다.</p>
-        </a>
+      <div class="tools-shell">
+        <div class="tools-heading">
+          <div>
+            <h2 id="tools-title">자주 사용하는 도구 바로가기</h2>
+            <p>아이모두에서 자주 사용하는 도구를 빠르게 열 수 있어요.</p>
+          </div>
+          <a href="https://ai.jne.kr/" target="_blank" rel="noopener">아이모두에서 더 보기 →</a>
+        </div>
+
+        <div class="tool-list">
+          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+            <span data-icon="openai" data-icon-size="28"></span>
+            <strong>JNE GPT</strong>
+          </a>
+          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+            <span data-icon="notebooklm" data-icon-size="28"></span>
+            <strong>NotebookLM</strong>
+          </a>
+          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+            <span data-icon="miricanvas" data-icon-size="28"></span>
+            <strong>미리캔버스</strong>
+          </a>
+          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+            <span data-icon="googlegemini" data-icon-size="28"></span>
+            <strong>Gemini</strong>
+          </a>
+          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+            <span data-icon="eureka" data-icon-size="28"></span>
+            <strong>유레카</strong>
+          </a>
+          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+            <span data-icon="googleclassroom" data-icon-size="28"></span>
+            <strong>클래스룸</strong>
+          </a>
+          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+            <span data-icon="padlet" data-icon-size="28"></span>
+            <strong>패들렛</strong>
+          </a>
+          <a class="tool-card" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+            <span data-icon="canva" data-icon-size="28"></span>
+            <strong>캔바</strong>
+          </a>
+          <a class="tool-card tool-card-more" href="library/index.html">
+            <span class="more-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <strong>더보기</strong>
+          </a>
+        </div>
       </div>
     </div>
   </section>
-
-<section class="section">
-  <div class="wrap">
-    <h2 class="section-title">이번 주</h2>
-    <a class="card tilt" href="training/s1.html">
-      <span class="badge">1회차</span>
-      <h3 class="card-title">1회차 · 업무 편해지기</h3>
-      <p class="card-lede">9/14(월) 13:00 · 2시간</p>
-      <span class="btn btn-primary">덱 열기</span>
-    </a>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <h2 class="section-title">대회</h2>
-    <a class="card tilt" href="contest/index.html">
-      <h3 class="card-title" id="contestCount">지금 나갈 수 있는 대회</h3>
-      <p class="card-lede">마감이 지난 대회는 저절로 접힙니다. 여는 날짜 기준으로 다시 셉니다.</p>
-      <span class="btn btn-primary">대회 보기</span>
-    </a>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <h2 class="section-title">둘러보기</h2>
-    <div class="grid cols-4">
-      <a class="card tilt" href="training/index.html">
-        <h3 class="card-title">교원 연수</h3>
-        <p class="card-lede">회차별 자료와 발표 덱</p>
-      </a>
-      <a class="card tilt" href="class/index.html">
-        <h3 class="card-title">학생 수업</h3>
-        <p class="card-lede">준비 중 · 예정 목록</p>
-      </a>
-      <a class="card tilt" href="library/index.html">
-        <h3 class="card-title">자료실</h3>
-        <p class="card-lede">교육청 지원 도구와 안전 규칙</p>
-      </a>
-      <a class="card tilt" href="about/index.html">
-        <h3 class="card-title">코디네이터 소개</h3>
-        <p class="card-lede">누가, 무엇을 도와드리는지</p>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <h2 class="section-title">이미 갖고 계신 것</h2>
-    <p>결제도, 계정 신설도 필요 없습니다. 전남교육청이 이미 드린 것입니다.</p>
-    <div class="badge-row">
-      <a class="badge" href="library/index.html"><span data-icon="miricanvas" data-icon-size="24"></span>미리캔버스 Pro</a>
-      <a class="badge" href="library/index.html"><span data-icon="imodu" data-icon-size="24"></span>아이모두</a>
-      <a class="badge" href="library/index.html"><span data-icon="googlegemini" data-icon-size="24"></span>Gemini</a>
-      <a class="badge" href="library/index.html"><span data-icon="googleclassroom" data-icon-size="24"></span>구글 클래스룸</a>
-      <a class="badge" href="library/index.html"><span data-icon="classeum" data-icon-size="24"></span>클래스이음</a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <h2 class="section-title">2학기 로드맵</h2>
-    <div class="tl">
-      <div class="tl-item is-now">
-        <p>9월</p>
-        <p>교사 연수</p>
-      </div>
-      <div class="tl-item is-soon">
-        <p>10월</p>
-        <p>수업·실습</p>
-        <span class="badge">준비 중</span>
-      </div>
-      <div class="tl-item is-soon">
-        <p>11월</p>
-        <p>대회·행사</p>
-        <span class="badge">준비 중</span>
-      </div>
-      <div class="tl-item is-soon">
-        <p>12월</p>
-        <p>성과공유·보고</p>
-        <span class="badge">준비 중</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 </main>
-<footer class="site-foot">
-  <div class="wrap">
-    <p>AI교육 코디네이터 박진영 · 수·목 오전 교무실</p>
-    <p>근거: 전남교육청 「AI 활용 가이드라인」</p>
-    <div class="qr-box">
-      <div class="qr"><img src="assets/qr-site.svg" alt="노안중 AI교육 사이트 QR 코드" width="160" height="160" onerror="this.parentNode.parentNode.classList.add('is-gone')"></div>
-      <p>휴대폰으로 열기</p>
+
+<footer class="site-foot home-foot">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="노안중학교" width="144" height="36">
+      <p>어제보다 더 나은 오늘, 함께 만드는 더 나은 교육</p>
     </div>
-    <p class="lastmod">최종 수정: <span data-lastmod>2026-09-08</span></p>
-    <p><a href="library/rules.html">안전 규칙 한 장</a></p>
+
+    <div class="footer-coordinator">
+      <span aria-hidden="true">📍</span>
+      <div>
+        <strong>AI교육 코디네이터 박진영</strong>
+        <p>수 · 목 오전 교무실에서 만날 수 있어요.</p>
+      </div>
+    </div>
+
+    <p class="footer-cheer">선생님의 오늘도 응원합니다.</p>
+
+    <div class="footer-qr">
+      <img src="assets/qr-site.svg" alt="노안중 AI교육 사이트 QR 코드" width="100" height="100" onerror="this.parentNode.classList.add('is-gone')">
+      <p>지금 바로 접속해 보세요!</p>
+    </div>
   </div>
 </footer>
+
 <script src="shared/icons.js"></script>
 <script src="shared/site.js"></script>
 <script src="shared/contest.js"></script>
 <script src="data/contest.js"></script>
 <script src="data/schedule.js"></script>
+<script src="data/showcase.js"></script>
 <script>
-/* 대회 건수 — 하드코딩하지 않고 대회 페이지와 같은 계산식으로 센다 */
 (function () {
   'use strict';
-  var el = document.getElementById('contestCount');
-  function show(items) {
-    if (!items || !items.length) return;
-    var n = window.NoanContest.classify(items).open.length;
-    el.textContent = '지금 나갈 수 있는 대회 ' + n + '건';
+
+  var DAY = 86400000;
+  var scheduleBadge = document.getElementById('scheduleBadge');
+  var scheduleList = document.getElementById('scheduleList');
+  var showcaseList = document.getElementById('showcaseList');
+  var contestList = document.getElementById('contestList');
+  var contestCount = document.getElementById('contestCount');
+  var weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+
+  function pad(value) {
+    return value < 10 ? '0' + value : String(value);
   }
-  function fallback() { if (window.CONTEST_ITEMS) { show(window.CONTEST_ITEMS); return true; } return false; }
-  if (!window.fetch) { fallback(); return; }
-  fetch('data/contest.json')
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(show)
-    .catch(function () { fallback(); });
-})();
-</script>
-<script>
-(function () {
-  'use strict';
-  var el = document.getElementById('scheduleBadge');
-  if (!el) return;
-  var WD = ['일','월','화','수','목','금','토'];
-  function pad(n) { return n < 10 ? '0' + n : '' + n; }
-  function render(items) {
-    if (!items || !items.length) return;
-    var now = new Date();
-    var todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
-    var todayMid = new Date(todayKey);
-    var withDates = items
-      .filter(function (it) { return it && it.date; })
-      .map(function (it) { return { it: it, dMid: new Date(it.date) }; })
-      .filter(function (x) { return !isNaN(x.dMid.getTime()); })
-      .sort(function (a, b) { return a.dMid - b.dMid; });
-    var next = null;
-    for (var i = 0; i < withDates.length; i++) {
-      if (withDates[i].dMid >= todayMid) { next = withDates[i]; break; }
+
+  function parseLocalDate(value) {
+    var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ''));
+    if (!match) return null;
+    return new Date(+match[1], +match[2] - 1, +match[3]);
+  }
+
+  function formatDate(value) {
+    var date = parseLocalDate(value);
+    if (!date || isNaN(date.getTime())) return '';
+    return date.getFullYear() + '.' + pad(date.getMonth() + 1) + '.' + pad(date.getDate());
+  }
+
+  function clear(element) {
+    while (element.firstChild) element.removeChild(element.firstChild);
+  }
+
+  function makeLineIcon(name, size) {
+    var holder = document.createElement('span');
+    holder.className = 'list-icon';
+    holder.setAttribute('aria-hidden', 'true');
+    if (window.NoanIcons) holder.innerHTML = window.NoanIcons.icon(name, size || 22);
+    return holder;
+  }
+
+  function loadData(url, fallbackName, render) {
+    function fallback() {
+      if (Object.prototype.hasOwnProperty.call(window, fallbackName)) {
+        render(window[fallbackName]);
+        return true;
+      }
+      return false;
     }
-    if (!next) {
-      el.textContent = '지난 연수';
+
+    if (!window.fetch) {
+      fallback();
       return;
     }
-    var diffDays = Math.round((next.dMid - todayMid) / 86400000);
-    var dLabel = diffDays === 0 ? '오늘' : ('D-' + diffDays);
-    var mmdd = (next.dMid.getMonth() + 1) + '/' + next.dMid.getDate() + '(' + WD[next.dMid.getDay()] + ')';
-    el.textContent = '다음 연수 ' + dLabel + ' · ' + mmdd + ' ' + (next.it.time || '');
+
+    fetch(url)
+      .then(function (response) {
+        return response.ok ? response.json() : Promise.reject(response.status);
+      })
+      .then(render)
+      .catch(function () {
+        fallback();
+      });
   }
-  function fallback() { if (window.SCHEDULE_DATA) { render(window.SCHEDULE_DATA); return true; } return false; }
-  if (!window.fetch) { fallback(); return; }
-  fetch('data/schedule.json')
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(render)
-    .catch(function () { fallback(); });
+
+  function renderScheduleBadge(items) {
+    if (!scheduleBadge) return;
+
+    if (!items || !items.length) {
+      scheduleBadge.textContent = '다음 회차는 투표로 정합니다.';
+      return;
+    }
+
+    var now = new Date();
+    var todayKey = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    var todayMidnight = parseLocalDate(todayKey);
+    var datedItems = items
+      .filter(function (item) {
+        return item && item.date;
+      })
+      .map(function (item) {
+        return { item: item, date: parseLocalDate(item.date) };
+      })
+      .filter(function (entry) {
+        return entry.date && !isNaN(entry.date.getTime());
+      })
+      .sort(function (a, b) {
+        return a.date - b.date;
+      });
+
+    var next = null;
+    for (var i = 0; i < datedItems.length; i++) {
+      if (datedItems[i].date >= todayMidnight) {
+        next = datedItems[i];
+        break;
+      }
+    }
+
+    if (!next) {
+      scheduleBadge.textContent = '지난 연수';
+      return;
+    }
+
+    var difference = Math.round((next.date - todayMidnight) / DAY);
+    var dayLabel = difference === 0 ? '오늘' : 'D-' + difference;
+    var dateLabel = (next.date.getMonth() + 1) + '/' + next.date.getDate() +
+      '(' + weekdays[next.date.getDay()] + ')';
+
+    scheduleBadge.textContent = '다음 연수 ' + dayLabel + ' · ' + dateLabel +
+      ' ' + (next.item.time || '');
+  }
+
+  function renderSchedule(items) {
+    renderScheduleBadge(items);
+    clear(scheduleList);
+
+    if (!items || !items.length) {
+      var empty = document.createElement('li');
+      empty.className = 'panel-empty';
+      empty.textContent = '다음 회차는 투표로 정합니다.';
+      scheduleList.appendChild(empty);
+      return;
+    }
+
+    items.forEach(function (item) {
+      if (!item) return;
+
+      var row = document.createElement('li');
+      var link = document.createElement('a');
+      var main = document.createElement('span');
+      var title = document.createElement('strong');
+      var date = document.createElement('time');
+
+      link.href = 'training/index.html';
+      main.className = 'list-main';
+      title.textContent = item.no + '회차 | ' + (item.title || '');
+      date.dateTime = item.date || '';
+      date.textContent = formatDate(item.date);
+
+      main.appendChild(makeLineIcon('book', 20));
+      main.appendChild(title);
+      link.appendChild(main);
+      link.appendChild(date);
+      row.appendChild(link);
+      scheduleList.appendChild(row);
+    });
+  }
+
+  function renderShowcase(items) {
+    clear(showcaseList);
+
+    if (!items || !items.length) {
+      var empty = document.createElement('li');
+      var text = document.createElement('span');
+      var request = document.createElement('a');
+
+      empty.className = 'panel-empty panel-empty-with-link';
+      text.textContent = '첫 사례를 모으는 중입니다.';
+      request.href = 'request/';
+      request.textContent = '요청하기 →';
+
+      empty.appendChild(text);
+      empty.appendChild(request);
+      showcaseList.appendChild(empty);
+      return;
+    }
+
+    items.forEach(function (item) {
+      if (!item) return;
+
+      var row = document.createElement('li');
+      var link = document.createElement('a');
+      var main = document.createElement('span');
+      var title = document.createElement('strong');
+
+      link.href = item.link || item['링크'] || 'showcase/index.html';
+      main.className = 'list-main';
+      title.textContent = item.title || item['제목'] || '';
+
+      main.appendChild(makeLineIcon('school', 20));
+      main.appendChild(title);
+      link.appendChild(main);
+      row.appendChild(link);
+      showcaseList.appendChild(row);
+    });
+  }
+
+  function renderContest(items) {
+    var classified = window.NoanContest ?
+      window.NoanContest.classify(items || []) :
+      { open: [] };
+
+    var openItems = classified.open || [];
+    contestCount.textContent = '지금 나갈 수 있는 대회 ' + openItems.length + '건';
+    clear(contestList);
+
+    if (!openItems.length) {
+      var empty = document.createElement('li');
+      empty.className = 'panel-empty';
+      empty.textContent = '지금 나갈 수 있는 대회 0건';
+      contestList.appendChild(empty);
+      return;
+    }
+
+    openItems.slice(0, 4).forEach(function (item) {
+      var row = document.createElement('li');
+      var link = document.createElement('a');
+      var main = document.createElement('span');
+      var title = document.createElement('strong');
+      var side = document.createElement('span');
+      var date = document.createElement('time');
+      var days = window.NoanContest.daysLeft(item);
+
+      link.href = item['링크'] || 'contest/index.html';
+      if (item['링크']) {
+        link.target = '_blank';
+        link.rel = 'noopener';
+      }
+
+      main.className = 'list-main';
+      side.className = 'list-side';
+      title.textContent = item['대회명'] || '';
+      date.dateTime = item['마감'] || '';
+      date.textContent = formatDate(item['마감']);
+
+      main.appendChild(makeLineIcon('flyer', 20));
+      main.appendChild(title);
+
+      if (days !== null && days >= 0 && days <= 7) {
+        var badge = document.createElement('span');
+        badge.className = 'deadline-badge';
+        badge.textContent = '마감임박';
+        side.appendChild(badge);
+      }
+
+      side.appendChild(date);
+      link.appendChild(main);
+      link.appendChild(side);
+      row.appendChild(link);
+      contestList.appendChild(row);
+    });
+  }
+
+  function mountLineIcons() {
+    if (!window.NoanIcons) return;
+
+    var nodes = document.querySelectorAll('[data-line-icon]');
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].innerHTML = window.NoanIcons.icon(
+        nodes[i].getAttribute('data-line-icon'),
+        24
+      );
+    }
+  }
+
+  mountLineIcons();
+  loadData('data/schedule.json', 'SCHEDULE_DATA', renderSchedule);
+  loadData('data/showcase.json', 'SHOWCASE_ITEMS', renderShowcase);
+  loadData('data/contest.json', 'CONTEST_ITEMS', renderContest);
 })();
 </script>
 </body>
