@@ -1,35 +1,35 @@
 /* ==========================================================================
-   noan-ai — 디자인 토큰 (tools/CONTRACT.md 준수, 값 변경 금지)
+   noan-ai — 디자인 토큰
    ========================================================================== */
 
 :root{
-  /* 브랜드 토큰 (계약 고정값) */
-  --ink:#0E3B33;
-  --ink2:#155146;
-  --mint:#3FAE93;
-  --mint2:#7FD6C2;
-  --warm:#D97A38;
-  --stop:#B4524A;
-  --paper:#F6F9F8;
+  /* 브랜드 토큰 */
+  --ink:#102A43;
+  --ink2:#1E4E79;
+  --mint:#2563EB;
+  --mint2:#60A5FA;
+  --warm:#A84F13;
+  --stop:#A23B36;
+  --paper:#F7FAFF;
   --card:#FFFFFF;
-  --mute:#61756F;
-  --line:#D9E5E1;
-  --gold:#E3B341;
-  --red:#D6362F;
+  --mute:#52657A;
+  --line:#D8E2F0;
+  --gold:#8A6500;
+  --red:#B42318;
 
   /* 파생 토큰 */
-  --font: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-  --fs-body: 20px;
-  --fs-h1: 44px;
-  --radius: 14px;
-  --shadow: 0 8px 24px rgba(14,59,51,.10);
-  --maxw: 1280px;
-  --text: #16211D;
-  --text-dim: var(--mute);
+  --font:system-ui, -apple-system, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --fs-body:20px;
+  --fs-h1:44px;
+  --radius:14px;
+  --shadow:0 8px 24px rgba(16,42,67,.10);
+  --maxw:1280px;
+  --text:#16211D;
+  --text-dim:var(--mute);
 }
 
 /* ==========================================================================
-   다크 모드 — --paper/--card/--line/--mute/텍스트색만 재정의, 브랜드색 유지
+   다크 모드
    ========================================================================== */
 @media (prefers-color-scheme: dark){
   :root{
@@ -43,12 +43,12 @@
 }
 
 /* ==========================================================================
-   프로젝터 모드 — html[data-projector], 다크모드보다 뒤에 선언해 우선 적용
+   프로젝터 모드
    ========================================================================== */
 html[data-projector]{
   --mute:#3F4F49;
   --line:#B8C8C2;
-  --mint2:#3FAE93;
+  --mint2:#2563EB;
   --fs-body:22px;
   --fs-h1:48px;
   --shadow:none;
@@ -91,18 +91,15 @@ h1,h2,h3,h4,h5,h6,p,ul,ol,figure,blockquote{
   outline-offset:2px;
 }
 
-/* icons.js 가 뱉는 배지 SVG의 텍스트 라벨 */
 .ico-badge text{
   font-family:var(--font);
 }
 
-/* 표 가로 스크롤 래퍼 */
 .tw{
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
 }
 
-/* 스킵 링크 — 포커스 전 화면 밖, 포커스 시 노출 */
 .skip{
   position:absolute;
   left:-9999px;
@@ -120,7 +117,7 @@ h1,h2,h3,h4,h5,h6,p,ul,ol,figure,blockquote{
 }
 
 /* ==========================================================================
-   모션 축소 — 등장 애니메이션·tilt·전환·떠다니는 원 전부 무효화
+   모션 축소
    ========================================================================== */
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{
@@ -134,10 +131,6 @@ h1,h2,h3,h4,h5,h6,p,ul,ol,figure,blockquote{
     transform:none !important;
   }
 }
-
-/* ==========================================================================
-   유틸리티 추가 (2단계) — 기존 규칙은 그대로 두고 아래에 덧붙인다
-   ========================================================================== */
 
 /* 화면에서만 숨기고 보조기기에는 읽히는 텍스트 */
 .sr-only{
@@ -153,31 +146,27 @@ h1,h2,h3,h4,h5,h6,p,ul,ol,figure,blockquote{
   border:0;
 }
 
-/* 아직 확인이 안 된 값 — 화면에 그대로 남긴다 */
 .todo{
   color:var(--warm);
   font-weight:700;
   white-space:nowrap;
 }
 
-/* 파일이 없어 감춘 요소 (QR·스크린샷 onerror) */
 .is-gone{
   display:none !important;
 }
 
-/* 이모지 아이콘 */
 .emoji{
   font-style:normal;
   line-height:1;
 }
 
 /* ==========================================================================
-   3단계(g) — 슬라이드 구간 톤 (파생 토큰). 브랜드색은 그대로 두고 바탕만 아주 옅게
+   슬라이드 구간 톤
    ========================================================================== */
 :root{
-  --tone-cream:#FAF7F1;
-  --tone-mint:#F1F8F5;
-  /* 헤더 로고 — 라이트는 잉크, 다크는 민트2. 양쪽 4.5:1 이상 */
+  --tone-cream:rgba(168,79,19,.05);
+  --tone-mint:rgba(37,99,235,.05);
   --brand-fg:var(--ink);
 }
 @media (prefers-color-scheme: dark){
