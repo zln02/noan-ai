@@ -3,73 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>교원 연수 · 노안중 AI교육</title>
+<title>연수 자료 · 노안중 AI교육</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="노안중학교 교원 연수 회차별 자료">
-<link rel="icon" href="data:,">
+<meta name="description" content="연수에서 다룬 자료를 회차별로 모았습니다. 덱은 브라우저에서 그대로 열립니다.">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/site.css">
+<link rel="stylesheet" href="../shared/portal.css">
 </head>
-<body>
+<body class="portal">
 <a class="skip" href="#main">본문으로</a>
-<header class="nav"><div class="nav-in">
-  <a class="brand" href="../index.html">노안중 AI교육</a>
-  <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
-  <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
-    <a href="../training/index.html">연수</a>
-    <a href="../showcase/index.html">활용 사례</a>
-    <a href="../library/index.html">자료실</a>
-    <a href="../request/index.html">요청하기</a>
-  </nav>
-  <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
-</div></header>
-<main id="main">
 
-<section class="section">
-  <div class="wrap">
-    <div class="card card-hero">
-      <span class="badge mint">교원 연수</span>
-      <h1>회차별 자료</h1>
-      <p class="lede">덱은 브라우저에서 그대로 열립니다. 화살표 키로 넘기고, <strong>P</strong> 를 누르면 강당용 큰 글자로 바뀝니다.</p>
-    </div>
-  </div>
-</section>
+<header class="p-header">
+  <div class="p-wrap p-header-inner">
+    <a class="p-brand" href="../index.html" aria-label="노안중학교 AI교육 홈">
+      <img src="../assets/logo.png" alt="노안중학교" width="120" height="40">
+      <span class="p-brand-name">AI교육 포털</span>
+    </a>
 
-<section class="section">
-  <div class="wrap">
-    <h2 class="section-title">회차</h2>
-    <div class="grid cols-4">
-      <a class="card tilt" href="s1.html">
-        <span class="badge">1회차 · 9/14(월)</span>
-        <h3 class="card-title">1회차 · 업무 편해지기</h3>
-        <p class="card-lede">13:00 · 2시간 · 시연 5개와 실습 한 번(가정통신문). 오늘은 두 개만 고르시면 됩니다.</p>
-        <span class="btn btn-primary">덱 열기</span>
+    <nav class="p-nav" aria-label="주요 메뉴">
+      <a class="is-here" href="../training/index.html" aria-current="page">연수</a>
+      <a href="../showcase/index.html">활용 사례</a>
+      <a href="../library/index.html">자료실</a>
+      <a href="../request/index.html">요청하기</a>
+      <a class="p-nav-cta" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>
+        아이모두 바로가기
       </a>
-      <a class="card tilt" href="s2.html">
-        <span class="badge">2회차</span>
-        <h3 class="card-title">투표로 결정</h3>
-        <p class="card-lede">1회차에서 받은 표를 세어 주제를 정합니다.</p>
-        <span class="badge">준비 중</span>
-      </a>
-      <div class="card tilt">
-        <span class="badge">3회차</span>
-        <h3 class="card-title">준비 중</h3>
-        <p class="card-lede">2회차가 끝난 뒤에 정합니다.</p>
-      </div>
-      <div class="card tilt">
-        <span class="badge">4회차</span>
-        <h3 class="card-title">준비 중</h3>
-        <p class="card-lede">2학기 마무리. 성과 공유.</p>
-      </div>
-    </div>
+    </nav>
   </div>
-</section>
+</header>
 
-<section class="section">
-  <div class="wrap">
-    <h2 class="section-title">덱 조작</h2>
-    <div class="tw">
-      <table>
+<main id="main" class="p-wrap p-main">
+
+  <section class="p-hero" aria-labelledby="tHeroTitle">
+    <figure class="p-hero-visual">
+      <picture>
+        <source srcset="../assets/training-hero-sm.jpg" media="(max-width: 900px)">
+        <img
+          src="../assets/training-hero.jpg"
+          alt="함께 배우는 더 나은 수업, 더 성장하는 우리"
+          width="1800"
+          height="675"
+          onerror="this.hidden=true;this.closest('.p-hero-visual').classList.add('is-empty')">
+      </picture>
+    </figure>
+
+    <div class="p-hero-copy">
+      <span class="p-hero-eyebrow">함께 배우고, 함께 성장하는 선생님의 오늘</span>
+      <h1 id="tHeroTitle">교원 AI 연수 자료</h1>
+      <p>연수에서 다룬 자료를 회차별로 모았습니다.<br>언제든 다시 보고, 수업과 업무에 바로 활용해 보세요.</p>
+    </div>
+  </section>
+
+  <div class="p-two">
+
+    <section class="p-panel" aria-labelledby="tListTitle">
+      <h2 id="tListTitle" class="sr-only">회차 목록</h2>
+
+      <div class="p-find">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+        <label class="sr-only" for="tFind">회차 찾기</label>
+        <input id="tFind" type="search" autocomplete="off" placeholder="연수 주제나 키워드로 찾아보세요.">
+      </div>
+
+      <div id="tRows" class="p-rows" role="listbox" aria-label="연수 회차"></div>
+      <p id="tNoHit" class="p-empty-note" hidden>찾으시는 것이 없습니다. 다른 낱말로 찾아보십시오.</p>
+    </section>
+
+    <section id="tDetail" class="p-panel p-detail" aria-live="polite"></section>
+  </div>
+
+  <section class="p-panel" aria-labelledby="tKeysTitle" style="margin-top:18px">
+    <h2 id="tKeysTitle">덱 조작</h2>
+    <p class="p-detail-lede" style="margin:10px 0 18px">덱은 브라우저에서 그대로 열립니다. 화살표 키로 넘기고, <strong>P</strong> 를 누르면 강당용 큰 글자로 바뀝니다.</p>
+
+    <div class="p-table-wrap">
+      <table class="p-table">
         <thead>
           <tr><th scope="col">키</th><th scope="col">동작</th></tr>
         </thead>
@@ -85,19 +96,168 @@
         </tbody>
       </table>
     </div>
-    <p class="muted small">터치 기기에서는 좌우로 밀어 넘깁니다.</p>
-  </div>
-</section>
+    <p class="p-note">터치 기기에서는 좌우로 밀어 넘깁니다.</p>
+  </section>
 
 </main>
-<footer class="site-foot">
-  <div class="wrap">
-    <p>AI교육 코디네이터 박진영 · 수·목 오전 교무실</p>
-    <p>근거: 전남교육청 「AI 활용 가이드라인」</p>
+
+<footer class="p-footer">
+  <div class="p-wrap p-footer-grid">
+    <img src="../assets/logo.png" alt="노안중학교" width="120" height="40">
+    <div><strong>AI교육 코디네이터 박진영</strong> · 수 · 목 오전 교무실</div>
     <p><a href="../guide/index.html">업무별 안내서</a> · <a href="../class/index.html">수업</a> · <a href="../contest/index.html">대회</a> · <a href="../about/index.html">소개</a> · <a href="../library/rules.html">안전 규칙 한 장</a></p>
   </div>
 </footer>
+
 <script src="../shared/icons.js"></script>
 <script src="../shared/site.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* 회차 자료. 문장은 저장소에 있던 것을 그대로 옮긴 것이다.
+     2회차 주제가 정해지면 여기 한 곳만 고치면 된다. */
+  var SESSIONS = [
+    {
+      round: '1회차',
+      title: '업무 편해지기',
+      date: '9/14(월)',
+      dateLong: '2026. 9. 14. (월) 13:00',
+      desc: '13:00 · 2시간 · 시연 5개와 실습 한 번(가정통신문). 오늘은 두 개만 고르시면 됩니다.',
+      deck: 's1.html'
+    },
+    {
+      round: '2회차',
+      title: '투표로 결정',
+      date: '',
+      dateLong: '날짜 미정',
+      desc: '1회차에서 받은 표를 세어 주제를 정합니다.',
+      deck: null
+    },
+    {
+      round: '3회차',
+      title: '준비 중',
+      date: '',
+      dateLong: '날짜 미정',
+      desc: '2회차가 끝난 뒤에 정합니다.',
+      deck: null
+    },
+    {
+      round: '4회차',
+      title: '준비 중',
+      date: '',
+      dateLong: '날짜 미정',
+      desc: '2학기 마무리. 성과 공유.',
+      deck: null
+    }
+  ];
+
+  var rowsBox = document.getElementById('tRows');
+  var detailBox = document.getElementById('tDetail');
+  var noHit = document.getElementById('tNoHit');
+  var find = document.getElementById('tFind');
+  var current = 0;
+
+  function esc(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function rowHtml(session, index) {
+    return '<button type="button" class="p-row" role="option" data-i="' + index +
+      '" aria-selected="' + (index === current ? 'true' : 'false') + '">' +
+      '<span class="p-row-no">' + esc(session.round) + '</span>' +
+      '<span class="p-row-copy">' +
+        '<b>' + esc(session.title) + '</b>' +
+        '<span>' + esc(session.desc) + '</span>' +
+      '</span>' +
+      (session.date ? '<span class="p-row-date">' + esc(session.date) + '</span>' : '') +
+      '<span class="p-row-arrow" aria-hidden="true">›</span>' +
+    '</button>';
+  }
+
+  function renderRows() {
+    var term = find.value.trim().toLowerCase();
+
+    var shown = SESSIONS.map(function (session, index) {
+      return { session: session, index: index };
+    }).filter(function (item) {
+      if (!term) return true;
+      return [item.session.round, item.session.title, item.session.desc]
+        .join(' ').toLowerCase().indexOf(term) !== -1;
+    });
+
+    rowsBox.innerHTML = shown.map(function (item) {
+      return rowHtml(item.session, item.index);
+    }).join('');
+
+    noHit.hidden = shown.length > 0;
+  }
+
+  function deckHtml(session) {
+    if (!session.deck) {
+      return '<p class="p-empty-note">주제가 정해지면 자료를 여기에 올립니다.</p>';
+    }
+
+    return '<div class="p-res">' +
+      '<div class="p-res-item">' +
+        '<span class="p-res-icon" aria-hidden="true">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v11H3z"></path><path d="M12 15v5"></path><path d="M8 21l4-3 4 3"></path></svg>' +
+        '</span>' +
+        '<span class="p-res-copy">' +
+          '<b>발표자료</b>' +
+          '<span>연수에서 사용한 발표자료입니다. 브라우저에서 그대로 열립니다.</span>' +
+        '</span>' +
+        '<a class="p-res-open" href="' + esc(session.deck) + '">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>' +
+          '덱 열기' +
+        '</a>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function renderDetail() {
+    var session = SESSIONS[current];
+
+    detailBox.innerHTML =
+      '<div class="p-detail-top">' +
+        '<span class="p-chip">' + esc(session.round) + '</span>' +
+        '<span class="p-detail-date">' + esc(session.dateLong) + '</span>' +
+      '</div>' +
+      '<h2>' + esc(session.title) + '</h2>' +
+      '<p class="p-detail-lede">' + esc(session.desc) + '</p>' +
+      '<h3>연수 자료</h3>' +
+      deckHtml(session) +
+      '<div class="p-notice">' +
+        '<div class="p-notice-head">' +
+          '<span aria-hidden="true">i</span>' +
+          '<b>안내사항</b>' +
+        '</div>' +
+        '<ul>' +
+          '<li>본 자료는 연수 참여 교원을 위한 복습용 자료입니다.</li>' +
+          '<li>학교 수업 및 업무 목적의 활용을 권장합니다.</li>' +
+          '<li>추가 자료가 제공되는 회차도 있습니다.</li>' +
+        '</ul>' +
+      '</div>';
+  }
+
+  rowsBox.addEventListener('click', function (event) {
+    var row = event.target.closest ? event.target.closest('.p-row') : null;
+    if (!row) return;
+
+    current = Number(row.getAttribute('data-i'));
+    renderRows();
+    renderDetail();
+  });
+
+  find.addEventListener('input', renderRows);
+
+  renderRows();
+  renderDetail();
+})();
+</script>
 </body>
 </html>
