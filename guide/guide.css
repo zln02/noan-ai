@@ -1891,6 +1891,317 @@ a {
   }
 }
 
+/* ==========================================================================
+   안내서 상세 — 2026-09-09 목업 「연수 안내서 - 문서 검토」 적용
+   단계마다 흰 카드 하나에 번호·문장·그 단계의 화면을 담는다.
+   색과 그림자는 위에 이미 있는 토큰을 그대로 쓴다.
+   ========================================================================== */
+
+/* 제목 옆 시간 배지 */
+.g-time-pill {
+  display: inline-flex;
+  min-height: 30px;
+  margin: 9px 0 0 8px;
+  align-items: center;
+  padding: 3px 12px;
+  border: 1.5px solid #CDD9E6;
+  border-radius: 8px;
+  color: #3D4A5C;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* 「이런 때 씁니다」 — 목업의 옅은 파랑 띠 */
+.g-when-strip {
+  display: flex;
+  margin-top: 22px;
+  align-items: baseline;
+  gap: 20px;
+  padding: 15px 22px;
+  border-radius: 14px;
+  background: #EEF5FF;
+  flex-wrap: wrap;
+}
+
+.g-when-lab {
+  flex: none;
+  color: #1A6FD0;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.g-when-text {
+  flex: 1;
+  min-width: 240px;
+  color: #33455C;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.g-detail-body > .g-mins {
+  margin: 11px 2px 0;
+}
+
+/* 단계 카드 */
+.g-steps-section {
+  border-bottom: 0;
+}
+
+.g-steps {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+}
+
+.g-step {
+  display: flex;
+  gap: 16px;
+  padding: 24px 26px;
+  border-radius: 18px;
+  background: #FFFFFF;
+  box-shadow: var(--g-shadow);
+}
+
+.g-step-no {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--g-blue);
+  color: #FFFFFF;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.g-step-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.g-step-main h3 {
+  margin: 5px 0 0;
+  color: var(--g-navy);
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+.g-step-shot {
+  margin-top: 18px;
+  background: #F7FAFD;
+}
+
+/* 주의 — 목업의 호박색 상자. 접어두지 않고 늘 펴 둔다. */
+.g-caution-box {
+  display: flex;
+  margin-top: 22px;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 18px 22px;
+  border: 1px solid #F7E0BD;
+  border-radius: 16px;
+  background: #FFF8EE;
+}
+
+.g-caution-mark {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #F08C25;
+  color: #FFFFFF;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.g-caution-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.g-caution-lab {
+  color: #A35A0D;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.g-caution-text {
+  margin-top: 4px;
+  color: #7A5C33;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* 검은 프롬프트 상자 — 글과 복사 버튼을 좌우로 (시안) */
+.g-prompt-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.g-prompt-row > pre {
+  flex: 1;
+  min-width: 240px;
+}
+
+.g-prompt-act {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.g-prompt-row .g-copybtn {
+  margin-top: 0;
+}
+
+@media (max-width: 767px) {
+  .g-prompt-act {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .g-prompt-row .g-copybtn {
+    flex: 1;
+  }
+}
+
+/* 아래쪽 이동 줄 — 카드 이름이 보인다 */
+.g-pager-bottom {
+  display: flex;
+  margin-top: 26px;
+  gap: 14px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.g-pager-bottom a {
+  display: flex;
+  max-width: 100%;
+  min-height: 44px;
+  flex-direction: column;
+  gap: 3px;
+  padding: 13px 22px;
+  border: 1px solid #DFE8F3;
+  border-radius: 12px;
+  background: #FFFFFF;
+}
+
+.g-pager-next {
+  align-items: flex-end;
+  border-color: var(--g-blue) !important;
+  background: var(--g-blue) !important;
+  box-shadow: 0 2px 6px rgba(24, 119, 230, .28);
+}
+
+.g-pager-lab {
+  color: var(--g-muted);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.g-pager-title {
+  color: #2C4360;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.g-pager-next .g-pager-lab,
+.g-pager-next .g-pager-title {
+  color: #FFFFFF;
+}
+
+.g-pager-bottom a:hover {
+  border-color: var(--g-blue);
+}
+
+.g-pager-bottom a:hover .g-pager-title {
+  color: var(--g-blue);
+}
+
+.g-pager-next:hover {
+  border-color: var(--g-blue-dark) !important;
+  background: var(--g-blue-dark) !important;
+}
+
+.g-pager-next:hover .g-pager-title {
+  color: #FFFFFF;
+}
+
+@media (max-width: 767px) {
+  .g-step {
+    gap: 12px;
+    padding: 20px 18px;
+  }
+
+  .g-step-no {
+    width: 34px;
+    height: 34px;
+    font-size: 17px;
+  }
+
+  .g-step-main h3 {
+    font-size: 18px;
+  }
+
+  .g-pager-bottom a {
+    width: 100%;
+  }
+
+  .g-pager-next {
+    align-items: flex-start;
+  }
+}
+
+@media print {
+  /* 단계 카드는 종이에서 테두리만 남긴다 — 그림자는 인쇄되면 지저분하다. */
+  .g-step {
+    padding: 10pt 0;
+    border-bottom: 1px solid #D8E2F0;
+    border-radius: 0;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .g-steps {
+    gap: 0;
+  }
+
+  .g-step-shot {
+    margin-top: 8pt;
+  }
+
+  .g-step-shot .g-shot-img {
+    max-height: 62mm;
+    object-fit: contain;
+  }
+
+  .g-when-strip,
+  .g-caution-box {
+    break-inside: avoid;
+  }
+
+  .g-pager-bottom {
+    display: none !important;
+  }
+}
+
 /* 안내서가 사이트 첫 화면이 된 뒤 — 푸터의 나머지 쪽 링크 */
 .g-footer-links {
   margin: 0;
