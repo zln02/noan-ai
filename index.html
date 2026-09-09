@@ -475,10 +475,16 @@
        파일 이름(01b-1 … 01b-4)이 이미 단계 번호와 맞춰져 있다.
        캡처가 없는 카드는 번호와 문장만 나온다 — 예전과 같은 내용이다. */
     var shots = Array.isArray(task.shot) ? task.shot : [];
+    /* 캡처가 배열이면 marks 도 캡처 한 장에 한 묶음씩이다.
+       marks[i] 가 i번째 캡처 위에 얹히는 붉은 동그라미들이다.
+       캡처가 문자열 한 장인 기존 카드는 marks 가 예전처럼 납작한 목록이라
+       여기서는 건드리지 않는다. */
+    var markSets = (shots.length && Array.isArray(task.marks)) ? task.marks : [];
 
     return '<ol class="g-steps">' +
       task.steps.map(function (step, i) {
         var file = shots[i];
+        var marks = Array.isArray(markSets[i]) ? markSets[i] : [];
 
         return '<li class="g-step">' +
           '<span class="g-step-no">' + (i + 1) + '</span>' +
@@ -488,6 +494,7 @@
               '<div class="g-shot-wrap g-step-shot">' +
                 '<img class="g-shot-img" src="assets/guide/' + esc(file) +
                   '" alt="' + esc(task.title) + ' ' + (i + 1) + '단계 화면">' +
+                marks.map(markHtml).join('') +
               '</div>' : '') +
           '</div>' +
         '</li>';
@@ -517,6 +524,19 @@
   function noteHtml(task) {
     if (!task.prompt_note) return '';
     return '<div class="g-note">' + esc(task.prompt_note) + '</div>';
+  }
+
+  function toolLogoHtml(task) {
+    /* 도구 로고는 meta.tool_logos 가 정한다. 없으면 아무것도 안 나온다.
+       파일이 assets/guide/ 에 들어오는 순간 저절로 살아난다. */
+    var logos = (DATA.meta && DATA.meta.tool_logos) || {};
+    var file = logos[task.tool];
+
+    if (!file) return '';
+
+    return '<span class="g-tool-logo">' +
+      '<img src="assets/guide/' + esc(file) + '" alt="' + esc(task.tool) + '">' +
+    '</span>';
   }
 
   function timePillHtml(task) {
@@ -609,6 +629,7 @@
       '</div>' +
 
       '<header class="g-detail-head">' +
+        toolLogoHtml(task) +
         '<span class="g-big-number">' + esc(task.no) + '</span>' +
         '<div>' +
           '<h1>' + esc(task.title) + '</h1>' +
@@ -664,6 +685,22 @@
     bindCopyButtons();
     bindShotFallback();
     bindPrintButton();
+    bindLogoFallback();
+  }
+
+  function bindLogoFallback() {
+    /* 로고 파일이 없으면 빈 상자를 남기지 않는다. */
+    var logo = detailView.querySelector('.g-tool-logo');
+    if (!logo) return;
+
+    var image = logo.querySelector('img');
+
+    function drop() {
+      if (logo.parentNode) logo.parentNode.removeChild(logo);
+    }
+
+    image.addEventListener('error', drop);
+    if (image.complete && !image.naturalWidth) drop();
   }
 
   function bindPrintButton() {

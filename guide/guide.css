@@ -2044,6 +2044,45 @@ a {
   line-height: 1.6;
 }
 
+/* 도구 로고 — 시안의 로고 칸 */
+.g-tool-logo {
+  display: flex;
+  width: 150px;
+  height: 64px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: 1px solid var(--g-border);
+  border-radius: 14px;
+  background: #FFFFFF;
+}
+
+.g-tool-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* 단계 캡처 위의 클릭 자리 — 동그라미로 */
+.g-step-shot .g-mark {
+  border-radius: 50%;
+}
+
+@media (max-width: 767px) {
+  .g-tool-logo {
+    width: 116px;
+    height: 48px;
+  }
+
+  /* 좁은 화면에서는 말풍선이 캡처 밖으로 나가기 쉽다 */
+  .g-step-shot .g-mark span {
+    top: -24px;
+    font-size: 11px;
+    min-height: 22px;
+  }
+}
+
 /* 검은 프롬프트 상자 — 글과 복사 버튼을 좌우로 (시안) */
 .g-prompt-row {
   display: flex;
