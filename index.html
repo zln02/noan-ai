@@ -428,15 +428,28 @@
   }
 
   function shotHtml(task) {
-    if (!task.shot) return '';
+    /* shot 은 문자열 한 장이거나 여러 장의 배열이다.
+       기존 카드는 전부 문자열이라 동작이 그대로다.
+       배열일 때는 붉은 번호가 이미 이미지에 구워져 있어 marks 를 쓰지 않는다. */
+    var list = Array.isArray(task.shot) ? task.shot : (task.shot ? [task.shot] : []);
+
+    if (!list.length) return '';
+
+    var many = list.length > 1;
+
+    var figures = list.map(function (file, i) {
+      var alt = esc(task.title) + ' 화면' + (many ? ' ' + (i + 1) : '');
+
+      return '<div class="g-shot-wrap">' +
+        '<img class="g-shot-img" src="assets/guide/' + esc(file) +
+          '" alt="' + alt + '">' +
+        (many ? '' : (task.marks || []).map(markHtml).join('')) +
+      '</div>';
+    }).join('');
 
     return '<section class="g-section g-shot-section" hidden>' +
       '<h2>시연 영상 / 캡처</h2>' +
-      '<div class="g-shot-wrap">' +
-        '<img class="g-shot-img" src="assets/guide/' + esc(task.shot) +
-          '" alt="' + esc(task.title) + ' 화면">' +
-        (task.marks || []).map(markHtml).join('') +
-      '</div>' +
+      figures +
     '</section>';
   }
 
@@ -591,29 +604,39 @@
   }
 
   function bindShotFallback() {
-    var image = detailView.querySelector('.g-shot-img');
-    if (!image) return;
+    /* 캡처가 여러 장일 수 있다. 한 장이라도 뜨면 칸을 열고,
+       못 뜬 장만 지운다. 전부 못 뜨면 칸을 통째로 없앤다. */
+    var images = detailView.querySelectorAll('.g-shot-img');
+    if (!images.length) return;
 
     var section = detailView.querySelector('.g-shot-section');
     var body = detailView.querySelector('.g-detail-body');
+    var left = images.length;
+    var shown = 0;
 
-    function showShot() {
-      if (section) section.hidden = false;
-      if (body) body.classList.add('g-has-shot');
+    function settle() {
+      if (shown) {
+        if (section) section.hidden = false;
+        if (body) body.classList.add('g-has-shot');
+      } else {
+        if (section && section.parentNode) section.parentNode.removeChild(section);
+        if (body) body.classList.remove('g-has-shot');
+      }
     }
 
-    function removeShot() {
-      if (section && section.parentNode) section.parentNode.removeChild(section);
-      if (body) body.classList.remove('g-has-shot');
+    function mark(image, ok) {
+      if (ok) shown++;
+      else if (image.parentNode && image.parentNode.parentNode) {
+        image.parentNode.parentNode.removeChild(image.parentNode);
+      }
+      if (--left === 0) settle();
     }
 
-    image.addEventListener('load', showShot);
-    image.addEventListener('error', removeShot);
-
-    if (image.complete) {
-      if (image.naturalWidth) showShot();
-      else removeShot();
-    }
+    Array.prototype.forEach.call(images, function (image) {
+      if (image.complete) { mark(image, !!image.naturalWidth); return; }
+      image.addEventListener('load', function () { mark(image, true); });
+      image.addEventListener('error', function () { mark(image, false); });
+    });
   }
 
   function bindCopyButtons() {

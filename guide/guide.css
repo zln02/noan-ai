@@ -1277,6 +1277,11 @@ a {
   height: auto;
 }
 
+/* 캡처가 여러 장일 때만 사이를 띄운다. 한 장짜리 카드는 그대로다. */
+.g-shot-wrap + .g-shot-wrap {
+  margin-top: 12px;
+}
+
 .g-mark {
   position: absolute;
   border: 3px solid #E5484D;
