@@ -1143,6 +1143,28 @@ a {
   background: #EAF4FF;
 }
 
+/* 카드 하나만 인쇄 — 제목 줄 오른쪽 끝 */
+.g-printcard {
+  display: inline-flex;
+  min-height: 44px;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border: 1px solid var(--g-blue);
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: var(--g-blue);
+  font-size: 15px;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.g-printcard:hover {
+  background: var(--g-sky);
+}
+
 .g-copyhint {
   display: inline-block;
   margin-left: 12px;
@@ -1610,6 +1632,13 @@ a {
     gap: 15px;
     margin-top: 24px;
     padding: 22px 18px;
+    flex-wrap: wrap;
+  }
+
+  /* 좁은 화면에서는 인쇄 버튼이 제목을 밀지 않게 아랫줄로 내린다. */
+  .g-printcard {
+    width: 100%;
+    margin-left: 0;
   }
 
   .g-big-number {
@@ -1758,7 +1787,8 @@ a {
   .g-footer,
   .skip,
   .g-copybtn,
-  .g-copyhint {
+  .g-copyhint,
+  .g-printcard {
     display: none !important;
   }
 
@@ -1796,6 +1826,40 @@ a {
     display: block;
     padding: 12pt 0;
     break-inside: avoid;
+  }
+
+  /* 캡처가 여러 장이면 한 쪽에 다 못 들어간다.
+     칸은 쪽을 넘게 두고, 사진 한 장이 잘리지 않게만 막는다. */
+  .g-shot-section {
+    break-inside: auto;
+  }
+
+  .g-shot-wrap {
+    break-inside: avoid;
+  }
+
+  .g-shot-img {
+    max-height: 105mm;
+    object-fit: contain;
+  }
+
+  /* 네 장짜리 카드는 두 장씩 나란히 놓아 A4 두 쪽 안에 들어가게 한다. */
+  .g-shot-many {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6pt;
+  }
+
+  .g-shot-many > h2 {
+    grid-column: 1 / -1;
+  }
+
+  .g-shot-many .g-shot-wrap + .g-shot-wrap {
+    margin-top: 0;
+  }
+
+  .g-shot-many .g-shot-img {
+    max-height: 70mm;
   }
 
   .g-fold > summary {

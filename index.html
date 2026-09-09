@@ -447,7 +447,7 @@
       '</div>';
     }).join('');
 
-    return '<section class="g-section g-shot-section" hidden>' +
+    return '<section class="g-section g-shot-section' + (many ? ' g-shot-many' : '') + '" hidden>' +
       '<h2>시연 영상 / 캡처</h2>' +
       figures +
     '</section>';
@@ -556,6 +556,7 @@
           '<h1>' + esc(task.title) + '</h1>' +
           '<span class="g-group-tag">' + esc(group.label) + '</span>' +
         '</div>' +
+        '<button type="button" class="g-printcard">이 카드만 인쇄 · PDF</button>' +
       '</header>' +
 
       '<div class="g-detail-body">' +
@@ -601,6 +602,17 @@
 
     bindCopyButtons();
     bindShotFallback();
+    bindPrintButton();
+  }
+
+  function bindPrintButton() {
+    /* 브라우저 인쇄창을 그대로 쓴다. 「PDF로 저장」 도 거기 있다.
+       인쇄용 페이지를 따로 만들지 않는다 — 지금 보고 계신 이 카드가 그대로 나간다. */
+    var button = detailView.querySelector('.g-printcard');
+    if (!button) return;
+    button.addEventListener('click', function () {
+      window.print();
+    });
   }
 
   function bindShotFallback() {
