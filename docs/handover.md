@@ -36,6 +36,14 @@ private/              (gitignore) 학교 실물 자료 — 절대 커밋하지 �
 
 ## 4. 아직 비어 있는 것
 - `data-form=""` 2곳 — `training/s1.html` 슬라이드 20, `request/index.html`. 노션 폼 공개 URL 이 정해지면 채운다.
+
+  **요청 게시판 (2026-09-10)** — 받는 곳은 노션으로 정했다. 정적 사이트라 글을 받아줄 서버가 없다.
+  - 노션 DB 「노안중 AI교육 — 요청 게시판」 `39eb7d4e6d46446db925fbd099f9ade7`
+    속성: 제목 · 내용 · 유형 · 상태 · 소속 · 공감 · 답변 · **공개**(체크) · 올린 날
+  - **「공개」 를 켠 줄만** 사이트로 나간다. 선생님이 보낸 원문이 곧바로 학교 사이트에 올라가지 않는다.
+  - 내려받기: `NOTION_TOKEN=... NOTION_REQUESTS_DB=... node tools/sync-requests.js` → `node tools/sync-data.js` → 커밋
+  - 아직 없는 것: 그 DB의 **공개 폼 URL**. 받으면 `request/index.html` 의 `data-form` 에 넣는다.
+    그 전까지 「새 요청 쓰기」 는 보내실 문장을 만들어 드리는 데까지만 한다.
 - `assets/qr-site.svg` · `assets/qr-request.svg` — GitHub Pages 주소가 확정된 뒤 생성한다.
   ```bash
   pip install "qrcode[pil]"

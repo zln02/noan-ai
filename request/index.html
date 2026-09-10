@@ -213,6 +213,35 @@
     return (Number(item.count) || 0) + (votes[item.id] ? 1 : 0);
   }
 
+  function agoText(iso) {
+    /* 노션에서 내려온 날짜를 「2주 전」 처럼 읽는다.
+       상대 날짜를 파일에 굳혀두면 시간이 지나 거짓말이 된다. */
+    if (!iso) return '';
+
+    var then = new Date(iso + 'T00:00:00');
+    if (isNaN(then.getTime())) return '';
+
+    var days = Math.floor((Date.now() - then.getTime()) / 86400000);
+
+    if (days <= 0) return '오늘';
+    if (days === 1) return '어제';
+    if (days < 7) return days + '일 전';
+    if (days < 30) return Math.floor(days / 7) + '주 전';
+    if (days < 365) return Math.floor(days / 30) + '개월 전';
+    return Math.floor(days / 365) + '년 전';
+  }
+
+  function metaText(item) {
+    /* 옛 자료가 meta 를 통째로 갖고 있으면 그대로 쓴다. */
+    if (item.meta) return item.meta;
+
+    var parts = [item.dept || '익명'];
+    var ago = agoText(item.date);
+
+    if (ago) parts.push(ago);
+    return parts.join(' · ');
+  }
+
   function renderStats() {
     var items = DATA.items;
     var done = items.filter(function (item) { return item.status === '해결됨'; });
@@ -260,7 +289,7 @@
           '</div>' +
           '<h2>' + esc(item.title) + '</h2>' +
           '<p class="r-body">' + esc(item.body) + '</p>' +
-          '<div class="r-meta">' + esc(item.meta) + '</div>' +
+          '<div class="r-meta">' + esc(metaText(item)) + '</div>' +
         '</div>' +
         (item.answer ?
           '<div class="r-answer">' +
