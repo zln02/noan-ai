@@ -25,3 +25,5 @@ tools/guide-print.html
 
 # 시연 영상은 저장소에 넣지 않는다 (덱은 파일이 없으면 자리표시 그림을 보여준다)
 training/assets/s1/*.mp4
+# 1회차 장면01 은 공개한다 (2026-09-10 승인). 나머지 시연 영상은 계속 뺀다.
+!training/assets/s1/s10-scene01.mp4
