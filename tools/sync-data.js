@@ -24,7 +24,8 @@ const PAIRS = [
   { json: 'data/guides.json', js: 'data/guides.js', global: 'GUIDES_DATA' },
   { json: 'data/log.json', js: 'data/log.js', global: 'LOG_DATA' },
   { json: 'data/sessions.json', js: 'data/sessions.js', global: 'SESSIONS_DATA' },
-  { json: 'data/quicktasks.json', js: 'data/quicktasks.js', global: 'QUICKTASKS' }
+  { json: 'data/quicktasks.json', js: 'data/quicktasks.js', global: 'QUICKTASKS' },
+  { json: 'data/requests.json', js: 'data/requests.js', global: 'REQUESTS_DATA' }
 ];
 
 function build(pair) {

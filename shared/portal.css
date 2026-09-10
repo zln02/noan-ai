@@ -764,3 +764,529 @@ body.portal {
     break-inside: avoid;
   }
 }
+
+/* ==========================================================================
+   요청 게시판 — 2026-09-10 목업 「요청하기」 적용
+   색과 모양은 위 포털 층에 이미 있는 것을 그대로 쓴다.
+   ========================================================================== */
+
+.r-hero {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex-wrap: wrap;
+  padding: 26px 30px;
+  border-radius: 20px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(20, 50, 90, .06);
+}
+
+.r-hero-copy {
+  flex: 1;
+  min-width: 280px;
+}
+
+.r-eyebrow {
+  color: #2A7DE1;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.r-hero-copy h1 {
+  margin: 7px 0 8px;
+  color: #0F1D33;
+  font-size: clamp(28px, 3.2vw, 38px);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1.15;
+}
+
+.r-lede {
+  color: #4A5A70;
+  font-size: 16.5px;
+  line-height: 1.6;
+}
+
+.r-lede + .r-lede {
+  margin-top: 10px;
+}
+
+.r-stats {
+  display: flex;
+  flex: none;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.r-stat {
+  min-width: 104px;
+  padding: 16px 22px;
+  border-radius: 14px;
+  background: #EEF5FF;
+  text-align: center;
+}
+
+.r-stat-done {
+  background: #EAF7EF;
+}
+
+.r-stat b {
+  display: block;
+  color: var(--g-blue, #1877E6);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.r-stat-done b {
+  color: #1F9D55;
+}
+
+.r-stat span {
+  display: block;
+  margin-top: 2px;
+  color: #5D6C80;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+/* 거르개 줄 */
+.r-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 22px 0 14px;
+}
+
+.r-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.r-filters button {
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid #DFE8F3;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: #3D4A5C;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.r-filters button[aria-pressed="true"] {
+  border-color: #1877E6;
+  background: #1877E6;
+  color: #FFFFFF;
+}
+
+.r-new {
+  display: flex;
+  min-height: 44px;
+  margin-left: auto;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border: 0;
+  border-radius: 12px;
+  background: #1877E6;
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(24, 119, 230, .28);
+}
+
+.r-new:hover {
+  background: #0B5FC0;
+}
+
+.r-new svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* 새 요청 쓰기 */
+.r-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 22px 24px;
+  border: 2px solid #1877E6;
+  border-radius: 18px;
+  background: #FFFFFF;
+  box-shadow: 0 8px 28px rgba(24, 119, 230, .14);
+}
+
+.r-form-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.r-form-head h2 {
+  color: #16233A;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+.r-close {
+  display: flex;
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: #8494A8;
+  cursor: pointer;
+}
+
+.r-field > label,
+.r-legend {
+  display: block;
+  margin-bottom: 9px;
+  color: #16233A;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.r-field input,
+.r-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border: 1px solid #DFE8F3;
+  border-radius: 12px;
+  color: #16233A;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.r-field textarea {
+  resize: vertical;
+}
+
+.r-field input:focus,
+.r-field textarea:focus {
+  border-color: #1877E6;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(24, 119, 230, .14);
+}
+
+.r-tagpick {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.r-tagpick button {
+  min-height: 44px;
+  padding: 9px 16px;
+  border: 1px solid #DFE8F3;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: #3D4A5C;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.r-tagpick button[aria-pressed="true"] {
+  border-color: #1877E6;
+  background: #EEF5FF;
+  color: #1877E6;
+  font-weight: 700;
+}
+
+.r-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.r-submit {
+  min-height: 44px;
+  padding: 13px 26px;
+  border: 0;
+  border-radius: 12px;
+  background: #1877E6;
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.r-submit[disabled] {
+  background: #C3D6EC;
+  cursor: not-allowed;
+}
+
+.r-cancel {
+  min-height: 44px;
+  padding: 13px 22px;
+  border: 1px solid #DFE8F3;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: #5D6C80;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.r-hint {
+  color: #8494A8;
+  font-size: 14px;
+}
+
+/* 만들어진 요청 문장 */
+.r-made {
+  padding: 16px 18px;
+  border: 1px solid #DFE8F3;
+  border-radius: 14px;
+  background: #F7FAFD;
+}
+
+.r-made h3 {
+  color: #16233A;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.r-made pre {
+  margin: 10px 0 12px;
+  color: #23456F;
+  font: inherit;
+  font-size: 15.5px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 요청 목록 */
+.r-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.r-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 20px 22px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(20, 50, 90, .06);
+}
+
+.r-vote {
+  display: flex;
+  width: 58px;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 11px 0;
+  border: 1px solid #DFE8F3;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: #5D6C80;
+  font: inherit;
+  cursor: pointer;
+}
+
+.r-vote[aria-pressed="true"] {
+  border-color: #1877E6;
+  background: #EEF5FF;
+  color: #1877E6;
+}
+
+.r-vote b {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.r-item-main {
+  flex: 1;
+  min-width: 220px;
+}
+
+.r-pills {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.r-status,
+.r-tag {
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.r-tag {
+  background: #F2F6FB;
+  color: #5D6C80;
+  font-weight: 600;
+}
+
+.r-status-검토 {
+  background: #FFF3E3;
+  color: #B06A12;
+}
+
+.r-status-준비 {
+  background: #E7F0FF;
+  color: #1A6FD0;
+}
+
+.r-status-해결 {
+  background: #E6F5EC;
+  color: #18804A;
+}
+
+.r-item-main h2 {
+  margin: 9px 0 5px;
+  color: #16233A;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.035em;
+  text-wrap: pretty;
+}
+
+.r-body {
+  color: #5D6C80;
+  font-size: 15.5px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.r-meta {
+  margin-top: 10px;
+  color: #8494A8;
+  font-size: 13.5px;
+}
+
+.r-answer {
+  display: flex;
+  flex: 1 1 100%;
+  gap: 11px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #F7FAFD;
+}
+
+.r-answer-mark {
+  display: flex;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #1877E6;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.r-answer p {
+  flex: 1;
+  min-width: 0;
+  color: #33455C;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.r-empty {
+  padding: 40px 24px;
+  border: 1px dashed #DFE8F3;
+  border-radius: 16px;
+  background: #FFFFFF;
+  color: #5D6C80;
+  font-size: 16px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* 노션 폼 자리 — 주소가 없을 때는 빈 상자를 크게 벌리지 않는다 */
+.portal .formbox {
+  min-height: 0;
+  padding: 16px 18px;
+}
+
+.portal .formbox.is-live {
+  min-height: 520px;
+  padding: 0;
+}
+
+/* 주의 상자 */
+.r-warn {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 18px 22px;
+  border: 1px solid #F7E0BD;
+  border-radius: 16px;
+  background: #FFF8EE;
+}
+
+.r-warn-mark {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #F08C25;
+  color: #FFFFFF;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.r-warn b {
+  color: #A35A0D;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.r-warn p {
+  margin-top: 3px;
+  color: #7A5C33;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+  .r-hero {
+    padding: 22px 18px;
+  }
+
+  .r-new {
+    width: 100%;
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .r-item {
+    gap: 14px;
+    padding: 18px 16px;
+  }
+}

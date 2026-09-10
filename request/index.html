@@ -5,53 +5,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>요청하기 · 노안중 AI교육</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="오래 걸리는 일을 알려주시면 제가 만듭니다">
+<meta name="description" content="필요한 걸 함께 요청해요. 많이 모인 요청부터 연수와 자료로 만들어집니다.">
 <link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/site.css">
+<link rel="stylesheet" href="../shared/portal.css">
 </head>
-<body>
+<body class="portal">
 <a class="skip" href="#main">본문으로</a>
-<header class="nav"><div class="nav-in">
-  <a class="brand" href="../index.html">노안중 AI교육</a>
-  <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
-  <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
-    <a href="../training/index.html">연수</a>
-    <a href="../showcase/index.html">활용 사례</a>
-    <a href="../library/index.html">자료실</a>
-    <a href="../request/index.html">요청하기</a>
-  </nav>
-  <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
-</div></header>
-<main id="main">
 
-<section class="section">
-  <div class="wrap">
-    <div class="card card-hero">
-      <span class="badge mint">요청하기</span>
-      <h1>"이 일이 오래 걸려요"</h1>
-      <p class="lede">"이거 만들어 주세요"보다 <strong>"이 일이 오래 걸려요"</strong>라고 말씀해 주시는 게 좋습니다. 그래야 제가 자동화할 지점을 찾습니다.</p>
+<header class="p-header">
+  <div class="p-wrap p-header-inner">
+    <a class="p-brand" href="../index.html" aria-label="노안중학교 AI교육 홈">
+      <img src="../assets/logo.png" alt="노안중학교" width="120" height="40">
+      <span class="p-brand-name">AI교육 포털</span>
+    </a>
+
+    <nav class="p-nav" aria-label="주요 메뉴">
+      <a href="../training/index.html">연수</a>
+      <a href="../showcase/index.html">활용 사례</a>
+      <a href="../library/index.html">자료실</a>
+      <a class="is-here" href="../request/index.html" aria-current="page">요청하기</a>
+      <a class="p-nav-cta" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>
+        아이모두 바로가기
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="p-wrap p-main">
+
+  <section class="r-hero" aria-labelledby="rHeroTitle">
+    <div class="r-hero-copy">
+      <div class="r-eyebrow">선생님들의 요청 게시판</div>
+      <h1 id="rHeroTitle">필요한 걸 함께 요청해요</h1>
+      <p class="r-lede">이미 올라온 요청에 공감을 눌러 힘을 보태거나, 새 요청을 남겨주세요.<br>많이 모인 요청부터 연수와 자료로 만들어집니다.</p>
+      <p class="r-lede">「이거 만들어 주세요」보다 <strong>「이 일이 오래 걸려요」</strong>라고 말씀해 주시는 게 좋습니다. 그래야 제가 자동화할 지점을 찾습니다.</p>
+    </div>
+    <div class="r-stats">
+      <div class="r-stat"><b id="rCountAll">0</b><span>전체 요청</span></div>
+      <div class="r-stat r-stat-done"><b id="rCountDone">0</b><span>해결됨</span></div>
+    </div>
+  </section>
+
+  <div class="r-bar">
+    <div class="r-filters" id="rFilters" role="group" aria-label="상태로 거르기"></div>
+    <button class="r-new" type="button" id="rNew" aria-expanded="false" aria-controls="rForm">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+      새 요청 쓰기
+    </button>
+  </div>
+
+  <section class="r-form" id="rForm" aria-labelledby="rFormTitle" hidden>
+    <div class="r-form-head">
+      <h2 id="rFormTitle">새 요청 쓰기</h2>
+      <button class="r-close" type="button" id="rClose" aria-label="닫기">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+
+    <div class="r-field">
+      <span class="r-legend" id="rTagLabel">요청 유형</span>
+      <div class="r-tagpick" id="rTagPick" role="group" aria-labelledby="rTagLabel"></div>
+    </div>
+
+    <div class="r-field">
+      <label for="rTitle">제목</label>
+      <input type="text" id="rTitle" placeholder="예: 생기부 문구 다듬는 연수 해주세요">
+    </div>
+
+    <div class="r-field">
+      <label for="rBody">내용</label>
+      <textarea id="rBody" rows="4" placeholder="어떤 상황에서 무엇이 오래 걸리는지 적어주세요. 학생 개인정보는 넣지 마세요."></textarea>
+    </div>
+
+    <div class="r-field">
+      <label for="rDept">소속</label>
+      <input type="text" id="rDept" placeholder="예: 3학년부">
+    </div>
+
+    <div class="r-actions">
+      <button class="r-submit" type="button" id="rMake" disabled>요청 문장 만들기</button>
+      <button class="r-cancel" type="button" id="rCancel">취소</button>
+      <span class="r-hint" id="rHint">제목을 적으시면 문장을 만들어 드립니다</span>
+    </div>
+
+    <div class="r-made" id="rMade" hidden>
+      <h3>이대로 보내주세요</h3>
+      <pre id="rMadeText"></pre>
+      <p><button class="btn" type="button" id="rCopy">복사</button></p>
+      <p class="r-hint">수 · 목 오전 교무실에서 말로 하셔도 되고, 종이 쪽지나 업무 메신저로 주셔도 됩니다. 제가 게시판에 옮겨 적습니다.</p>
+    </div>
+  </section>
+
+  <div class="r-list" id="rList" aria-live="polite"></div>
+
+  <div class="r-warn">
+    <span class="r-warn-mark" aria-hidden="true">!</span>
+    <div>
+      <b>게시판에는 개인정보를 적지 않습니다</b>
+      <p>학생 이름 · 연락처 · 성적이 필요한 요청은 코디네이터에게 직접 문의해 주세요. 학생 이름 · 사진 · 성적이 들어간 파일은 보내지 마세요. 지워서 주시거나, 교무실에서 함께 보겠습니다. <a href="../library/rules.html">안전 규칙 한 장 보기</a></p>
     </div>
   </div>
-</section>
 
-<section class="section">
-  <div class="wrap">
-    <div class="card is-centered">
-      <h2 class="section-title">폼으로 보내기</h2>
-      <div class="formbox" id="requestForm" data-form="">
-        <p>폼 주소가 정해지면 여기에 바로 뜹니다. 그때까지는 아래 방법으로 알려주세요.</p>
-      </div>
-      <p class="stack"><button class="btn" type="button" id="requestFormLink" disabled>폼 링크 열기</button></p>
-      <p class="muted small">화면에 폼이 안 보이면 위 버튼으로 새 창에서 여세요.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <h2 class="section-title">폼 말고도 됩니다</h2>
+  <section class="p-panel" aria-labelledby="rWaysTitle">
+    <h2 id="rWaysTitle" class="section-title">폼 말고도 됩니다</h2>
     <div class="grid cols-3">
       <div class="card">
         <h3 class="card-title">교무실에서 말로</h3>
@@ -66,52 +126,283 @@
         <p class="card-lede">업무 메신저로 보내주셔도 됩니다. 학생 이름이 들어가는 자료는 파일로 주지 마세요.</p>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="wrap">
     <h2 class="section-title">이렇게 적어주시면 빠릅니다</h2>
     <ol class="steps">
       <li>어떤 일인지 한 줄 — 예: "체육대회 안내 팜플렛을 매년 외주로 맡깁니다"</li>
       <li>언제까지 필요한지 — 날짜만 적어주셔도 됩니다</li>
       <li>지금은 얼마나 걸리는지 — "한 번에 서너 시간" 정도면 충분합니다</li>
     </ol>
-    <div class="card warn stack">
-      <h3 class="card-title">보내실 때 한 가지</h3>
-      <p class="card-lede">학생 이름 · 사진 · 성적이 들어간 파일은 보내지 마세요. 지워서 주시거나, 교무실에서 함께 보겠습니다.</p>
-      <p><a href="../library/rules.html">안전 규칙 한 장 보기</a></p>
+
+    <div class="formbox" id="requestForm" data-form="">
+      <p>폼 주소가 정해지면 여기에 바로 뜹니다. 그때까지는 위 방법으로 알려주세요.</p>
     </div>
-  </div>
-</section>
+  </section>
 
 </main>
-<footer class="site-foot">
-  <div class="wrap">
-    <p>AI교육 코디네이터 박진영 · 수·목 오전 교무실</p>
-    <p>근거: 전남교육청 「AI 활용 가이드라인」</p>
-      <p><a href="../index.html">업무별 안내서</a> · <a href="../class/index.html">수업</a> · <a href="../contest/index.html">대회</a> · <a href="../about/index.html">소개</a> · <a href="../library/rules.html">안전 규칙 한 장</a></p>
+
+<footer class="p-footer">
+  <div class="p-wrap p-footer-grid">
+    <img src="../assets/logo.png" alt="노안중학교" width="120" height="40">
+    <div><strong>AI교육 코디네이터 박진영</strong> · 수 · 목 오전 교무실</div>
+    <p><a href="../index.html">업무별 안내서</a> · <a href="../class/index.html">수업</a> · <a href="../contest/index.html">대회</a> · <a href="../about/index.html">소개</a> · <a href="../library/rules.html">안전 규칙 한 장</a></p>
   </div>
 </footer>
+
+<script src="../data/requests.js"></script>
 <script src="../shared/icons.js"></script>
 <script src="../shared/site.js"></script>
 <script>
-/* 노션 폼 자리 — data-form 이 채워지면 iframe 과 링크를 살린다 */
 (function () {
   'use strict';
+
+  /* 요청 게시판.
+     원본은 data/requests.json 이다. 코디네이터가 받은 요청을 거기에 옮겨 적는다.
+     이 사이트는 서버가 없다 — 그래서 이 화면에서 글이 올라가지는 않는다.
+     「새 요청 쓰기」 는 보내실 문장을 만들어 드리는 데까지가 하는 일이다. */
+
+  var ALL = '전체';
+  var VOTE_KEY = 'noan-request-votes';
+
+  var DATA = null;
+  var filter = ALL;
+  var draftTag = '';
+  var votes = {};
+
+  var filtersBox = document.getElementById('rFilters');
+  var listBox = document.getElementById('rList');
+  var form = document.getElementById('rForm');
+  var newBtn = document.getElementById('rNew');
+  var tagPick = document.getElementById('rTagPick');
+  var titleInput = document.getElementById('rTitle');
+  var bodyInput = document.getElementById('rBody');
+  var deptInput = document.getElementById('rDept');
+  var makeBtn = document.getElementById('rMake');
+  var hint = document.getElementById('rHint');
+  var made = document.getElementById('rMade');
+  var madeText = document.getElementById('rMadeText');
+
+  function esc(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /* 공감은 이 브라우저에만 남는다. 서버로 가지 않고, 남에게 보이지도 않는다. */
+  function loadVotes() {
+    try {
+      votes = JSON.parse(window.localStorage.getItem(VOTE_KEY) || '{}') || {};
+    } catch (error) {
+      votes = {};
+    }
+  }
+
+  function saveVotes() {
+    try {
+      window.localStorage.setItem(VOTE_KEY, JSON.stringify(votes));
+    } catch (error) { /* 저장이 막혀 있어도 화면은 그대로 돈다 */ }
+  }
+
+  function statusClass(status) {
+    if (status.indexOf('검토') === 0) return 'r-status-검토';
+    if (status.indexOf('준비') === 0) return 'r-status-준비';
+    return 'r-status-해결';
+  }
+
+  function countOf(item) {
+    return (Number(item.count) || 0) + (votes[item.id] ? 1 : 0);
+  }
+
+  function renderStats() {
+    var items = DATA.items;
+    var done = items.filter(function (item) { return item.status === '해결됨'; });
+    document.getElementById('rCountAll').textContent = items.length;
+    document.getElementById('rCountDone').textContent = done.length;
+  }
+
+  function renderFilters() {
+    var labels = [ALL].concat(DATA.statuses);
+
+    filtersBox.innerHTML = labels.map(function (label) {
+      return '<button type="button" data-filter="' + esc(label) + '" aria-pressed="' +
+        (label === filter ? 'true' : 'false') + '">' + esc(label) + '</button>';
+    }).join('');
+  }
+
+  function renderList() {
+    var visible = DATA.items.filter(function (item) {
+      return filter === ALL || item.status === filter;
+    });
+
+    if (!visible.length) {
+      listBox.innerHTML = '<p class="r-empty">' +
+        (DATA.items.length ?
+          '이 상태인 요청이 아직 없습니다.' :
+          '아직 올라온 요청이 없습니다.<br>첫 요청을 남겨주세요 — 위 「새 요청 쓰기」 를 누르시면 보내실 문장을 만들어 드립니다.') +
+        '</p>';
+      return;
+    }
+
+    listBox.innerHTML = visible.map(function (item) {
+      var on = !!votes[item.id];
+
+      return '<article class="r-item">' +
+        '<button class="r-vote" type="button" data-vote="' + esc(item.id) + '"' +
+          ' aria-pressed="' + (on ? 'true' : 'false') + '"' +
+          ' aria-label="이 요청에 공감">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6"></path><path d="m5 12 7-7 7 7"></path></svg>' +
+          '<b>' + countOf(item) + '</b>' +
+        '</button>' +
+        '<div class="r-item-main">' +
+          '<div class="r-pills">' +
+            '<span class="r-status ' + statusClass(item.status) + '">' + esc(item.status) + '</span>' +
+            '<span class="r-tag">' + esc(item.tag) + '</span>' +
+          '</div>' +
+          '<h2>' + esc(item.title) + '</h2>' +
+          '<p class="r-body">' + esc(item.body) + '</p>' +
+          '<div class="r-meta">' + esc(item.meta) + '</div>' +
+        '</div>' +
+        (item.answer ?
+          '<div class="r-answer">' +
+            '<span class="r-answer-mark" aria-hidden="true">답</span>' +
+            '<p>' + esc(item.answer) + '</p>' +
+          '</div>' : '') +
+      '</article>';
+    }).join('');
+  }
+
+  function renderTagPick() {
+    tagPick.innerHTML = DATA.tags.map(function (tag) {
+      return '<button type="button" data-tag="' + esc(tag) + '" aria-pressed="' +
+        (tag === draftTag ? 'true' : 'false') + '">' + esc(tag) + '</button>';
+    }).join('');
+  }
+
+  function updateMakeState() {
+    var ready = titleInput.value.trim().length > 0;
+    makeBtn.disabled = !ready;
+    hint.textContent = ready ?
+      '보내실 문장을 만들어 드립니다' :
+      '제목을 적으시면 문장을 만들어 드립니다';
+  }
+
+  function composeText() {
+    var lines = ['[' + draftTag + '] ' + titleInput.value.trim()];
+    if (bodyInput.value.trim()) lines.push(bodyInput.value.trim());
+    if (deptInput.value.trim()) lines.push('— ' + deptInput.value.trim());
+    return lines.join('\n');
+  }
+
+  filtersBox.addEventListener('click', function (event) {
+    var button = event.target.closest('button[data-filter]');
+    if (!button) return;
+    filter = button.getAttribute('data-filter');
+    renderFilters();
+    renderList();
+  });
+
+  listBox.addEventListener('click', function (event) {
+    var button = event.target.closest('button[data-vote]');
+    if (!button) return;
+    var id = button.getAttribute('data-vote');
+    votes[id] = !votes[id];
+    saveVotes();
+    renderList();
+  });
+
+  tagPick.addEventListener('click', function (event) {
+    var button = event.target.closest('button[data-tag]');
+    if (!button) return;
+    draftTag = button.getAttribute('data-tag');
+    renderTagPick();
+  });
+
+  function openForm(open) {
+    form.hidden = !open;
+    newBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) titleInput.focus();
+  }
+
+  newBtn.addEventListener('click', function () { openForm(form.hidden); });
+  document.getElementById('rClose').addEventListener('click', function () { openForm(false); });
+  document.getElementById('rCancel').addEventListener('click', function () { openForm(false); });
+  titleInput.addEventListener('input', updateMakeState);
+
+  makeBtn.addEventListener('click', function () {
+    madeText.textContent = composeText();
+    made.hidden = false;
+    made.scrollIntoView({ block: 'nearest' });
+  });
+
+  document.getElementById('rCopy').addEventListener('click', function (event) {
+    var button = event.currentTarget;
+    var label = button.textContent;
+
+    function done() {
+      button.textContent = '복사됨';
+      window.setTimeout(function () { button.textContent = label; }, 1500);
+    }
+
+    try {
+      navigator.clipboard.writeText(madeText.textContent).then(done, select);
+    } catch (error) {
+      select();
+    }
+
+    function select() {
+      var range = document.createRange();
+      var selection = window.getSelection();
+      range.selectNodeContents(madeText);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try { document.execCommand('copy'); done(); } catch (error) { /* 손으로 복사하시면 된다 */ }
+    }
+  });
+
+  function boot(data) {
+    DATA = data;
+    draftTag = DATA.tags[0] || '';
+    loadVotes();
+    renderStats();
+    renderFilters();
+    renderList();
+    renderTagPick();
+    updateMakeState();
+  }
+
+  function loadJson(path, fallbackName) {
+    if (!window.fetch) return Promise.resolve(window[fallbackName] || null);
+
+    return fetch(path)
+      .then(function (response) {
+        if (!response.ok) return Promise.reject(response.status);
+        return response.json();
+      })
+      .catch(function () { return window[fallbackName] || null; });
+  }
+
+  loadJson('../data/requests.json', 'REQUESTS_DATA').then(function (data) {
+    if (!data) {
+      listBox.innerHTML = '<p class="r-empty">요청 목록을 불러오지 못했습니다. ' +
+        '<a href="../data/requests.json">requests.json</a> 을 직접 여세요.</p>';
+      return;
+    }
+    boot(data);
+  });
+
+  /* 노션 폼 자리 — data-form 이 채워지면 iframe 을 살린다 */
   var box = document.getElementById('requestForm');
-  var link = document.getElementById('requestFormLink');
   var src = box && box.getAttribute('data-form');
-  if (!src) return;
-  var iframe = document.createElement('iframe');
-  iframe.src = src; iframe.title = '요청 폼'; iframe.loading = 'lazy';
-  box.innerHTML = '';
-  box.appendChild(iframe);
-  var a = document.createElement('a');
-  a.className = 'btn btn-primary';
-  a.href = src; a.target = '_blank'; a.rel = 'noopener';
-  a.textContent = '폼 링크 열기';
-  link.parentNode.replaceChild(a, link);
+
+  if (src) {
+    var iframe = document.createElement('iframe');
+    iframe.src = src;
+    iframe.title = '요청 폼';
+    iframe.loading = 'lazy';
+    box.innerHTML = '';
+    box.className += ' is-live';
+    box.appendChild(iframe);
+  }
 })();
 </script>
 </body>
