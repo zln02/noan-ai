@@ -2044,6 +2044,15 @@ a {
   line-height: 1.6;
 }
 
+/* 단계 카드 안에 들어간 프롬프트 — 시안의 「그대로 치실 문장」 자리 */
+.g-step-main > .g-prompt {
+  margin-top: 18px;
+}
+
+.g-step-main > .g-note {
+  margin-top: 14px;
+}
+
 /* 도구 로고 — 시안의 로고 칸 */
 .g-tool-logo {
   display: flex;

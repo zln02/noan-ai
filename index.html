@@ -485,11 +485,15 @@
       task.steps.map(function (step, i) {
         var file = shots[i];
         var marks = Array.isArray(markSets[i]) ? markSets[i] : [];
+        /* 프롬프트는 그 문장을 치는 단계 안에 들어간다.
+           prompt_step 이 없는 카드는 예전처럼 아래 따로 선다. */
+        var here = task.prompt_step === i + 1;
 
         return '<li class="g-step">' +
           '<span class="g-step-no">' + (i + 1) + '</span>' +
           '<div class="g-step-main">' +
             '<h3>' + esc(step) + '</h3>' +
+            (here ? promptHtml(task) + noteHtml(task) : '') +
             (file ?
               '<div class="g-shot-wrap g-step-shot">' +
                 '<img class="g-shot-img" src="assets/guide/' + esc(file) +
@@ -657,11 +661,12 @@
           stepsHtml(task) +
         '</section>' +
 
-        '<section class="g-section">' +
-          '<h2>복사할 프롬프트</h2>' +
-          promptHtml(task) +
-          noteHtml(task) +
-        '</section>' +
+        (task.prompt && !task.prompt_step ?
+          '<section class="g-section">' +
+            '<h2>복사할 프롬프트</h2>' +
+            promptHtml(task) +
+            noteHtml(task) +
+          '</section>' : '') +
 
         shotHtml(task) +
 
