@@ -33,14 +33,28 @@ function norm(s) {
   return s.replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
 }
 
+/* 그림으로만 된 슬라이드에서는 화면에 글자가 없다.
+   그래도 대본은 alt 와 data-speaker-notes 에 남는다 — 그것도 같이 본다.
+   태그를 지우면 속성이 통째로 날아가므로 미리 빼내 뒤에 붙인다. */
+function attrText(chunk) {
+  const out = [];
+  const re = /(?:alt|data-speaker-notes)="([^"]*)"/g;
+  let m;
+  while ((m = re.exec(chunk))) {
+    if (m[1].trim()) out.push(m[1]);
+  }
+  return out.join(' ');
+}
+
 /* 슬라이드별 텍스트 — 태그를 걷어내고 공백을 하나로 */
 function deckText() {
   const src = fs.readFileSync(DECK, 'utf8');
   const out = {};
-  const re = /<section\b[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/section>/g;
+  const re = /<section\b([^>]*\bid="([^"]+)"[^>]*)>([\s\S]*?)<\/section>/g;
   let m;
   while ((m = re.exec(src))) {
-    const body = m[2]
+    const attrs = attrText(m[1]) + ' ' + attrText(m[3]);
+    const body = m[3] + ' ' + attrs
       .replace(/<svg[\s\S]*?<\/svg>/g, ' ')
       .replace(/<!--[\s\S]*?-->/g, ' ');
     const ent = (t) => t
@@ -48,7 +62,7 @@ function deckText() {
       .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ');
     /* 태그를 공백으로 지운 것과 그냥 지운 것 둘 다 본다.
        <b>쓰는 법</b>을 처럼 태그가 낱말 가운데 있으면 공백판에서만 갈라진다. */
-    out[m[1]] = {
+    out[m[2]] = {
       spaced: norm(ent(body.replace(/<[^>]+>/g, ' '))),
       tight: norm(ent(body.replace(/<[^>]+>/g, '')))
     };
