@@ -78,6 +78,7 @@ ol.st li:before{content:counter(s);position:absolute;left:0;top:1px;width:6mm;he
 .cau{background:#FAEDEC;border-left:6px solid var(--stop);border-radius:5px;
      padding:9px 13px;font-size:11pt;line-height:1.55;}
 .shotwrap{position:relative;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#F2F9F7;}
+.shotgrid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm;}
 .shotwrap img{width:100%;display:block;}
 .mark{position:absolute;border:3px solid var(--red);border-radius:50%;}
 .mark span{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:3px;
@@ -168,24 +169,57 @@ def toc():
     return "".join(out)
 
 
+def find_shot(name):
+    """assets/guide/ 에 실제로 있는 파일만 돌려준다."""
+    for base in ("../assets/guide", "shots"):
+        p = pathlib.Path(base) / name
+        if p.exists():
+            return p.as_posix()
+    return None
+
+
+def marks_html(marks):
+    return "".join(
+        f'<div class="mark" style="left:{l}%;top:{tp}%;width:{w}%;height:{h}%">'
+        f'{f"<span>{lb}</span>" if lb else ""}</div>'
+        for l, tp, w, h, lb in marks)
+
+
 def shot(t):
     """캡처가 있으면 오른쪽 칸을 만들고, 없으면 빈 문자열을 준다.
+
+    shot 은 문자열 한 장이거나 여러 장의 배열이다.
+    배열이면 marks 도 캡처 한 장에 한 묶음씩이다 — 웹과 같은 규칙이다.
+    네 장이 한 칸에 세로로 들어가면 못 알아본다. 두 장씩 나란히 놓는다.
 
     없는 캡처를 점선 자리로 채우지 않는다 — 파일명은 선생님께 보일 것이 아니다.
     파일이 assets/guide/ 에 들어오는 순간 저절로 다시 살아난다.
     """
-    if not t.get("shot"):
+    raw = t.get("shot")
+    if not raw:
         return ""
-    for base in ("../assets/guide", "shots"):
-        p = pathlib.Path(base) / t["shot"]
-        if p.exists():
-            marks = "".join(
-                f'<div class="mark" style="left:{l}%;top:{tp}%;width:{w}%;height:{h}%">'
-                f'{f"<span>{lb}</span>" if lb else ""}</div>'
-                for l, tp, w, h, lb in t.get("marks", []))
-            src = p.as_posix()
-            return f'<div class="shotwrap"><img src="{src}" alt="{t["title"]} 화면">{marks}</div>'
-    return ""
+
+    many = isinstance(raw, list)
+    names = raw if many else [raw]
+    all_marks = t.get("marks") or []
+
+    cells = []
+    for i, name in enumerate(names):
+        src = find_shot(name)
+        if not src:
+            continue
+        if many:
+            mk = all_marks[i] if i < len(all_marks) and isinstance(all_marks[i], list) else []
+        else:
+            mk = all_marks
+        cells.append(f'<div class="shotwrap"><img src="{src}" alt="{t["title"]} 화면">'
+                     f'{marks_html(mk)}</div>')
+
+    if not cells:
+        return ""
+    if len(cells) == 1:
+        return cells[0]
+    return '<div class="shotgrid">' + "".join(cells) + '</div>'
 
 
 def card(t, i, n):

@@ -19,3 +19,6 @@ docs/manual/
 
 # 채팅으로 받은 작업 묶음(원본). 산출물만 커밋하고 묶음 자체는 올리지 않는다
 bundle/
+
+# guide-build.py 가 만드는 중간 파일 — PDF 만 커밋한다
+tools/guide-print.html
