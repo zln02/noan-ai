@@ -22,3 +22,6 @@ bundle/
 
 # guide-build.py 가 만드는 중간 파일 — PDF 만 커밋한다
 tools/guide-print.html
+
+# 시연 영상은 저장소에 넣지 않는다 (덱은 파일이 없으면 자리표시 그림을 보여준다)
+training/assets/s1/*.mp4

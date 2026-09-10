@@ -1,1094 +1,359 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>1회차 · 업무 편해지기</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1회차 · 업무 편해지기 · 노안중 AI교육</title>
 <meta name="robots" content="noindex">
+<meta name="description" content="노안중학교 교원 AI 연수 1회차 발표 자료. 화살표 키로 넘깁니다.">
 <link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-<link rel="stylesheet" href="../shared/tokens.css">
-<link rel="stylesheet" href="../shared/deck.css">
+<style>
+/* 첫 슬라이드가 제 모양을 갖추기 전에 번쩍이지 않게 한다 */
+deck-stage:not(:defined) { visibility: hidden; }
+
+  body { margin:0; background:#becafe; }
+  a { color:#376dfb; text-decoration:none; }
+  a:hover { color:#2455d8; text-decoration:underline; }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-deck-active] [data-anim="in"] { animation: sceneIn .55s ease-out both; animation-delay: var(--d, 0s); }
+    [data-deck-active] [data-anim="rise"] { animation: sceneRise .55s ease-out both; animation-delay: var(--d, 0s); }
+    [data-deck-active] [data-anim="slide"] { animation: sceneSlide .5s cubic-bezier(.22,.7,.3,1) both; animation-delay: var(--d, 0s); }
+    [data-deck-active] [data-anim="slide-slow"] { animation: sceneSlide .85s cubic-bezier(.22,.7,.3,1) both; animation-delay: var(--d, 0s); }
+    [data-deck-active] [data-anim="fly"] { animation: sceneFly .62s cubic-bezier(.3,.7,.25,1) both; animation-delay: var(--d, 0s); }
+    [data-deck-active] [data-anim="pop"] { animation: scenePop .95s cubic-bezier(.4,0,.3,1) both; animation-delay: var(--d, 0s); }
+  }
+  @keyframes sceneIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scenePop {
+    from { opacity: 0; transform: scale(1); box-shadow: 0 0 0 0 rgba(43,127,255,0); }
+    1% { opacity: 1; }
+    35% { transform: scale(1.01); box-shadow: 0 0 0 1px rgba(43,127,255,.45), 0 2px 8px rgba(11,46,101,.05); }
+    70% { transform: scale(1.02); box-shadow: 0 0 0 2px rgba(43,127,255,.75), 0 4px 13px rgba(11,46,101,.1); }
+    to { opacity: 1; transform: scale(1.02); box-shadow: 0 0 0 3px #2b7fff, 0 6px 18px rgba(11,46,101,.14); }
+  }
+  @keyframes sceneFly {
+    from { opacity: 0; transform: translate(var(--fx,0px), var(--fy,0px)) scale(calc(var(--fs,1) * 1.02)); }
+    12% { opacity: 1; }
+    to { opacity: 1; transform: translate(0,0) scale(1); }
+  }
+  @keyframes sceneSlide {
+    from { opacity: 0; transform: translateX(-18px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes sceneRise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  [data-deck-active] [style*="animation-play-state:paused"] { animation-play-state: running !important; }
+  video[data-scene-video] { visibility: hidden; }
+  video[data-scene-video][data-ready] { visibility: visible; }
+  [data-video-controls] { visibility: hidden; }
+  [data-video-controls][data-ready] { visibility: visible; }
+  [data-video-controls] button:hover { background: rgba(11,46,101,.9); }
+  @keyframes mapFade {
+    0%, 18% { opacity: 1; transform: scale(1); }
+    38%, 100% { opacity: .12; transform: scale(.9); }
+  }
+  @keyframes mapKeep {
+    0%, 18% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 rgba(43,127,255,0); }
+    38%, 100% { opacity: 1; transform: scale(1.04); box-shadow: 0 10px 30px rgba(43,127,255,.18); }
+  }
+  @keyframes mapZoom {
+    0%, 18% { transform: scale(1) translateX(0); }
+    38%, 100% { transform: scale(1.28) translateX(0); }
+  }
+  @keyframes mapCaption {
+    0%, 22% { opacity: 0; transform: translateY(10px); }
+    42%, 100% { opacity: 1; transform: translateY(0); }
+  }
+</style>
 </head>
 <body>
-<div class="deck" id="deck">
 
-<section class="slide" id="s1" data-t="0" data-title="표지">
-  <span class="deck-orb is-a"></span><span class="deck-orb is-gold is-b"></span><span class="deck-orb is-c"></span>
-  <div class="slide-inner cover">
-    <div class="cover-card">
-      <div class="s-split">
-        <div>
-          <p class="eyebrow">교원 연수 1회차 · 생성형 AI 활용 업무 효율화</p>
-          <h1 class="s-title">오늘은<br>고르시기만 하면 됩니다</h1>
-          <p class="s-sub">이미 갖고 계신 도구를 보여드립니다.<br>두 개만 고르시면, 다음 회차는 그걸로 채웁니다.</p>
-        </div>
-        <picture><source srcset="../assets/noari/noari-flag.webp" type="image/webp"><img class="noari" src="../assets/noari/noari-flag.png" alt="노안중학교 마스코트 노아리" height="380" loading="lazy" onerror="this.remove()"></picture>
-      </div>
-    </div>
-    <div class="cover-strip">
-      <p>AI교육 코디네이터 박진영</p>
-      <p>2026.09.14(월) 13:00 · 2시간</p>
-      <p>노안중학교 · 1984년 개교 42년</p>
-    </div>
+<!-- no-rail: 왼쪽 썸네일 줄을 숨긴다. 넘기기는 화살표 키 · 화면 좌우 터치. -->
+<deck-stage width="1280" height="720" no-rail>
+<section data-label="01 표지" data-screen-label="01" data-speaker-notes="자기소개는 4장 한 장 40초. 넘기지 말 것. 시작 전 「결과보고서용 사진 찍겠습니다, 얼굴 안 나오게」 한 마디. 반대하시는 분 있으면 안 찍는다." style="background:#eaf3ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <div style="position:absolute;left:0;top:0;width:1280px;height:720px;overflow:hidden;--d:0s" data-anim="in">
+    <img src="assets/s1/s01-cover.png" alt="노안중학교 AI 교원 연수" style="width:1280px;height:720px;display:block">
   </div>
-  <aside class="notes">
-    <p>자기소개는 다음 세 장으로 3분. 넘기지 말 것.</p>
-    <p>시작 전 "결과보고서용 사진 찍겠습니다, 얼굴 안 나오게" 한 마디. 반대하시는 분 있으면 안 찍는다.</p>
-  </aside>
 </section>
 
-<section class="slide" id="s2" data-t="1" data-title="오늘 가져가실 것 셋">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>01</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">오늘 끝나면 이 셋을 가져가십니다</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-cards n3">
-          <div class="s-card">
-            <div class="slot" data-slot="wallet-off"></div>
-            <span class="num">1</span>
-            <p class="card-title">결제 없이 당장 되는 도구 5개</p>
-            <p class="card-lede">이미 계정이 있습니다</p>
-          </div>
-          <div class="s-card">
-            <div class="slot" data-slot="hand"></div>
-            <span class="num">2</span>
-            <p class="card-title">요청하는 법</p>
-            <p class="card-lede">"오래 걸려요"라고만 하시면 제가 만듭니다</p>
-          </div>
-          <div class="s-card">
-            <div class="slot" data-slot="shield"></div>
-            <span class="num">3</span>
-            <p class="card-title">안전 규칙 한 장</p>
-            <p class="card-lede">이것만 지키면 됩니다 (인쇄해서 드립니다)</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 02</p>
-    <span class="deck-orb is-a"></span><span class="deck-orb is-gold is-b"></span>
-  </div>
-  <aside class="notes">
-    <p>30초. "실습은 없습니다. 보시고, 시키시면 됩니다"를 여기서.</p>
-  </aside>
+<section data-label="02 선생님들의 시간" data-screen-label="02" data-speaker-notes="숫자 하나만 짚는다 — 「주당 7.23시간」. 나머지 항목은 읽지 말고 「이런 것들이죠」로 넘긴다. 마지막 줄 「쓰고, 읽고, 만드는 일」이 오늘 범위를 정하는 문장이다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <img src="assets/s1/b02-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:200px;display:block;--d:0.04s" data-anim="in">
+  <img src="assets/s1/b02-c1.png" alt="" style="position:absolute;left:0px;top:200px;width:653px;height:346px;display:block;--d:0.26s" data-anim="slide">
+  <img src="assets/s1/b02-c2.png" alt="" style="position:absolute;left:653px;top:200px;width:627px;height:346px;display:block;--d:0.42000000000000004s" data-anim="slide">
+  <img src="assets/s1/b02-f.png" alt="" style="position:absolute;left:0px;top:546px;width:1280px;height:174px;display:block;--d:0.62s" data-anim="in">
+</section>
+<section data-label="03 오늘 끝나면 세 가지" data-screen-label="03" data-speaker-notes="30초. 「실습은 2부에 15분, 짝으로 합니다」를 여기서. 03번 「나만의 AI 활용법」은 마지막 설문에서 한 줄 적어 가시는 것이라고 짚어준다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <img src="assets/s1/b03-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:85px;display:block;--d:0.04s" data-anim="in">
+  <img src="assets/s1/b03-c1.png" alt="" style="position:absolute;left:0px;top:85px;width:1280px;height:635px;display:block;--d:0.26s" data-anim="in">
 </section>
 
-<section class="slide" id="s9b" data-t="3" data-title="지금 어디쯤이신가요">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>01</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">지금 어디쯤이신가요</h2>
-    <p class="s-lead">오늘 어디서 출발하시는지만 알면 됩니다. 정답은 없습니다.</p>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div>
-          <div class="s-flow">
-            <div class="s-flow-step"><span>진입</span><span>들어는 봤는데, 내 업무에 어떻게 쓸지는 모르겠다</span></div>
-            <div class="s-flow-step"><span>적응</span><span>필요할 때 도구를 골라서 쓸 수 있다</span></div>
-            <div class="s-flow-step"><span>선도</span><span>다른 선생님께 알려드릴 수 있다</span></div>
-          </div>
-          <p class="s-big">오늘은 「진입」에서 「적응」으로 가는 것이 목표입니다.</p>
-        </div>
-      </div>
-      <p class="s-panel-note">한국교육학술정보 계열 연구의 교원 AI디지털 역량 3단계(진입·적응·선도)를 따랐습니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 03</p>
-  </div>
-  <aside class="notes">
-    <p>30초. "진입이어도 전혀 문제없습니다"를 반드시 말할 것. 사전 설문에도 같은 문항이 있으니 12월에 비교한다.</p>
-  </aside>
+<section data-label="04 지금 어디쯤" data-screen-label="04" data-speaker-notes="30초. 「진입이어도 전혀 문제없습니다」를 반드시 말할 것. 사전 설문에도 같은 문항이 있으니 12월에 비교한다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <img src="assets/s1/b04-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:224px;display:block;--d:0.04s" data-anim="in">
+  <img src="assets/s1/b04-c1.png" alt="" style="position:absolute;left:0px;top:224px;width:469px;height:284px;display:block;--d:0.26s" data-anim="slide">
+  <img src="assets/s1/b04-c2.png" alt="" style="position:absolute;left:469px;top:224px;width:351px;height:284px;display:block;--d:0.42000000000000004s" data-anim="slide">
+  <img src="assets/s1/b04-c3.png" alt="" style="position:absolute;left:820px;top:224px;width:460px;height:284px;display:block;--d:0.5800000000000001s" data-anim="slide">
+  <img src="assets/s1/b04-f.png" alt="" style="position:absolute;left:0px;top:508px;width:1280px;height:212px;display:block;--d:0.78s" data-anim="in">
 </section>
 
-<section class="slide" id="s3" data-t="4" data-title="30초만 제 소개를">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>01</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">30초만 제 소개를 하겠습니다</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-split">
-          <div class="s-dark">
-            <span class="deck-orb is-a"></span><span class="deck-orb is-gold is-b"></span><span class="deck-orb is-c"></span>
-            <p>AI교육 코디네이터</p>
-          </div>
-          <div class="s-card">
-            <ul class="plain intro-lines">
-              <li>동신대학교 컴퓨터공학과, 나주에 삽니다.</li>
-              <li>작년 12월부터 올해 6월까지 LG전자 DX School에서 팀장으로 프로젝트 둘을 배포까지 끌었습니다.</li>
-              <li>거기서 제일 크게 배운 건 기술이 아니었습니다.</li>
-            </ul>
-            <p class="s-quote">현장에서 안 쓰는 시스템은, 아무리 잘 만들어도 실패한 시스템입니다.</p>
-          </div>
-        </div>
-      </div>
-      <p class="s-panel-note">그래서 오늘, 새 도구를 늘리러 온 게 아닙니다. · 나머지 이력은 사이트 「소개」에 있습니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 04</p>
-  </div>
-  <aside class="notes">
-    <p>40초. 상 이름도 프로젝트 이름도 말하지 말 것 — 물어보시면 그때 답한다.</p>
-    <p>이 장의 문장은 "안 쓰면 실패" 하나다. 동신대는 학력 자랑이 아니라 "가깝다"는 뜻으로 말한다.</p>
-    <p>여기서 길어지면 뒤가 밀린다. 40초를 넘기지 마라.</p>
-  </aside>
+<section data-label="05 소개" data-screen-label="05" data-speaker-notes="40초. 항목이 하나씩 나오지만 다 읽지 말 것 — 「학력·교육·활동·수상」은 화면에 있으니 눈으로 보시게 두고, 「LG전자 DX School에서 다섯 명 팀 총괄」 한 줄만 말한다. 상 이름은 물어보시면 그때 답한다. 이 장에서 소리 내어 말할 문장은 마지막 「현장에서 바로 쓰이는 AI가 가장 좋은 AI」 하나다. 여기서 길어지면 뒤가 밀린다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <img src="assets/s1/i05-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:206px;display:block;--d:0.05s" data-anim="in">
+  <img src="assets/s1/i05-left.png" alt="" style="position:absolute;left:0px;top:206px;width:570px;height:375px;display:block;--d:0.3s" data-anim="in">
+  <img src="assets/s1/i05-r1.png" alt="" style="position:absolute;left:570px;top:206px;width:710px;height:60px;display:block;--d:0.6s" data-anim="slide-slow">
+  <img src="assets/s1/i05-r2.png" alt="" style="position:absolute;left:570px;top:266px;width:710px;height:68px;display:block;--d:1.05s" data-anim="slide-slow">
+  <img src="assets/s1/i05-r3.png" alt="" style="position:absolute;left:570px;top:334px;width:710px;height:70px;display:block;--d:1.5s" data-anim="slide-slow">
+  <img src="assets/s1/i05-r4.png" alt="" style="position:absolute;left:570px;top:404px;width:710px;height:91px;display:block;--d:1.95s" data-anim="slide-slow">
+  <img src="assets/s1/i05-r5.png" alt="" style="position:absolute;left:570px;top:495px;width:710px;height:86px;display:block;--d:2.4s" data-anim="slide-slow">
+  <img src="assets/s1/i05-f.png" alt="" style="position:absolute;left:0px;top:581px;width:1280px;height:139px;display:block;--d:2.9s" data-anim="in">
+</section>
+
+<section data-label="06 세 가지가 바뀌었다" data-screen-label="06" data-speaker-notes="여기서 기술 용어(LLM, 에이전트, 멀티모달) 쓰지 말 것. 변화 3만 짚고 넘어간다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <img src="assets/s1/b06-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:248px;display:block;--d:0.04s" data-anim="in">
+  <img src="assets/s1/b06-c1.png" alt="" style="position:absolute;left:0px;top:248px;width:472px;height:387px;display:block;--d:0.35s" data-anim="slide-slow">
+  <img src="assets/s1/b06-c2.png" alt="" style="position:absolute;left:472px;top:248px;width:341px;height:387px;display:block;--d:0.85s" data-anim="slide-slow">
+  <img src="assets/s1/b06-c3.png" alt="" style="position:absolute;left:813px;top:248px;width:467px;height:387px;display:block;--d:1.35s" data-anim="slide-slow">
+  <img src="assets/s1/b06-f.png" alt="" style="position:absolute;left:0px;top:635px;width:1280px;height:85px;display:block;--d:1.85s" data-anim="in">
+</section>
+
+<section data-label="07 전체 지도" data-screen-label="07" data-speaker-notes="카드가 하나씩 나옵니다. 나오는 대로 카테고리 이름만 읽어드린다 — 도구 이름은 읽지 말 것. 일곱 장이 다 나오는 데 7초. 마지막 파란 띠 「도구는 많지만, 오늘은 다 보지 않습니다」에서 멈추고 다음 장으로." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#0b2e65">
+  <img src="assets/s1/m07-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:205px;display:block;--d:0.05s" data-anim="in">
+  <img src="assets/s1/m07-a1.png" alt="" style="position:absolute;left:0px;top:205px;width:342px;height:180px;display:block;--d:0.5s" data-anim="slide-slow">
+  <img src="assets/s1/m07-a2.png" alt="" style="position:absolute;left:342px;top:205px;width:318px;height:180px;display:block;--d:1.4s" data-anim="slide-slow">
+  <img src="assets/s1/m07-a3.png" alt="" style="position:absolute;left:660px;top:205px;width:292px;height:180px;display:block;--d:2.3s" data-anim="slide-slow">
+  <img src="assets/s1/m07-a4.png" alt="" style="position:absolute;left:952px;top:205px;width:328px;height:180px;display:block;--d:3.2s" data-anim="slide-slow">
+  <img src="assets/s1/m07-b1.png" alt="" style="position:absolute;left:0px;top:385px;width:439px;height:193px;display:block;--d:4.1s" data-anim="slide-slow">
+  <img src="assets/s1/m07-b2.png" alt="" style="position:absolute;left:439px;top:385px;width:391px;height:193px;display:block;--d:5s" data-anim="slide-slow">
+  <img src="assets/s1/m07-b3.png" alt="" style="position:absolute;left:830px;top:385px;width:450px;height:193px;display:block;--d:5.8999999999999995s" data-anim="slide-slow">
+  <img src="assets/s1/m07-f.png" alt="" style="position:absolute;left:0px;top:578px;width:1280px;height:142px;display:block;--d:7s" data-anim="in">
+  <img src="assets/s1/box-jne.png" alt="" style="position:absolute;left:64px;top:318px;width:116px;height:41px;display:block;border-radius:8px;--d:7.4s" data-anim="pop">
+  <img src="assets/s1/box-nlm.png" alt="" style="position:absolute;left:687px;top:321px;width:116px;height:41px;display:block;border-radius:8px;--d:7.65s" data-anim="pop">
+  <img src="assets/s1/box-miri.png" alt="" style="position:absolute;left:377px;top:321px;width:116px;height:41px;display:block;border-radius:8px;--d:7.9s" data-anim="pop">
+</section>
+
+<section data-label="08 오늘 쓸 셋" data-screen-label="08" data-speaker-notes="앞 장의 도구 세 개가 하나씩 날아와 붙습니다. 붙는 순서대로 「쓰고 고치는 일 · 읽고 찾는 일 · 만들고 보여주는 일」만 말한다. 아래 세 줄(글 초안·문서 검토·회의록 정리 등)은 읽지 말 것 — 다음 장면에서 다 보여준다. 다 나오는 데 7초." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#0b2e65">
+  <img src="assets/s1/t08-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:211px;display:block;--d:0.05s" data-anim="in">
+  <img src="assets/s1/cut-jne.png" alt="" style="position:absolute;left:109px;top:269px;width:266px;height:74px;display:block;--fx:-120px;--fy:33px;--fs:0.421;--d:0.50s" data-anim="fly">
+  <img src="assets/s1/cut-nlm.png" alt="" style="position:absolute;left:501px;top:275px;width:292px;height:49px;display:block;--fx:99px;--fy:41px;--fs:0.387;--d:2.50s" data-anim="fly">
+  <img src="assets/s1/cut-miri.png" alt="" style="position:absolute;left:898px;top:259px;width:309px;height:94px;display:block;--fx:-616px;--fy:35px;--fs:0.362;--d:4.50s" data-anim="fly">
+  <img src="assets/s1/t08-c1-logo.png" alt="" style="position:absolute;left:0px;top:211px;width:425px;height:143px;display:block;--d:0.95s" data-anim="in">
+  <img src="assets/s1/t08-c1-title.png" alt="" style="position:absolute;left:0px;top:354px;width:425px;height:80px;display:block;--d:1.25s" data-anim="in">
+  <img src="assets/s1/t08-c1-i1.png" alt="" style="position:absolute;left:0px;top:434px;width:425px;height:50px;display:block;--d:1.55s" data-anim="in">
+  <img src="assets/s1/t08-c1-i2.png" alt="" style="position:absolute;left:0px;top:484px;width:425px;height:47px;display:block;--d:1.8s" data-anim="in">
+  <img src="assets/s1/t08-c1-i3.png" alt="" style="position:absolute;left:0px;top:531px;width:425px;height:67px;display:block;--d:2.05s" data-anim="in">
+  <img src="assets/s1/t08-c2-logo.png" alt="" style="position:absolute;left:425px;top:211px;width:413px;height:143px;display:block;--d:2.95s" data-anim="in">
+  <img src="assets/s1/t08-c2-title.png" alt="" style="position:absolute;left:425px;top:354px;width:413px;height:80px;display:block;--d:3.25s" data-anim="in">
+  <img src="assets/s1/t08-c2-i1.png" alt="" style="position:absolute;left:425px;top:434px;width:413px;height:50px;display:block;--d:3.55s" data-anim="in">
+  <img src="assets/s1/t08-c2-i2.png" alt="" style="position:absolute;left:425px;top:484px;width:413px;height:47px;display:block;--d:3.8s" data-anim="in">
+  <img src="assets/s1/t08-c2-i3.png" alt="" style="position:absolute;left:425px;top:531px;width:413px;height:67px;display:block;--d:4.05s" data-anim="in">
+  <img src="assets/s1/t08-c3-logo.png" alt="" style="position:absolute;left:838px;top:211px;width:442px;height:143px;display:block;--d:4.95s" data-anim="in">
+  <img src="assets/s1/t08-c3-title.png" alt="" style="position:absolute;left:838px;top:354px;width:442px;height:80px;display:block;--d:5.25s" data-anim="in">
+  <img src="assets/s1/t08-c3-i1.png" alt="" style="position:absolute;left:838px;top:434px;width:442px;height:50px;display:block;--d:5.55s" data-anim="in">
+  <img src="assets/s1/t08-c3-i2.png" alt="" style="position:absolute;left:838px;top:484px;width:442px;height:47px;display:block;--d:5.8s" data-anim="in">
+  <img src="assets/s1/t08-c3-i3.png" alt="" style="position:absolute;left:838px;top:531px;width:442px;height:67px;display:block;--d:6.05s" data-anim="in">
+  <img src="assets/s1/t08-f.png" alt="" style="position:absolute;left:0px;top:598px;width:1280px;height:122px;display:block;--d:6.6s" data-anim="in">
 </section>
 
 
 
-<section class="slide tone-cream" id="s6" data-t="5" data-title="AI 현 위치 ① 뭐가 달라졌나">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>02</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <p class="eyebrow">AI 현 위치 ① — 2026년 9월, 뭐가 달라졌나</p>
-    <h2 class="s-title">2년 사이에 세 가지가 바뀌었습니다</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-cards n3">
-          <div class="s-card">
-            <div class="slot" data-slot="bot"></div>
-            <p class="card-title">답만 하던 챗봇 → 일을 대신 하는 비서</p>
-            <p class="card-lede">"정리해줘"에서 "정리해서 파일로 만들어줘"가 됩니다</p>
-          </div>
-          <div class="s-card">
-            <div class="slot" data-slot="image"></div>
-            <p class="card-title">글 → 그림·영상·목소리</p>
-            <p class="card-lede">문장 한 줄로 포스터, 영상 자막, 안내 음성이 나옵니다</p>
-          </div>
-          <div class="s-card">
-            <div class="slot" data-slot="search-doc"></div>
-            <p class="card-title">검색 → 문서를 읽고 근거를 댐</p>
-            <p class="card-lede">공문을 올리면 "몇 쪽에 있다"고 답합니다</p>
-          </div>
-        </div>
-      </div>
-      <p class="s-panel-note">2026.09 기준. 내년이면 또 바뀝니다. 그래서 도구 이름보다 <strong>쓰는 법</strong>을 익히시는 게 남습니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 05</p>
-  </div>
-  <aside class="notes">
-    <p>여기서 기술 용어(LLM, 에이전트, 멀티모달) 쓰지 말 것.</p>
-  </aside>
+<section data-label="09 네 장면" data-screen-label="09" data-speaker-notes="네 개를 다 익히실 필요 없다는 말을 반드시. 카드 아래 작은 설명은 읽지 말고 큰 글씨만 짚는다. 순서대로 하나씩 직접 해본다고 미리 알린다. 마지막 띠 「하나만 건지시면 오늘은 성공입니다」로 닫고 넘어간다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <img src="assets/s1/m09-head.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:169px;display:block;--d:0.05s" data-anim="in">
+  <img src="assets/s1/m09-sub.png" alt="" style="position:absolute;left:0px;top:169px;width:1280px;height:46px;display:block;--d:0.45s" data-anim="in">
+  <img src="assets/s1/m09-c1.png" alt="" style="position:absolute;left:0px;top:215px;width:339px;height:382px;display:block;--d:0.9s" data-anim="slide-slow">
+  <img src="assets/s1/m09-c2.png" alt="" style="position:absolute;left:339px;top:215px;width:318px;height:382px;display:block;--d:1.45s" data-anim="slide-slow">
+  <img src="assets/s1/m09-c3.png" alt="" style="position:absolute;left:657px;top:215px;width:291px;height:382px;display:block;--d:2s" data-anim="slide-slow">
+  <img src="assets/s1/m09-c4.png" alt="" style="position:absolute;left:948px;top:215px;width:332px;height:382px;display:block;--d:2.55s" data-anim="slide-slow">
+  <img src="assets/s1/m09-band.png" alt="" style="position:absolute;left:0px;top:597px;width:1280px;height:123px;display:block;--d:3.2s" data-anim="in">
 </section>
 
-<section class="slide tone-cream" id="s7" data-t="7" data-title="AI 현 위치 ② 셋 다 비슷합니다">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>02</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <p class="eyebrow">AI 현 위치 ② — 셋 다 비슷합니다</p>
-    <h2 class="s-title">ChatGPT · Gemini · Claude — 어느 게 제일 좋나요?</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-card">
-          <div class="tw">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col"><span class="sr-only">도구</span></th>
-                  <th scope="col">잘하는 것</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row"><span data-icon="openai" data-icon-size="26"></span> ChatGPT (OpenAI)</th>
-                  <td>범용, 이미지 생성</td>
-                </tr>
-                <tr>
-                  <th scope="row"><span data-icon="googlegemini" data-icon-size="26"></span> Gemini (Google)</th>
-                  <td>긴 문서·영상 읽기, <strong>교육청이 준 것</strong></td>
-                </tr>
-                <tr>
-                  <th scope="row"><span data-icon="anthropic" data-icon-size="26"></span> Claude (Anthropic)</th>
-                  <td>긴 글쓰기, 톤 유지</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="s-big">정답은 "이미 갖고 계신 것"입니다.</p>
-          <p class="s-lead">성능 차이보다 "결제 없이 당장 되는가"가 훨씬 큽니다.</p>
-        </div>
-      </div>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 06</p>
-  </div>
-  <aside class="notes">
-    <p>벤치마크 숫자 절대 말하지 말 것. "셋 다 비슷하고, 우리는 Gemini가 공짜"로 끝.</p>
-  </aside>
+<section data-label="10 장면01 다 쓴 문서" data-screen-label="10" data-speaker-notes="핵심은 「쓰는 게 아니라 검토받는 것」. 노란 박스의 「다시 쓰지 말라」를 반드시 소리 내어 말할 것 — 이게 없으면 선생님 문장이 통째로 사라진다. 왼쪽 「이런 적 있으시죠」 세 줄은 읽지 말고 하나만 골라 말한다. 1·2·3 단계가 차례로 나타나니 그 속도에 맞춰 말한다. 시연 영상은 소리 없이 돌린다." style="background:#f4f8fe;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#0b2e65">
+  <img src="assets/s1/s11-a-left.png" alt="" style="position:absolute;left:0px;top:0px;width:419px;height:720px;display:block;--d:0.04s" data-anim="in">
+  <img src="assets/s1/s11-b-header.png" alt="" style="position:absolute;left:419px;top:0px;width:861px;height:139px;display:block;--d:0.26s" data-anim="in">
+  <img src="assets/s1/s11-c-screen.png" alt="" style="position:absolute;left:419px;top:139px;width:861px;height:355px;display:block;--d:0.44s" data-anim="in">
+  <img src="assets/s1/s11-d1.png" alt="" style="position:absolute;left:419px;top:494px;width:274px;height:226px;display:block;--d:0.7s" data-anim="slide">
+  <img src="assets/s1/s11-d2.png" alt="" style="position:absolute;left:693px;top:494px;width:293px;height:226px;display:block;--d:0.86s" data-anim="slide">
+  <img src="assets/s1/s11-d3.png" alt="" style="position:absolute;left:986px;top:494px;width:294px;height:226px;display:block;--d:1.02s" data-anim="slide">
+  <!-- 시연 영상 자리: assets/s1/s10-scene01.mp4 파일을 넣으면 아래 영상이 위 자리표시를 덮습니다 -->
+  <video data-scene-video="" src="assets/s1/s10-scene01.mp4" muted="" loop="" playsinline="" preload="auto" style="position:absolute;left:449px;top:140px;width:774px;height:373px;border-radius:11px;object-fit:cover;display:block;background:#dbe3ec;border:0;--d:0s"></video>
+  <div data-video-controls="" style="position:absolute;left:1095px;top:445px;width:116px;height:52px;display:flex;gap:12px;align-items:center;justify-content:flex-end;--d:0.35s" data-anim="in"><button type="button" data-vc="toggle" aria-label="재생·일시정지" style="width:52px;height:52px;border:0;border-radius:9999px;background:rgba(11,46,101,.72);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 2px 10px rgba(11,46,101,.28)"><span style="display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" data-vc-play=""><path d="M8 5.5v13l11-6.5z"></path></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" data-vc-pause="" style="display:none"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"></path></svg></span></button><button type="button" data-vc="full" aria-label="전체화면" style="width:52px;height:52px;border:0;border-radius:9999px;background:rgba(11,46,101,.72);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 2px 10px rgba(11,46,101,.28)"><span style="display:flex;align-items:center;justify-content:center"><svg data-vc-open="" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg><svg data-vc-close="" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"></path></svg></span></button></div>
 </section>
 
-<section class="slide tone-cream" id="s8" data-t="9" data-title="AI 현 위치 ③ 학교 쪽 사정">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>02</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <p class="eyebrow">AI 현 위치 ③</p>
-    <h2 class="s-title">학교 쪽 사정</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-cards n3">
-          <div class="s-card">
-            <div class="slot" data-slot="school"></div>
-            <p class="card-title">교육부 AI 중점학교</p>
-            <p class="card-lede">노안중이 그중 하나. 중학교 AI 수업 102시간 이상, 전 교과 융합, AI 윤리</p>
-          </div>
-          <div class="s-card">
-            <div class="slot" data-slot="book"></div>
-            <p class="card-title">전남교육청 「AI 활용 가이드라인」</p>
-            <p class="card-lede">전 학교 배포됨. 5대 원칙: 정직·안전·공정·책임·도구적 활용</p>
-          </div>
-          <div class="s-card warm">
-            <div class="slot" data-slot="gavel"></div>
-            <p class="card-title">AI기본법 2026.1 시행</p>
-            <p class="card-lede">학생 평가는 고영향 영역. 그래서 마지막 "규칙 하나" 슬라이드에 "평가엔 안 씀"</p>
-          </div>
-        </div>
-      </div>
-      <p class="s-panel-note">규정은 제가 챙기겠습니다. 선생님은 쓰시기만 하면 됩니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 07</p>
-  </div>
+
+<section data-label="11 장면02 자료가 열 개" data-screen-label="11" data-speaker-notes="핵심은 「올린 파일 안에서만 답한다」 — 지어내지 않는 게 이 도구를 쓰는 이유다. 노란 박스를 반드시 소리 내어 말할 것. 3단계 「그거 어느 파일 몇 쪽이야?」 되묻기가 이 장의 결론이다. 시연 영상은 소리 없이 돌린다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <img src="assets/s1/s14-a-left.png" alt="" style="position:absolute;left:0px;top:0px;width:419px;height:720px;display:block;--d:0.04s" data-anim="in">
+  <img src="assets/s1/s14-b-header.png" alt="" style="position:absolute;left:419px;top:0px;width:861px;height:139px;display:block;--d:0.26s" data-anim="in">
+  <img src="assets/s1/s14-c-screen.png" alt="" style="position:absolute;left:419px;top:139px;width:861px;height:355px;display:block;--d:0.44s" data-anim="in">
+  <img src="assets/s1/s14-d1.png" alt="" style="position:absolute;left:419px;top:494px;width:274px;height:226px;display:block;--d:0.7s" data-anim="slide">
+  <img src="assets/s1/s14-d2.png" alt="" style="position:absolute;left:693px;top:494px;width:293px;height:226px;display:block;--d:0.86s" data-anim="slide">
+  <img src="assets/s1/s14-d3.png" alt="" style="position:absolute;left:986px;top:494px;width:294px;height:226px;display:block;--d:1.02s" data-anim="slide">
+  <!-- 시연 영상 자리: assets/s1/s11-scene02.mp4 파일을 넣으면 아래 영상이 위 자리표시를 덮습니다 -->
+  <video data-scene-video="" src="assets/s1/s11-scene02.mp4" muted="" loop="" playsinline="" preload="auto" style="position:absolute;left:448px;top:142px;width:777px;height:372px;border-radius:11px;object-fit:cover;display:block;background:#dbe3ec;border:0;--d:0s"></video>
+  <div data-video-controls="" style="position:absolute;left:1097px;top:446px;width:116px;height:52px;display:flex;gap:12px;align-items:center;justify-content:flex-end;--d:0.35s" data-anim="in"><button type="button" data-vc="toggle" aria-label="재생·일시정지" style="width:52px;height:52px;border:0;border-radius:9999px;background:rgba(11,46,101,.72);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 2px 10px rgba(11,46,101,.28)"><span style="display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" data-vc-play=""><path d="M8 5.5v13l11-6.5z"></path></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" data-vc-pause="" style="display:none"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"></path></svg></span></button><button type="button" data-vc="full" aria-label="전체화면" style="width:52px;height:52px;border:0;border-radius:9999px;background:rgba(11,46,101,.72);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 2px 10px rgba(11,46,101,.28)"><span style="display:flex;align-items:center;justify-content:center"><svg data-vc-open="" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg><svg data-vc-close="" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"></path></svg></span></button></div>
 </section>
 
-  <section class="slide slide-map tone-cream" id="s9" data-t="11" data-title="AI 전체 지도">
-    <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>02</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <div class="s-panel">
-      <div class="s-panel-body">
-      <svg class="aimap" viewBox="0 0 1200 760" data-zoom="0" role="img" aria-label="AI 도구 전체 지도" preserveAspectRatio="xMidYMid meet">
-        <g class="zoomer">
-          <g class="cat" data-cat="대화·글쓰기">
-            <path class="cat-zone" d="M448.0 138.2 C446.7 125.6 453.0 109.7 455.2 97.1 C457.4 84.5 460.2 68.6 462.4 56.0 C464.6 43.4 461.8 21.9 469.6 14.9 C477.3 8.0 499.7 12.1 513.0 10.8 C526.4 9.5 544.6 6.9 556.5 6.6 C568.4 6.4 580.3 8.5 590.8 9.3 C601.3 10.1 614.5 11.2 625.1 12.0 C635.6 12.8 648.8 13.8 659.3 14.7 C669.8 15.5 683.1 16.5 693.6 17.3 C704.1 18.2 717.4 19.2 727.9 20.0 C738.4 20.8 751.6 21.9 762.1 22.7 C772.7 23.5 785.9 24.6 796.4 25.4 C806.9 26.2 825.4 23.4 830.7 28.1 C836.0 32.8 835.1 48.1 831.1 56.1 C827.1 64.0 812.8 72.7 804.7 80.0 C796.6 87.4 786.4 96.6 778.3 104.0 C770.2 111.3 759.9 120.6 751.8 127.9 C743.8 135.3 733.5 144.5 725.4 151.9 C717.3 159.2 707.1 168.5 699.0 175.8 C690.9 183.2 680.7 192.4 672.6 199.8 C664.5 207.1 654.3 216.4 646.2 223.7 C638.1 231.1 629.5 242.9 619.8 247.7 C610.2 252.5 594.6 252.9 583.4 255.1 C572.3 257.4 560.5 261.7 547.0 262.6 C533.5 263.5 505.9 267.7 495.5 261.2 C485.2 254.7 484.6 232.7 479.7 220.2 C474.8 207.6 468.7 191.7 463.9 179.2 C459.0 166.6 449.4 150.8 448.0 138.2 Z"/>
-            <rect class="cat-chip" x="709.8" y="32.0" width="111.7" height="27" rx="13.5"/>
-            <text class="cat-label" x="765.6" y="51.0" text-anchor="middle">대화·글쓰기</text>
-            <g class="node" data-cat="대화·글쓰기" data-name="ChatGPT" data-desc="범용. 개인 계정 필요, 학생 정보 입력 금지" data-use="범용으로 쓴다. 단, 개인 계정으로만 쓰고 학생 정보는 입력하지 않는다" tabindex="0" role="button" aria-label="ChatGPT">
-              <circle cx="560.0" cy="42.0" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="openai" data-icon-size="26" transform="translate(547.0,29.0)"></g>
-              <text class="node-label" x="560.0" y="86.0" text-anchor="middle">ChatGPT</text>
-            </g>
-            <g class="node" data-cat="대화·글쓰기" data-name="Gemini" data-desc="구글 계정으로 바로. 공문 요약, 수업자료 초안, 긴 문서 질문" data-use="구글 계정으로 바로 열어 공문을 요약하고, 수업자료 초안을 잡고, 긴 문서에 질문한다" tabindex="0" role="button" aria-label="Gemini">
-              <circle cx="621.0" cy="71.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="googlegemini" data-icon-size="26" transform="translate(608.0,58.4)"></g>
-              <text class="node-label" x="621.0" y="33.4" text-anchor="middle">Gemini</text>
-            </g>
-            <g class="node" data-cat="대화·글쓰기" data-name="Claude" data-desc="긴 글. 개인 계정" data-use="긴 글을 쓸 때 개인 계정으로 쓴다" tabindex="0" role="button" aria-label="Claude">
-              <circle cx="636.0" cy="137.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="anthropic" data-icon-size="26" transform="translate(623.0,124.4)"></g>
-              <text class="node-label" x="602.0" y="142.4" text-anchor="end">Claude</text>
-            </g>
-            <g class="node" data-cat="대화·글쓰기" data-name="Copilot" data-desc="" data-use="" tabindex="0" role="button" aria-label="Copilot">
-              <circle cx="593.8" cy="190.3" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="microsoftcopilot" data-icon-size="26" transform="translate(580.8,177.3)"></g>
-              <text class="node-label" x="593.8" y="234.3" text-anchor="middle">Copilot</text>
-            </g>
-            <g class="node" data-cat="대화·글쓰기" data-name="Perplexity" data-desc="" data-use="" tabindex="0" role="button" aria-label="Perplexity">
-              <circle cx="526.2" cy="190.3" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="perplexity" data-icon-size="26" transform="translate(513.2,177.3)"></g>
-              <text class="node-label" x="526.2" y="234.3" text-anchor="middle">Perplex<tspan x="526.2" dy="16">ity</tspan></text>
-            </g>
-            <g class="node" data-cat="대화·글쓰기" data-name="뤼튼" data-desc="" data-use="" tabindex="0" role="button" aria-label="뤼튼">
-              <circle cx="484.0" cy="137.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="wrtn" data-icon-size="26" transform="translate(471.0,124.4)"></g>
-              <text class="node-label" x="518.0" y="142.4" text-anchor="start">뤼튼</text>
-            </g>
-            <g class="node" data-cat="대화·글쓰기" data-name="클로바X" data-desc="" data-use="" tabindex="0" role="button" aria-label="클로바X">
-              <circle cx="499.0" cy="71.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="clovax" data-icon-size="26" transform="translate(486.0,58.4)"></g>
-              <text class="node-label" x="499.0" y="33.4" text-anchor="middle">클로바X</text>
-            </g>
-          </g>
-          <g class="cat" data-cat="이미지·디자인">
-            <path class="cat-zone" d="M673.3 189.6 C672.5 177.8 674.6 165.6 675.2 154.9 C675.7 144.3 667.7 128.8 677.0 120.3 C686.3 111.7 716.9 102.5 736.0 99.2 C755.2 95.8 787.2 94.7 801.8 98.3 C816.4 102.0 822.3 115.4 831.4 122.9 C840.4 130.5 851.8 140.0 860.9 147.5 C870.0 155.1 881.4 164.6 890.4 172.2 C899.5 179.7 910.9 189.2 920.0 196.8 C929.0 204.3 940.4 213.8 949.5 221.4 C958.6 228.9 974.6 237.9 979.0 246.0 C983.5 254.1 983.7 268.0 978.8 274.4 C973.8 280.9 956.6 284.0 946.8 288.2 C937.0 292.4 924.7 297.7 914.9 301.9 C905.1 306.1 892.8 311.5 883.0 315.7 C873.2 319.9 860.8 325.2 851.0 329.4 C841.2 333.6 832.2 341.0 819.1 343.2 C806.0 345.3 779.4 345.2 765.7 343.1 C752.0 341.1 740.8 333.8 729.9 329.6 C718.9 325.5 700.6 324.6 694.0 316.1 C687.5 307.5 689.3 286.8 687.1 273.9 C685.0 261.0 682.3 244.7 680.2 231.8 C678.1 218.8 674.1 201.4 673.3 189.6 Z"/>
-            <rect class="cat-chip" x="842.0" y="244.9" width="127.1" height="27" rx="13.5"/>
-            <text class="cat-label" x="905.5" y="263.9" text-anchor="middle">이미지·디자인</text>
-            <g class="node" data-cat="이미지·디자인" data-jne="1" data-name="미리캔버스" data-desc="교직원 무료 Pro. 통신문·팜플렛·발표자료. AI 라이팅·AI 이미지 포함" data-use="가정통신문·팜플렛·발표자료를 템플릿으로 만든다. AI 라이팅·AI 이미지도 쓸 수 있다" tabindex="0" role="button" aria-label="미리캔버스">
-              <circle cx="770.6" cy="158.3" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="miricanvas" data-icon-size="26" transform="translate(757.6,145.3)"></g>
-              <text class="node-label" x="770.6" y="120.3" text-anchor="middle">미리캔버스</text>
-            </g>
-            <g class="node" data-cat="이미지·디자인" data-name="캔바" data-desc="" data-use="" tabindex="0" role="button" aria-label="캔바">
-              <circle cx="822.2" cy="206.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="canva" data-icon-size="26" transform="translate(809.2,193.4)"></g>
-              <text class="node-label" x="856.2" y="211.4" text-anchor="start">캔바</text>
-            </g>
-            <g class="node" data-cat="이미지·디자인" data-name="Adobe Firefly" data-desc="" data-use="" tabindex="0" role="button" aria-label="Adobe Firefly">
-              <circle cx="792.4" cy="270.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="adobe" data-icon-size="26" transform="translate(779.4,257.4)"></g>
-              <text class="node-label" x="792.4" y="314.4" text-anchor="middle">Adobe<tspan x="792.4" dy="16">Firefly</tspan></text>
-            </g>
-            <g class="node" data-cat="이미지·디자인" data-name="DALL·E" data-desc="" data-use="" tabindex="0" role="button" aria-label="DALL·E">
-              <circle cx="722.4" cy="261.8" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="dalle" data-icon-size="26" transform="translate(709.4,248.8)"></g>
-              <text class="node-label" x="722.4" y="305.8" text-anchor="middle">DALL·E</text>
-            </g>
-            <g class="node" data-cat="이미지·디자인" data-name="Midjourney" data-desc="" data-use="" tabindex="0" role="button" aria-label="Midjourney">
-              <circle cx="708.9" cy="192.5" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="midjourney" data-icon-size="26" transform="translate(695.9,179.5)"></g>
-              <text class="node-label" x="708.9" y="139.0" text-anchor="middle">Mid<tspan x="708.9" dy="16">journey</tspan></text>
-            </g>
-          </g>
-          <g class="cat" data-cat="영상">
-            <path class="cat-zone" d="M719.8 420.2 C719.9 406.9 724.6 376.5 734.0 366.5 C743.3 356.5 766.5 358.6 780.9 355.0 C795.3 351.5 810.7 342.2 827.8 343.6 C844.8 345.0 880.4 355.6 892.0 364.3 C903.6 373.0 900.0 389.4 903.5 400.5 C907.1 411.6 911.5 425.6 915.1 436.7 C918.6 447.8 923.1 461.8 926.6 472.9 C930.2 484.0 936.6 499.2 938.2 509.1 C939.8 519.1 943.3 532.6 937.1 537.8 C930.9 543.0 909.8 541.4 897.7 543.0 C885.6 544.6 870.4 546.7 858.3 548.3 C846.2 549.9 831.9 552.9 818.8 553.5 C805.8 554.1 782.0 557.5 772.9 552.2 C763.8 546.9 763.7 529.3 759.6 519.2 C755.5 509.1 750.4 496.3 746.3 486.2 C742.3 476.1 737.1 463.3 733.1 453.2 C729.0 443.1 719.6 433.5 719.8 420.2 Z"/>
-            <rect class="cat-chip" x="872.5" y="504.7" width="56.7" height="27" rx="13.5"/>
-            <text class="cat-label" x="900.9" y="523.7" text-anchor="middle">영상</text>
-            <g class="node" data-cat="영상" data-name="브루" data-desc="영상 자막 자동. 글자 지우면 영상 잘림. 무료" data-use="영상에 자막을 자동으로 넣는다. 자막 글자를 지우면 영상도 함께 잘리니 주의한다" tabindex="0" role="button" aria-label="브루">
-              <circle cx="828.0" cy="379.6" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="vrew" data-icon-size="26" transform="translate(815.0,366.6)"></g>
-              <text class="node-label" x="862.0" y="384.6" text-anchor="start">브루</text>
-            </g>
-            <g class="node" data-cat="영상" data-name="CapCut" data-desc="" data-use="" tabindex="0" role="button" aria-label="CapCut">
-              <circle cx="871.7" cy="452.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="capcut" data-icon-size="26" transform="translate(858.7,439.4)"></g>
-              <text class="node-label" x="871.7" y="496.4" text-anchor="middle">CapCut</text>
-            </g>
-            <g class="node" data-cat="영상" data-name="Runway" data-desc="" data-use="" tabindex="0" role="button" aria-label="Runway">
-              <circle cx="799.0" cy="496.1" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="runway" data-icon-size="26" transform="translate(786.0,483.1)"></g>
-              <text class="node-label" x="799.0" y="540.1" text-anchor="middle">Runway</text>
-            </g>
-            <g class="node" data-cat="영상" data-name="Sora" data-desc="" data-use="" tabindex="0" role="button" aria-label="Sora">
-              <circle cx="755.3" cy="423.3" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="sora" data-icon-size="26" transform="translate(742.3,410.3)"></g>
-              <text class="node-label" x="755.3" y="385.3" text-anchor="middle">Sora</text>
-            </g>
-          </g>
-          <g class="cat" data-cat="음성·회의">
-            <path class="cat-zone" d="M577.7 537.6 C584.2 532.0 606.7 524.0 619.6 518.0 C632.4 512.0 644.7 501.4 661.4 498.5 C678.1 495.6 713.8 495.4 728.5 498.9 C743.3 502.4 748.6 514.4 757.5 521.2 C766.4 528.0 777.6 536.6 786.4 543.5 C795.3 550.3 806.5 558.9 815.4 565.8 C824.3 572.6 835.5 581.2 844.3 588.0 C853.2 594.9 868.9 602.5 873.3 610.3 C877.7 618.1 878.3 631.8 873.1 638.8 C867.9 645.8 849.8 650.9 839.5 656.2 C829.1 661.6 816.1 668.3 805.8 673.6 C795.5 679.0 782.5 685.7 772.2 691.0 C761.8 696.4 748.8 703.1 738.5 708.4 C728.2 713.8 715.2 720.5 704.9 725.8 C694.5 731.2 683.2 740.7 671.2 743.2 C659.2 745.8 635.0 748.4 626.3 742.5 C617.7 736.6 618.4 716.3 615.0 704.8 C611.5 693.2 607.1 678.6 603.6 667.1 C600.1 655.5 595.7 640.9 592.2 629.4 C588.7 617.8 583.2 603.2 580.9 591.7 C578.5 580.1 577.6 562.5 577.2 554.2 C576.7 545.9 571.2 543.1 577.7 537.6 Z"/>
-            <rect class="cat-chip" x="767.0" y="609.9" width="96.3" height="27" rx="13.5"/>
-            <text class="cat-label" x="815.2" y="628.9" text-anchor="middle">음성·회의</text>
-            <g class="node" data-cat="음성·회의" data-name="클로바노트" data-desc="회의·상담 녹음 → 글 → 요약. 무료" data-use="회의나 상담을 녹음하면 글로 바꾸고 요약까지 해준다" tabindex="0" role="button" aria-label="클로바노트">
-              <circle cx="694.3" cy="558.2" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="clovanote" data-icon-size="26" transform="translate(681.3,545.2)"></g>
-              <text class="node-label" x="694.3" y="520.2" text-anchor="middle">클로바노트</text>
-            </g>
-            <g class="node" data-cat="음성·회의" data-name="클로바더빙" data-desc="" data-use="" tabindex="0" role="button" aria-label="클로바더빙">
-              <circle cx="728.8" cy="635.8" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="clovadubbing" data-icon-size="26" transform="translate(715.8,622.8)"></g>
-              <text class="node-label" x="728.8" y="679.8" text-anchor="middle">클로바더빙</text>
-            </g>
-            <g class="node" data-cat="음성·회의" data-name="ElevenLabs" data-desc="" data-use="" tabindex="0" role="button" aria-label="ElevenLabs">
-              <circle cx="651.3" cy="670.3" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="elevenlabs" data-icon-size="26" transform="translate(638.3,657.3)"></g>
-              <text class="node-label" x="651.3" y="714.3" text-anchor="middle">Eleven<tspan x="651.3" dy="16">Labs</tspan></text>
-            </g>
-            <g class="node" data-cat="음성·회의" data-name="타입캐스트" data-desc="" data-use="" tabindex="0" role="button" aria-label="타입캐스트">
-              <circle cx="616.8" cy="592.7" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="typecast" data-icon-size="26" transform="translate(603.8,579.7)"></g>
-              <text class="node-label" x="616.8" y="554.7" text-anchor="middle">타입캐스트</text>
-            </g>
-          </g>
-          <g class="cat" data-cat="문서·자료">
-            <path class="cat-zone" d="M263.7 567.8 C269.3 561.7 288.6 563.0 299.7 560.9 C310.7 558.7 324.6 556.1 335.7 553.9 C346.7 551.8 360.6 549.1 371.6 547.0 C382.7 544.9 396.6 542.2 407.6 540.1 C418.7 538.0 432.6 535.3 443.6 533.2 C454.7 531.0 471.0 526.0 479.6 526.2 C488.2 526.5 495.2 530.5 499.6 534.8 C504.0 539.1 505.0 544.4 508.5 554.2 C512.0 564.1 518.1 585.2 522.3 598.9 C526.6 612.5 533.8 631.3 536.1 643.5 C538.5 655.7 537.4 667.9 537.4 678.4 C537.4 688.8 544.0 705.3 536.2 711.4 C528.4 717.5 501.9 716.0 486.7 718.0 C471.6 720.1 450.8 723.7 437.3 724.7 C423.7 725.6 409.9 725.9 398.2 724.1 C386.5 722.4 372.4 716.8 361.0 713.5 C349.6 710.3 335.3 706.1 323.9 702.9 C312.5 699.6 294.2 700.9 286.7 692.3 C279.2 683.6 278.5 660.5 274.9 646.4 C271.3 632.3 264.9 612.6 263.2 600.5 C261.4 588.5 258.1 573.9 263.7 567.8 Z"/>
-            <rect class="cat-chip" x="295.9" y="661.4" width="96.3" height="27" rx="13.5"/>
-            <text class="cat-label" x="344.1" y="680.4" text-anchor="middle">문서·자료</text>
-            <g class="node" data-cat="문서·자료" data-jne="1" data-name="Gemini" data-desc="구글 계정으로 바로. 공문 요약, 수업자료 초안, 긴 문서 질문" data-use="구글 계정으로 바로 열어 공문을 요약하고, 수업자료 초안을 잡고, 긴 문서에 질문한다" tabindex="0" role="button" aria-label="Gemini">
-              <circle cx="475.4" cy="561.3" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="googlegemini" data-icon-size="26" transform="translate(462.4,548.3)"></g>
-              <text class="node-label" x="475.4" y="605.3" text-anchor="middle">Gemini</text>
-            </g>
-            <g class="node" data-cat="문서·자료" data-name="NotebookLM" data-desc="" data-use="" tabindex="0" role="button" aria-label="NotebookLM">
-              <circle cx="500.2" cy="642.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="notebooklm" data-icon-size="26" transform="translate(487.2,629.4)"></g>
-              <text class="node-label" x="500.2" y="686.4" text-anchor="middle">Notebook<tspan x="500.2" dy="16">LM</tspan></text>
-            </g>
-            <g class="node" data-cat="문서·자료" data-name="Gamma" data-desc="" data-use="" tabindex="0" role="button" aria-label="Gamma">
-              <circle cx="419.0" cy="667.2" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="gamma" data-icon-size="26" transform="translate(406.0,654.2)"></g>
-              <text class="node-label" x="419.0" y="711.2" text-anchor="middle">Gamma</text>
-            </g>
-            <g class="node" data-cat="문서·자료" data-jne="1" data-name="미리캔버스 AI프레젠테이션" data-desc="교직원 무료 Pro. 통신문·팜플렛·발표자료. AI 라이팅·AI 이미지 포함" data-use="가정통신문·팜플렛·발표자료를 템플릿으로 만든다. AI 라이팅·AI 이미지도 쓸 수 있다" tabindex="0" role="button" aria-label="미리캔버스 AI프레젠테이션">
-              <circle cx="394.2" cy="586.1" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="miricanvas" data-icon-size="26" transform="translate(381.2,573.1)"></g>
-              <text class="node-label" x="360.2" y="583.4" text-anchor="end">미리캔버스<tspan x="360.2" dy="16">AI프레젠테이션</tspan></text>
-            </g>
-          </g>
-          <g class="cat" data-cat="수업·학급">
-            <path class="cat-zone" d="M118.1 308.0 C123.8 303.5 143.4 307.0 154.6 306.5 C165.8 306.1 179.9 305.5 191.1 305.1 C202.3 304.6 216.4 304.0 227.6 303.6 C238.8 303.1 250.4 302.5 264.1 302.1 C277.8 301.7 299.0 299.0 316.8 301.0 C334.7 303.0 365.9 309.1 380.5 315.2 C395.1 321.3 402.5 332.9 412.2 340.7 C422.0 348.5 434.3 358.4 444.0 366.2 C453.7 374.0 466.0 383.9 475.7 391.7 C485.5 399.5 502.6 410.8 507.5 417.2 C512.4 423.6 510.0 426.3 507.5 433.6 C504.9 440.8 496.0 455.1 490.9 464.6 C485.8 474.1 482.0 487.9 474.3 495.6 C466.6 503.3 450.9 508.9 440.6 514.7 C430.3 520.6 417.2 528.0 406.9 533.9 C396.5 539.7 383.5 547.1 373.2 553.0 C362.8 558.9 350.6 569.2 339.4 572.1 C328.3 575.1 315.8 574.3 300.3 572.1 C284.8 569.9 250.4 564.8 238.2 557.7 C226.1 550.7 226.3 535.8 221.0 526.0 C215.7 516.3 209.1 504.1 203.8 494.4 C198.5 484.7 191.8 472.4 186.6 462.7 C181.3 453.0 174.6 440.8 169.3 431.0 C164.0 421.3 157.4 409.1 152.1 399.4 C146.8 389.7 140.1 377.4 134.9 367.7 C129.6 358.0 120.2 345.2 117.6 336.0 C115.1 326.9 112.4 312.6 118.1 308.0 Z"/>
-            <rect class="cat-chip" x="126.9" y="312.8" width="96.3" height="27" rx="13.5"/>
-            <text class="cat-label" x="175.1" y="331.8" text-anchor="middle">수업·학급</text>
-            <g class="node" data-cat="수업·학급" data-jne="1" data-name="아이모두" data-desc="Google Workspace for Education Plus. 클래스룸+Gemini+연습세트" data-use="클래스룸·Gemini·연습세트가 묶인 교육용 구글 워크스페이스로 쓴다" tabindex="0" role="button" aria-label="아이모두">
-              <circle cx="351.3" cy="374.0" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="imodu" data-icon-size="26" transform="translate(338.3,361.0)"></g>
-              <text class="node-label" x="351.3" y="336.0" text-anchor="middle">아이모두</text>
-            </g>
-            <g class="node" data-cat="수업·학급" data-jne="1" data-name="구글 클래스룸" data-desc="과제 배부·수합, 유튜브 양방향 퀴즈" data-use="과제를 배부하고 수합하며, 유튜브로 양방향 퀴즈를 만든다" tabindex="0" role="button" aria-label="구글 클래스룸">
-              <circle cx="383.3" cy="424.3" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="googleclassroom" data-icon-size="26" transform="translate(370.3,411.3)"></g>
-              <text class="node-label" x="417.3" y="429.3" text-anchor="start">구글 클래스룸</text>
-            </g>
-            <g class="node" data-cat="수업·학급" data-jne="1" data-name="클래스이음" data-desc="Microsoft 365. 웹 오피스, OneDrive, Teams" data-use="웹 오피스, OneDrive, Teams가 포함된 Microsoft 365로 쓴다" tabindex="0" role="button" aria-label="클래스이음">
-              <circle cx="370.4" cy="482.6" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="classeum" data-icon-size="26" transform="translate(357.4,469.6)"></g>
-              <text class="node-label" x="404.4" y="487.6" text-anchor="start">클래스이음</text>
-            </g>
-            <g class="node" data-cat="수업·학급" data-name="패들렛" data-desc="학생 의견 게시판. 학생 계정은 절차 필요" data-use="학생 의견을 모으는 게시판으로 쓴다. 학생 계정 개설에는 절차가 필요하다" tabindex="0" role="button" aria-label="패들렛">
-              <circle cx="320.1" cy="514.7" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="padlet" data-icon-size="26" transform="translate(307.1,501.7)"></g>
-              <text class="node-label" x="320.1" y="558.7" text-anchor="middle">패들렛</text>
-            </g>
-            <g class="node" data-cat="수업·학급" data-name="띵커벨" data-desc="국산 퀴즈·보드" data-use="국산 퀴즈·보드 도구로 쓴다" tabindex="0" role="button" aria-label="띵커벨">
-              <circle cx="261.8" cy="501.7" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="thinkerbell" data-icon-size="26" transform="translate(248.8,488.7)"></g>
-              <text class="node-label" x="261.8" y="545.7" text-anchor="middle">띵커벨</text>
-            </g>
-            <g class="node" data-cat="수업·학급" data-name="멘티미터" data-desc="" data-use="" tabindex="0" role="button" aria-label="멘티미터">
-              <circle cx="229.7" cy="451.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="mentimeter" data-icon-size="26" transform="translate(216.7,438.4)"></g>
-              <text class="node-label" x="263.7" y="456.4" text-anchor="start">멘티미터</text>
-            </g>
-            <g class="node" data-cat="수업·학급" data-name="카훗" data-desc="" data-use="" tabindex="0" role="button" aria-label="카훗">
-              <circle cx="242.6" cy="393.1" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="kahoot" data-icon-size="26" transform="translate(229.6,380.1)"></g>
-              <text class="node-label" x="242.6" y="355.1" text-anchor="middle">카훗</text>
-            </g>
-            <g class="node" data-cat="수업·학급" data-name="클래스팅" data-desc="" data-use="" tabindex="0" role="button" aria-label="클래스팅">
-              <circle cx="293.0" cy="361.0" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="classting" data-icon-size="26" transform="translate(280.0,348.0)"></g>
-              <text class="node-label" x="293.0" y="323.0" text-anchor="middle">클래스팅</text>
-            </g>
-          </g>
-          <g class="cat" data-cat="코딩·만들기">
-            <path class="cat-zone" d="M212.0 215.7 C213.6 205.3 219.7 191.8 223.1 181.2 C226.5 170.6 230.7 157.3 234.1 146.7 C237.5 136.1 241.8 122.8 245.2 112.2 C248.6 101.6 248.5 83.0 256.3 77.6 C264.0 72.3 283.8 77.3 296.0 77.2 C308.2 77.1 323.6 76.9 335.8 76.8 C348.0 76.7 362.4 70.4 375.6 76.4 C388.7 82.3 413.0 102.8 421.4 115.4 C429.7 128.0 427.3 145.4 429.9 158.6 C432.6 171.9 435.9 188.6 438.5 201.8 C441.2 215.1 445.3 233.2 447.1 245.0 C449.0 256.9 450.1 271.6 450.6 279.4 C451.0 287.2 457.6 291.9 450.0 295.8 C442.3 299.7 415.8 302.0 400.6 304.7 C385.5 307.4 365.9 313.8 351.3 313.6 C336.8 313.3 319.7 306.4 305.7 303.2 C291.8 300.1 274.5 301.2 260.2 292.9 C245.9 284.6 219.7 261.0 212.3 249.2 C204.9 237.4 210.4 226.2 212.0 215.7 Z"/>
-            <rect class="cat-chip" x="261.6" y="86.1" width="111.7" height="27" rx="13.5"/>
-            <text class="cat-label" x="317.4" y="105.1" text-anchor="middle">코딩·만들기</text>
-            <g class="node" data-cat="코딩·만들기" data-name="엔트리" data-desc="블록코딩. 교육부 AI 수업 표준" data-use="블록코딩 수업에 쓴다. 교육부 AI 수업 표준 도구다" tabindex="0" role="button" aria-label="엔트리">
-              <circle cx="396.9" cy="173.3" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="entry" data-icon-size="26" transform="translate(383.9,160.3)"></g>
-              <text class="node-label" x="396.9" y="135.3" text-anchor="middle">엔트리</text>
-            </g>
-            <g class="node" data-cat="코딩·만들기" data-name="티처블머신" data-desc="코딩 없이 이미지 분류 AI 만들기" data-use="코딩 없이 이미지 분류 AI를 학생들과 함께 만든다" tabindex="0" role="button" aria-label="티처블머신">
-              <circle cx="411.5" cy="242.3" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="teachablemachine" data-icon-size="26" transform="translate(398.5,229.3)"></g>
-              <text class="node-label" x="411.5" y="286.3" text-anchor="middle">티처블머신</text>
-            </g>
-            <g class="node" data-cat="코딩·만들기" data-name="Scratch" data-desc="" data-use="" tabindex="0" role="button" aria-label="Scratch">
-              <circle cx="350.5" cy="277.6" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="scratch" data-icon-size="26" transform="translate(337.5,264.6)"></g>
-              <text class="node-label" x="316.5" y="282.6" text-anchor="end">Scratch</text>
-            </g>
-            <g class="node" data-cat="코딩·만들기" data-name="Claude Code" data-desc="" data-use="" tabindex="0" role="button" aria-label="Claude Code">
-              <circle cx="298.0" cy="230.4" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="claudecode" data-icon-size="26" transform="translate(285.0,217.4)"></g>
-              <text class="node-label" x="264.0" y="227.7" text-anchor="end">Claude<tspan x="264.0" dy="16">Code</tspan></text>
-            </g>
-            <g class="node" data-cat="코딩·만들기" data-name="Cursor" data-desc="" data-use="" tabindex="0" role="button" aria-label="Cursor">
-              <circle cx="326.7" cy="165.9" r="26" class="node-bg"/>
-              <g class="node-ico" data-icon="cursor" data-icon-size="26" transform="translate(313.7,152.9)"></g>
-              <text class="node-label" x="326.7" y="127.9" text-anchor="middle">Cursor</text>
-            </g>
-          </g>
-        </g>
-      </svg>
-      <div class="map-panel" id="mapPanel" aria-live="polite">
-        <p class="panel-title">AI 도구 전체 지도</p>
-        <p class="panel-desc">Z 키로 확대합니다. 노드에 마우스를 올리면 여기에 설명이 뜹니다.</p>
-      </div>
-      </div>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 08</p>
-  </div>
-    <aside class="notes">
-      <p>Z키로 0→1→2. 줌 0에서 10초 "이렇게 많습니다", 줌 1에서 "이 중 다섯 개는 이미 갖고 계십니다", 줌 2는 다음 장면으로 넘어가는 다리.</p>
-    </aside>
-  </section>
-
-<section class="slide" id="s10" data-t="16" data-title="이미 갖고 계신 것">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>03</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">이미 갖고 계신 것</h2>
-    <p class="s-lead">새 도구를 배우시는 게 아닙니다. <strong>전남교육청이 이미 드린 것</strong>을 제대로 쓰는 겁니다.</p>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-cards n3">
-          <div class="s-card gold">
-            <span class="num">1</span>
-            <p class="card-title">미리캔버스 Pro</p>
-            <p class="card-lede">교육청 MOU로 교직원 무료. AI 프레젠테이션·AI 이미지·템플릿 50만 개</p>
-          </div>
-          <div class="s-card gold">
-            <span class="num">2</span>
-            <p class="card-title">아이모두</p>
-            <p class="card-lede">Google Workspace for Education Plus. 구글 클래스룸 + Gemini</p>
-          </div>
-          <div class="s-card gold">
-            <span class="num">3</span>
-            <p class="card-title">클래스이음</p>
-            <p class="card-lede">Microsoft 365. <span class="nb">웹 오피스·OneDrive·Teams</span>&nbsp;· o365.jne.go.kr</p>
-          </div>
-        </div>
-      </div>
-      <div class="s-panel-note">
-        <p class="s-foot">결제도, 계정 신설도, 승인 절차도 필요 없습니다. 오늘 끝나고 바로 쓰실 수 있습니다.</p>
-        <p class="s-warn">예전에 가입하셨는데 Pro가 안 뜨신다면 — 아이모두로 로그인하셔야 붙습니다.</p>
-      </div>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 09</p>
-  </div>
-  <aside class="notes">
-    <p>"학교 돈 안 든다"를 분명히. 이게 명분.</p>
-  </aside>
+<section data-label="12 장면03 활동지·문항" data-screen-label="12" data-speaker-notes="핵심은 「뼈대를 받고, 내용은 선생님이 채운다」. 노란 박스 — 「AI는 모른다고 하지 않고 그럴듯하게 틀린다」를 반드시 소리 내어 말할 것. 3단계 「답과 해설은 반드시 직접 확인」이 이 장의 결론이다. 시연 영상은 소리 없이 돌린다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <img src="assets/s1/s13-a-left.png" alt="" style="position:absolute;left:0px;top:0px;width:419px;height:720px;display:block;--d:0.04s" data-anim="in">
+  <img src="assets/s1/s13-b-header.png" alt="" style="position:absolute;left:419px;top:0px;width:861px;height:139px;display:block;--d:0.26s" data-anim="in">
+  <img src="assets/s1/s13-c-screen.png" alt="" style="position:absolute;left:419px;top:139px;width:861px;height:355px;display:block;--d:0.44s" data-anim="in">
+  <img src="assets/s1/s13-d1.png" alt="" style="position:absolute;left:419px;top:494px;width:274px;height:226px;display:block;--d:0.7s" data-anim="slide">
+  <img src="assets/s1/s13-d2.png" alt="" style="position:absolute;left:693px;top:494px;width:293px;height:226px;display:block;--d:0.86s" data-anim="slide">
+  <img src="assets/s1/s13-d3.png" alt="" style="position:absolute;left:986px;top:494px;width:294px;height:226px;display:block;--d:1.02s" data-anim="slide">
+  <!-- 시연 영상 자리: assets/s1/s12-scene03.mp4 파일을 넣으면 아래 영상이 위 자리표시를 덮습니다 -->
+  <video data-scene-video="" src="assets/s1/s12-scene03.mp4" muted="" loop="" playsinline="" preload="auto" style="position:absolute;left:438px;top:132px;width:786px;height:353px;border-radius:11px;object-fit:cover;display:block;background:#dbe3ec;border:0;--d:0s"></video>
+  <div data-video-controls="" style="position:absolute;left:1096px;top:417px;width:116px;height:52px;display:flex;gap:12px;align-items:center;justify-content:flex-end;--d:0.35s" data-anim="in"><button type="button" data-vc="toggle" aria-label="재생·일시정지" style="width:52px;height:52px;border:0;border-radius:9999px;background:rgba(11,46,101,.72);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 2px 10px rgba(11,46,101,.28)"><span style="display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" data-vc-play=""><path d="M8 5.5v13l11-6.5z"></path></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" data-vc-pause="" style="display:none"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"></path></svg></span></button><button type="button" data-vc="full" aria-label="전체화면" style="width:52px;height:52px;border:0;border-radius:9999px;background:rgba(11,46,101,.72);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 2px 10px rgba(11,46,101,.28)"><span style="display:flex;align-items:center;justify-content:center"><svg data-vc-open="" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg><svg data-vc-close="" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"></path></svg></span></button></div>
 </section>
 
-<section class="slide" id="s11" data-t="18" data-title="오늘 볼 것 — 다섯 장면">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>03</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">오늘 볼 것 — 다섯 장면</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-flow">
-          <div class="s-flow-step">
-            <span class="badge"><span data-icon="miricanvas" data-icon-size="22"></span>미리캔버스</span>
-            <span>가정통신문 만들어서 결재까지</span>
-          </div>
-          <div class="s-flow-step">
-            <span class="badge"><span data-icon="miricanvas" data-icon-size="22"></span>미리캔버스</span>
-            <span>팜플렛·리플릿, 디자인 왕복 없이</span>
-          </div>
-          <div class="s-flow-step">
-            <span class="badge"><span data-icon="miricanvas" data-icon-size="22"></span>미리캔버스 AI 프레젠테이션</span>
-            <span>수업 발표자료 만들 때</span>
-          </div>
-          <div class="s-flow-step">
-            <span class="badge"><span data-icon="googlegemini" data-icon-size="22"></span>Gemini</span>
-            <span>긴 공문을 읽어야 할 때</span>
-          </div>
-          <div class="s-flow-step">
-            <span class="badge"><span data-icon="clovanote" data-icon-size="22"></span>클로바노트</span>
-            <span>회의·상담을 기록할 때</span>
-          </div>
-        </div>
-      </div>
-      <p class="s-panel-note">다섯 개를 다 익히실 필요 없습니다. 하나만 건지시면 오늘은 성공입니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 10</p>
-  </div>
-  <aside class="notes">
-    <p>02는 오늘 선생님이 실제로 하신 말("내용은 내가 쓰고 디자인은 외주")에서 나온 장면. 그 말을 그대로 인용해도 좋다.</p>
-  </aside>
+
+<section data-label="13 장면04 설명할 자료" data-screen-label="13" data-speaker-notes="핵심은 「한 줄 넣으면 한 벌이 나온다」. 노란 박스 「완성본이 아니라 초안 — 반만 건지셔도 성공」을 반드시 소리 내어 말할 것. 1단계 대괄호 틀([대상]에게 [주제]를 설명하는 자료, [몇]장)을 그대로 읽어드린다. 시연 영상은 소리 없이 돌린다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#14161c">
+  <img src="assets/s1/s15-a-left.png" alt="" style="position:absolute;left:0px;top:0px;width:419px;height:720px;display:block;--d:0.04s" data-anim="in">
+  <img src="assets/s1/s15-b-header.png" alt="" style="position:absolute;left:419px;top:0px;width:861px;height:139px;display:block;--d:0.26s" data-anim="in">
+  <img src="assets/s1/s15-c-screen.png" alt="" style="position:absolute;left:419px;top:139px;width:861px;height:355px;display:block;--d:0.44s" data-anim="in">
+  <img src="assets/s1/s15-d1.png" alt="" style="position:absolute;left:419px;top:494px;width:274px;height:226px;display:block;--d:0.7s" data-anim="slide">
+  <img src="assets/s1/s15-d2.png" alt="" style="position:absolute;left:693px;top:494px;width:293px;height:226px;display:block;--d:0.86s" data-anim="slide">
+  <img src="assets/s1/s15-d3.png" alt="" style="position:absolute;left:986px;top:494px;width:294px;height:226px;display:block;--d:1.02s" data-anim="slide">
+  <!-- 시연 영상 자리: assets/s1/s13-scene04.mp4 파일을 넣으면 아래 영상이 위 자리표시를 덮습니다 -->
+  <video data-scene-video="" src="assets/s1/s13-scene04.mp4" muted="" loop="" playsinline="" preload="auto" style="position:absolute;left:438px;top:133px;width:795px;height:348px;border-radius:11px;object-fit:cover;display:block;background:#dbe3ec;border:0;--d:0s"></video>
+  <div data-video-controls="" style="position:absolute;left:1105px;top:413px;width:116px;height:52px;display:flex;gap:12px;align-items:center;justify-content:flex-end;--d:0.35s" data-anim="in"><button type="button" data-vc="toggle" aria-label="재생·일시정지" style="width:52px;height:52px;border:0;border-radius:9999px;background:rgba(11,46,101,.72);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 2px 10px rgba(11,46,101,.28)"><span style="display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" data-vc-play=""><path d="M8 5.5v13l11-6.5z"></path></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" data-vc-pause="" style="display:none"><path d="M7 5h3.4v14H7zM13.6 5H17v14h-3.4z"></path></svg></span></button><button type="button" data-vc="full" aria-label="전체화면" style="width:52px;height:52px;border:0;border-radius:9999px;background:rgba(11,46,101,.72);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-shadow:0 2px 10px rgba(11,46,101,.28)"><span style="display:flex;align-items:center;justify-content:center"><svg data-vc-open="" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg><svg data-vc-close="" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"></path></svg></span></button></div>
 </section>
 
-<section class="slide" id="s11b" data-t="19" data-title="다음 회차는 나눕니다">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>03</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">다음 회차부터는 두 갈래로 나눕니다</h2>
-    <p class="s-lead">오늘은 다 같이 봅니다. 다음부터는 필요하신 쪽만 오시면 됩니다.</p>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-split">
-          <div class="s-card">
-            <p class="card-title">트랙 A · 업무 경감</p>
-            <p class="card-lede">통신문·팜플렛·공문·회의록. 문서 만드는 시간을 줄입니다</p>
-          </div>
-          <div class="s-card">
-            <p class="card-title">트랙 B · 수업 활용</p>
-            <p class="card-lede">수업자료·활동지·퀴즈·학생 활동. 교실에서 쓰는 것을 다룹니다</p>
-          </div>
-        </div>
-      </div>
-      <p class="s-panel-note">둘 다 오셔도 됩니다. 오늘 설문에서 골라주세요.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 11</p>
-  </div>
-  <aside class="notes">
-    <p>고양교육지원청 등 실제 교육청 연수도 트랙을 나눠 운영한다. 7~12명이면 한 줄기로 가면 절반이 지루하다.</p>
-  </aside>
+<section data-label="14 세 가지로 정리" data-screen-label="14" data-speaker-notes="다섯 장면을 셋으로 묶어주는 장. 카드 셋이 차례로 나오니 「쓰고 고치기 · 읽고 찾기 · 만들고 보여주기」만 읽는다. 도구 이름은 이미 앞에서 봤으니 반복하지 말 것. 마지막 줄 「지금부터는 설명보다 직접 해보겠습니다」로 2부 실습으로 넘어간다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#0b2e65">
+  <img src="assets/s1/r15-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:220px;display:block;--d:0.05s" data-anim="in">
+  <img src="assets/s1/r15-c1.png" alt="" style="position:absolute;left:0px;top:220px;width:445px;height:314px;display:block;--d:0.5s" data-anim="slide-slow">
+  <img src="assets/s1/r15-c2.png" alt="" style="position:absolute;left:445px;top:220px;width:374px;height:314px;display:block;--d:1.4s" data-anim="slide-slow">
+  <img src="assets/s1/r15-c3.png" alt="" style="position:absolute;left:819px;top:220px;width:461px;height:314px;display:block;--d:2.3s" data-anim="slide-slow">
+  <img src="assets/s1/r15-b.png" alt="" style="position:absolute;left:0px;top:534px;width:1280px;height:140px;display:block;--d:3.3s" data-anim="in">
+  <img src="assets/s1/r15-f.png" alt="" style="position:absolute;left:0px;top:674px;width:1280px;height:46px;display:block;--d:3.6s" data-anim="in">
 </section>
 
-<section class="slide tone-mint" id="s12" data-t="21" data-title="장면 01 가정통신문">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>04</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <p class="eyebrow">장면 01</p>
-    <h2 class="s-title">가정통신문 만들어서 결재까지</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div>
-          <div class="s-compare">
-            <div class="s-dark">
-              <div class="slot" data-slot="letter"></div>
-              <p class="pain-label">이런 적 있으시죠</p>
-              <p class="pain-title">한글 켜고 빈 문서부터 시작하신 적</p>
-              <ul>
-                <li>표 만들고 줄 맞추다 30분이 갑니다</li>
-                <li>작년 파일을 찾아 헤맵니다</li>
-                <li>다 만들어도 모양이 밋밋합니다</li>
-              </ul>
-            </div>
-            <div></div>
-            <div class="s-card">
-              <span class="badge"><span data-icon="miricanvas" data-icon-size="22"></span>미리캔버스</span>
-              <p class="tool-line">템플릿을 고르고 내용만 바꿉니다</p>
-              <ol class="steps">
-                <li>"가정통신문" 검색해서 골라오기</li>
-                <li>학교 이름·날짜·본문 바꾸기</li>
-                <li>PDF로 내보내 그대로 결재 첨부</li>
-              </ol>
-            </div>
-          </div>
-          <div class="demo" data-src="" data-label="가정통신문 시연 영상"><span class="demo-placeholder">시연 화면</span></div>
-        </div>
-      </div>
-      <p class="s-panel-note">2부에서 선생님 것 하나를 제가 그 자리에서 만들어 드리겠습니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 12</p>
-  </div>
-  <aside class="notes">
-    <p>시연은 노안중 작년 통신문(개인정보 없는 것)으로.</p>
-  </aside>
+<section data-label="15 규칙 셋" data-screen-label="15" data-speaker-notes="겁주지 않는다. 「나머지는 편하게 쓰셔도 됩니다」를 먼저 말하고 시작할 것. 1번(학생 이름·연락처·성적·상담 기록은 넣지 않는다)이 이 장의 핵심 — 나머지 둘은 짧게. 2번의 「AI는 모른다고 하지 않고 그럴듯하게 틀립니다」는 반드시 소리 내어 말한다. 하단 근거(교육부 AI 중점학교·전남교육청 지침)는 읽지 말고 짚기만." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#0b2e65">
+  <img src="assets/s1/q17-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:198px;display:block;--d:0.05s" data-anim="in">
+  <img src="assets/s1/q17-c1.png" alt="" style="position:absolute;left:0px;top:198px;width:454px;height:412px;display:block;--d:0.5s" data-anim="slide-slow">
+  <img src="assets/s1/q17-c2.png" alt="" style="position:absolute;left:454px;top:198px;width:367px;height:412px;display:block;--d:1.6s" data-anim="slide-slow">
+  <img src="assets/s1/q17-c3.png" alt="" style="position:absolute;left:821px;top:198px;width:459px;height:412px;display:block;--d:2.7s" data-anim="slide-slow">
+  <img src="assets/s1/q17-f.png" alt="" style="position:absolute;left:0px;top:610px;width:1280px;height:110px;display:block;--d:3.9s" data-anim="in">
 </section>
 
-<section class="slide tone-mint" id="s13" data-t="25" data-title="장면 02 팜플렛">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>04</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <p class="eyebrow">장면 02</p>
-    <h2 class="s-title">팜플렛·리플릿, 디자인 왕복 없이</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div>
-          <div class="s-compare">
-            <div class="s-dark">
-              <div class="slot" data-slot="flyer"></div>
-              <p class="pain-label">이런 적 있으시죠</p>
-              <p class="pain-title">내용은 다 썼는데, 디자인 보내고 시안 받고 고치고 다시 보내고</p>
-              <ul>
-                <li>견적·시안·수정에 일주일</li>
-                <li>급한 행사는 못 맞춥니다</li>
-                <li>학교엔 인쇄 장비가 없습니다</li>
-              </ul>
-            </div>
-            <div></div>
-            <div class="s-card">
-              <span class="badge"><span data-icon="miricanvas" data-icon-size="22"></span>미리캔버스</span>
-              <p class="tool-line">직접 만들고, 인쇄만 주문합니다</p>
-              <ol class="steps">
-                <li>"리플릿"·"포스터" 템플릿에 쓰신 내용 붙여넣기</li>
-                <li>화면에서 바로 인쇄 주문 (비즈하우스 연동, 배송)</li>
-                <li>소량이면 학교 프린터로 PDF 출력</li>
-              </ol>
-            </div>
-          </div>
-          <div class="demo" data-src="" data-label="팜플렛·리플릿 시연 영상"><span class="demo-placeholder">시연 화면</span></div>
-        </div>
-      </div>
-      <p class="s-panel-note">외주가 하던 "디자인"을 직접 하시는 겁니다. "인쇄"는 그대로 맡기고요.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 13</p>
-  </div>
-  <aside class="notes">
-    <p>오늘 들은 그 말("내용은 내가 쓰고 디자인은 외주")을 인용하면서 시작. 인쇄 장비가 없다는 건 맞고, 그건 해결 안 한다고 솔직히.</p>
-  </aside>
+<section data-label="16 2부 실습" data-screen-label="16" data-speaker-notes="검색창이 먼저 나옵니다 — 「외우실 필요 없습니다」가 이 장의 전부다. 실습 1은 8분, 실습 2는 15분. 짝과 함께 하시게 한다. 「막히시면 손을 드세요」를 반드시 소리 내어 말할 것. QR은 오늘 안 쓰는 열한 개 안내서다 — 필요하신 분만 찍으라고 한 마디." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#0b2e65">
+  <img src="assets/s1/p16-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:276px;display:block;--d:0.05s" data-anim="in">
+  <img src="assets/s1/p16-m1.png" alt="" style="position:absolute;left:0px;top:276px;width:1280px;height:71px;display:block;--d:0.5s" data-anim="in">
+  <img src="assets/s1/p16-m2.png" alt="" style="position:absolute;left:0px;top:347px;width:1280px;height:67px;display:block;--d:1.1s" data-anim="in">
+  <img src="assets/s1/p16-c1.png" alt="" style="position:absolute;left:0px;top:414px;width:642px;height:185px;display:block;--d:1.9s" data-anim="slide-slow">
+  <img src="assets/s1/p16-c2.png" alt="" style="position:absolute;left:642px;top:414px;width:638px;height:185px;display:block;--d:2.7s" data-anim="slide-slow">
+  <img src="assets/s1/p16-f.png" alt="" style="position:absolute;left:0px;top:599px;width:1280px;height:121px;display:block;--d:3.5s" data-anim="in">
 </section>
 
-<section class="slide tone-mint" id="s14" data-t="30" data-title="장면 03 발표자료">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>04</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <p class="eyebrow">장면 03</p>
-    <h2 class="s-title">수업 발표자료 만들 때</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div>
-          <div class="s-compare">
-            <div class="s-dark">
-              <div class="slot" data-slot="slides"></div>
-              <p class="pain-label">이런 적 있으시죠</p>
-              <p class="pain-title">장표 한 벌 만드는 데 한 시간</p>
-              <ul>
-                <li>자료 찾고 배치하고 다시 고칩니다</li>
-                <li>다음 단원이면 처음부터 또</li>
-                <li>이미지 저작권도 신경</li>
-              </ul>
-            </div>
-            <div></div>
-            <div class="s-card">
-              <span class="badge"><span data-icon="miricanvas" data-icon-size="22"></span>미리캔버스 AI 프레젠테이션</span>
-              <p class="tool-line">주제 한 줄 넣으면 한 벌이 나옵니다</p>
-              <ol class="steps">
-                <li>주제와 학년을 한 줄로</li>
-                <li>생성된 장표에서 필요 없는 것 지우기</li>
-                <li>PPT나 PDF로</li>
-              </ol>
-            </div>
-          </div>
-          <div class="demo" data-src="" data-label="AI 프레젠테이션 시연 영상"><span class="demo-placeholder">시연 화면</span></div>
-        </div>
-      </div>
-      <p class="s-panel-note">완성본이 아니라 초안입니다. 고치는 시간이 만드는 시간보다 훨씬 짧습니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 14</p>
-  </div>
-  <aside class="notes">
-    <p>"AI가 다 해준다" 금지. "초안을 대신 써준다".</p>
-  </aside>
+<section data-label="17 기업 변화" data-screen-label="17" data-speaker-notes="기사를 먼저 짚는다 — 「40년 쓰던 자소서가 1년 만에 바뀌었습니다」. 표는 회사 이름만 읽어도 충분하다. 오른쪽 문항은 실제 채용 공고라는 걸 강조. 아래 세 칸은 손으로 짚어가며 「기업이 보는 건 AI를 활용한 경험, 그건 수업에서 생기고, 그래서 오늘 선생님이 먼저 해보시는 겁니다」. 마지막 줄에서 잠깐 멈출 것." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#0b2e65">
+  <img src="assets/s1/w18-head.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:180px;display:block;--d:0.05s" data-anim="in">
+  <img src="assets/s1/w18-news.png" alt="" style="position:absolute;left:222px;top:180px;width:249px;height:302px;display:block;--d:0.5s" data-anim="slide-slow">
+  <img src="assets/s1/w18-table.png" alt="" style="position:absolute;left:471px;top:180px;width:491px;height:302px;display:block;--d:1.1s" data-anim="slide-slow">
+  <img src="assets/s1/w18-rbox.png" alt="" style="position:absolute;left:962px;top:180px;width:318px;height:302px;display:block;--d:1.7s" data-anim="slide-slow">
+  <img src="assets/s1/w18-left.png" alt="" style="position:absolute;left:0px;top:180px;width:222px;height:540px;display:block;--d:2.2s" data-anim="in">
+  <img src="assets/s1/w18-f1.png" alt="" style="position:absolute;left:222px;top:482px;width:366px;height:126px;display:block;--d:2.7s" data-anim="slide-slow">
+  <img src="assets/s1/w18-f2.png" alt="" style="position:absolute;left:588px;top:482px;width:354px;height:126px;display:block;--d:3.2s" data-anim="slide-slow">
+  <img src="assets/s1/w18-f3.png" alt="" style="position:absolute;left:942px;top:482px;width:185px;height:126px;display:block;--d:3.7s" data-anim="slide-slow">
+  <img src="assets/s1/w18-side.png" alt="" style="position:absolute;left:1127px;top:482px;width:153px;height:238px;display:block;--d:4.1s" data-anim="in">
+  <img src="assets/s1/w18-banner.png" alt="" style="position:absolute;left:222px;top:608px;width:905px;height:112px;display:block;--d:4.5s" data-anim="in">
 </section>
 
-<section class="slide tone-mint" id="s15" data-t="34" data-title="장면 04 긴 공문">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>04</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <p class="eyebrow">장면 04</p>
-    <h2 class="s-title">긴 공문을 읽어야 할 때</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div>
-          <div class="s-compare">
-            <div class="s-dark">
-              <div class="slot" data-slot="doc-long"></div>
-              <p class="pain-label">이런 적 있으시죠</p>
-              <p class="pain-title">스무 장짜리 지침에서 핵심 찾기</p>
-              <ul>
-                <li>어디에 뭐가 있는지 모르겠습니다</li>
-                <li>작년 것과 뭐가 바뀌었는지</li>
-                <li>읽다가 시간이 다 갑니다</li>
-              </ul>
-            </div>
-            <div></div>
-            <div class="s-card">
-              <span class="badge"><span data-icon="googlegemini" data-icon-size="22"></span>Gemini</span>
-              <p class="tool-line">공문을 올리고 물어봅니다</p>
-              <ol class="steps">
-                <li>공문 PDF 올리기</li>
-                <li>"우리 학교가 해야 할 일만 정리해줘"</li>
-                <li>"근거가 몇 쪽이야?" 되묻기</li>
-              </ol>
-            </div>
-          </div>
-          <div class="demo" data-src="" data-label="공문 요약 시연 영상"><span class="demo-placeholder">시연 화면</span></div>
-        </div>
-      </div>
-      <p class="s-panel-note">아이모두 계정의 Gemini입니다. 개인정보 있는 공문은 올리지 않습니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 15</p>
-  </div>
-  <aside class="notes">
-    <p>실제 노안중 최근 공문(개인정보 없는 것)으로.</p>
-  </aside>
+<section data-label="18 마무리" data-screen-label="18" data-speaker-notes="QR을 먼저 띄우고 「2분만」이라고 한 마디. 설문에서 두 개 고르시는 게 다음 회차 주제가 된다는 걸 분명히 말할 것 — 여기가 이 연수의 진짜 목적이다. 「수·목 오전 교무실에 있습니다」도 반드시. 마지막 줄 「오늘 하나만 손에 붙으면 성공입니다」로 닫는다." style="background:#f4f8ff;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#0b2e65">
+  <img src="assets/s1/z18-h.png" alt="" style="position:absolute;left:0px;top:0px;width:1280px;height:224px;display:block;--d:0.05s" data-anim="in">
+  <img src="assets/s1/z18-qr.png" alt="" style="position:absolute;left:0px;top:224px;width:536px;height:352px;display:block;--d:0.5s" data-anim="in">
+  <img src="assets/s1/z18-r1.png" alt="" style="position:absolute;left:536px;top:224px;width:744px;height:119px;display:block;--d:1s" data-anim="slide-slow">
+  <img src="assets/s1/z18-r2.png" alt="" style="position:absolute;left:536px;top:343px;width:744px;height:119px;display:block;--d:1.6s" data-anim="slide-slow">
+  <img src="assets/s1/z18-r3.png" alt="" style="position:absolute;left:536px;top:462px;width:744px;height:114px;display:block;--d:2.2s" data-anim="slide-slow">
+  <img src="assets/s1/z18-f.png" alt="" style="position:absolute;left:0px;top:576px;width:1280px;height:144px;display:block;--d:2.9s" data-anim="in">
 </section>
+</deck-stage>
 
-<section class="slide tone-mint" id="s16" data-t="38" data-title="장면 05 회의·상담">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>04</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <p class="eyebrow">장면 05</p>
-    <h2 class="s-title">회의·상담을 기록할 때</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div>
-          <div class="s-compare">
-            <div class="s-dark">
-              <div class="slot" data-slot="mic"></div>
-              <p class="pain-label">이런 적 있으시죠</p>
-              <p class="pain-title">적으면서 듣기가 안 됩니다</p>
-              <ul>
-                <li>받아 적느라 회의에 집중을 못 합니다</li>
-                <li>끝나고 기억을 더듬어 정리</li>
-                <li>상담 내용은 특히 놓칩니다</li>
-              </ul>
-            </div>
-            <div></div>
-            <div class="s-card">
-              <span class="badge"><span data-icon="clovanote" data-icon-size="22"></span>클로바노트</span>
-              <p class="tool-line">녹음을 글로 바꾸고 요약까지</p>
-              <ol class="steps">
-                <li>회의 시작할 때 녹음</li>
-                <li>끝나면 자동으로 글</li>
-                <li>요약과 할 일이 따로</li>
-              </ol>
-            </div>
-          </div>
-          <div class="demo" data-src="" data-label="클로바노트 시연 영상"><span class="demo-placeholder">시연 화면</span></div>
-        </div>
-      </div>
-      <p class="s-panel-note">지금 이 자리에서 바로 해보겠습니다. 선생님 목소리로 시연합니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 16</p>
-  </div>
-  <aside class="notes">
-    <p>여기만 실시간 시연. 학부모 상담 녹음은 동의 필요 반드시 언급.</p>
-  </aside>
-</section>
-
-<section class="slide" id="s17" data-t="44" data-title="우리 학교에 있는 것">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>05</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">우리 학교에 있는 것</h2>
-    <p class="s-sub">이걸로 뭘 할 수 있나</p>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-cards n4">
-          <div class="s-card">
-            <div class="slot" data-slot="laptop"></div>
-            <p class="card-title">노트북</p>
-            <p class="card-lede">오늘 2부 실습. 선생님 한 분당 한 대</p>
-          </div>
-          <div class="s-card">
-            <div class="slot" data-slot="tablet"></div>
-            <p class="card-title">패드(태블릿)</p>
-            <p class="card-lede">학생 활동. 패들렛·띵커벨·구글 클래스룸이 여기서 돕니다</p>
-          </div>
-          <div class="s-card">
-            <div class="slot" data-slot="printer-3d"></div>
-            <p class="card-title">3D 프린터</p>
-            <p class="card-lede">학생이 AI로 모형을 설계해 출력. 2학기 프로젝트 후보</p>
-          </div>
-          <div class="s-card">
-            <div class="slot" data-slot="monitor"></div>
-            <p class="card-title">컴퓨터·모니터</p>
-            <p class="card-lede">엔트리·티처블머신 실습실</p>
-          </div>
-        </div>
-      </div>
-      <p class="s-panel-note">장비는 있습니다. 뭘 하느냐만 정하면 됩니다. <span class="todo">[장비 수량·상태 확인 후 수정]</span></p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 17</p>
-  </div>
-  <aside class="notes">
-    <p>3D 프린터는 "AI로 설계 → 출력"이 결과보고서 산출물로 좋다. 관심 보이는 선생님 체크.</p>
-  </aside>
-</section>
-
-<section class="slide" id="s18" data-t="47" data-title="학생 도구는 다음에">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>05</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">학생과 함께 쓰는 도구는 다음에</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-cards n3">
-          <div class="s-card">
-            <p class="card-title">아이모두 · 구글 클래스룸</p>
-            <p class="card-lede">과제 배부·수합, Gemini로 수업자료, 유튜브 양방향 퀴즈</p>
-          </div>
-          <div class="s-card">
-            <p class="card-title">패들렛</p>
-            <p class="card-lede">학생들이 한 판에 의견을 붙이는 게시판</p>
-          </div>
-          <div class="s-card">
-            <p class="card-title">띵커벨</p>
-            <p class="card-lede">퀴즈와 보드. 국산</p>
-          </div>
-        </div>
-      </div>
-      <div class="s-panel-note">
-        <p class="card-title">학생이 쓰는 건 절차가 따로 있습니다</p>
-        <p>중1은 만 13세인 경우가 있어 보호자 동의가 필요하고, 학교 차원의 도입 절차도 있습니다. 제가 학교에 확인받고 정리해서 다시 안내드리겠습니다.</p>
-      </div>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 18</p>
-  </div>
-  <aside class="notes">
-    <p>3분 안에 끊는다.</p>
-  </aside>
-</section>
-
-<section class="slide" id="s19" data-t="50" data-title="코디네이터가 하는 일">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>05</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">코디네이터가 하는 일</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div class="s-split">
-          <div class="s-dark">
-            <h3 class="card-title">제가 하는 것</h3>
-            <ul class="plain">
-              <li>연수·소모임 운영 보조</li>
-              <li>수업·실습 운영 지원</li>
-              <li>대회·행사 지원</li>
-              <li>기자재 운영 지원</li>
-              <li>성과 기록·결과보고서 작성 지원</li>
-            </ul>
-            <p class="s-info">근로계약서 제2조 업무내용. 전부 "지원·보조"입니다.</p>
-          </div>
-          <div class="s-card gold">
-            <p class="card-title">요청하시는 법</p>
-            <p class="card-lede">"이거 만들어 주세요"보다 <strong>"이 일이 오래 걸려요"</strong>라고 말씀해 주시는 게 좋습니다. 그래야 제가 자동화할 지점을 찾습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 19</p>
-  </div>
-  <aside class="notes">
-    <p>여기가 4개월치 일감이 나오는 곳.</p>
-  </aside>
-</section>
-
-<section class="slide" id="s20" data-t="53" data-title="두 개만 골라주세요">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>05</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">두 개만 골라주세요</h2>
-    <p class="s-lead">다음 회차부터 무엇을 할지, 제가 정하지 않고 선생님들이 정하십니다.</p>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div>
-          <div class="s-card">
-            <ul class="plain">
-              <li><strong>트랙 A·B 중 하나 + 오늘 본 것 중 두 개</strong> 체크 — 30초면 됩니다</li>
-              <li>이름은 안 쓰셔도 됩니다. 담당 교과만 적어주세요</li>
-              <li>맨 아래 — 제가 대신 해드렸으면 하는 일을 한 줄 적어주세요</li>
-            </ul>
-          </div>
-          <div class="poll" data-form="">
-            <p class="poll-note">종이로 받겠습니다</p>
-            <button class="btn" type="button" disabled>폼 링크 열기</button>
-          </div>
-        </div>
-      </div>
-      <p class="s-panel-note"><em>표를 세서 이번 주 안에 다음 회차 주제를 교무실에 붙여두겠습니다.</em></p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 20</p>
-  </div>
-  <aside class="notes">
-    <p>맨 아래 한 줄이 진짜 목적. 여기서 4개월치 일감이 나온다. 반드시 소리 내어 강조할 것.</p>
-  </aside>
-</section>
-
-<section class="slide dark" id="s21" data-t="56" data-title="휴식">
-  <div class="slide-inner">
-    <div class="s-card">
-      <h2 class="s-title">잠시 쉬겠습니다</h2>
-      <p class="s-lead">7분 후에 2부를 시작합니다. 노트북을 켜두세요.</p>
-      <div class="timer" data-min="7" role="button" tabindex="0" aria-label="7분 휴식 타이머. 눌러서 시작"></div>
-    </div>
-  </div>
-  <aside class="notes">
-    <p>돌아다니면서 개별 질문을 받는다. 실제 대화는 여기서 나온다.</p>
-  </aside>
-</section>
-
-<section class="slide tone-cream" id="s22" data-t="63" data-title="2부 라이브 요청 처리">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>06</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <p class="eyebrow">2부 · 30분</p>
-    <h2 class="s-title">지금 하나 만들어 드리겠습니다</h2>
-    <p class="s-lead">선생님 업무 하나만 말씀해 주세요. <strong>지금 이 자리에서 만들어 보이겠습니다.</strong></p>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <ul class="checklist req s-flow">
-          <li class="s-flow-step">
-            <span class="req-no">요청 1</span>
-            <span class="req-slot" contenteditable="true" role="textbox" aria-label="요청 1 내용" data-ph="(예: 다음 주 체육대회 안내문)"></span>
-            <label><input type="checkbox"> 완료 → 파일 전달</label>
-          </li>
-          <li class="s-flow-step">
-            <span class="req-no">요청 2</span>
-            <span class="req-slot" contenteditable="true" role="textbox" aria-label="요청 2 내용" data-ph=""></span>
-            <label><input type="checkbox"><span class="sr-only">요청 2 완료</span></label>
-          </li>
-          <li class="s-flow-step">
-            <span class="req-no">요청 3</span>
-            <span class="req-slot" contenteditable="true" role="textbox" aria-label="요청 3 내용" data-ph=""></span>
-            <label><input type="checkbox"><span class="sr-only">요청 3 완료</span></label>
-          </li>
-        </ul>
-      </div>
-      <p class="s-panel-note">오늘 못 한 건 이번 주 안에 만들어서 드리겠습니다. 이게 제 일입니다.</p>
-    </div>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 22</p>
-  </div>
-  <aside class="notes">
-    <p>3~4건이면 30분. 첫 요청이 안 나오면 오늘 들은 "체육대회 팜플렛"을 내가 먼저 꺼낸다. 완성본은 그 선생님 이메일로 그 자리에서 전송 — "받으셨죠?"까지.</p>
-    <p>네트워크 실패 시 → private/backup/ 에 미리 만들어둔 완성본 3개(통신문·리플릿·공문요약)를 열어 "이렇게 나옵니다"로 대체. 요청은 받아서 이번 주 처리.</p>
-  </aside>
-</section>
-
-<section class="slide" id="s23" data-t="100" data-title="규칙 하나">
-  <div class="slide-inner">
-    <div class="part-mark"><span>PART</span><b>06</b></div>
-    <img class="s-logo" src="../assets/logo.png" alt="노안중학교" onerror="this.classList.add('is-gone')"><span class="logo-fallback">노안중학교</span>
-    <h2 class="s-title">매 시간 반복할 규칙 하나</h2>
-    <div class="s-panel">
-      <div class="s-panel-body">
-        <div>
-          <div class="s-card warm">
-            <p class="card-title">학생의 이름 · 사진 · 성적을 AI에 넣지 않습니다</p>
-            <p class="card-lede">AI에게 시킬 때는 "우리 반 김OO" 대신 "중학교 2학년 학생"이라고 씁니다. 이 하나로 개인정보 문제 대부분이 없어집니다.</p>
-          </div>
-          <div class="s-cards n3">
-            <div class="s-card"><p><strong>학부모 상담 녹음</strong> — 클로바노트를 상담에 쓰실 때는 녹음 전에 반드시 동의를 받으셔야 합니다.</p></div>
-            <div class="s-card"><p><strong>공문 올릴 때</strong> — 개인정보가 들어간 공문은 올리지 않습니다. 이름과 번호가 있는지 먼저 보세요.</p></div>
-            <div class="s-card"><p><strong>판단이 애매하면</strong> — 저에게 물어보세요. 제가 학교에 확인하고 문서로 답을 받아두겠습니다.</p></div>
-          </div>
-        </div>
-      </div>
-      <p class="s-panel-note">근거 — 전남교육청 「AI 활용 가이드라인」 5대 원칙: 정직·안전·공정·책임·도구적 활용</p>
-    </div>
-    <p class="link-line"><a href="../library/rules.html">안전 규칙 한 장 — 인쇄해서 드립니다</a></p>
-    <p class="s-pagefoot">노안중 AI 연수 ｜ p 23</p>
-  </div>
-  <aside class="notes">
-    <p>겁주지 않는다. "하나만 지키면 된다"로 축소.</p>
-  </aside>
-</section>
-
-<section class="slide dark" id="s24" data-t="105" data-title="마무리">
-  <div class="slide-inner">
-    <p class="eyebrow">다음 시간</p>
-    <h2 class="s-title">오늘 고르신 것으로 다음 주에 뵙겠습니다</h2>
-    <div class="cover-card">
-      <div class="end-grid">
-        <div>
-          <h3 class="card-title">다음 일정</h3>
-          <div class="tw">
-            <table>
-              <tbody>
-                <tr><th scope="row">2회차</th><td>표가 가장 많았던 도구</td></tr>
-                <tr><th scope="row">그 이후</th><td>수업 중 학생과 활용</td></tr>
-                <tr><th scope="row">상시</th><td>교과별 개별 코칭</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <h3 class="card-title">이번 주 제가 할 것</h3>
-          <div class="tw">
-            <table>
-              <tbody>
-                <tr><th scope="row">수(9/16)</th><td>투표 결과 집계해서 교무실 게시</td></tr>
-                <tr><th scope="row">목(9/17)</th><td>오늘 받은 요청 처리·전달</td></tr>
-                <tr><th scope="row">다음 월</th><td>2회차</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <picture><source srcset="../assets/noari/noari-badge.webp" type="image/webp"><img class="noari" src="../assets/noari/noari-badge.png" alt="노안중학교 마스코트 노아리" height="160" loading="lazy" onerror="this.remove()"></picture>
-        </div>
-        <div class="qr-box">
-          <div class="qr">
-            <img src="../assets/qr-site.svg" alt="노안중 AI교육 사이트 QR 코드" width="240" height="240" onerror="this.parentNode.parentNode.classList.add('is-gone')">
-          </div>
-          <p class="qr-cap">사이트 주소</p>
-          <div class="qr">
-            <img src="../assets/qr-request.svg" alt="노안중 AI교육 요청 폼 QR 코드" width="240" height="240" onerror="this.parentNode.parentNode.classList.add('is-gone')">
-          </div>
-          <p class="qr-cap">요청 폼</p>
-        </div>
-      </div>
-    </div>
-    <p class="s-lead">수 · 목 오전에는 학교에 있습니다. 교무실로 편하게 부르세요.</p>
-    <p class="s-foot">AI교육 코디네이터 박진영</p>
-    <p class="school-foot">교훈 근면 · 성실 &nbsp;·&nbsp; 교화 장미 &nbsp;·&nbsp; 교목 백합나무</p>
-  </div>
-  <aside class="notes">
-    <p>마지막 문장이 제일 중요하다. "만들어 달라"가 아니라 "오래 걸린다"를 말해주셔야 자동화할 지점을 찾을 수 있다.</p>
-  </aside>
-</section>
-
-</div>
-<div class="hud"></div>
-<span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
-<div class="blackout" aria-hidden="true"></div>
-<script src="../shared/icons.js"></script>
+<script src="../shared/deck-stage.js"></script>
 <script>
-  document.querySelectorAll('[data-slot]').forEach(function (el) {
-    var name = el.getAttribute('data-slot');
-    if (window.NoanIcons && NoanIcons.icon) el.innerHTML = NoanIcons.icon(name, 64);
-  });
+
+  (function(){
+    function watch(){
+      document.querySelectorAll('video[data-scene-video]').forEach(function(v){
+        if (v.dataset.bound) return;
+        v.dataset.bound = '1';
+        var show = function(){
+          if (v.videoWidth > 0) {
+            v.setAttribute('data-ready','');
+            if (v.nextElementSibling && v.nextElementSibling.hasAttribute('data-video-controls')) v.nextElementSibling.setAttribute('data-ready','');
+          }
+        };
+        var bar = v.nextElementSibling;
+        var sync = function(){
+          if (!bar) return;
+          bar.querySelector('[data-vc-play]').style.display = v.paused ? '' : 'none';
+          bar.querySelector('[data-vc-pause]').style.display = v.paused ? 'none' : '';
+        };
+        v.addEventListener('play', sync);
+        v.addEventListener('pause', sync);
+        if (bar && bar.hasAttribute('data-video-controls')) {
+          bar.querySelector('[data-vc="toggle"]').addEventListener('click', function(){
+            if (v.paused) { v.play(); } else { v.pause(); }
+          });
+          var basestyle0 = v.getAttribute('style');
+          var barstyle0 = bar.getAttribute('style');
+          var expand = function(on){
+            if (on) {
+              v.setAttribute('style', 'position:absolute;left:0px;top:0px;width:1280px;height:720px;border-radius:0;object-fit:contain;display:block;background:#0b1220;border:0;z-index:60;visibility:visible');
+              bar.style.left = '1136px';
+              bar.style.top = '644px';
+              bar.style.setProperty('z-index', '61');
+            } else {
+              v.setAttribute('style', basestyle0);
+              bar.setAttribute('style', barstyle0);
+            }
+            bar.querySelector('[data-vc-open]').style.display = on ? 'none' : '';
+            bar.querySelector('[data-vc-close]').style.display = on ? '' : 'none';
+            v.dataset.expanded = on ? '1' : '';
+          };
+          bar.querySelector('[data-vc="full"]').addEventListener('click', function(){
+            if (document.fullscreenElement) { document.exitFullscreen(); return; }
+            if (v.dataset.expanded) { expand(false); return; }
+            var req = v.requestFullscreen || v.webkitRequestFullscreen || v.webkitEnterFullscreen;
+            var ok = document.fullscreenEnabled && req;
+            if (!ok) { expand(true); return; }
+            try {
+              var p = req.call(v);
+              if (p && p.catch) { p.catch(function(){ expand(true); }); }
+            } catch (e) { expand(true); }
+          });
+          document.addEventListener('keydown', function(e){
+            if (e.key === 'Escape' && v.dataset.expanded) { expand(false); }
+          });
+        }
+        v.addEventListener('loadeddata', function(){ sync(); });
+        v.addEventListener('loadeddata', show);
+        v.addEventListener('error', function(){
+          v.removeAttribute('data-ready');
+          if (v.nextElementSibling && v.nextElementSibling.hasAttribute('data-video-controls')) v.nextElementSibling.removeAttribute('data-ready');
+        });
+        show();
+      });
+    }
+    function bindentry0(){
+      document.querySelectorAll('section[data-label]').forEach(function(sec){
+        if (sec.dataset.vidobs) return;
+        var v = sec.querySelector('video[data-scene-video]');
+        if (!v) return;
+        sec.dataset.vidobs = '1';
+        new MutationObserver(function(){
+          if (sec.hasAttribute('data-deck-active')) {
+            v.pause();
+            try { v.currentTime = 0; } catch (e) {}
+          } else { v.pause(); }
+        }).observe(sec, { attributes: true });
+      });
+    }
+    bindentry0();
+    [400, 1200, 3000].forEach(function(t){ setTimeout(bindentry0, t); });
+    watch();
+    addEventListener('load', watch);
+    [400, 1200, 3000].forEach(function(t){ setTimeout(watch, t); });
+  })();
 </script>
-<script src="../shared/deck.js"></script>
 </body>
 </html>
