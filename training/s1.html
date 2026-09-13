@@ -12,6 +12,30 @@
 /* 첫 슬라이드가 제 모양을 갖추기 전에 번쩍이지 않게 한다 */
 deck-stage:not(:defined) { visibility: hidden; }
 
+/* 전체화면에서는 영상의 인라인 크기와 object-fit:cover 를 무시한다.
+   cover 를 그대로 두면 화면 비율에 맞춰 아래쪽과 양옆이 잘린다.
+   인라인 style 보다 세게 먹이려면 author !important 가 필요하다.
+   :fullscreen 과 :-webkit-full-screen 은 한 선택자 목록에 묶으면
+   한쪽을 모르는 브라우저가 규칙 전체를 버리므로 반드시 따로 쓴다. */
+video[data-scene-video]:fullscreen {
+  position: fixed !important;
+  left: 0 !important; top: 0 !important;
+  width: 100% !important; height: 100% !important;
+  max-width: none !important; max-height: none !important;
+  border-radius: 0 !important;
+  object-fit: contain !important;
+  background: #000 !important;
+}
+video[data-scene-video]:-webkit-full-screen {
+  position: fixed !important;
+  left: 0 !important; top: 0 !important;
+  width: 100% !important; height: 100% !important;
+  max-width: none !important; max-height: none !important;
+  border-radius: 0 !important;
+  object-fit: contain !important;
+  background: #000 !important;
+}
+
   body { margin:0; background:#becafe; }
   a { color:#376dfb; text-decoration:none; }
   a:hover { color:#2455d8; text-decoration:underline; }
