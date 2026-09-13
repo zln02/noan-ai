@@ -62,7 +62,7 @@ noan-ai/
 ├── shared/   tokens.css  site.css  deck.css  icons.js  deck.js  site.js
 ├── assets/   noari/(마스코트)  guide/(캡처)  qr-*.svg
 ├── tools/    sync-data.js  sync-notion.js  check-copy.js  guide-build.py  CONTRACT.md
-├── docs/     decisions.md  handover.md  cli/  manual-findings.md  shots/
+├── docs/     decisions.md  handover.md  requests.md  cli/  manual-findings.md  shots/
 ├── private/  (gitignore) 학교 실물 자료
 └── README.md  LICENSE
 ```
@@ -120,6 +120,8 @@ node tools/sync-data.js --check
 [`/ops/handover`](ops/handover/index.html) — 이 자리가 하는 일, 연간 흐름, 계정 발급 절차,
 파일 위치, 첫날 할 일 5개, 미해결 목록.
 큰 결정의 이유는 [`docs/decisions.md`](docs/decisions.md) 에 날짜와 함께 적어 두었다.
+선생님 요청이 들어온 뒤의 처리 절차 — 노션 두 DB, 상태 바꾸는 기준, 공개 기준, 내보내는 명령 — 는
+[`docs/requests.md`](docs/requests.md) 에 있다.
 
 ## 라이선스
 

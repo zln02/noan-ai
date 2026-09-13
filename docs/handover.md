@@ -35,7 +35,8 @@ private/              (gitignore) 학교 실물 자료 — 절대 커밋하지 �
 - 네트워크가 끊겨도 덱은 그대로 돈다. 외부 요청이 0건이기 때문이다.
 
 ## 4. 아직 비어 있는 것
-- `data-form=""` 2곳 — `training/s1.html` 슬라이드 20, `request/index.html`. 노션 폼 공개 URL 이 정해지면 채운다.
+- `data-form=""` 1곳 — `request/index.html`. 노션 폼 공개 URL 이 정해지면 채운다.
+  (덱 쪽 폼 자리는 2026-09-13 새 시안 18장으로 바뀌면서 없어졌다. 연수 설문은 18번 장 QR → 구글 폼.)
 
   **요청 게시판 (2026-09-10)** — 받는 곳은 노션으로 정했다. 정적 사이트라 글을 받아줄 서버가 없다.
   - 노션 DB 「노안중 AI교육 — 요청 게시판」 `39eb7d4e6d46446db925fbd099f9ade7`
@@ -44,6 +45,7 @@ private/              (gitignore) 학교 실물 자료 — 절대 커밋하지 �
   - 내려받기: `NOTION_TOKEN=... NOTION_REQUESTS_DB=... node tools/sync-requests.js` → `node tools/sync-data.js` → 커밋
   - 아직 없는 것: 그 DB의 **공개 폼 URL**. 받으면 `request/index.html` 의 `data-form` 에 넣는다.
     그 전까지 「새 요청 쓰기」 는 보내실 문장을 만들어 드리는 데까지만 한다.
+  - **요청이 들어온 뒤 누가·언제·어떻게 처리하고 무엇을 공개하는지** — [`docs/requests.md`](requests.md) 에 절차로 적어 두었다.
 - `assets/qr-site.svg` · `assets/qr-request.svg` — GitHub Pages 주소가 확정된 뒤 생성한다.
   ```bash
   pip install "qrcode[pil]"
