@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="중학교 수학 평면·입체도형 문제 만들기. 치수 입력, 둘레·넓이·부피 계산, 그림 저장, 학습지 인쇄.">
+  <title>간편 도형 만들기 · 노안중학교</title>
+  <link rel="icon" href="data:,">
+
+<style>:root{color-scheme:light;--math-blue:#2563eb;--math-text:#102a43;--math-muted:#53677e;--math-line:#d8e2f0;--math-bg:#f7faff;font-family:system-ui,-apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;color:var(--math-text);background:var(--math-bg)}
+.family-tabs{display:flex;gap:6px;padding:4px;border-radius:10px;background:#eef4fb;margin-bottom:16px}.family-tabs button{flex:1;border:0;border-radius:7px;padding:10px 6px;background:transparent;color:#53677e;font-weight:700;font-size:13px}.family-tabs button[aria-pressed=true]{background:white;color:#2563eb;box-shadow:0 2px 5px #102a4310}.shape-button{flex-wrap:wrap;padding:7px 3px}.shape-button svg{max-width:28px}
+.color-row{display:flex;gap:16px;margin:16px 0}.color-row label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600}.color-row input{width:44px;height:32px;padding:2px;background:white;border:1px solid var(--math-line);border-radius:7px}.answer-panel{margin-top:20px;background:white;border:1px solid var(--math-line);border-radius:14px;padding:20px}.answer-panel summary{font-size:14px;font-weight:700;cursor:pointer}.answer-note{font-size:12px;line-height:1.7;color:var(--math-muted)}.answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}.answer-grid h3{font-size:13px;color:var(--math-muted)}.answer-grid strong{font-size:20px;color:var(--math-blue);overflow-wrap:anywhere}.answer-grid small{display:block;font-size:13px;margin-top:8px;font-weight:500}.answer-grid p{font-size:13px;line-height:1.8;overflow-wrap:anywhere}#print-answer{display:none}@media(max-width:640px){.answer-grid{grid-template-columns:1fr}}@media print{.answer-panel{display:none!important}#print-answer.include{display:block;margin-top:8mm;break-inside:avoid}.answer-grid{grid-template-columns:1fr 1fr}.answer-grid strong{font-size:13pt}.answer-grid p,.answer-note{font-size:9pt}}
+*{box-sizing:border-box}body{margin:0;color:var(--math-text);background:var(--math-bg);font-size:15px}button,input,textarea,select{font:inherit}button,a,input,select,textarea{touch-action:manipulation}button{cursor:pointer}button:disabled{cursor:wait;opacity:.6}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #d97a38;outline-offset:3px}a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}[hidden]{display:none!important}.skip{position:absolute;left:16px;top:-100px;background:white;padding:12px;z-index:10}.skip:focus{top:8px}
+.topbar{background:white;border-bottom:1px solid var(--math-line);padding:16px max(24px,calc((100vw - 1320px)/2));display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:800;display:flex;gap:10px;align-items:center;white-space:nowrap}.brand>span:last-child{font-size:12px;color:var(--math-muted);font-weight:500;border-left:1px solid var(--math-line);padding-left:10px}.brand-mark{background:var(--math-blue);color:white;border-radius:9px;width:32px;height:32px;display:grid;place-items:center;font-size:25px}.topbar nav{display:flex;gap:24px;font-size:13px;color:var(--math-muted)}main{max-width:1320px;margin:auto;padding:42px 24px}.intro{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:30px}.eyebrow{color:var(--math-blue);font-size:11px;font-weight:800;letter-spacing:1.7px;margin:0 0 10px}h1{font-size:clamp(28px,3vw,39px);letter-spacing:-1.7px;margin:0 0 12px}.dot{color:var(--math-blue)}.intro p:last-child{color:var(--math-muted);margin:0;line-height:1.6}.local-badge{border:1px solid var(--math-line);border-radius:30px;padding:9px 14px;white-space:nowrap;font-size:12px;background:white}
+.workspace{display:grid;grid-template-columns:318px minmax(0,1fr);gap:24px;align-items:start}.controls{background:white;border:1px solid var(--math-line);border-radius:18px;overflow:hidden}.controls section{padding:22px;border-bottom:1px solid var(--math-line)}.controls section:last-child{border-bottom:0}h2{font-size:16px;letter-spacing:-.4px;margin:0 0 18px}.controls h2 span{font-size:11px;color:var(--math-blue);margin-right:10px}.shape-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.shape-button{border:1px solid var(--math-line);background:white;border-radius:10px;min-height:72px;display:flex;align-items:center;gap:9px;justify-content:center;color:var(--math-muted);font-weight:600;font-size:13px}.shape-button svg{width:33px;height:33px;flex-shrink:0}.shape-button[aria-pressed=true]{color:var(--math-blue);background:#eef4fb;border:2px solid var(--math-blue)}.section-row{display:flex;justify-content:space-between;align-items:baseline;gap:6px}.unit-label{font-size:12px;color:var(--math-muted)}select{background:white;color:var(--math-text);border:1px solid var(--math-line);padding:8px;border-radius:7px;max-width:100%}.unit-label select{padding:5px}.field{display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:600;margin:0 0 15px}.field input,.field textarea{width:100%;min-width:0;padding:11px 12px;border:1px solid var(--math-line);border-radius:9px;background:white;color:var(--math-text)}.dimension-row{display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:8px;align-items:end;margin-bottom:13px}.dimension-row .field{margin:0}.dimension-row select{height:42px;font-size:12px}.hint,.export-hint,.not-to-scale{color:var(--math-muted);font-size:12px;line-height:1.7}.hint{margin-bottom:0}.validation{color:#b42318;font-size:12px;line-height:1.5;margin:6px 0 0}.check{display:flex;align-items:center;gap:9px;font-size:13px;margin:0 0 15px}.check input{width:17px;height:17px;accent-color:var(--math-blue)}.range-label{margin-top:18px}.range-label input{padding:0;accent-color:var(--math-blue)}.range-ends{display:flex;justify-content:space-between;color:var(--math-muted);font-size:11px;font-weight:400}.text-button{padding:0;background:none;border:0;color:var(--math-blue);font-size:12px;text-decoration:underline;text-underline-offset:3px}
+.right-column{min-width:0}.preview-panel{background:white;border:1px solid var(--math-line);border-radius:18px;overflow:hidden;box-shadow:0 8px 35px #102a4305}.preview-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--math-line)}.preview-bar h2{margin:0;font-size:13px}.preview-bar>span{color:var(--math-blue);background:#eef4fb;padding:6px 12px;border-radius:20px;font-size:12px}.paper{padding:24px 30px 8px;background:white;color:#111827}.paper h2{font-size:19px;margin:0 0 8px;overflow-wrap:anywhere}.paper #worksheet-question{white-space:pre-wrap;font-size:15px;line-height:1.7;margin:0;overflow-wrap:anywhere}#drawing svg{display:block;width:100%;height:auto;max-height:490px}.not-to-scale{text-align:right;margin:0 0 8px;font-size:10px}.print-brand{display:none}.actions{display:flex;gap:9px;padding:20px 24px 8px;border-top:1px solid var(--math-line);flex-wrap:wrap}.actions button{padding:12px 17px;border:1px solid var(--math-line);border-radius:9px;background:white;color:var(--math-text);font-weight:650;font-size:13px}.actions .primary{background:var(--math-blue);color:white;border-color:var(--math-blue)}.actions button:hover{filter:brightness(.95)}.export-hint{padding:0 24px 17px;margin:0;font-size:11px}.worksheet-settings{display:grid;grid-template-columns:1fr 1.2fr;gap:25px;margin-top:22px;padding:25px;border:1px solid var(--math-line);border-radius:16px;background:#eef4fb}.worksheet-settings h2{font-size:18px;line-height:1.5;margin-bottom:9px}.worksheet-settings p:not(.eyebrow){font-size:12px;line-height:1.6;color:var(--math-muted)}textarea{resize:vertical}.worksheet-inputs .field:last-child{margin-bottom:0}.status{font-size:13px;color:var(--math-blue);min-height:22px;line-height:1.5}.help{font-size:13px;color:var(--math-muted);line-height:1.8}.help summary{cursor:pointer;font-weight:600}.help ol{padding-left:23px}footer{text-align:center;font-size:11px;color:var(--math-muted);padding:0 20px 28px}
+@media(max-width:850px){.workspace{grid-template-columns:270px minmax(0,1fr);gap:16px}.controls section{padding:17px}.worksheet-settings{grid-template-columns:1fr;gap:10px}.actions{padding:15px}.actions button{flex:1;padding:11px 7px}.local-badge{display:none}.paper{padding:20px 18px 8px}.topbar nav{gap:12px}}
+@media(max-width:640px){.topbar{padding:13px 16px;flex-wrap:wrap;gap:12px}.topbar nav{width:100%;justify-content:space-between}.intro{margin-bottom:22px}main{padding:26px 14px}.workspace{display:flex;flex-direction:column}.controls{width:100%}.controls section{padding:18px}.shape-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.shape-button{flex-direction:column;gap:5px;font-size:11px;min-height:72px}#dimensions{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dimension-row{grid-template-columns:minmax(0,1fr);gap:6px;margin-bottom:0}.dimension-row select{height:35px}.right-column{width:100%}.paper{padding:22px 12px 8px}.actions{gap:7px}.actions button{font-size:11px}.preview-bar{padding:16px}.worksheet-settings{padding:20px}h1{letter-spacing:-1px}.intro p:last-child{font-size:13px}}
+@media print{@page{size:A4 portrait;margin:18mm}body,main,.workspace,.right-column,.preview-panel,.paper{margin:0;padding:0;display:block;background:white;border:0;box-shadow:none;width:100%;max-width:none}.topbar,.intro,.controls,.preview-bar,.actions,.export-hint,.worksheet-settings,.status,.help,footer,.skip{display:none!important}.print-brand{display:block;font-size:10pt;color:#53677e;margin:0 0 12mm}.paper h2{font-size:18pt;margin-bottom:7mm}.paper #worksheet-question{font-size:12pt}#drawing{break-inside:avoid}#drawing svg{max-height:150mm}.not-to-scale{font-size:8pt}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+
+
+</head>
+<body>
+<a class="skip" href="#main">본문으로</a>
+<header class="topbar">
+  <a class="brand" href="#main"><span class="brand-mark" aria-hidden="true">◇</span> 노안중학교 <span>수업 도구</span></a>
+  
+</header>
+<main id="main">
+  <section class="intro"><div><p class="eyebrow">MATH STUDIO · 중학교 수학</p><h1>간편 도형 만들기<span class="dot">.</span></h1><p>평면도형부터 입체도형까지, 선생님이 만드는 수학 문제.</p></div><span class="local-badge">가입 없이 · 오프라인에서도</span></section>
+  <div class="workspace">
+    <aside class="controls" aria-label="도형 설정">
+      <section><h2><span>01</span> 도형 고르기</h2><div class="family-tabs" aria-label="도형 종류"><button type="button" data-family="solid" aria-pressed="true">입체도형</button><button type="button" data-family="plane" aria-pressed="false">평면도형</button></div><div id="shapes" class="shape-grid"></div></section>
+      <section><div class="section-row"><h2><span>02</span> 길이 정하기</h2><label class="unit-label">단위 <select id="unit"><option>cm</option><option>mm</option><option>m</option><option value="">없음</option></select></label></div>
+        <label id="sides-wrap" class="field" hidden>밑면의 모양<select id="sides"><option value="3">정삼각형</option><option value="4" selected>정사각형</option><option value="5">정오각형</option><option value="6">정육각형</option></select></label>
+        <div id="dimensions"></div><p class="hint">실제 길이를 입력하세요. 표시만 숨기거나 ?로 바꿀 수 있습니다.</p><p id="validation" class="validation" role="alert"></p>
+      </section>
+      <section><h2><span>03</span> 그림 다듬기</h2>
+        <label class="check"><input id="hidden-lines" type="checkbox" checked> 숨은 선을 점선으로 표시</label>
+        <label class="check"><input id="fill" type="checkbox"> 면에 옅은 색 넣기</label>
+        <div class="color-row"><label>면 색<input id="face-color" type="color" value="#bedbff"></label><label>선 색<input id="line-color" type="color" value="#192230"></label></div>
+        <label class="field range-label">위에서 보는 정도 <input id="tilt" type="range" min="12" max="40" value="22"><span class="range-ends"><span>낮게</span><span>높게</span></span></label>
+        <label id="yaw-wrap" class="field range-label" hidden>좌우 방향 <input id="yaw" type="range" min="15" max="75" value="30"></label>
+        <label class="field">글자 크기 <select id="font-size"><option value="22">보통</option><option value="28" selected>크게</option><option value="34">아주 크게</option></select></label>
+        <button id="reset" class="text-button" type="button">이 도형 초기화</button>
+      </section>
+    </aside>
+    <div class="right-column">
+      <section class="preview-panel" aria-labelledby="preview-heading">
+        <div class="preview-bar"><h2 id="preview-heading">문제 그림 미리보기</h2><span id="shape-name">구</span></div>
+        <div class="paper" id="paper"><p class="print-brand">노안중학교 · 수학 학습지</p><h2 id="worksheet-title">입체도형</h2><p id="worksheet-question"></p><div id="drawing"></div><p class="not-to-scale">그림은 실제 크기와 다를 수 있습니다.</p></div>
+        <div class="actions"><button class="primary" id="save-png" type="button">그림 저장 · PNG</button><button id="save-svg" type="button">선명한 원본 · SVG</button><button id="print" type="button">학습지 인쇄 / PDF</button></div>
+        <p class="export-hint">PNG는 흰 배경 · 2400 × 1800px. 한글·PPT에 넣어도 선명합니다. 그림 저장에는 제목과 문제 문장이 포함되지 않습니다.</p>
+      </section>
+      <section class="worksheet-settings"><div><p class="eyebrow">WORKSHEET</p><h2>선생님이 만드는 문제</h2><p>조건을 정하고 문장은 자유롭게 고치세요. 정답은 아래 교사용 영역에서만 확인합니다.</p></div><div class="worksheet-inputs"><label class="field">문제 유형<select id="problem-type"><option value="custom">직접 작성</option><option value="volume">부피 구하기</option><option value="area">겉넓이 구하기</option></select></label><label class="field">제목<input id="title-input" maxlength="70" value="입체도형" placeholder="예: 입체도형의 부피"></label><label class="field">문제 문장<textarea id="question-input" rows="3" maxlength="500" placeholder="예: 다음 입체도형의 부피를 구하시오."></textarea></label></div></section>
+      <details class="answer-panel" id="answers"><summary>교사용 정답 · 계산식 확인</summary><p class="answer-note">입력한 실제 길이로 계산합니다. ? 표시나 숨김을 사용해도 계산에 쓰는 값은 그대로입니다.</p><div id="calculation"></div><label class="check"><input id="print-answers" type="checkbox"> 이번 인쇄에 정답과 계산식 포함</label></details>
+      <p class="status" id="status" role="status" aria-live="polite">도형을 고르고, 필요한 길이를 입력해 보세요.</p>
+      <details class="help"><summary>처음 사용하시나요?</summary><ol><li>왼쪽에서 입체도형을 선택합니다.</li><li>길이와 단위를 입력합니다. 표시 메뉴에서 숫자·?·숨김을 고릅니다.</li><li>그림 저장을 누른 뒤 한글이나 PPT에 넣습니다. 휴대폰에서는 다운로드한 그림을 공유하면 됩니다.</li><li>문제까지 함께 출력하려면 학습지 인쇄 / PDF를 누릅니다.</li></ol><p>원뿔·각뿔의 높이는 밑면에 수직인 높이입니다. 각기둥·각뿔은 정다각형 밑면을 사용합니다. 치수는 그림 속 길이이며 화면의 실제 cm 크기를 뜻하지 않습니다.</p></details>
+    </div>
+  </div>
+</main>
+<footer>노안중학교 선생님을 위한 수업 도구 · AI교육 코디네이터 박진영</footer>
+<noscript>도형을 만들려면 브라우저의 JavaScript를 켜 주세요.</noscript>
+<script>/* Pure geometry calculations; radians internally, lengths in the chosen unit. */
+(function(root){
+  'use strict';
+  function calculate(shape,v,n=4){
+    const {r,h,w,d,a}=v,pi=Math.PI;
+    switch(shape){
+      case 'circle':return {area:pi*r*r,perimeter:2*pi*r,areaPi:r*r,perimeterPi:2*r,areaFormula:`π × ${r}²`,perimeterFormula:`2 × π × ${r}`};
+      case 'semicircle':return {area:pi*r*r/2,perimeter:pi*r+2*r,areaPi:r*r/2,areaFormula:`π × ${r}² ÷ 2`,perimeterFormula:`π × ${r} + 2 × ${r}`,note:'반원의 둘레는 반원 호의 길이와 지름을 더합니다.'};
+      case 'sector':return {area:pi*r*r*v.theta/360,perimeter:2*pi*r*v.theta/360+2*r,areaPi:r*r*v.theta/360,areaFormula:`π × ${r}² × ${v.theta}/360`,perimeterFormula:`2 × π × ${r} × ${v.theta}/360 + 2 × ${r}`,note:'부채꼴의 둘레는 호의 길이에 두 반지름을 더한 값입니다.'};
+      case 'rectangle':return {area:w*h,perimeter:2*(w+h),areaFormula:`${w} × ${h}`,perimeterFormula:`2 × (${w} + ${h})`};
+      case 'square':return {area:w*w,perimeter:4*w,areaFormula:`${w}²`,perimeterFormula:`4 × ${w}`};
+      case 'rightTriangle':return {area:w*h/2,perimeter:w+h+Math.hypot(w,h),areaFormula:`${w} × ${h} ÷ 2`,perimeterFormula:`${w} + ${h} + √(${w}² + ${h}²)`};
+      case 'triangle':return {area:w*h/2,perimeter:w+2*Math.hypot(w/2,h),areaFormula:`${w} × ${h} ÷ 2`,perimeterFormula:`${w} + 2 × √((${w}/2)² + ${h}²)`,note:'이등변삼각형입니다. 높이의 발은 밑변의 중점입니다.'};
+      case 'equilateral':return {area:Math.sqrt(3)*w*w/4,perimeter:3*w,areaFormula:`√3 × ${w}² ÷ 4`,perimeterFormula:`3 × ${w}`};
+      case 'parallelogram':return {area:w*h,perimeter:2*(w+Math.hypot(v.q,h)),areaFormula:`${w} × ${h}`,perimeterFormula:`2 × (${w} + √(${v.q}² + ${h}²))`,note:'옆변은 수평 이동 거리와 수직 높이로 계산합니다. 수평 이동 거리가 0이면 직사각형입니다.'};
+      case 'trapezoid':return {area:(w+v.t)*h/2,perimeter:w+v.t+2*Math.hypot((w-v.t)/2,h),areaFormula:`(${v.t} + ${w}) × ${h} ÷ 2`,perimeterFormula:`${w} + ${v.t} + 2 × √(((${w} − ${v.t})/2)² + ${h}²)`,note:'윗변과 아랫변의 중심이 같은 등변사다리꼴입니다. 두 밑변이 같으면 직사각형입니다.'};
+      case 'sphere': return {volume:4*pi*r**3/3,area:4*pi*r*r,volumeFormula:`(4/3) × π × ${r}³`,areaFormula:`4 × π × ${r}²`,volumePi:4*r**3/3,areaPi:4*r*r};
+      case 'hemisphere': return {volume:2*pi*r**3/3,area:3*pi*r*r,volumeFormula:`(2/3) × π × ${r}³`,areaFormula:`2 × π × ${r}² + π × ${r}²`,volumePi:2*r**3/3,areaPi:3*r*r,note:'반구의 겉넓이는 평평한 밑면(원)을 포함합니다.'};
+      case 'cylinder': return {volume:pi*r*r*h,area:2*pi*r*(r+h),volumeFormula:`π × ${r}² × ${h}`,areaFormula:`2 × π × ${r}² + 2 × π × ${r} × ${h}`,volumePi:r*r*h,areaPi:2*r*(r+h)};
+      case 'cone': {const l=Math.hypot(r,h);return {volume:pi*r*r*h/3,area:pi*r*(r+l),volumeFormula:`(1/3) × π × ${r}² × ${h}`,areaFormula:`π × ${r}² + π × ${r} × √(${r}² + ${h}²)`,volumePi:r*r*h/3,areaPi:r*(r+l),note:`모선 = √(반지름² + 높이²) ≈ ${Number(l.toFixed(4))}. 겉넓이 계산에는 피타고라스 정리가 필요할 수 있습니다.`};}
+      case 'cube': return {volume:w**3,area:6*w*w,volumeFormula:`${w}³`,areaFormula:`6 × ${w}²`};
+      case 'box': return {volume:w*d*h,area:2*(w*d+w*h+d*h),volumeFormula:`${w} × ${d} × ${h}`,areaFormula:`2 × (${w} × ${d} + ${w} × ${h} + ${d} × ${h})`};
+      case 'prism': case 'pyramid': {
+        const apothem=a/(2*Math.tan(pi/n)),base=n*a*apothem/2,slant=Math.hypot(h,apothem),pyramid=shape==='pyramid';
+        const baseFormula=n===3?`√3 × ${a}² ÷ 4`:n===4?`${a}²`:n===6?`3 × √3 × ${a}² ÷ 2`:`5 × ${a}² ÷ (4 × tan 36°)`;
+        return {volume:base*h/(pyramid?3:1),area:pyramid?base+n*a*slant/2:2*base+n*a*h,volumeFormula:`${pyramid?'(1/3) × ':''}(${baseFormula}) × ${h}`,areaFormula:pyramid?`밑넓이 + (${n} × ${a} × 옆면의 높이) ÷ 2`:`2 × (${baseFormula}) + ${n} × ${a} × ${h}`,note:`밑넓이 = ${baseFormula} ≈ ${Number(base.toFixed(4))}.${pyramid?` 옆면의 높이 = √(${h}² + (${a} ÷ (2 × tan(${180/n}°)))²) ≈ ${Number(slant.toFixed(4))}.`:''}${n===5?' 정오각형의 계산에는 중학교 범위를 넘는 삼각함수 값이 쓰입니다. 중학교 문제로는 밑넓이를 별도로 제시해 주세요.':''}`};
+      }
+      default: throw new Error('Unknown solid');
+    }
+  }
+  root.GeometryMath={calculate};
+  if(typeof module!=='undefined')module.exports=root.GeometryMath;
+})(typeof window==='undefined'?globalThis:window);
+</script>
+<script>/* Standalone SVG drawing: no network, no libraries, no student data. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const names = {sphere:'구',hemisphere:'반구',cylinder:'원기둥',cone:'원뿔',box:'직육면체',cube:'정육면체',prism:'정각기둥',pyramid:'정각뿔',triangle:'이등변삼각형',rightTriangle:'직각삼각형',equilateral:'정삼각형',rectangle:'직사각형',square:'정사각형',parallelogram:'평행사변형',trapezoid:'등변사다리꼴',circle:'원',semicircle:'반원',sector:'부채꼴'};
+  const planes=['triangle','rightTriangle','equilateral','rectangle','square','parallelogram','trapezoid','circle','semicircle','sector'];
+  const isPlane=()=>planes.includes(shape);
+  const fields = {sphere:['r'],hemisphere:['r'],cylinder:['r','h'],cone:['r','h'],box:['w','d','h'],cube:['w'],prism:['a','h'],pyramid:['a','h'],triangle:['w','h'],rightTriangle:['w','h'],equilateral:['w'],rectangle:['w','h'],square:['w'],parallelogram:['w','h','q'],trapezoid:['w','t','h'],circle:['r'],semicircle:['r'],sector:['r','theta']};
+  const labels = {r:'반지름 r',h:'높이 h',w:'가로 a',d:'세로 b',a:'밑면 한 변 a',t:'윗변 b',q:'수평 이동 거리',theta:'중심각 (°)'};
+  const defaults = {r:3,h:8,w:6,d:4,a:5,t:3,q:2,theta:90};
+  let shape='sphere', values={...defaults}, displays=Object.fromEntries(Object.keys(defaults).map(k=>[k,'number']));
+  let valid=true, markup='', exporting=false;
+  const f = n => Number(n.toFixed(3));
+  const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+  const icons={sphere:'<circle cx="24" cy="24" r="17"/><ellipse cx="24" cy="24" rx="17" ry="6"/>',hemisphere:'<path d="M7 30a17 17 0 0 1 34 0"/><ellipse cx="24" cy="30" rx="17" ry="6"/>',cylinder:'<ellipse cx="24" cy="11" rx="15" ry="5"/><path d="M9 11v26c0 7 30 7 30 0V11"/><path d="M9 37c0-7 30-7 30 0" stroke-dasharray="3 3"/>',cone:'<path d="M8 36 24 7 40 36"/><ellipse cx="24" cy="36" rx="16" ry="5"/>',box:'<path d="m7 17 22-9 13 9v23l-23 5L7 34Zm0 0 12 9 23-9M19 26v19M29 8v23l13 9"/>',cube:'<path d="m5 14 20-9 18 11v23l-20 7L5 34Zm0 0 18 11 20-9M23 25v21"/>',prism:'<path d="m8 20 15-12 17 12-8 9H16Zm0 0v18l8 7h16l8-7V20M16 29v16M32 29v16"/>',pyramid:'<path d="m5 35 19-29 19 29-18 9Zm0 0 20 9L24 6M5 35l19-9 19 9"/>'};
+  Object.assign(icons,{triangle:'<path d="M5 39 24 7 43 39Z"/>',rightTriangle:'<path d="M7 7v34h34Z M7 34h7v7"/>',equilateral:'<path d="M5 40 24 7 43 40Z"/>',rectangle:'<rect x="5" y="11" width="38" height="26"/>',square:'<rect x="8" y="8" width="32" height="32"/>',parallelogram:'<path d="M5 38 15 10h28L33 38Z"/>',trapezoid:'<path d="M5 38 14 11h20l9 27Z"/>',circle:'<circle cx="24" cy="24" r="18"/>',semicircle:'<path d="M5 32a19 19 0 0 1 38 0Z"/>',sector:'<path d="M9 39V7a32 32 0 0 1 32 32Z"/>'});
+  function shapeButtons(){ $('shapes').innerHTML=Object.entries(names).filter(([id])=>planes.includes(id)===isPlane()).map(([id,name])=>`<button class="shape-button" type="button" data-shape="${id}" aria-pressed="${id===shape}"><svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">${icons[id]}</svg>${name}</button>`).join(''); }
+  shapeButtons();
+  function controls(){
+    const fieldLabel=key=>key==='w'?(shape==='cube'?'한 모서리 a':['square','equilateral'].includes(shape)?'한 변 a':isPlane()?'밑변 a':labels[key]):labels[key];
+    $('dimensions').innerHTML=fields[shape].map(key=>`<div class="dimension-row"><label class="field">${fieldLabel(key)}<input data-key="${key}" type="number" min="${key==='q'?0:.1}" max="${key==='theta'?359.9:1000}" step="any" inputmode="decimal" value="${values[key]}"></label><select aria-label="${fieldLabel(key)} 표시 방법" data-display="${key}"><option value="number">숫자 표시</option><option value="unknown">? 표시</option><option value="hide">숨김</option></select></div>`).join('');
+    document.querySelectorAll('[data-display]').forEach(s=>s.value=displays[s.dataset.display]);
+    $('sides-wrap').hidden=!['prism','pyramid'].includes(shape);
+    $('yaw-wrap').hidden=!['box','cube','prism','pyramid'].includes(shape);
+    $('tilt').closest('label').hidden=isPlane();
+    $('hidden-lines').closest('label').hidden=isPlane();
+    const mode=$('problem-type').value;
+    $('problem-type').innerHTML=isPlane()?'<option value="custom">직접 작성</option><option value="perimeter">둘레 구하기</option><option value="area">넓이 구하기</option>':'<option value="custom">직접 작성</option><option value="volume">부피 구하기</option><option value="area">겉넓이 구하기</option>';
+    $('problem-type').value=mode==='custom'||mode==='area'?mode:isPlane()?'perimeter':'volume';
+    document.querySelectorAll('[data-shape]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.shape===shape)));
+    render();
+  }
+  function render(){
+    valid=true;
+    document.querySelectorAll('[data-key]').forEach(input=>{const n=Number(input.value);const ok=input.value!==''&&Number.isFinite(n)&&n>=Number(input.min)&&n<=Number(input.max);input.setAttribute('aria-invalid',String(!ok));if(ok)values[input.dataset.key]=n;else valid=false;});
+    $('validation').textContent=valid?'':'길이 0.1~1000, 수평 이동 0~1000, 중심각 0.1~359.9° 범위로 입력해 주세요. 그림은 마지막 올바른 값으로 표시됩니다.';
+    ['save-png','save-svg','print'].forEach(id=>$(id).disabled=!valid||exporting);
+    const unit=$('unit').value,fs=Number($('font-size').value), hidden=$('hidden-lines').checked, filled=$('fill').checked;
+    const tilt=Number($('tilt').value)*Math.PI/180;
+    const text=(key)=>displays[key]==='hide'?'':(displays[key]==='unknown'?'?':String(values[key]))+(key==='theta'?'°':unit?' '+unit:'');
+    let parts=[];
+    const line=(a,b,dash=false,color='#192230',width=2.1)=>`<path d="M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}" fill="none" stroke="${color}" stroke-width="${width}"${dash?' stroke-dasharray="7 6"':''}/>`;
+    const label=(x,y,t,anchor='middle')=>t?`<text x="${f(x)}" y="${f(y)}" text-anchor="${anchor}" font-size="${fs}" fill="#192230" stroke="white" stroke-width="7" paint-order="stroke" stroke-linejoin="round">${esc(t)}</text>`:'';
+    const dotCurve=(p,q,bowDir=[0,0],color='#4a5565',width=2.2,bowAmt=0)=>{
+      const dx=q[0]-p[0],dy=q[1]-p[1],len=Math.hypot(dx,dy)||1;
+      let n=[-dy/len,dx/len];
+      if(bowDir[0]||bowDir[1]){const d=n[0]*bowDir[0]+n[1]*bowDir[1];if(d<0)n=[-n[0],-n[1]];}
+      const bow=bowAmt||Math.min(len*0.16,22);
+      const c=[(p[0]+q[0])/2+n[0]*bow*2,(p[1]+q[1])/2+n[1]*bow*2];
+      return{n,d:`<path d="M${f(p[0])} ${f(p[1])}Q${f(c[0])} ${f(c[1])} ${f(q[0])} ${f(q[1])}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-dasharray="0.01 6"/>`,apex:[(p[0]+q[0])/2+n[0]*bow,(p[1]+q[1])/2+n[1]*bow]};
+    };
+    function dim(a,b,key,offset=[0,0],bowAmt=0){
+      if(!text(key))return;
+      const curve=dotCurve(a,b,offset,'#4a5565',2.2,bowAmt);
+      parts.push(curve.d);
+      const nx=curve.n[0],ny=curve.n[1],pad=fs*0.85+6;
+      const lx=curve.apex[0]+nx*pad,ly=curve.apex[1]+ny*pad+fs*0.35;
+      parts.push(label(lx,ly,text(key),Math.abs(nx)>0.6?(nx>0?'start':'end'):'middle'));
+    }
+    function ring(cx,cy,r,ry,back=true){
+      if(back&&hidden)parts.push(`<path d="M${cx-r} ${cy}a${r} ${ry} 0 0 1 ${2*r} 0" fill="none" stroke="#192230" stroke-width="2.1" stroke-dasharray="7 6"/>`);
+      parts.push(`<path d="M${cx-r} ${cy}a${r} ${ry} 0 0 0 ${2*r} 0" fill="none" stroke="#192230" stroke-width="2.1"/>`);
+    }
+    if(isPlane()){
+      const cx=355,cy=280;
+      const poly=p=>parts.push(`<polygon points="${p.map(a=>a.map(f).join(',')).join(' ')}" fill="${filled?'#eef4fb':'white'}" stroke="#192230" stroke-width="2.3"/>`);
+      if(['circle','semicircle','sector'].includes(shape)){
+        const r=170;
+        if(shape==='circle')parts.push(`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${filled?'#eef4fb':'white'}" stroke="#192230" stroke-width="2.3"/>`);
+        if(shape==='semicircle')parts.push(`<path d="M${cx-r} ${cy+50}a${r} ${r} 0 0 1 ${2*r} 0Z" fill="${filled?'#eef4fb':'white'}" stroke="#192230" stroke-width="2.3"/>`);
+        if(shape==='sector'){
+          const angle=values.theta*Math.PI/180,point=(radius,a)=>[cx+radius*Math.cos(a),cy-radius*Math.sin(a)],end=point(r,angle),inner=point(35,angle);
+          parts.push(`<path d="M${cx} ${cy}L${cx+r} ${cy}A${r} ${r} 0 ${values.theta>180?1:0} 0 ${f(end[0])} ${f(end[1])}Z" fill="${filled?'#eef4fb':'white'}" stroke="#192230" stroke-width="2.3"/>`);
+          if(text('theta')){parts.push(`<path d="M${cx+35} ${cy}A35 35 0 ${values.theta>180?1:0} 0 ${f(inner[0])} ${f(inner[1])}" fill="none" stroke="#192230" stroke-width="1.3"/>`);const p=point(90,angle/2);parts.push(label(p[0],p[1],text('theta')));}
+        }
+        const y=shape==='semicircle'?cy+50:cy;
+        if(text('r')){const c=dotCurve([cx,y],[cx+r,y],[0,1]);parts.push(line([cx,y],[cx+r,y]),c.d,label(c.apex[0]+r*.16,c.apex[1]+26,text('r')),`<circle cx="${cx}" cy="${y}" r="3" fill="#192230"/>`);}
+      }else{
+        const w=values.w,h=shape==='square'?w:shape==='equilateral'?Math.sqrt(3)*w/2:values.h;
+        const q=shape==='parallelogram'?values.q:0,t=values.t;
+        const span=shape==='trapezoid'?Math.max(w,t):w+q,s=Math.min(350/span,310/h),left=cx-(w+q)*s/2,bottom=cy+h*s/2,top=bottom-h*s;
+        const A=[left,bottom],B=[left+w*s,bottom];
+        if(['triangle','rightTriangle','equilateral'].includes(shape)){
+          const x=shape==='rightTriangle'?left:cx,C=[x,top];poly([A,B,C]);dim(A,B,'w',[0,42]);
+          if(shape!=='equilateral'&&text('h')){if(shape==='rightTriangle')dim(A,C,'h',[-45,0]);else{parts.push(line([x,bottom],C,true),label(x+14,cy,text('h'),'start'));}parts.push(`<path d="M${x} ${bottom-12}h12v12" fill="none" stroke="#192230" stroke-width="1.3"/>`);}
+        }else if(shape==='trapezoid'){
+          const C=[cx+t*s/2,top],D=[cx-t*s/2,top];poly([A,B,C,D]);dim(A,B,'w',[0,42]);dim(D,C,'t',[0,-28]);const hx=Math.max(B[0],C[0]);if(text('h')&&C[0]<hx)parts.push(line(C,[hx,top],false,'#78818b',1));dim([hx,bottom],[hx,top],'h',[38,0]);
+        }else if(shape==='parallelogram'){
+          const C=[B[0]+q*s,top],D=[A[0]+q*s,top];poly([A,B,C,D]);dim(A,B,'w',[0,42]);if(text('h'))parts.push(line([D[0],bottom],D,true),label(D[0]+14,cy,text('h'),'start'));if(q>0)dim(A,[D[0],bottom],'q',[0,88],52);
+        }else {poly([A,B,[B[0],top],[A[0],top]]);dim(A,B,'w',[0,42]);if(shape==='rectangle')dim(B,[B[0],top],'h',[40,0]);}
+      }
+    }else if(['sphere','hemisphere','cylinder','cone'].includes(shape)){
+      const r0=values.r,h0=values.h;
+      const scale=shape==='sphere'||shape==='hemisphere'?170/r0:Math.min(175/r0,335/(h0*Math.cos(tilt)+2*r0*Math.sin(tilt)));
+      const r=f(r0*scale),ry=f(r*Math.sin(tilt)),cx=355;
+      if(shape==='sphere'){
+        const cy=285;
+        parts.push(`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${filled?'#eef4fb':'white'}" stroke="#192230" stroke-width="2.3"/>`);ring(cx,cy,r,ry);
+        if(text('r')){const c=dotCurve([cx,cy],[cx+r,cy],[0,-1]);parts.push(line([cx,cy],[cx+r,cy]),c.d,`<circle cx="${cx}" cy="${cy}" r="3" fill="#192230"/>`,label(c.apex[0],c.apex[1]-12,text('r')));}
+      }else if(shape==='hemisphere'){
+        const cy=345;
+        parts.push(`<path d="M${cx-r} ${cy}a${r} ${r} 0 0 1 ${2*r} 0a${r} ${ry} 0 0 1 ${-2*r} 0" fill="${filled?'#eef4fb':'white'}" stroke="none"/>`);
+        parts.push(`<path d="M${cx-r} ${cy}a${r} ${r} 0 0 1 ${2*r} 0" fill="none" stroke="#192230" stroke-width="2.3"/>`);ring(cx,cy,r,ry);
+        if(text('r')){const c=dotCurve([cx,cy],[cx+r,cy],[0,-1]);parts.push(line([cx,cy],[cx+r,cy]),c.d,`<circle cx="${cx}" cy="${cy}" r="3" fill="#192230"/>`,label(c.apex[0],c.apex[1]-12,text('r')));}
+      }else{
+        const h=f(h0*Math.cos(tilt)*scale),top=f(280-h/2),bottom=f(280+h/2);
+        if(shape==='cylinder'){
+          parts.push(`<path d="M${cx-r} ${top}L${cx-r} ${bottom}a${r} ${ry} 0 0 0 ${2*r} 0V${top}Z" fill="${filled?'#eef4fb':'white'}" stroke="none"/>`);
+          ring(cx,bottom,r,ry);parts.push(line([cx-r,top],[cx-r,bottom]),line([cx+r,top],[cx+r,bottom]));
+          parts.push(`<ellipse cx="${cx}" cy="${top}" rx="${r}" ry="${ry}" fill="${filled?'#f7faff':'white'}" stroke="#192230" stroke-width="2.1"/>`);
+          if(text('r')){const c=dotCurve([cx,top],[cx+r,top],[0,-1]);parts.push(line([cx,top],[cx+r,top]),c.d,label(c.apex[0],c.apex[1]-10,text('r')));}
+          dim([cx+r,top],[cx+r,bottom],'h',[48,0]);
+        }else{
+          parts.push(`<path d="M${cx} ${top}L${cx-r} ${bottom}a${r} ${ry} 0 0 0 ${2*r} 0Z" fill="${filled?'#eef4fb':'white'}" stroke="none"/>`);ring(cx,bottom,r,ry);parts.push(line([cx,top],[cx-r,bottom]),line([cx,top],[cx+r,bottom]));
+          if(text('h')){parts.push(line([cx,top],[cx,bottom],true),label(cx-14,(top+bottom)/2,text('h'),'end'));parts.push(`<path d="M${cx} ${bottom-13}h13v13" fill="none" stroke="#192230" stroke-width="1.4"/>`);}
+          if(text('r')){const c=dotCurve([cx,bottom],[cx+r,bottom],[0,-1]);parts.push(line([cx,bottom],[cx+r,bottom]),c.d,label(c.apex[0],c.apex[1]-10,text('r')));}
+        }
+      }
+    }else{
+      const yaw=Number($('yaw').value)*Math.PI/180;
+      const project=p=>[p[0]*Math.cos(yaw)+p[2]*Math.sin(yaw),-p[1]*Math.cos(tilt)+(p[0]*Math.sin(yaw)-p[2]*Math.cos(yaw))*Math.sin(tilt)];
+      const camera=[Math.sin(yaw)*Math.cos(tilt),Math.sin(tilt),-Math.cos(yaw)*Math.cos(tilt)];
+      let verts=[],faces=[],n=4,height=shape==='cube'?values.w:values.h;
+      const isBox=shape==='box'||shape==='cube',isPyramid=shape==='pyramid';
+      if(isBox){const w=values.w/2,d=(shape==='cube'?values.w:values.d)/2;verts=[[-w,0,-d],[w,0,-d],[w,0,d],[-w,0,d]];}
+      else {n=Number($('sides').value);const radius=values.a/(2*Math.sin(Math.PI/n));for(let i=0;i<n;i++){const a=2*Math.PI*i/n-Math.PI/2;verts.push([radius*Math.cos(a),0,radius*Math.sin(a)]);}}
+      if(isPyramid){verts.push([0,height,0]);faces.push(Array.from({length:n},(_,i)=>i));for(let i=0;i<n;i++)faces.push([i,(i+1)%n,n]);}
+      else{verts.push(...verts.slice().map(p=>[p[0],height,p[2]]));faces.push(Array.from({length:n},(_,i)=>i),Array.from({length:n},(_,i)=>i+n));for(let i=0;i<n;i++)faces.push([i,(i+1)%n,(i+1)%n+n,i+n]);}
+      const center=verts.reduce((a,p)=>a.map((v,j)=>v+p[j]/verts.length),[0,0,0]);
+      const visible=faces.map(face=>{const [a,b,c]=face.map(i=>verts[i]);const u=b.map((v,j)=>v-a[j]),v=c.map((v,j)=>v-a[j]);let norm=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];const mid=face.reduce((s,i)=>s.map((v,j)=>v+verts[i][j]/face.length),[0,0,0]);if(norm.reduce((s,v,j)=>s+v*(mid[j]-center[j]),0)<0)norm=norm.map(v=>-v);return norm.reduce((s,v,j)=>s+v*camera[j],0)>0;});
+      const raw=verts.map(project),xs=raw.map(p=>p[0]),ys=raw.map(p=>p[1]),minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys),s=Math.min(365/(maxX-minX),325/(maxY-minY));
+      const tr=p=>[355+(p[0]-(minX+maxX)/2)*s,280+(p[1]-(minY+maxY)/2)*s],points=raw.map(tr);
+      faces.forEach((face,i)=>{if(visible[i])parts.push(`<polygon points="${face.map(v=>points[v].map(f).join(',')).join(' ')}" fill="${filled?(i%2?'#eef4fb':'#f7faff'):'white'}"/>`);});
+      const edges=new Map();faces.forEach((face,i)=>face.forEach((a,j)=>{const b=face[(j+1)%face.length],key=[a,b].sort((x,y)=>x-y).join('-');if(!edges.has(key))edges.set(key,{a,b,visible:false});edges.get(key).visible ||= visible[i];}));
+      [...edges.values()].sort((a,b)=>Number(a.visible)-Number(b.visible)).forEach(e=>{if(e.visible||hidden)parts.push(line(points[e.a],points[e.b],!e.visible));});
+      if(isBox){dim(points[0],points[1],'w',[0,42]);if(shape==='box'){dim(points[1],points[2],'d',[42,26]);dim(points[2],points[2+n],'h',[56,0]);}}
+      else {
+        const candidates=[...edges.values()].filter(e=>e.a<n&&e.b<n&&e.visible).sort((a,b)=>(points[b.a][1]+points[b.b][1])-(points[a.a][1]+points[a.b][1]));
+        const e=candidates[0];if(e)dim(points[e.a],points[e.b],'a',[0,42]);
+        if(isPyramid){const base=tr(project([0,0,0])),apex=points[n];if(text('h')){parts.push(line(base,apex,true),label(base[0]+14,(base[1]+apex[1])/2,text('h'),'start'));}}
+        else{let i=0;points.slice(0,n).forEach((p,j)=>{if(p[0]>points[i][0])i=j;});dim(points[i],points[i+n],'h',[48,0]);}
+      }
+    }
+    const name=['prism','pyramid'].includes(shape)?['','','','정삼','정사','정오','정육'][Number($('sides').value)]+(shape==='prism'?'각기둥':'각뿔'):names[shape];
+    $('shape-name').textContent=name;
+    markup=`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="figure-title"><title id="figure-title">${esc(name)}${fields[shape].filter(k=>text(k)).map(k=>' · '+labels[k]+' '+text(k)).join('')}</title><rect width="800" height="600" fill="white"/><g font-family="Arial, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" stroke-linecap="round" stroke-linejoin="round">${parts.join('')}</g></svg>`;
+    markup=markup.replaceAll('#192230',$('line-color').value).replaceAll('#eef4fb',$('face-color').value).replaceAll('#f7faff',$('face-color').value);
+    $('drawing').innerHTML=markup;
+    $('worksheet-title').textContent=$('title-input').value;
+    $('worksheet-question').textContent=$('question-input').value;
+    updateAnswer();
+  }
+  function updateAnswer(){
+    if(!valid){$('calculation').textContent='올바른 길이를 입력하면 정답을 확인할 수 있습니다.';if($('print-answer'))$('print-answer').classList.remove('include');return;}
+    const result=GeometryMath.calculate(shape,values,Number($('sides').value));
+    const unit=$('unit').value,format=x=>Number(x.toFixed(4)).toLocaleString('ko-KR',{maximumFractionDigits:4});
+    const exact=(key,power)=>{
+      const value=result[key],coeff=result[key+'Pi'],suffix=unit?' '+unit+power:'';
+      if(coeff!==undefined){const rounded=Number(coeff.toFixed(4));return `${Math.abs(coeff-rounded)>1e-8?'약 ':''}${format(coeff)}π${suffix} <small>≈ ${format(value)}${suffix}</small>`;}
+      const rounded=Number(value.toFixed(4));return `${Math.abs(value-rounded)>1e-8?'약 ':''}${format(value)}${suffix}`;
+    };
+    const key=isPlane()?'perimeter':'volume';
+    const html=`<div class="answer-grid"><div><h3>${isPlane()?'둘레':'부피'}</h3><strong>${exact(key,isPlane()?'':'³')}</strong><p>${esc(result[key+'Formula'])}</p></div><div><h3>${isPlane()?'넓이':'겉넓이'}</h3><strong>${exact('area','²')}</strong><p>${esc(result.areaFormula)}</p></div></div>${result.note?'<p class="answer-note">'+esc(result.note)+'</p>':''}<p class="answer-note">소수는 소수점 아래 넷째 자리까지 표시합니다. 단위 변경은 숫자 환산 없이 표기만 바꿉니다.</p>`;
+    $('calculation').innerHTML=html;
+    let printable=$('print-answer');if(!printable){printable=document.createElement('div');printable.id='print-answer';$('paper').append(printable);}
+    printable.innerHTML='<h2>정답 및 풀이</h2>'+html;
+    printable.classList.toggle('include',$('print-answers').checked);
+  }
+  function setProblem(){const mode=$('problem-type').value;if(mode==='custom')return;const what=mode==='volume'?'부피':mode==='perimeter'?'둘레':isPlane()?'넓이':'겉넓이';$('title-input').value=`${isPlane()?'평면':'입체'}도형의 ${what}`;$('question-input').value=`다음 ${$('shape-name').textContent}의 ${what}를 구하시오.${shape==='hemisphere'&&mode==='area'?' (평평한 밑면을 포함한다.)':''}`;render();}
+  function download(blob,extension){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`${$('shape-name').textContent}-도형.${extension}`;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);}
+  $('save-svg').addEventListener('click',()=>{if(!valid)return;download(new Blob([markup],{type:'image/svg+xml;charset=utf-8'}),'svg');$('status').textContent='SVG 그림을 저장했습니다. 다운로드 폴더를 확인해 주세요.';});
+  $('save-png').addEventListener('click',async()=>{
+    if(!valid||exporting)return;exporting=true;render();$('status').textContent='선명한 그림을 준비하고 있습니다…';
+    const url=URL.createObjectURL(new Blob([markup],{type:'image/svg+xml;charset=utf-8'}));
+    try{const image=new Image();await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=reject;image.src=url;});const canvas=document.createElement('canvas');canvas.width=2400;canvas.height=1800;canvas.getContext('2d').drawImage(image,0,0,2400,1800);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw Error('PNG');download(blob,'png');$('status').textContent='PNG 그림을 저장했습니다. 한글·PPT에 넣거나 카카오톡으로 보내세요.';}catch{$('status').textContent='PNG 저장을 완료하지 못했습니다. SVG 저장 또는 인쇄를 사용해 주세요.';}finally{URL.revokeObjectURL(url);exporting=false;render();}
+  });
+  $('print').addEventListener('click',()=>{if(valid)window.print();});
+  $('shapes').addEventListener('click',e=>{const b=e.target.closest('[data-shape]');if(!b)return;shape=b.dataset.shape;controls();setProblem();});
+  document.querySelectorAll('[data-family]').forEach(button=>button.addEventListener('click',()=>{if((button.dataset.family==='plane')===isPlane())return;shape=button.dataset.family==='plane'?'triangle':'sphere';if(['입체도형','평면도형'].includes($('title-input').value))$('title-input').value=isPlane()?'평면도형':'입체도형';shapeButtons();document.querySelectorAll('[data-family]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));controls();setProblem();}));
+  $('dimensions').addEventListener('input',e=>{if(e.target.dataset.display)displays[e.target.dataset.display]=e.target.value;render();});
+  ['unit','sides','hidden-lines','fill','tilt','yaw','font-size','title-input','question-input','face-color','line-color','print-answers'].forEach(id=>$(id).addEventListener('input',render));
+  $('face-color').addEventListener('input',()=>{$('fill').checked=true;render();});
+  $('sides').addEventListener('input',setProblem);
+  $('problem-type').addEventListener('change',setProblem);
+  $('question-input').addEventListener('input',()=>{$('problem-type').value='custom';});
+  $('reset').addEventListener('click',()=>{values={...defaults};Object.keys(displays).forEach(k=>displays[k]='number');$('tilt').value=22;$('yaw').value=30;$('hidden-lines').checked=true;$('fill').checked=false;controls();$('status').textContent='도형의 길이와 표시를 초기화했습니다.';});
+  controls();
+})();
+</script>
+</body>
+</html>
