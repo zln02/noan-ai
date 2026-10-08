@@ -74,7 +74,7 @@ svg{display:block}
 .main{display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*2.4)}
 .logo{position:relative;display:flex;flex-direction:column;align-items:center;font-family:var(--disp);line-height:1;animation:logoIn .9s cubic-bezier(.2,1.5,.35,1) both}
 @keyframes logoIn{from{transform:scale(.3) rotate(-8deg);opacity:0}}
-.logo .l1{font-size:calc(var(--u)*5.6);white-space:nowrap;color:#fff;padding:0 calc(var(--u)*3);border-radius:999px;background:linear-gradient(180deg,#ff8787,#e03131);transform:rotate(-3deg);margin-bottom:calc(var(--u)*1.2);
+.logo .l1{font-size:calc(var(--u)*5.2);white-space:nowrap;position:relative;z-index:2;color:#fff;padding:0 calc(var(--u)*3);border-radius:999px;background:linear-gradient(180deg,#ff8787,#e03131);transform:rotate(-2deg);margin-bottom:calc(var(--u)*3.2);line-height:1.25;padding-top:calc(var(--u)*.6);padding-bottom:calc(var(--u)*.8);
   text-shadow:0 3px 0 #a61e1e;box-shadow:inset 0 calc(var(--u)*.6) 0 rgba(255,255,255,.4),0 calc(var(--u)*1) 0 #a61e1e,0 calc(var(--u)*2) calc(var(--u)*3) rgba(0,0,0,.3)}
 .logo .l2{font-size:calc(var(--u)*13);color:#fff;text-shadow:0 2px 0 #d0ebff,0 4px 0 #a5d8ff,0 6px 0 #74c0fc,0 8px 0 #4dabf7,0 10px 0 #1c7ed6,0 12px 0 #0b3d91,0 calc(var(--u)*3) calc(var(--u)*3) rgba(0,0,0,.35)}
 .logo .l2 em{font-style:normal;color:var(--sun);text-shadow:0 2px 0 #ffe08a,0 4px 0 #f5b400,0 6px 0 #e09600,0 8px 0 #c47a00,0 10px 0 #a35f00,0 12px 0 #7a4400,0 calc(var(--u)*3) calc(var(--u)*3) rgba(0,0,0,.35)}
@@ -87,8 +87,8 @@ svg{display:block}
 #startBtn{font-size:calc(var(--u)*6);padding:calc(var(--u)*2.2) calc(var(--u)*9);animation:pulse 1.6s ease-in-out infinite}
 @keyframes pulse{50%{transform:scale(1.05)}}
 .board{padding:calc(var(--u)*2.6) calc(var(--u)*2.4);display:flex;flex-direction:column;gap:calc(var(--u)*1.4);min-height:60vh;justify-content:center}
-.board .head{display:flex;justify-content:space-between;align-items:baseline}
-.board .head b{font-family:var(--disp);font-weight:400;font-size:calc(var(--u)*3.8);color:var(--sea-d)}
+.board .head{display:flex;flex-direction:column;align-items:flex-start;gap:calc(var(--u)*.3)}
+.board .head b{font-family:var(--disp);font-weight:400;font-size:calc(var(--u)*3.4);line-height:1.2;color:var(--sea-d)}
 .board .head small{font-weight:800;color:var(--muted);font-size:calc(var(--u)*2)}
 .rank{list-style:none;display:flex;flex-direction:column;gap:calc(var(--u)*1)}
 .rank li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:calc(var(--u)*1.2);background:#eaf4ff;border-radius:calc(var(--u)*2);padding:calc(var(--u)*1) calc(var(--u)*1.6);
@@ -115,6 +115,10 @@ svg{display:block}
 .orgs{display:flex;gap:calc(var(--u)*1.2);width:100%}
 .org{flex:1;min-height:64px;border-radius:calc(var(--u)*2);background:#eaf4ff;color:var(--sea-d);font-family:var(--disp);font-size:calc(var(--u)*3.2);box-shadow:0 calc(var(--u)*.6) 0 #a5d0f5}
 .org.on{background:var(--sea);color:#fff;box-shadow:0 calc(var(--u)*.6) 0 var(--sea-d)}
+.net{margin-top:calc(var(--u)*1);font-size:calc(var(--u)*1.8);font-weight:800;text-align:center;color:#5b7398}
+.net::before{content:"";display:inline-block;width:.7em;height:.7em;border-radius:50%;margin-right:.4em;vertical-align:.05em;background:#adb5bd}
+.net.on::before{background:#2fb36b;box-shadow:0 0 0 3px rgba(47,179,107,.2)} .net.off::before{background:#f08c00}
+.privacy{font-size:calc(var(--u)*2.1)!important;color:var(--muted);margin-top:calc(var(--u)*.4)}
 .rank .org-tag{display:inline-block;margin-left:.4em;padding:0 .5em;border-radius:999px;background:#d0ebff;color:var(--sea-d);font-size:.72em;vertical-align:.1em}
 .field,#nameInput{width:100%;font-family:var(--disp);font-size:calc(var(--u)*6);text-align:center;padding:calc(var(--u)*2);border-radius:calc(var(--u)*2.5);background:#eaf4ff;color:var(--ink);
   box-shadow:inset 0 calc(var(--u)*.5) calc(var(--u)*1) rgba(5,30,80,.15);outline:none;-webkit-user-select:text;user-select:text}
@@ -360,7 +364,7 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
       <div class="rules" id="rules"></div>
       <button id="startBtn" class="clay-btn"><span>터치해서 시작!</span></button>
     </div>
-    <aside class="board card3d"><div class="head"><b>⏱ 오늘의 기록</b><small id="homeCount"></small></div><ol class="rank" id="homeRank"></ol></aside>
+    <aside class="board card3d"><div class="head"><b id="homeTitle">🏆 랭킹</b><small id="homeCount"></small></div><ol class="rank" id="homeRank"></ol><div class="net" id="netState"></div></aside>
   </div>
 </section>
 
@@ -376,6 +380,7 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
     <input id="orgInput" class="field" maxlength="10" autocomplete="off" spellcheck="false" placeholder="예) 노안남초, 노안중">
     <label class="flabel" for="nameInput">이름 <small>(랭킹에 올라가요 · 8글자까지)</small></label>
     <input id="nameInput" class="field" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예) 김노안">
+    <p class="privacy">🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요. 별명을 써도 괜찮아요.</p>
     <div id="nameMsg"></div>
     <div class="row"><button class="clay-btn" id="goBtn"><span>시작!</span></button></div>
     <div class="row"><button class="soft-btn" id="randBtn">🎲 별명으로 할래요</button><button class="soft-btn" id="nameBack">처음으로</button></div>
@@ -420,7 +425,7 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
 
 <!-- 큰 화면 랭킹 -->
 <section id="bigboard" class="screen">
-  <div class="box card3d"><h2>⏱ 독도 기억력 게임 · 오늘의 기록</h2><div class="cnt" id="bigCount"></div><ol class="rank big" id="bigRank"></ol></div>
+  <div class="box card3d"><h2 id="bigTitle">🏆 독도 기억력 게임 랭킹</h2><div class="cnt" id="bigCount"></div><ol class="rank big" id="bigRank"></ol></div>
 </section>
 <canvas id="confetti"></canvas>
 <div id="flash" aria-hidden="true"></div>
@@ -437,7 +442,10 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
   <select id="setPeek"><option value="0">안 보여 줌</option><option value="2">2초</option><option value="3">3초</option><option value="4">4초</option><option value="5">5초</option></select>
   <label>효과음</label><select id="setSound"><option value="1">켜기</option><option value="0">끄기</option></select>
   <label>관리 비밀번호 (숫자 4자리)</label><input id="setPin" maxlength="4" inputmode="numeric">
-  <div class="row"><button class="btn dan" id="clearRankBtn">오늘 랭킹 지우기</button><button class="btn" id="adminClose">닫기</button><button class="btn pri" id="adminSave">저장</button></div>
+  <label>랭킹 이름 (같은 이름의 기록끼리 순위를 매겨요 · 모든 기기에서 같아야 해요)</label>
+  <div style="display:flex;gap:8px"><input id="setSeason" maxlength="30"><button class="btn dan" id="clearRankBtn" style="white-space:nowrap">새 랭킹 시작</button></div>
+  <p id="netAdmin" style="margin-top:8px;font-size:14px;color:#5b7398"></p>
+  <div class="row"><button class="btn" id="adminClose">닫기</button><button class="btn pri" id="adminSave">저장</button></div>
 </div></div>
 <div id="toast"></div>
 
@@ -4666,8 +4674,8 @@ void main() {
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
-  var K = {s: 'dokdoMem.settings.v1', b: 'dokdoMem.board.v1'};
-  var DEF = {pairs: 6, peek: 3, sound: true, pin: '7979', mode: 'same', bgmVol: 50, bgmOn: true}; // mode: same = 같은 그림, qa = 그림↔독도 문제
+  var K = {s: 'dokdoMem.settings.v1', r: 'dokdoMem.records.v2', q: 'dokdoMem.pending.v1'};
+  var DEF = {pairs: 6, peek: 3, sound: true, pin: '7979', mode: 'same', bgmVol: 50, bgmOn: true, season: '2026 독도의 날'}; // mode: same = 같은 그림, qa = 그림↔독도 문제
   var IDLE_S = 40, CLEAR_RETURN_S = 25, WARN_S = 5;
   var store = {
     get: function (k, fb) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch (e) { return fb; } },
@@ -5796,37 +5804,68 @@ void main() {
   window.Bgm3 = Bgm;
   function buzz(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) { /* 무시 */ } }
 
-  /* ===== 오늘의 기록 (server.js가 있으면 여러 기기 공유, 없으면 이 기기만) ===== */
+  /* ===== 랭킹: 온라인 DB(Supabase)에 영구 저장 =====
+     - 페이지 키(publishable)로는 「추가」와 「조회」만 된다. 수정·삭제는 DB 규칙이 막는다(대시보드에서만 가능).
+     - 인터넷이 끊기면 이 기기에 먼저 저장하고(대기열), 연결되면 자동으로 올린다.
+     - 「랭킹 이름(시즌)」이 같은 기록끼리 순위를 매긴다. 관리 화면 「새 랭킹 시작」으로 바꾼다. */
+  var CLOUD = {url: 'https://dovpodhwmredayldjrvb.supabase.co/rest/v1/dokdo_scores', key: 'sb_publishable_T5RxDUQ0qOjSfUqbwmqYxw_z0afNxi_'};
   var Board = (function () {
-    var remote = false, cache = {top: [], count: 0};
+    var online = false, cache = {top: [], count: 0};
+    function season() { return settings.season || DEF.season; }
+    function mine(l) { return l.filter(function (e) { return e.season === season() && e.pairs === +settings.pairs && (e.mode || 'same') === (settings.mode || 'same'); }); }
     function sorted(l) { return l.slice().sort(function (a, b) { return a.ms - b.ms || a.t - b.t; }); }
-    function local() { var all = store.get(K.b, {}); return (all[todayKey()] || []).filter(function (e) { return e.pairs === +settings.pairs && (e.mode || 'same') === (settings.mode || 'same'); }); }
-    function saveLocal(e) { var all = store.get(K.b, {}), l = all[todayKey()] || []; l.push(e); all[todayKey()] = l; var ks = Object.keys(all).sort(); while (ks.length > 14) delete all[ks.shift()]; store.set(K.b, all); }
-    function fromLocal() { var l = sorted(local()); return {top: l.slice(0, 10), count: l.length}; }
-    function api(path, body) {
-      var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
-      return fetch(path, Object.assign({cache: 'no-store', signal: ctl && ctl.signal}, body ? {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)} : {}))
-        .then(function (r) { clearTimeout(tm); if (!r.ok) throw new Error(r.status); return r.json(); });
+    function records() { return store.get(K.r, []); }
+    function fromLocal() { var l = sorted(mine(records())); return {top: l.slice(0, 10), count: l.length, local: true}; }
+    function req(qs, opt) {
+      var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
+      opt = opt || {};
+      return fetch(CLOUD.url + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
+        headers: Object.assign({apikey: CLOUD.key, 'Content-Type': 'application/json'}, opt.headers || {})})
+        .then(function (r) { clearTimeout(tm); return r; });
     }
+    function filt() { return 'season=eq.' + encodeURIComponent(season()) + '&pairs=eq.' + (+settings.pairs) + '&mode=eq.' + (settings.mode || 'same'); }
+    function total(r) { var cr = r.headers.get('content-range') || ''; var n = +(cr.split('/')[1] || 0); return isNaN(n) ? 0 : n; }
+    function row(e) { return {client_id: e.id, season: e.season, name: e.name, org: e.org || '', ms: e.ms, miss: e.miss, pairs: e.pairs, mode: e.mode || 'same'}; }
+    function push(e) { // 성공 또는 이미 올라간 기록(409)이면 true
+      return req('', {method: 'POST', body: JSON.stringify(row(e)), headers: {Prefer: 'return=minimal'}})
+        .then(function (r) { // 성공·중복(409)·DB가 거부한 잘못된 기록(4xx)은 다시 올리지 않음. 서버·인터넷 문제만 재시도
+          return r.ok || r.status === 409 || (r.status >= 400 && r.status < 500 && r.status !== 401 && r.status !== 408 && r.status !== 429); }, function () { return false; });
+    }
+    function flush() { // 대기열 올리기
+      var q = store.get(K.q, []); if (!q.length) return Promise.resolve();
+      return q.reduce(function (p, e) { return p.then(function (left) { return push(e).then(function (ok) { if (!ok) left.push(e); return left; }); }); }, Promise.resolve([]))
+        .then(function (left) { store.set(K.q, left); online = left.length < q.length || online; drawStatus(); });
+    }
+    function refresh() {
+      return req('?select=name,org,ms,miss,created_at&' + filt() + '&order=ms.asc,created_at.asc&limit=10', {headers: {Prefer: 'count=exact'}})
+        .then(function (r) { if (!r.ok) throw new Error(r.status); var n = total(r); return r.json().then(function (rows) {
+          online = true; cache = {top: rows.map(function (x) { return {name: x.name, org: x.org, ms: x.ms, miss: x.miss}; }), count: n}; drawStatus(); return cache; }); })
+        .catch(function () { online = false; cache = fromLocal(); drawStatus(); return cache; });
+    }
+    function add(e) {
+      e.season = season();
+      var l = records(); l.push(e); store.set(K.r, l.slice(-2000)); // 이 기기에도 사본 보관
+      var localRank = function () { var m = mine(records()); return {rank: m.filter(function (x) { return x.ms < e.ms; }).length + 1, count: m.length}; };
+      return push(e).then(function (ok) {
+        if (!ok) { var q = store.get(K.q, []); q.push(e); store.set(K.q, q); online = false; drawStatus(); return localRank(); }
+        online = true;
+        return Promise.all([
+          req('?select=id&' + filt() + '&ms=lt.' + e.ms, {headers: {Prefer: 'count=exact', Range: '0-0'}}).then(total),
+          refresh()
+        ]).then(function (v) { return {rank: v[0] + 1, count: cache.count}; }, localRank);
+      });
+    }
+    function drawStatus() {
+      var q = store.get(K.q, []).length, el = $('netState'); if (!el) return;
+      el.className = 'net ' + (online ? 'on' : 'off');
+      el.textContent = online ? (q ? '온라인 · ' + q + '건 올리는 중' : '온라인 랭킹') : '인터넷 연결 안 됨 · 이 기기에 저장 중' + (q ? ' (' + q + '건 대기)' : '');
+    }
+    setInterval(flush, 15000); window.addEventListener('online', function () { flush().then(refresh); });
     return {
-      detect: function () {
-        if (!/^https?:$/.test(location.protocol)) return Promise.resolve(false);
-        return api('api/ping').then(function (d) { remote = !!(d && d.ok); return remote; }, function () { return false; });
-      },
-      refresh: function () {
-        if (!remote) { cache = fromLocal(); return Promise.resolve(cache); }
-        return api('api/dokdo/board?pairs=' + settings.pairs + '&mode=' + (settings.mode || 'same')).then(function (d) { cache = d; return d; }, function () { cache = fromLocal(); return cache; });
-      },
-      add: function (e) {
-        saveLocal(e);
-        var rank = function (l) { return l.filter(function (x) { return x.ms < e.ms; }).length + 1; };
-        if (remote) return api('api/dokdo/score', e).then(function (d) { cache = d; return d; }, function () { var l = local(); cache = fromLocal(); return {rank: rank(l), count: l.length}; });
-        var l = local(); cache = fromLocal(); return Promise.resolve({rank: rank(l), count: l.length});
-      },
-      clear: function () {
-        var all = store.get(K.b, {}); all[todayKey()] = []; store.set(K.b, all); cache = {top: [], count: 0};
-        return remote ? api('api/dokdo/clear', {}).catch(function () {}) : Promise.resolve();
-      },
+      detect: function () { return flush(); },
+      refresh: refresh, add: add, flush: flush,
+      newSeason: function (name) { settings.season = name; store.set(K.s, settings); cache = {top: [], count: 0}; return refresh(); },
+      season: season, pending: function () { return store.get(K.q, []).length; }, online: function () { return online; },
       data: function () { return cache; }
     };
   })();
@@ -5838,14 +5877,15 @@ void main() {
   }
   function drawHome() {
     var d = Board.data(); $('homeRank').innerHTML = rankRows(d.top, 5, true);
-    $('homeCount').textContent = d.count ? '오늘 ' + d.count + '명 · ' + settings.pairs + '쌍' : settings.pairs + '쌍 기준';
+    $('homeTitle').textContent = '🏆 ' + Board.season() + ' 랭킹';
+    $('homeCount').textContent = d.count ? d.count + '명 도전' : settings.pairs + '쌍 기준';
     $('rules').innerHTML = '<div class="rule"><i>1</i><b>' + (settings.peek ? settings.peek + '초 동안' : '카드를') + '</b><small>' + (settings.peek ? '그림 기억하기' : '두 장씩 뒤집기') + '</small></div>' +
       (settings.mode !== 'qa' ? '<div class="rule"><i>2</i><b>같은 그림 ' + settings.pairs + '쌍</b><small>두 장씩 뒤집어 찾기</small></div>'
         : '<div class="rule"><i>2</i><b>독도 문제 ↔ 그림</b><small>' + settings.pairs + '쌍 짝 맞추기</small></div>') +
       '<div class="rule"><i>3</i><b>가장 빠르게!</b><small>0.01초까지 기록</small></div>';
   }
   var BIG = /[?&]board\b/.test(location.search);
-  function drawBig() { var d = Board.data(); $('bigRank').innerHTML = rankRows(d.top, 10, false); $('bigCount').textContent = '오늘 ' + d.count + '명 도전 · ' + settings.pairs + '쌍 기준'; }
+  function drawBig() { var d = Board.data(); $('bigRank').innerHTML = rankRows(d.top, 10, false); $('bigTitle').textContent = '🏆 ' + Board.season() + ' · 독도 기억력 랭킹'; $('bigCount').textContent = d.count + '명 도전 · ' + settings.pairs + '쌍 기준'; }
   setInterval(function () { if (BIG) Board.refresh().then(drawBig); else if ($('home').classList.contains('on')) Board.refresh().then(drawHome); }, 5000);
 
   /* ===== 대기 · 이름 ===== */
@@ -5983,7 +6023,7 @@ void main() {
       $('clearFacts').innerHTML = shuffle(seen).slice(0, 3).map(function (id) { var a = ART[id]; return '<li><span class="ic">' + a.svg + '</span><span><b>' + esc(a.name) + '</b> ' + esc(a.fact) + '</span></li>'; }).join('');
       Board.add(entry).then(function (r) {
         if (!r || !$('clear').classList.contains('on')) return;
-        $('clearRank').innerHTML = '오늘 ' + r.count + '명 중 <em>' + r.rank + '등</em>' + (r.rank === 1 ? ' 👑' : r.rank <= 3 ? ' 🔥' : '');
+        $('clearRank').innerHTML = r.count + '명 중 <em>' + r.rank + '등</em>' + (r.rank === 1 ? ' 👑' : r.rank <= 3 ? ' 🔥' : '');
         if (r.rank === 1 && r.count > 1) later(function () { var el2 = $('combo'); el2.textContent = '👑 오늘의 1등!'; restart(el2, 'on'); Sfx.play('combo'); confettiRain(120); }, 1400);
       });
       var left = CLEAR_RETURN_S; $('clearCount').textContent = left + '초 뒤 처음 화면으로 돌아가요';
@@ -6026,14 +6066,22 @@ void main() {
     if (k === '지움') pin = pin.slice(0, -1); else if (pin.length < 4) pin += k; drawPin();
     if (pin.length === 4) { if (pin === String(settings.pin)) { $('pinOv').classList.remove('on'); openAdmin(); } else { $('pinMsg').textContent = '비밀번호가 달라요'; pin = ''; setTimeout(drawPin, 400); } }
   });
-  function openAdmin() { clearTimeout(idleT); $('setMode').value = settings.mode || 'same'; $('setPairs').value = settings.pairs; $('setPeek').value = settings.peek; $('setSound').value = settings.sound ? '1' : '0'; $('setPin').value = settings.pin; $('adminOv').classList.add('on'); }
+  function openAdmin() { clearTimeout(idleT); $('setMode').value = settings.mode || 'same'; $('setPairs').value = settings.pairs; $('setPeek').value = settings.peek; $('setSound').value = settings.sound ? '1' : '0'; $('setPin').value = settings.pin; $('setSeason').value = Board.season();
+    $('netAdmin').textContent = (Board.online() ? '온라인 DB에 연결됨' : '온라인 DB에 연결 안 됨') + ' · 올릴 기록 대기 ' + Board.pending() + '건 · 예전 랭킹 기록은 DB에 그대로 남아요';
+    $('adminOv').classList.add('on'); }
   $('adminClose').addEventListener('click', function () { $('adminOv').classList.remove('on'); });
   $('adminSave').addEventListener('click', function () {
     var p = $('setPin').value.trim(); if (!/^\d{4}$/.test(p)) { toast('비밀번호는 숫자 4자리예요'); return; }
-    settings = Object.assign({}, settings, {mode: $('setMode').value, pairs: +$('setPairs').value, peek: +$('setPeek').value, sound: $('setSound').value === '1', pin: p});
+    var sn = $('setSeason').value.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 30) || Board.season();
+    settings = Object.assign({}, settings, {season: sn, mode: $('setMode').value, pairs: +$('setPairs').value, peek: +$('setPeek').value, sound: $('setSound').value === '1', pin: p});
     store.set(K.s, settings); $('adminOv').classList.remove('on'); toast('저장했어요'); goHome();
   });
-  $('clearRankBtn').addEventListener('click', function () { if (confirm('오늘 랭킹을 지울까요?')) Board.clear().then(function () { toast('오늘 랭킹을 지웠어요'); drawHome(); }); });
+  $('clearRankBtn').addEventListener('click', function () {
+    var name = $('setSeason').value.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 30);
+    if (!name) { toast('랭킹 이름을 써 주세요'); return; }
+    if (name === Board.season()) { toast('지금과 다른 이름을 써야 새 랭킹이 시작돼요'); return; }
+    if (confirm('「' + name + '」 랭킹을 새로 시작할까요? 예전 기록은 DB에 남아요. 다른 태블릿도 같은 이름으로 바꿔 주세요.')) Board.newSeason(name).then(function () { toast('새 랭킹을 시작했어요'); drawHome(); });
+  });
 
   var NOTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><g class="on"><path d="M9 18V5.5l11-2.2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/></g><g class="off"><path d="M9 18V5.5l11-2.2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/><path d="M3 3l18 18" stroke-width="2.8"/></g></svg>';
   function drawBgm() { var off = settings.bgmOn === false; $('bgmBtn').classList.toggle('muted', off); $('bgmBtn').setAttribute('aria-label', off ? '배경음악 켜기' : '배경음악 끄기'); }
