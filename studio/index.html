@@ -5,79 +5,358 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>수업 도구 · 노안중 AI교육</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="선생님이 수업과 평가에 바로 쓰는 도구 모음. 설치도 가입도 없이 열면 바로 씁니다.">
+<meta name="description" content="선생님이 수업과 행사에 바로 쓰는 도구 모음. 설치도 가입도 없이 열면 바로 씁니다.">
 <link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/site.css">
+<link rel="stylesheet" href="../shared/portal.css">
+<style>
+/* ===== 수업 도구 쪽 전용 (portal.css 위에 얹음) ===== */
+
+/* 히어로: 사진 대신 도구 미리보기 그림 */
+.s-hero-art{position:absolute;inset:0;margin:0}
+.s-hero-art svg{position:absolute;right:0;top:0;height:100%;width:auto;min-width:62%}
+.s-hero .p-hero-copy{padding-bottom:30px}
+.s-facts{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.s-facts li{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--p-border);font-size:15px;font-weight:700;color:#2C3B52}
+.s-facts svg{width:18px;height:18px;flex:none;color:var(--p-blue)}
+
+/* 도구 목록 */
+.s-list{margin-top:18px}
+.s-list-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.s-list-head h2 span{display:inline-block;margin-left:6px;padding:1px 11px;border-radius:999px;background:var(--p-sky);color:var(--p-blue);font-size:17px;letter-spacing:0;vertical-align:3px}
+.s-list-head p{margin:4px 0 0;color:var(--p-muted);font-size:15px}
+.s-filter{display:flex;gap:6px;padding:4px;border-radius:12px;background:#F2F6FB;border:1px solid var(--p-border)}
+.s-filter button{min-height:40px;padding:0 16px;border:0;border-radius:9px;background:transparent;color:#3D4A5C;font-size:15px;font-weight:700;cursor:pointer}
+.s-filter button[aria-pressed="true"]{background:#fff;color:var(--p-blue);box-shadow:0 1px 3px rgba(20,50,90,.12)}
+.s-filter button:focus-visible{outline:3px solid #A84F13;outline-offset:2px}
+
+.s-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.s-card{display:flex;flex-direction:column;border:1px solid var(--p-border);border-radius:16px;background:#fff;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s}
+.s-card:hover{transform:translateY(-3px);border-color:#CFE0F5;box-shadow:0 10px 26px rgba(30,80,150,.10)}
+.s-thumb{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--p-border)}
+.s-thumb svg{position:absolute;inset:0;width:100%;height:100%}
+.s-thumb img{position:absolute;left:12px;bottom:0;height:86%;width:auto;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
+.s-new{position:absolute;top:12px;right:12px;padding:3px 11px;border-radius:999px;background:#fff;color:#D9480F;font-size:13px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.s-body{display:flex;flex-direction:column;gap:10px;padding:18px 20px 20px;flex:1}
+.s-tags{display:flex;flex-wrap:wrap;gap:6px}
+.s-tags span{padding:2px 10px;border-radius:7px;font-size:13px;font-weight:800;background:var(--p-sky);color:var(--p-blue-dark)}
+.s-tags span.ev{background:#FFF1E6;color:#B4540E}
+.s-card h3{margin:0;font-size:21px;font-weight:800;letter-spacing:-.6px;color:var(--p-navy2)}
+.s-card h3 a:hover{color:var(--p-blue)}
+.s-desc{margin:0;font-size:15.5px;line-height:1.6;color:var(--p-muted)}
+.s-meta{display:grid;gap:6px;margin:2px 0 0;padding:12px 14px;border-radius:12px;background:#F6F9FD;list-style:none;font-size:14.5px;color:#2C3B52}
+.s-meta li{display:grid;grid-template-columns:20px 3.4em 1fr;align-items:center;gap:6px}
+.s-meta svg{width:17px;height:17px;color:var(--p-blue)}
+.s-meta b{color:var(--p-muted);font-weight:700}
+.s-actions{margin-top:auto;display:flex;flex-direction:column;gap:8px;padding-top:4px}
+.s-open{display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;border-radius:11px;background:var(--p-blue);color:#fff !important;font-size:17px;font-weight:800;box-shadow:0 2px 6px rgba(24,119,230,.28)}
+.s-open:hover{background:var(--p-blue-dark)}
+.s-open svg{width:18px;height:18px;transition:transform .18s}
+.s-open:hover svg{transform:translateX(3px)}
+.s-open:focus-visible,.s-how summary:focus-visible,.s-thumb:focus-visible,.s-card h3 a:focus-visible{outline:3px solid #A84F13;outline-offset:3px}
+.s-how{border:1px solid var(--p-border);border-radius:11px}
+.s-how summary{display:flex;align-items:center;justify-content:space-between;min-height:46px;padding:0 14px;cursor:pointer;font-size:15px;font-weight:700;color:#3D4A5C;list-style:none}
+.s-how summary::-webkit-details-marker{display:none}
+.s-how summary::after{content:"";width:8px;height:8px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(45deg);margin-top:-4px;transition:transform .18s}
+.s-how[open] summary::after{transform:rotate(225deg);margin-top:3px}
+.s-how ol{margin:0;padding:0 16px 14px 34px;font-size:14.5px;line-height:1.65;color:#2C3B52}
+.s-how li+li{margin-top:3px}
+.s-empty{margin:16px 0 0;color:var(--p-muted)}
+
+/* 이렇게 써요: 첫 화면 「처음 오셨나요?」와 같은 결 */
+.s-steps-panel{display:grid;grid-template-columns:minmax(200px,.8fr) 3fr;align-items:center;gap:20px 28px;margin-top:18px}
+.s-steps-panel > div p{margin:6px 0 0;color:var(--p-muted);font-size:15px}
+.s-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0;padding:0;list-style:none}
+.s-steps li{display:flex;gap:12px;align-items:flex-start;padding:4px 0}
+.s-steps .n{flex:none;width:38px;height:38px;border-radius:50%;background:var(--p-blue);color:#fff;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center}
+.s-steps b{display:block;font-size:17px;color:var(--p-navy2);margin-top:4px}
+.s-steps p{margin:3px 0 0;font-size:14.5px;line-height:1.55;color:var(--p-muted)}
+.s-steps kbd{font:inherit;font-size:13px;padding:0 6px;border-radius:5px;border:1px solid var(--p-border);border-bottom-width:2px;background:#F6F9FD}
+
+/* 요청 카드: 첫 화면 「도움이 필요하신가요?」와 같은 결 */
+.s-ask{display:flex;align-items:center;gap:18px;margin-top:18px}
+.s-ask-icon{flex:none;width:52px;height:52px;border-radius:14px;background:var(--p-sky);color:var(--p-blue);display:flex;align-items:center;justify-content:center}
+.s-ask-icon svg{width:26px;height:26px}
+.s-ask h2{font-size:21px !important;letter-spacing:-.6px !important}
+.s-ask p{margin:3px 0 0;color:var(--p-muted);font-size:15px}
+.s-ask .s-open{margin-left:auto;padding:0 22px;white-space:nowrap}
+
+@media (max-width:1180px){.s-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .s-hero-art{position:relative;height:170px;order:-1;flex:none}
+  .s-hero-art svg{min-width:0;width:100%;height:100%}
+  .s-steps-panel{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .s-grid,.s-steps{grid-template-columns:1fr}
+  .s-filter{width:100%} .s-filter button{flex:1}
+  .s-ask{flex-wrap:wrap} .s-ask .s-open{margin-left:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){.s-card,.s-card:hover{transition:none;transform:none}}
+</style>
 </head>
-<body>
+<body class="portal">
 <a class="skip" href="#main">본문으로</a>
-<header class="nav"><div class="nav-in">
-  <a class="brand" href="../index.html">노안중 AI교육</a>
-  <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
-  <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
-    <a href="../training/index.html">연수</a>
-    <a href="../showcase/index.html">활용 사례</a>
-    <a href="../library/index.html">자료실</a>
-    <a href="../studio/index.html">수업 도구</a>
-    <a href="../request/index.html">요청하기</a>
-  </nav>
-  <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>
-</div></header>
-<main id="main">
 
-<section class="section">
-  <div class="wrap">
-    <div class="card card-hero hero-a is-compact">
-      <div class="hero-left">
-        <span class="badge mint">수업 도구</span>
-        <h1>열면 바로 씁니다</h1>
-        <p class="lede">설치도 가입도 로그인도 없습니다. 주소를 열면 그 자리에서 만들고, 인쇄하면 그대로 학습지가 됩니다.</p>
-        <p class="muted">한 번 열어두면 인터넷이 끊겨도 계속 쓸 수 있습니다. 만들어 주셨으면 하는 도구가 있으면 <a href="../request/index.html">요청하기</a>로 알려주세요.</p>
+<header class="p-header">
+  <div class="p-wrap p-header-inner">
+    <a class="p-brand" href="../index.html" aria-label="노안중학교 AI교육 홈">
+      <img src="../assets/logo.png" alt="노안중학교" width="120" height="40">
+      <span class="p-brand-name">AI교육 포털</span>
+    </a>
+
+    <nav class="p-nav" aria-label="주요 메뉴">
+      <a href="../training/index.html">연수</a>
+      <a href="../showcase/index.html">활용 사례</a>
+      <a href="../library/index.html">자료실</a>
+      <a class="is-here" href="../studio/index.html" aria-current="page">수업 도구</a>
+      <a href="../request/index.html">요청하기</a>
+      <a class="p-nav-cta" href="https://ai.jne.kr/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>
+        아이모두 바로가기
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="p-wrap p-main">
+
+  <!-- 히어로: 연수·요청하기 쪽과 같은 틀, 오른쪽은 도구 미리보기 그림 -->
+  <section class="p-hero s-hero" aria-labelledby="sHeroTitle">
+    <figure class="p-hero-visual s-hero-art" aria-hidden="true">
+      <svg viewBox="0 0 900 340" preserveAspectRatio="xMaxYMid slice">
+        <defs>
+          <linearGradient id="hSky" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EEF5FF"/><stop offset="1" stop-color="#DCEAFF"/></linearGradient>
+          <radialGradient id="hQuiz" cx=".5" cy=".3" r=".9"><stop offset="0" stop-color="#7b5cf0"/><stop offset="1" stop-color="#2e1c86"/></radialGradient>
+          <linearGradient id="hSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset=".5" stop-color="#4dabf7"/><stop offset=".51" stop-color="#1c7ed6"/><stop offset="1" stop-color="#0b3d91"/></linearGradient>
+          <filter id="hSh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#1e3c78" flood-opacity=".18"/></filter>
+        </defs>
+        <rect width="900" height="340" fill="url(#hSky)"/>
+        <circle cx="780" cy="40" r="120" fill="#fff" opacity=".45"/><circle cx="470" cy="330" r="90" fill="#fff" opacity=".35"/>
+        <!-- 도형 카드 -->
+        <g filter="url(#hSh)" transform="translate(410 58) rotate(-6)">
+          <rect width="200" height="140" rx="14" fill="#fff"/>
+          <g stroke="#E3EDFB"><path d="M0 28H200M0 56H200M0 84H200M0 112H200M28 0V140M56 0V140M84 0V140M112 0V140M140 0V140M168 0V140"/></g>
+          <path d="M26 112 L70 34 L106 112Z" fill="#bfdbfe" stroke="#2563EB" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="150" cy="72" r="28" fill="#fde68a" stroke="#b45309" stroke-width="3"/>
+        </g>
+        <!-- 퀴즈 카드 -->
+        <g filter="url(#hSh)" transform="translate(560 120) rotate(4)">
+          <rect width="210" height="150" rx="14" fill="url(#hQuiz)"/>
+          <rect x="16" y="16" width="178" height="34" rx="9" fill="#fff"/><text x="105" y="39" font-size="15" font-weight="800" fill="#24184f" text-anchor="middle" font-family="system-ui,sans-serif">도전! 퀴즈쇼</text>
+          <rect x="16" y="62" width="85" height="32" rx="8" fill="#ff5c5c"/><rect x="109" y="62" width="85" height="32" rx="8" fill="#339af0"/>
+          <rect x="16" y="102" width="85" height="32" rx="8" fill="#ffc933"/><rect x="109" y="102" width="85" height="32" rx="8" fill="#20c997"/>
+        </g>
+        <!-- 독도 카드 -->
+        <g filter="url(#hSh)" transform="translate(700 28) rotate(-3)">
+          <rect width="170" height="120" rx="14" fill="url(#hSea)"/>
+          <path d="M36 62 C42 46 52 34 62 33 C70 32 73 46 77 62Z" fill="#1e3a8a"/><path d="M80 62 C86 50 94 40 104 38 C112 37 116 32 122 35 C128 42 130 52 132 62Z" fill="#1e40af"/>
+          <g transform="translate(40 76)"><rect width="26" height="34" rx="5" fill="#fffaf0"/><circle cx="13" cy="15" r="6" fill="#e03131"/></g>
+          <g transform="translate(72 76)"><rect width="26" height="34" rx="5" fill="#1971c2" stroke="#fff" stroke-width="2"/></g>
+          <g transform="translate(104 76)"><rect width="26" height="34" rx="5" fill="#fffaf0"/><circle cx="13" cy="15" r="6" fill="#e03131"/></g>
+        </g>
+        <!-- 반짝이 -->
+        <g fill="#1877E6" opacity=".55"><path d="M392 210 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z"/><path d="M860 230 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z"/></g>
+      </svg>
+    </figure>
+
+    <div class="p-hero-copy">
+      <span class="p-hero-eyebrow">설치도, 가입도, 로그인도 없이</span>
+      <h1 id="sHeroTitle">열면 바로 쓰는 수업 도구</h1>
+      <p>주소를 열면 그 자리에서 쓰고, 인쇄하면 그대로 학습지가 됩니다.<br>수업은 물론 축제·독도의 날 부스에도 바로 쓰세요.</p>
+      <ul class="s-facts">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>인터넷 끊겨도 동작</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M10.5 18h3"/></svg>태블릿·전자칠판</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg>A4 인쇄</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 도구 목록 -->
+  <section class="p-panel s-list" aria-labelledby="sListTitle">
+    <div class="s-list-head">
+      <div>
+        <h2 id="sListTitle">지금 쓸 수 있는 도구<span id="sCount">3</span></h2>
+        <p>카드의 「열기」를 누르면 바로 시작합니다. 「선생님 사용법」에 관리 방법이 있어요.</p>
+      </div>
+      <div class="s-filter" role="group" aria-label="용도로 거르기">
+        <button type="button" data-f="all" aria-pressed="true">전체</button>
+        <button type="button" data-f="class" aria-pressed="false">수업</button>
+        <button type="button" data-f="event" aria-pressed="false">행사·부스</button>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="wrap">
-    <h2 class="section-title">지금 쓸 수 있는 도구</h2>
-    <div class="grid cols-2">
+    <div class="s-grid">
+      <!-- 도형 -->
+      <article class="s-card" data-use="class">
+        <a class="s-thumb" href="math/index.html" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
+            <rect width="320" height="180" fill="#F2F7FF"/>
+            <g stroke="#DBE7FB"><path d="M0 20H320M0 40H320M0 60H320M0 80H320M0 100H320M0 120H320M0 140H320M0 160H320M20 0V180M40 0V180M60 0V180M80 0V180M100 0V180M120 0V180M140 0V180M160 0V180M180 0V180M200 0V180M220 0V180M240 0V180M260 0V180M280 0V180M300 0V180"/></g>
+            <path d="M42 136 L98 46 L142 136Z" fill="#bfdbfe" stroke="#2563EB" stroke-width="3" stroke-linejoin="round"/>
+            <text x="92" y="154" font-size="13" font-weight="700" fill="#1e4e79" text-anchor="middle" font-family="system-ui,sans-serif">밑변 8cm</text>
+            <circle cx="196" cy="90" r="36" fill="#fde68a" stroke="#b45309" stroke-width="3"/><path d="M196 90 L232 90" stroke="#b45309" stroke-width="2.5" stroke-dasharray="4 3"/>
+            <g stroke="#047857" stroke-width="3" stroke-linejoin="round"><path d="M248 70 L284 58 L300 72 L264 84Z" fill="#a7f3d0"/><path d="M248 70 L264 84 L264 132 L248 118Z" fill="#6ee7b7"/><path d="M264 84 L300 72 L300 120 L264 132Z" fill="#34d399"/></g>
+            <rect x="196" y="140" width="96" height="26" rx="13" fill="#fff" stroke="#DBE7FB"/><text x="244" y="158" font-size="13" font-weight="800" fill="#2563EB" text-anchor="middle" font-family="system-ui,sans-serif">넓이 = ?</text>
+          </svg>
+        </a>
+        <div class="s-body">
+          <div class="s-tags"><span>수학</span><span>수업·평가</span></div>
+          <h3><a href="math/index.html">간편 도형 만들기</a></h3>
+          <p class="s-desc">도형을 고르고 길이만 넣으면 그림이 그려지고 둘레·넓이·부피가 자동으로 계산됩니다.</p>
+          <ul class="s-meta">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg><b>대상</b>중1~3 수학</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><b>기기</b>PC·전자칠판, A4 인쇄</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 3h10l4 4v14H5Z"/><path d="M9 12h6M9 16h4"/></svg><b>쓰임</b>학습지·수행평가</li>
+          </ul>
+          <div class="s-actions">
+            <a class="s-open" href="math/index.html">도형 만들기 열기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <details class="s-how"><summary>선생님 사용법</summary>
+              <ol>
+                <li>평면도형 7가지·입체도형 9가지 중 하나를 고르고 길이를 넣어요.</li>
+                <li>치수를 숨기거나 <b>?</b>로 바꾸면 바로 문제가 돼요.</li>
+                <li>인쇄할 때 정답을 넣을지 고를 수 있어요. 그림은 PNG·SVG로 저장돼요.</li>
+              </ol>
+            </details>
+          </div>
+        </div>
+      </article>
 
-      <div class="card tilt">
-        <span class="badge">수학</span>
-        <h3 class="card-title"><a href="math/index.html">간편 도형 만들기 →</a></h3>
-        <p class="card-lede">평면도형·입체도형을 고르고 길이를 넣으면 그림이 그려집니다. 둘레·넓이·겉넓이·부피는 자동으로 계산됩니다.</p>
-        <p class="card-lede small"><strong>수행평가용</strong> — 치수를 숨기거나 <strong>?</strong> 로 바꿔 문제로 낼 수 있습니다. 정답은 따로 볼 수 있고, 인쇄에 넣을지 고를 수 있습니다.</p>
-        <p class="card-lede small">도형 16가지(직사각형·삼각형·평행사변형·사다리꼴·원·반원·부채꼴 / 직육면체·정육면체·각기둥·각뿔·원기둥·원뿔·구·반구) · 그림 저장(PNG·SVG) · A4 인쇄</p>
-      </div>
+      <!-- 퀴즈 -->
+      <article class="s-card" data-use="event class">
+        <a class="s-thumb" href="quiz/index.html" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
+            <defs><radialGradient id="qbg" cx=".5" cy=".3" r=".9"><stop offset="0" stop-color="#7b5cf0"/><stop offset=".6" stop-color="#3b2a9e"/><stop offset="1" stop-color="#1a0f4a"/></radialGradient></defs>
+            <rect width="320" height="180" fill="url(#qbg)"/>
+            <path d="M70 0 L100 180 L40 180Z M250 0 L290 180 L220 180Z" fill="#ffe3a3" opacity=".12"/>
+            <rect x="128" y="22" width="172" height="40" rx="12" fill="#fff"/><text x="214" y="48" font-size="15" font-weight="800" fill="#24184f" text-anchor="middle" font-family="system-ui,sans-serif">물의 화학식은?</text>
+            <rect x="128" y="72" width="82" height="34" rx="10" fill="#ff5c5c"/><rect x="218" y="72" width="82" height="34" rx="10" fill="#339af0"/>
+            <rect x="128" y="114" width="82" height="34" rx="10" fill="#ffc933"/><rect x="218" y="114" width="82" height="34" rx="10" fill="#20c997"/>
+            <g font-size="14" font-weight="800" text-anchor="middle" font-family="system-ui,sans-serif"><text x="169" y="94" fill="#fff">▲ CO₂</text><text x="259" y="94" fill="#fff">◆ H₂O</text><text x="169" y="136" fill="#4a2a00">● O₂</text><text x="259" y="136" fill="#fff">■ NaCl</text></g>
+            <ellipse cx="64" cy="170" rx="54" ry="11" fill="#6b4fe0"/><ellipse cx="64" cy="166" rx="54" ry="9" fill="#fff3d6"/>
+          </svg>
+          <img src="dokdo/img/pear-happy.webp" alt="" width="105" height="135">
+        </a>
+        <div class="s-body">
+          <div class="s-tags"><span class="ev">축제·부스</span><span>초등부터</span><span>문제 173개</span></div>
+          <h3><a href="quiz/index.html">노안중 도전! 퀴즈쇼</a></h3>
+          <p class="s-desc">3D 배돌이가 진행하는 게임쇼 퀴즈. 3·6번째는 점수 2배 노안중 보너스, 1등과 차이가 적으면 골든 퀴즈로 역전 도전!</p>
+          <ul class="s-meta">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg><b>대상</b>초등학생부터 누구나</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M10.5 18h3"/></svg><b>기기</b>터치 태블릿·전자칠판</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4.5l3 2M9.5 2.5h5"/></svg><b>시간</b>한 판 약 2분</li>
+          </ul>
+          <div class="s-actions">
+            <a class="s-open" href="quiz/index.html">퀴즈쇼 열기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <details class="s-how"><summary>선생님 사용법</summary>
+              <ol>
+                <li>태블릿에서 열고 화면을 한 번 터치해 두세요. 첫 터치 뒤부터 소리가 나요.</li>
+                <li>관리 화면: 대기 화면 <b>오른쪽 위 구석을 5번</b> 누르고 비밀번호를 넣어요. 비밀번호는 담당 선생님께 물어보세요.</li>
+                <li>문제 켜기·끄기·추가, 문제 수·선물 기준·제한 시간을 바꿀 수 있어요.</li>
+                <li>행사 시작 전 [오늘 통계] → [통계·랭킹 지우기]로 연습 기록을 지워요.</li>
+              </ol>
+            </details>
+          </div>
+        </div>
+      </article>
 
-      <div class="card tilt">
-        <span class="badge">행사·수업</span>
-        <h3 class="card-title"><a href="quiz/index.html">도전 퀴즈 →</a></h3>
-        <p class="card-lede">터치 화면에서 혼자 와서 바로 푸는 3D 게임쇼 퀴즈입니다. 나주 배 마스코트 「배돌이」가 진행하고, 6문제 중 3·6번째는 점수 2배 「노안중 보너스」 문제입니다. 기준을 넘으면 「선물 대상」 화면이 뜹니다.</p>
-        <p class="card-lede small"><strong>문제 바꾸기</strong> — 대기 화면 오른쪽 위 구석을 5번 누르면 관리 화면이 열립니다. 문제·사진 추가, 문제 수·보너스 간격·선물 기준·제한 시간 설정, 오늘 통계·랭킹, 백업을 할 수 있습니다.</p>
-        <p class="card-lede small">기본 문제 183개(과학·역사·사회·AI·디지털·두뇌·국어·영어·넌센스·노안중, 중1 수준) · 연달아 해도 문제 안 겹침 · 빠르기 점수·연속 보너스·오늘의 랭킹·1등 도전 골든 퀴즈 · 가로·세로 화면 · 효과음·배경음악 · 인터넷 없이 동작</p>
-      </div>
-
-      <div class="card tilt">
-        <span class="badge">행사·수업</span>
-        <h3 class="card-title"><a href="dokdo/index.html">독도 기억력 게임 →</a></h3>
-        <p class="card-lede">이름을 쓰고 들어가면 3D 배돌이가 독도 바닷속으로 풍덩! 독도 그림 카드 6쌍(노안중학교 카드 포함)을 3초 동안 기억한 뒤 같은 그림을 찾는 게임입니다. 0.01초 단위로 오늘의 랭킹이 매겨집니다.</p>
-        <p class="card-lede small"><strong>배우는 내용</strong> — 짝을 맞출 때마다 독도 상식(칙령 제41호·안용복·세종실록 지리지·독도의 날·강치 등)이 한 줄씩 나옵니다.</p>
-        <p class="card-lede small">관리 화면(오른쪽 위 구석 5번) · 짝 수 5~8쌍 · 미리 보기 시간 · 「독도 문제 ↔ 그림」 어려운 모드 · 효과음·배경음악 · 인터넷 없이 동작</p>
-      </div>
+      <!-- 독도 -->
+      <article class="s-card" data-use="event">
+        <a class="s-thumb" href="dokdo/index.html" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="dbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset=".45" stop-color="#4dabf7"/><stop offset=".46" stop-color="#1c7ed6"/><stop offset="1" stop-color="#0b3d91"/></linearGradient></defs>
+            <rect width="320" height="180" fill="url(#dbg)"/>
+            <circle cx="282" cy="28" r="15" fill="#ffe066"/>
+            <path d="M150 84 C158 60 170 42 184 40 C194 39 198 56 204 84Z" fill="#1e3a8a"/><path d="M206 84 C212 66 222 50 236 46 C246 44 252 36 260 40 C268 50 270 66 274 84Z" fill="#1e40af"/>
+            <path d="M0 86 Q40 78 80 86 T160 86 T240 86 T320 86 V96 H0Z" fill="#74c0fc" opacity=".6"/>
+            <g transform="translate(150 104)"><rect width="44" height="56" rx="7" fill="#fffaf0"/><circle cx="22" cy="26" r="11" fill="#e03131"/><path d="M14 44h16" stroke="#16325c" stroke-width="3" stroke-linecap="round"/></g>
+            <g transform="translate(202 110) rotate(8)"><rect width="44" height="56" rx="7" fill="#1971c2" stroke="#fff" stroke-width="2.5"/><path d="M10 34 C13 26 17 22 20 22 C23 22 24 28 25 34Z M26 34 C28 28 31 24 35 23 C37 27 38 30 38 34Z" fill="#fff" opacity=".85"/></g>
+            <g transform="translate(254 104)"><rect width="44" height="56" rx="7" fill="#fffaf0"/><circle cx="22" cy="26" r="11" fill="#e03131"/><path d="M14 44h16" stroke="#16325c" stroke-width="3" stroke-linecap="round"/></g>
+            <g fill="none" stroke="#fff" stroke-width="2" opacity=".6"><circle cx="30" cy="120" r="5"/><circle cx="122" cy="150" r="4"/><circle cx="304" cy="100" r="3"/></g>
+          </svg>
+          <img src="dokdo/img/pear-idle.webp" alt="" width="105" height="135">
+          <span class="s-new">NEW</span>
+        </a>
+        <div class="s-body">
+          <div class="s-tags"><span class="ev">독도의 날·부스</span><span>초등부터</span><span>초 단위 랭킹</span></div>
+          <h3><a href="dokdo/index.html">노안남초 × 노안중 × 독도 기억력 게임</a></h3>
+          <p class="s-desc">배돌이와 독도 바닷속으로 풍덩! 3초 동안 그림을 기억하고 같은 그림을 가장 빨리 찾아요. 놀면서 독도 이야기를 쉽게 알게 돼요.</p>
+          <ul class="s-meta">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg><b>대상</b>초등학생부터 누구나</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M10.5 18h3"/></svg><b>기기</b>터치 태블릿·전자칠판</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4.5l3 2M9.5 2.5h5"/></svg><b>시간</b>한 판 약 1분</li>
+          </ul>
+          <div class="s-actions">
+            <a class="s-open" href="dokdo/index.html">독도 게임 열기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <details class="s-how"><summary>선생님 사용법</summary>
+              <ol>
+                <li>학생은 소속(노안남초·노안중 버튼 또는 직접 쓰기)과 이름을 넣고 시작해요. 실명이 걱정되면 「별명으로 할래요」를 안내해 주세요.</li>
+                <li>관리 화면: 첫 화면 <b>오른쪽 위 구석을 5번</b> 누르고 비밀번호를 넣어요.</li>
+                <li>짝 수(5~8쌍), 미리 보기 시간, 「독도 문제 ↔ 그림」 어려운 모드를 고를 수 있어요.</li>
+                <li>행사 시작 전 [오늘 랭킹 지우기]로 연습 기록을 지워요.</li>
+              </ol>
+            </details>
+          </div>
+        </div>
+      </article>
     </div>
-    <p class="muted small">도구는 계속 늘어납니다. 필요하신 과목·용도를 알려주시면 만들어 드립니다.</p>
-  </div>
-</section>
+    <p class="s-empty" id="sEmpty" hidden>이 용도의 도구는 아직 없어요. 아래 「도구 요청하기」로 알려 주세요.</p>
+  </section>
+
+  <!-- 이렇게 써요 -->
+  <section class="p-panel s-steps-panel" aria-labelledby="sStepsTitle">
+    <div>
+      <h2 id="sStepsTitle">행사·수업에서 이렇게 써요</h2>
+      <p>세 단계면 준비 끝이에요.</p>
+    </div>
+    <ol class="s-steps">
+      <li><span class="n">1</span><div><b>주소 열기</b><p>태블릿이나 전자칠판에서 도구를 열어요. 한 번 열어 두면 인터넷이 끊겨도 돌아가요.</p></div></li>
+      <li><span class="n">2</span><div><b>전체 화면으로</b><p>PC는 <kbd>F11</kbd>, 태블릿은 「홈 화면에 추가」로 열면 주소창 없이 꽉 차요.</p></div></li>
+      <li><span class="n">3</span><div><b>끝나면 기록 정리</b><p>게임은 관리 화면에서 오늘 기록·랭킹을 지울 수 있어요. 이름은 그 기기에만 남아요.</p></div></li>
+    </ol>
+  </section>
+
+  <!-- 요청 -->
+  <section class="p-panel s-ask" aria-labelledby="sAskTitle">
+    <span class="s-ask-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span>
+    <div>
+      <h2 id="sAskTitle">이런 도구가 있으면 좋겠어요?</h2>
+      <p>과목·학년·쓰임을 알려 주시면 수업에 바로 쓸 수 있게 만들어 드립니다.</p>
+    </div>
+    <a class="s-open" href="../request/index.html">도구 요청하기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </section>
 
 </main>
-<footer class="foot"><div class="wrap">
-  <p class="small muted">노안중학교 AI교육 · <a href="../index.html">첫 화면</a> · <a href="../library/rules.html">안전 규칙 한 장</a></p>
-</div></footer>
-<script src="../shared/icons.js" defer></script>
-<script src="../shared/site.js" defer></script>
+
+<footer class="p-footer">
+  <div class="p-wrap p-footer-grid">
+    <img src="../assets/logo.png" alt="노안중학교" width="120" height="40">
+    <div><strong>AI교육 코디네이터 박진영</strong> · 수 · 목 오전 교무실</div>
+    <p><a href="../index.html">업무별 안내서</a> · <a href="../class/index.html">수업</a> · <a href="../contest/index.html">대회</a> · <a href="../about/index.html">소개</a> · <a href="../library/rules.html">안전 규칙 한 장</a></p>
+  </div>
+</footer>
+
+<script>
+/* 용도로 거르기 (수업 / 행사·부스) */
+(function () {
+  'use strict';
+  var btns = document.querySelectorAll('.s-filter button'), cards = document.querySelectorAll('.s-card');
+  function apply(f) {
+    var n = 0;
+    for (var i = 0; i < cards.length; i++) {
+      var show = f === 'all' || (' ' + cards[i].getAttribute('data-use') + ' ').indexOf(' ' + f + ' ') !== -1;
+      cards[i].hidden = !show; if (show) n++;
+    }
+    for (var j = 0; j < btns.length; j++) btns[j].setAttribute('aria-pressed', btns[j].getAttribute('data-f') === f ? 'true' : 'false');
+    document.getElementById('sCount').textContent = n;
+    document.getElementById('sEmpty').hidden = n > 0;
+  }
+  for (var i = 0; i < btns.length; i++) btns[i].addEventListener('click', function () { apply(this.getAttribute('data-f')); });
+})();
+</script>
+<script src="../shared/icons.js"></script>
+<script src="../shared/site.js"></script>
 </body>
 </html>

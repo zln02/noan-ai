@@ -6,7 +6,7 @@
 <link rel="icon" href="../../assets/favicon-32.png" sizes="32x32">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="color-scheme" content="light">
-<title>독도 기억력 게임</title>
+<title>노안남초 × 노안중 × 독도 기억력 게임</title>
 <style>
 @font-face{font-family:"Jua";src:url("../quiz/fonts/jua.woff2") format("woff2");font-display:swap}
 :root{
@@ -74,7 +74,7 @@ svg{display:block}
 .main{display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*2.4)}
 .logo{position:relative;display:flex;flex-direction:column;align-items:center;font-family:var(--disp);line-height:1;animation:logoIn .9s cubic-bezier(.2,1.5,.35,1) both}
 @keyframes logoIn{from{transform:scale(.3) rotate(-8deg);opacity:0}}
-.logo .l1{font-size:calc(var(--u)*7.5);color:#fff;padding:0 calc(var(--u)*3);border-radius:999px;background:linear-gradient(180deg,#ff8787,#e03131);transform:rotate(-3deg);margin-bottom:calc(var(--u)*1.2);
+.logo .l1{font-size:calc(var(--u)*5.6);white-space:nowrap;color:#fff;padding:0 calc(var(--u)*3);border-radius:999px;background:linear-gradient(180deg,#ff8787,#e03131);transform:rotate(-3deg);margin-bottom:calc(var(--u)*1.2);
   text-shadow:0 3px 0 #a61e1e;box-shadow:inset 0 calc(var(--u)*.6) 0 rgba(255,255,255,.4),0 calc(var(--u)*1) 0 #a61e1e,0 calc(var(--u)*2) calc(var(--u)*3) rgba(0,0,0,.3)}
 .logo .l2{font-size:calc(var(--u)*13);color:#fff;text-shadow:0 2px 0 #d0ebff,0 4px 0 #a5d8ff,0 6px 0 #74c0fc,0 8px 0 #4dabf7,0 10px 0 #1c7ed6,0 12px 0 #0b3d91,0 calc(var(--u)*3) calc(var(--u)*3) rgba(0,0,0,.35)}
 .logo .l2 em{font-style:normal;color:var(--sun);text-shadow:0 2px 0 #ffe08a,0 4px 0 #f5b400,0 6px 0 #e09600,0 8px 0 #c47a00,0 10px 0 #a35f00,0 12px 0 #7a4400,0 calc(var(--u)*3) calc(var(--u)*3) rgba(0,0,0,.35)}
@@ -107,9 +107,18 @@ svg{display:block}
 #name .box{width:min(92vw,calc(var(--u)*90));padding:calc(var(--u)*5);display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*2.6);text-align:center}
 #name h2{font-family:var(--disp);font-weight:400;font-size:calc(var(--u)*6);color:var(--sea-d)}
 #name p{font-size:calc(var(--u)*2.6);font-weight:700;color:var(--muted)}
-#nameInput{width:100%;font-family:var(--disp);font-size:calc(var(--u)*6);text-align:center;padding:calc(var(--u)*2);border-radius:calc(var(--u)*2.5);background:#eaf4ff;color:var(--ink);
+#name .box{gap:calc(var(--u)*1.4)}
+.flabel{align-self:flex-start;font-family:var(--disp);font-size:calc(var(--u)*3);color:var(--sea-d);margin-top:calc(var(--u)*.8)}
+.flabel small{font-family:var(--font,inherit);font-size:.7em;color:var(--muted);font-weight:700}
+#orgInput{font-size:calc(var(--u)*4.2);padding:calc(var(--u)*1.4)}
+#nameInput{font-size:calc(var(--u)*5)}
+.orgs{display:flex;gap:calc(var(--u)*1.2);width:100%}
+.org{flex:1;min-height:64px;border-radius:calc(var(--u)*2);background:#eaf4ff;color:var(--sea-d);font-family:var(--disp);font-size:calc(var(--u)*3.2);box-shadow:0 calc(var(--u)*.6) 0 #a5d0f5}
+.org.on{background:var(--sea);color:#fff;box-shadow:0 calc(var(--u)*.6) 0 var(--sea-d)}
+.rank .org-tag{display:inline-block;margin-left:.4em;padding:0 .5em;border-radius:999px;background:#d0ebff;color:var(--sea-d);font-size:.72em;vertical-align:.1em}
+.field,#nameInput{width:100%;font-family:var(--disp);font-size:calc(var(--u)*6);text-align:center;padding:calc(var(--u)*2);border-radius:calc(var(--u)*2.5);background:#eaf4ff;color:var(--ink);
   box-shadow:inset 0 calc(var(--u)*.5) calc(var(--u)*1) rgba(5,30,80,.15);outline:none;-webkit-user-select:text;user-select:text}
-#nameInput:focus{box-shadow:inset 0 calc(var(--u)*.5) calc(var(--u)*1) rgba(5,30,80,.15),0 0 0 calc(var(--u)*.6) var(--sky)}
+.field:focus,#nameInput:focus{box-shadow:inset 0 calc(var(--u)*.5) calc(var(--u)*1) rgba(5,30,80,.15),0 0 0 calc(var(--u)*.6) var(--sky)}
 #name .row{display:flex;gap:calc(var(--u)*2);flex-wrap:wrap;justify-content:center}
 #goBtn{font-size:calc(var(--u)*5);padding:0 calc(var(--u)*8)}
 .soft-btn{min-height:72px;padding:0 calc(var(--u)*3);border-radius:999px;font-weight:800;font-size:calc(var(--u)*2.6);background:#eaf4ff;color:var(--sea-d);box-shadow:0 calc(var(--u)*.6) 0 #a5d0f5}
@@ -241,6 +250,14 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
 .line span{background:#eaf4ff;border-radius:999px;padding:calc(var(--u)*.5) calc(var(--u)*2)}
 #clearRank em{font-style:normal;font-family:var(--disp);font-size:1.35em;color:#e8590c}
 #clearMsg{font-size:calc(var(--u)*2.8);font-weight:800}
+.learned{width:100%;text-align:left;background:#f1f8ff;border-radius:calc(var(--u)*2.4);padding:calc(var(--u)*1.6) calc(var(--u)*2.2)}
+.learned > b{display:block;font-family:var(--disp);font-weight:400;font-size:calc(var(--u)*2.9);color:var(--sea-d);margin-bottom:calc(var(--u)*.8)}
+.learned ul{list-style:none;margin:0;padding:0;display:grid;gap:calc(var(--u)*.9)}
+.learned li{display:flex;gap:calc(var(--u)*1.2);align-items:center;font-size:calc(var(--u)*2.2);font-weight:700;line-height:1.45;animation:rowIn .5s cubic-bezier(.2,1.4,.4,1) both}
+.learned li:nth-child(2){animation-delay:.15s} .learned li:nth-child(3){animation-delay:.3s}
+.learned li b{color:var(--sea-d)}
+.learned .ic{flex:0 0 auto;width:calc(var(--u)*6);height:calc(var(--u)*6);border-radius:calc(var(--u)*1.4);background:#fff;display:flex;align-items:center;justify-content:center}
+.learned .ic svg{width:85%}
 #againBtn{font-size:calc(var(--u)*4.4);padding:0 calc(var(--u)*7)}
 #clearCount{font-size:calc(var(--u)*2.2);font-weight:700;color:var(--muted)}
 #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
@@ -337,9 +354,9 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
 <!-- 첫 화면 -->
 <section id="home" class="screen on">
   <div class="wrap">
-    <div class="mascot"><div class="bubble" id="homeBubble">노안중 친구들, 독도 그림 기억할 수 있어?</div><div class="bot" id="homeBot"></div></div>
+    <div class="mascot"><div class="bubble" id="homeBubble">노안남초·노안중 친구들, 독도를 기억해 줘!</div><div class="bot" id="homeBot"></div></div>
     <div class="main">
-      <h1 class="logo"><span class="l1">노안중 × 독도</span><span class="l2">기억력 <em>게임</em></span></h1>
+      <h1 class="logo"><span class="l1">노안남초 × 노안중 × 독도</span><span class="l2">기억력 <em>게임</em></span></h1>
       <div class="rules" id="rules"></div>
       <button id="startBtn" class="clay-btn"><span>터치해서 시작!</span></button>
     </div>
@@ -353,9 +370,12 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
 <!-- 이름 -->
 <section id="name" class="screen">
   <div class="box card3d">
-    <h2>이름을 알려 줘!</h2>
-    <p>랭킹에 올라갈 이름이에요 (8글자까지)</p>
-    <input id="nameInput" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예) 김노안">
+    <h2>이름과 소속을 알려 줘!</h2>
+    <label class="flabel" for="orgInput">소속 <small>(학교)</small></label>
+    <div class="orgs" id="orgs"><button type="button" class="org" data-org="노안남초">노안남초</button><button type="button" class="org" data-org="노안중">노안중</button><button type="button" class="org" data-org="">직접 쓰기</button></div>
+    <input id="orgInput" class="field" maxlength="10" autocomplete="off" spellcheck="false" placeholder="예) 노안남초, 노안중">
+    <label class="flabel" for="nameInput">이름 <small>(랭킹에 올라가요 · 8글자까지)</small></label>
+    <input id="nameInput" class="field" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예) 김노안">
     <div id="nameMsg"></div>
     <div class="row"><button class="clay-btn" id="goBtn"><span>시작!</span></button></div>
     <div class="row"><button class="soft-btn" id="randBtn">🎲 별명으로 할래요</button><button class="soft-btn" id="nameBack">처음으로</button></div>
@@ -391,6 +411,7 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
       <div id="clearTime">0.00<small>초</small></div>
       <div class="line"><span id="clearName"></span><span id="clearMiss"></span><span id="clearRank">&nbsp;</span></div>
       <div id="clearMsg"></div>
+      <div class="learned"><b>📘 오늘 알게 된 독도 이야기</b><ul id="clearFacts"></ul></div>
       <button class="clay-btn" id="againBtn"><span>처음으로</span></button>
       <div id="clearCount"></div>
     </div>
@@ -4647,7 +4668,7 @@ void main() {
   var $ = function (id) { return document.getElementById(id); };
   var K = {s: 'dokdoMem.settings.v1', b: 'dokdoMem.board.v1'};
   var DEF = {pairs: 6, peek: 3, sound: true, pin: '7979', mode: 'same', bgmVol: 50, bgmOn: true}; // mode: same = 같은 그림, qa = 그림↔독도 문제
-  var IDLE_S = 40, CLEAR_RETURN_S = 15, WARN_S = 5;
+  var IDLE_S = 40, CLEAR_RETURN_S = 25, WARN_S = 5;
   var store = {
     get: function (k, fb) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch (e) { return fb; } },
     set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
@@ -5437,30 +5458,30 @@ void main() {
   // 그림은 공통 그라데이션(#g-…)을 써서 입체감(음영·광택)을 냄 — 정의는 body 맨 위 <svg id="defs">
   var SH = '<ellipse cx="60" cy="110" rx="38" ry="6" fill="url(#g-sh)"/>';
   var ART = {
-    seal: {q: '일제 강점기 무분별한 사냥으로 독도에서 사라진 바다사자는?', name: '독도 강치', fact: '강치는 독도에 많이 살았지만 일제 강점기 일본 어민의 남획으로 사라졌어요.',
+    seal: {q: '옛날 독도에 많이 살았던 바다사자는?', name: '독도 강치', fact: '강치는 독도에 많이 살던 바다사자예요. 사람들이 마구 잡아서 지금은 볼 수 없어요.',
       svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M30 104 C22 80 30 54 50 42 C56 32 62 22 72 20 C88 18 96 32 92 44 C88 54 82 58 82 68 C84 84 90 94 94 104Z" fill="url(#g-seal)"/><path d="M48 104 C44 86 50 68 62 62 C70 76 72 90 74 104Z" fill="url(#g-belly)"/><path d="M30 104 Q14 108 10 98 Q22 95 34 94Z M88 98 Q104 96 108 104 Q96 110 84 106Z" fill="#5a3d2b"/><ellipse cx="62" cy="34" rx="8" ry="14" fill="#fff" opacity=".28" transform="rotate(-30 62 34)"/><circle cx="80" cy="31" r="6" fill="#1b0f08"/><circle cx="82" cy="29" r="2.2" fill="#fff"/><ellipse cx="92" cy="40" rx="4.5" ry="3.2" fill="#1b0f08"/><path d="M93 44 L106 41 M93 46 L106 48 M92 47 L102 53" stroke="#2b1b10" stroke-width="1.4" stroke-linecap="round"/><ellipse cx="72" cy="41" rx="5" ry="3" fill="#ff8fa3" opacity=".55"/></svg>'},
-    gull: {q: '독도에 무리 지어 번식하며 고양이 같은 소리로 우는 새는?', name: '괭이갈매기', fact: '괭이갈매기는 독도의 대표 텃새예요. 봄이면 독도 바위에 알을 낳아요.',
+    gull: {q: '고양이처럼 「냐아~」 우는 독도의 새는?', name: '괭이갈매기', fact: '괭이갈매기는 고양이(괭이)처럼 울어요. 봄이면 독도에 알을 낳아요.',
       svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M12 52 Q34 26 58 50 L50 64Z" fill="url(#g-wing)"/><path d="M108 48 Q86 24 62 50 L70 64Z" fill="url(#g-wing)"/><path d="M12 52 Q19 47 27 49" stroke="#1b1b1b" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M108 48 Q101 43 93 45" stroke="#1b1b1b" stroke-width="6" stroke-linecap="round" fill="none"/><ellipse cx="60" cy="72" rx="25" ry="21" fill="url(#g-white)"/><circle cx="66" cy="46" r="15" fill="url(#g-white)"/><ellipse cx="60" cy="40" rx="5" ry="3" fill="#fff" opacity=".9"/><circle cx="71" cy="43" r="3.4" fill="#1b1b1b"/><circle cx="72" cy="42" r="1.2" fill="#fff"/><path d="M79 46 L99 50 L79 54Z" fill="url(#g-gold)"/><path d="M92 49 L99 50 L92 52Z" fill="#e03131"/><path d="M48 92 L46 104 M68 92 L70 104" stroke="#f59f00" stroke-width="3.5" stroke-linecap="round"/></svg>'},
-    isles: {q: '독도를 이루는 두 개의 큰 섬은?', name: '동도·서도', fact: '독도는 동도와 서도, 그리고 89개의 작은 부속 섬으로 이루어져 있어요.',
+    isles: {q: '독도를 이루는 두 개의 큰 섬은?', name: '동도·서도', fact: '독도는 동도와 서도, 두 큰 섬과 작은 바위섬들로 이루어져 있어요.',
       svg: '<svg viewBox="0 0 120 120"><circle cx="94" cy="24" r="11" fill="url(#g-gold)"/><path d="M8 94 C14 70 24 48 36 44 C44 42 48 56 56 94Z" fill="url(#g-rock)"/><path d="M58 94 C64 74 72 50 84 46 C92 44 98 36 104 40 C110 48 112 72 114 94Z" fill="url(#g-rock)"/><path d="M28 56 C32 50 36 48 38 50" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55" fill="none"/><path d="M80 54 C84 50 88 48 92 48" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55" fill="none"/><path d="M78 58 L84 46 L90 58Z" fill="#51cf66"/><rect x="0" y="90" width="120" height="30" fill="url(#g-sea)"/><path d="M0 96 Q15 90 30 96 T60 96 T90 96 T120 96" stroke="#d0ebff" stroke-width="3" fill="none"/><text x="32" y="82" font-size="11" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle">서도</text><text x="88" y="80" font-size="11" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle">동도</text></svg>'},
-    light: {q: '독도 동도에서 밤마다 바닷길을 비추는 시설은?', name: '독도 등대', fact: '독도 등대는 동도에 있어요. 지나가는 배들의 안전한 길을 밝혀 줘요.',
+    light: {q: '밤바다의 배에게 길을 알려 주는 독도의 시설은?', name: '독도 등대', fact: '독도 등대는 밤마다 불을 밝혀 배들이 안전하게 다니도록 도와줘요.',
       svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M60 28 L4 12 L4 44Z" fill="url(#g-beam)"/><path d="M60 28 L116 12 L116 44Z" fill="url(#g-beam)"/><path d="M45 104 L50 44 L70 44 L75 104Z" fill="url(#g-tower)"/><path d="M47.5 70 L72.5 70 L73.5 83 L46.5 83Z" fill="url(#g-red)"/><rect x="45" y="38" width="30" height="8" rx="2" fill="#343a40"/><rect x="50" y="20" width="20" height="18" rx="3" fill="url(#g-gold)" stroke="#343a40" stroke-width="2"/><path d="M47 21 L60 10 L73 21Z" fill="url(#g-red)"/><rect x="53" y="50" width="4" height="50" rx="2" fill="#fff" opacity=".6"/><rect x="34" y="102" width="52" height="9" rx="4" fill="url(#g-rockgrey)"/></svg>'},
-    edict: {q: '1900년 대한제국이 독도(석도)를 울릉군에 속하게 한 법령은?', name: '칙령 제41호', fact: '1900년 10월 25일, 대한제국은 칙령 제41호로 울릉도와 석도(독도)를 울릉군에 속하게 했어요.',
-      svg: '<svg viewBox="0 0 120 120">' + SH + '<rect x="22" y="18" width="76" height="86" rx="4" fill="url(#g-paper)"/><rect x="14" y="12" width="92" height="10" rx="5" fill="url(#g-wood)"/><rect x="14" y="100" width="92" height="10" rx="5" fill="url(#g-wood)"/><text x="60" y="44" font-size="15" font-family="Jua,sans-serif" fill="#5c3a12" text-anchor="middle">칙령</text><text x="60" y="66" font-size="17" font-family="Jua,sans-serif" fill="#c92a2a" text-anchor="middle">제41호</text><path d="M32 76 H88 M32 84 H76" stroke="#b08968" stroke-width="2.5" stroke-linecap="round"/><rect x="72" y="80" width="16" height="16" rx="2" fill="url(#g-red)" transform="rotate(-8 80 88)"/><text x="80" y="92" font-size="8" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle" transform="rotate(-8 80 88)">大韓</text></svg>'},
-    tree: {q: '독도 바위틈에서 100년 넘게 살아온 천연기념물 나무는?', name: '사철나무', fact: '독도 사철나무는 천연기념물이에요. 독도에서 가장 오래 산 나무로 알려져 있어요.',
+    flag: {q: '독도에서 펄럭이는 우리나라 국기는?', name: '태극기', fact: '독도에도 태극기가 펄럭여요. 독도는 경상북도 울릉군에 속한 우리 땅이에요.',
+      svg: '<svg viewBox="0 0 120 120">' + SH + '<rect x="16" y="10" width="5" height="102" rx="2.5" fill="url(#g-rockgrey)"/><circle cx="18.5" cy="9" r="5" fill="url(#g-gold)"/><path d="M21 16 Q60 8 106 18 L106 78 Q60 68 21 76Z" fill="url(#g-white)"/><circle cx="63" cy="45" r="15" fill="url(#g-blue)"/><path d="M48 45 A15 15 0 0 1 78 45 A7.5 7.5 0 0 1 63 45 A7.5 7.5 0 0 0 48 45Z" fill="url(#g-red)"/><g fill="#212529"><rect x="30" y="24" width="12" height="3"/><rect x="30" y="29" width="12" height="3"/><rect x="30" y="34" width="12" height="3"/><rect x="85" y="56" width="12" height="3"/><rect x="85" y="61" width="5" height="3"/><rect x="92" y="61" width="5" height="3"/><rect x="85" y="66" width="12" height="3"/><rect x="85" y="25" width="5" height="3"/><rect x="92" y="25" width="5" height="3"/><rect x="85" y="30" width="12" height="3"/><rect x="85" y="35" width="5" height="3"/><rect x="92" y="35" width="5" height="3"/><rect x="30" y="56" width="5" height="3"/><rect x="37" y="56" width="5" height="3"/><rect x="30" y="61" width="5" height="3"/><rect x="37" y="61" width="5" height="3"/><rect x="30" y="66" width="5" height="3"/><rect x="37" y="66" width="5" height="3"/></g></svg>'},
+    tree: {q: '독도 바위틈에서 오래오래 살아온 나무는?', name: '사철나무', fact: '독도 사철나무는 바위틈에서 100년 넘게 살아온 소중한 나무(천연기념물)예요.',
       svg: '<svg viewBox="0 0 120 120"><path d="M12 112 C20 88 36 76 60 76 C84 76 100 88 108 112Z" fill="url(#g-rockgrey)"/><path d="M56 82 C54 70 58 60 60 48 C62 60 66 70 64 82Z" fill="url(#g-wood)"/><circle cx="60" cy="38" r="22" fill="url(#g-leaf)"/><circle cx="40" cy="50" r="15" fill="url(#g-leaf)"/><circle cx="80" cy="48" r="16" fill="url(#g-leaf)"/><ellipse cx="52" cy="28" rx="8" ry="5" fill="#fff" opacity=".35"/><ellipse cx="36" cy="44" rx="5" ry="3" fill="#fff" opacity=".3"/></svg>'},
-    ahn: {q: '조선 숙종 때 일본에 건너가 울릉도·독도가 조선 땅이라고 밝힌 어부는?', name: '안용복', fact: '안용복은 1693년과 1696년 일본에 건너가 울릉도와 독도가 조선 땅임을 주장했어요.',
+    ahn: {q: '옛날 일본에 가서 「독도는 우리 땅」이라고 말한 어부는?', name: '안용복', fact: '조선 시대 어부 안용복은 일본에 건너가 울릉도와 독도가 우리 땅이라고 당당히 말했어요.',
       svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M26 112 C28 90 42 80 60 80 C78 80 92 90 94 112Z" fill="url(#g-hanbok)"/><path d="M52 80 L60 96 L68 80" fill="#fff" opacity=".85"/><circle cx="60" cy="58" r="22" fill="url(#g-skin)"/><ellipse cx="60" cy="38" rx="44" ry="7" fill="url(#g-gat)"/><path d="M44 38 C44 20 76 20 76 38Z" fill="url(#g-gat)"/><path d="M42 44 Q42 76 60 80 Q78 76 78 44" stroke="#111" stroke-width="1" fill="none" opacity=".45"/><circle cx="52" cy="58" r="3" fill="#1b0f08"/><circle cx="68" cy="58" r="3" fill="#1b0f08"/><circle cx="53" cy="57" r="1" fill="#fff"/><circle cx="69" cy="57" r="1" fill="#fff"/><path d="M50 52 L56 51 M64 51 L70 52" stroke="#3b2208" stroke-width="2.5" stroke-linecap="round"/><path d="M48 70 Q60 82 72 70 Q66 78 60 78 Q54 78 48 70Z" fill="#3b2208"/><path d="M55 67 Q60 70 65 67" stroke="#8a4b2b" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="48" cy="64" rx="4" ry="2.5" fill="#ff8fa3" opacity=".45"/><ellipse cx="72" cy="64" rx="4" ry="2.5" fill="#ff8fa3" opacity=".45"/></svg>'},
-    day: {q: '칙령 제41호가 반포된 날을 기념해 정한 날은?', name: '독도의 날', fact: '10월 25일은 독도의 날! 대한제국 칙령 제41호가 반포된 날이에요.',
+    day: {q: '10월 25일은 무슨 날일까요?', name: '독도의 날', fact: '10월 25일은 독도의 날! 독도가 우리 땅임을 함께 기억하는 날이에요.',
       svg: '<svg viewBox="0 0 120 120">' + SH + '<rect x="16" y="20" width="88" height="86" rx="10" fill="url(#g-white)"/><path d="M16 30 Q16 20 26 20 L94 20 Q104 20 104 30 L104 44 L16 44Z" fill="url(#g-blue)"/><rect x="34" y="12" width="6" height="16" rx="3" fill="#495057"/><rect x="80" y="12" width="6" height="16" rx="3" fill="#495057"/><text x="60" y="39" font-size="13" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle">10월</text><text x="60" y="89" font-size="40" font-family="Jua,sans-serif" fill="url(#g-red)" text-anchor="middle">25</text><path d="M86 92 l3 6 6 1 -4.5 4 1 6 -5.5 -3 -5.5 3 1 -6 -4.5 -4 6 -1z" fill="url(#g-gold)"/></svg>'},
-    book: {q: '「우산(독도)과 무릉(울릉도) 두 섬」이 기록된 조선 세종 때의 책은?', name: '세종실록 지리지', fact: '1454년 완성된 세종실록 지리지에는 우산(독도)과 무릉(울릉도)이 강원도 울진현에 속한다고 적혀 있어요.',
-      svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M28 22 L92 18 L96 100 L32 106Z" fill="url(#g-cover)"/><path d="M92 18 L98 22 L102 102 L96 100Z" fill="#f1e3c0"/><path d="M34 26 L34 104" stroke="#d9b56b" stroke-width="2"/><g stroke="#d9b56b" stroke-width="2"><path d="M30 34 H38"/><path d="M30 52 H38"/><path d="M30 70 H38"/><path d="M30 88 H38"/></g><rect x="56" y="28" width="22" height="62" rx="2" fill="#fffaf0" transform="rotate(-3 67 59)"/><text font-size="11" font-family="Jua,sans-serif" fill="#3b2208" text-anchor="middle" transform="rotate(-3 67 59)"><tspan x="67" y="42">세</tspan><tspan x="67" y="54">종</tspan><tspan x="67" y="66">실</tspan><tspan x="67" y="78">록</tspan></text><ellipse cx="50" cy="40" rx="6" ry="14" fill="#fff" opacity=".12"/></svg>'},
-    guard: {q: '독도에 머물며 우리 땅을 지키는 경찰 부대는?', name: '독도경비대', fact: '독도경비대는 경상북도경찰청 소속으로, 독도에 머물며 우리 땅을 지키고 있어요.',
+    post: {q: '독도에서 편지를 보낼 때 쓰는 빨간 통은?', name: '독도 우체통', fact: '독도에도 우체통이 있어요! 주소는 「경상북도 울릉군 울릉읍 독도리」예요.',
+      svg: '<svg viewBox="0 0 120 120">' + SH + '<rect x="54" y="88" width="12" height="22" fill="url(#g-rockgrey)"/><path d="M30 40 C30 22 44 14 60 14 C76 14 90 22 90 40 L90 92 L30 92Z" fill="url(#g-red)"/><rect x="40" y="44" width="40" height="7" rx="3.5" fill="#212529"/><rect x="40" y="62" width="40" height="22" rx="3" fill="url(#g-white)"/><path d="M42 64 L60 76 L78 64" stroke="#e03131" stroke-width="3" fill="none"/><path d="M38 26 Q44 21 52 22" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".55" fill="none"/></svg>'},
+    guard: {q: '독도에서 우리 땅을 지키는 경찰 아저씨들은?', name: '독도경비대', fact: '독도경비대는 1년 내내 독도에 머물며 우리 땅을 지키고 있어요.',
       svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M60 10 L98 24 C98 62 86 90 60 108 C34 90 22 62 22 24Z" fill="url(#g-navy)"/><path d="M60 18 L90 29 C90 60 80 84 60 99 C40 84 30 60 30 29Z" fill="none" stroke="url(#g-gold)" stroke-width="3"/><path d="M60 34 l6 13 14 2 -10 10 2.5 14 -12.5 -7 -12.5 7 2.5 -14 -10 -10 14 -2z" fill="url(#g-gold)"/><text x="60" y="90" font-size="10" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle">독도경비대</text><path d="M34 30 Q46 22 58 22" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".35" fill="none"/></svg>'}
   };
-  ART.noan = {q: '독도 현장체험학습을 다녀온 우리 학교는?', name: '노안중학교', fact: '노안중 학생들은 독도 현장체험학습을 다녀왔어요. 우리 땅 독도를 직접 보고 왔답니다!',
+  ART.noan = {q: '독도 체험학습을 다녀온 우리 학교는?', name: '노안중학교', fact: '노안중 학생들은 독도 체험학습을 다녀왔어요. 우리 땅 독도를 직접 보고 왔답니다!',
     svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M18 104 L18 52 L60 30 L102 52 L102 104Z" fill="url(#g-white)"/><path d="M12 54 L60 26 L108 54 L102 58 L60 34 L18 58Z" fill="url(#g-green)"/><rect x="50" y="40" width="20" height="20" rx="10" fill="#fff" stroke="#1b7f47" stroke-width="2.5"/><path d="M60 44 V50 L64 53" stroke="#1b7f47" stroke-width="2" stroke-linecap="round" fill="none"/><g fill="url(#g-blue)"><rect x="26" y="66" width="14" height="12" rx="2"/><rect x="80" y="66" width="14" height="12" rx="2"/><rect x="26" y="84" width="14" height="12" rx="2"/><rect x="80" y="84" width="14" height="12" rx="2"/></g><rect x="50" y="76" width="20" height="28" rx="3" fill="url(#g-wood)"/><rect x="58" y="6" width="2.5" height="24" fill="#868e96"/><path d="M60.5 7 L78 12 L60.5 17Z" fill="url(#g-red)"/><text x="60" y="118" font-size="9" font-family="Jua,sans-serif" fill="#1b7f47" text-anchor="middle">NOAN</text></svg>'};
-  var ART_IDS = ['seal', 'gull', 'isles', 'light', 'edict', 'tree', 'ahn', 'day', 'book', 'guard'];
+  var ART_IDS = ['seal', 'gull', 'isles', 'light', 'flag', 'tree', 'ahn', 'day', 'post', 'guard'];
   var FEATURED = 'noan'; // 매 판 꼭 나오는 카드 (노안중)
   var BACK = '<svg viewBox="0 0 100 125" preserveAspectRatio="none"><g fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2"><path d="M0 30 Q12 24 25 30 T50 30 T75 30 T100 30"/><path d="M0 50 Q12 44 25 50 T50 50 T75 50 T100 50"/><path d="M0 95 Q12 89 25 95 T50 95 T75 95 T100 95"/><path d="M0 115 Q12 109 25 115 T50 115 T75 115 T100 115"/></g><path d="M22 78 C28 66 34 58 40 57 C45 56 46 64 50 78Z M52 78 C56 68 62 60 70 58 C75 57 78 52 82 55 C85 60 86 70 88 78Z" fill="rgba(255,255,255,.85)"/><path d="M14 78 H90" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><text x="50" y="102" font-size="11" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle">독도</text></svg>';
 
@@ -5811,7 +5832,7 @@ void main() {
   })();
   function rankRows(top, n, ghosts) {
     var html = top.slice(0, n).map(function (e, k) {
-      return '<li class="r' + (k + 1) + '" style="--d:' + (k * 70) + 'ms"><span class="rk">' + (k + 1) + '</span><span class="nm">' + esc(e.name) + '</span><b>' + fmt(e.ms) + '초</b></li>'; }).join('');
+      return '<li class="r' + (k + 1) + '" style="--d:' + (k * 70) + 'ms"><span class="rk">' + (k + 1) + '</span><span class="nm">' + esc(e.name) + (e.org ? '<span class="org-tag">' + esc(e.org) + '</span>' : '') + '</span><b>' + fmt(e.ms) + '초</b></li>'; }).join('');
     if (ghosts) for (var k = top.length; k < n; k++) html += '<li class="ghost"><span class="rk">' + (k + 1) + '</span><span class="nm">도전자를 기다려요</span><b>—</b></li>';
     return html || '<li class="ghost"><span class="nm">아직 기록이 없어요</span></li>';
   }
@@ -5828,14 +5849,21 @@ void main() {
   setInterval(function () { if (BIG) Board.refresh().then(drawBig); else if ($('home').classList.contains('on')) Board.refresh().then(drawHome); }, 5000);
 
   /* ===== 대기 · 이름 ===== */
-  var bubbles = ['노안중 친구들, 독도 그림 기억할 수 있어?', '같은 독도 그림 두 장을 찾아!', '0.01초 차이로 1등이 바뀌어!', '터치하면 바로 시작!'];
+  var bubbles = ['노안남초·노안중 친구들, 독도를 기억해 줘!', '독도는 우리 땅! 같이 알아볼까?', '같은 독도 그림 두 장을 찾아!', '0.01초 차이로 1등이 바뀌어!', '터치하면 바로 시작!'];
   var bi = 0; setInterval(function () { if (!$('home').classList.contains('on')) return; var top = Board.data().top[0]; var l = bubbles.concat(top ? ['지금 1등은 ' + fmt(top.ms) + '초!'] : []); bi = (bi + 1) % l.length; $('homeBubble').textContent = l[bi]; restart($('homeBubble'), 'pop'); }, 3000);
   var NA = ['번개', '천재', '용감한', '반짝이는', '슈퍼', '날쌘', '똑똑한', '씩씩한', '황금'], NB = ['강치', '갈매기', '등대지기', '독도지킴이', '나주배', '고래', '돌고래', '거북이'];
   function nick() { return NA[Math.floor(Math.random() * NA.length)] + ' ' + NB[Math.floor(Math.random() * NB.length)]; }
   function goHome() {
     clearAll(); document.body.classList.remove('under', 'diving'); show('home'); Stage3.set('idle'); Bgm.setMode('idle'); Board.refresh().then(drawHome); drawHome();
   }
-  $('startBtn').addEventListener('click', function () { Sfx.play('go'); flash('start'); $('nameInput').value = ''; $('nameMsg').textContent = ''; show('name'); setTimeout(function () { $('nameInput').focus(); }, 350); bumpIdle(); });
+  function pickOrg(v) { [].forEach.call($('orgs').children, function (b) { b.classList.toggle('on', b.dataset.org === v && v !== ''); }); }
+  $('orgs').addEventListener('click', function (e) {
+    var b = e.target.closest('.org'); if (!b) return; Sfx.play('flip');
+    if (b.dataset.org) { $('orgInput').value = b.dataset.org; pickOrg(b.dataset.org); $('nameInput').focus(); }
+    else { $('orgInput').value = ''; pickOrg(''); $('orgInput').focus(); }
+  });
+  $('orgInput').addEventListener('input', function () { pickOrg(this.value.trim()); });
+  $('startBtn').addEventListener('click', function () { Sfx.play('go'); flash('start'); $('orgInput').value = ''; pickOrg(''); $('nameInput').value = ''; $('nameMsg').textContent = ''; show('name'); bumpIdle(); });
   $('nameBack').addEventListener('click', goHome);
   $('randBtn').addEventListener('click', function () { $('nameInput').value = nick(); Sfx.play('flip'); });
   $('goBtn').addEventListener('click', submitName);
@@ -5843,7 +5871,8 @@ void main() {
   function submitName() {
     var v = $('nameInput').value.replace(/[<>\u0000-\u001f]/g, '').trim();
     if (!v) { $('nameMsg').textContent = '이름을 쓰거나 「별명으로 할래요」를 눌러 주세요'; restart($('nameInput'), 'shake'); return; }
-    $('nameInput').blur(); diveIn(v.slice(0, 8));
+    G.org = $('orgInput').value.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 10);
+    $('nameInput').blur(); $('orgInput').blur(); diveIn(v.slice(0, 8));
   }
 
   /* ===== 게임 ===== */
@@ -5882,7 +5911,7 @@ void main() {
     var qa = settings.mode === 'qa';
     G.cards = shuffle(ids.map(function (id) { return {id: id, kind: 'pic'}; }).concat(ids.map(function (id) { return {id: id, kind: qa ? 'q' : 'pic'}; })))
       .map(function (c, i) { c.i = i; c.done = false; return c; });
-    $('hudName').textContent = name; $('hudMiss').textContent = '0'; $('hudPairs').textContent = '0/' + ids.length; $('timer').innerHTML = '0.00<small>초</small>';
+    $('hudName').textContent = name + (G.org ? ' · ' + G.org : ''); $('hudMiss').textContent = '0'; $('hudPairs').textContent = '0/' + ids.length; $('timer').innerHTML = '0.00<small>초</small>';
     $('playBot').innerHTML = botSvg('idle'); $('playBubble').textContent = '기억해 봐!';
     var grid = $('grid'); grid.className = 'locked';
     grid.innerHTML = G.cards.map(function (c, i) {
@@ -5940,16 +5969,18 @@ void main() {
   }
   function finish() {
     G.phase = 'done'; cancelAnimationFrame(G.raf);
-    var ms = Math.round(performance.now() - G.t0), entry = {id: 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: G.name, ms: ms, miss: G.miss, pairs: G.cards.length / 2, mode: settings.mode || 'same', t: Date.now()};
+    var ms = Math.round(performance.now() - G.t0), entry = {id: 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: G.name, org: G.org || '', ms: ms, miss: G.miss, pairs: G.cards.length / 2, mode: settings.mode || 'same', t: Date.now()};
     $('timer').innerHTML = fmt(ms) + '<small>초</small>';
     later(function () {
       show('clear'); Sfx.play('fanfare'); confettiRain(160); Stage3.result(G.miss === 0 ? 1 : 0.8, true); Bgm.outro(1); flash('ok');
       $('clearTime').innerHTML = '0.00<small>초</small>'; countUp(ms);
-      $('clearName').textContent = '👤 ' + G.name; $('clearMiss').textContent = '❌ 틀린 횟수 ' + G.miss + '번'; $('clearRank').innerHTML = '&nbsp;';
+      $('clearName').textContent = '👤 ' + G.name + (G.org ? ' · ' + G.org : ''); $('clearMiss').textContent = '❌ 틀린 횟수 ' + G.miss + '번'; $('clearRank').innerHTML = '&nbsp;';
       var perfect = G.miss === 0;
       $('clearTitle').textContent = perfect ? '완벽한 기억력!' : '독도 지킴이 완료!';
       $('clearBot').innerHTML = botSvg(perfect ? 'star' : 'happy'); $('clearBubble').textContent = perfect ? '한 번도 안 틀렸어!' : '독도를 잘 기억했어!';
-      $('clearMsg').textContent = '독도는 우리 땅! 오늘 배운 독도 이야기도 기억해 줘 🇰🇷';
+      $('clearMsg').textContent = '독도는 우리 땅! 가족과 친구에게도 알려 줘 🇰🇷';
+      var seen = []; G.cards.forEach(function (c) { if (seen.indexOf(c.id) < 0 && c.id !== FEATURED) seen.push(c.id); });
+      $('clearFacts').innerHTML = shuffle(seen).slice(0, 3).map(function (id) { var a = ART[id]; return '<li><span class="ic">' + a.svg + '</span><span><b>' + esc(a.name) + '</b> ' + esc(a.fact) + '</span></li>'; }).join('');
       Board.add(entry).then(function (r) {
         if (!r || !$('clear').classList.contains('on')) return;
         $('clearRank').innerHTML = '오늘 ' + r.count + '명 중 <em>' + r.rank + '등</em>' + (r.rank === 1 ? ' 👑' : r.rank <= 3 ? ' 🔥' : '');

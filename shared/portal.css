@@ -1290,3 +1290,22 @@ body.portal {
     padding: 18px 16px;
   }
 }
+
+/* ==========================================================================
+   예전 본문(site.css)을 쓰는 쪽에 포털 머리말·바닥글만 씌울 때
+   <body class="portal p-legacy"> — 본문 글자 크기와 링크 모양은 예전 그대로 둔다.
+   ========================================================================== */
+
+body.portal.p-legacy {
+  font-size: var(--fs-body);
+  line-height: 1.55;
+}
+
+body.p-legacy main a:not(.btn):not(.card):not([class^="p-"]):not([class*=" p-"]) {
+  color: var(--ink2);
+  text-decoration: underline;
+}
+
+body.p-legacy main {
+  padding-bottom: 24px;
+}
