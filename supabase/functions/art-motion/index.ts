@@ -127,7 +127,10 @@ Deno.serve(async (req) => {
     } else {
       const imageGenerationId = String(body.imageGenerationId || '');
       if (!/^[0-9a-f-]{36}$/i.test(imageGenerationId)) return json({ message: '먼저 바뀐 그림을 만들어 주세요.' }, 400);
-      requestBody = { model: 'ray-3.2', type: 'video', prompt: await polishPrompt(prompt, 'video'), video: { resolution: '540p', duration: '5s', start_frame: { generation_id: imageGenerationId } }, user_id: quotaClientId };
+      const imageJobs = await db(`/art_jobs?provider_id=eq.${encodeURIComponent(imageGenerationId)}&session_id=eq.${session.id}&client_id=eq.${encodeURIComponent(quotaClientId)}&kind=eq.image&state=eq.completed&select=result_url&limit=1`);
+      const startUrl = String(imageJobs[0]?.result_url || '');
+      if (!startUrl.startsWith('https://')) return json({ message: '바뀐 그림이 아직 준비되지 않았습니다. 잠시 뒤 다시 해 주세요.' }, 409);
+      requestBody = { model: 'ray-3.2', type: 'video', prompt: await polishPrompt(prompt, 'video'), video: { resolution: '540p', duration: '5s', start_frame: { url: startUrl } }, user_id: quotaClientId };
     }
     let quotaReserved = false;
     if (!access.unlimited) {
