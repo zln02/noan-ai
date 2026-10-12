@@ -91,7 +91,7 @@ Deno.serve(async (req) => {
     const session = sessions[0];
     if (!session || (session.expires_at && Date.parse(session.expires_at) < Date.now())) return json({ message: '수업 코드가 없거나 사용 시간이 끝났습니다.' }, 403);
     const accessHash = await sha256(accessCode);
-    const accesses = await db(`/art_access_codes?session_id=eq.${session.id}&code_hash=eq.${accessHash}&active=eq.true&select=id,label&limit=1`);
+    const accesses = await db(`/art_access_codes?session_id=eq.${session.id}&code_hash=eq.${accessHash}&active=eq.true&select=id,label,unlimited&limit=1`);
     const access = accesses[0];
     if (!access) return json({ message: '참가 코드를 다시 확인해 주세요.' }, 403);
     const quotaClientId = String(access.id);
@@ -100,7 +100,7 @@ Deno.serve(async (req) => {
       const prompt = String(body.prompt || '').trim().slice(0, 600);
       const kind = body.kind === 'video' ? 'video' : 'image';
       if (prompt.length < 4) return json({ message: '바꾸고 싶은 내용을 문장으로 써 주세요.' }, 400);
-      return json({ prompt: await polishPrompt(prompt, kind) });
+      return json({ prompt: await polishPrompt(prompt, kind), unlimited: !!access.unlimited });
     }
 
     if (action === 'status') {
@@ -112,7 +112,7 @@ Deno.serve(async (req) => {
       const url = result.output?.[0]?.url || result.assets?.video || result.assets?.image || '';
       if (state === 'completed' || state === 'failed') await db(`/art_jobs?id=eq.${jobs[0].id}`, { method: 'PATCH', body: JSON.stringify({ state, result_url: url || null }) });
       const usage = await db(`/art_usage?session_id=eq.${session.id}&client_id=eq.${encodeURIComponent(quotaClientId)}&select=images_used,videos_used&limit=1`);
-      return json({ state, url, message: result.failure_reason || result.error || '', remainingImages: Math.max(0, session.max_images - (usage[0]?.images_used || 0)), remainingVideos: Math.max(0, session.max_videos - (usage[0]?.videos_used || 0)) });
+      return json({ state, url, message: result.failure_reason || result.error || '', unlimited: !!access.unlimited, remainingImages: access.unlimited ? null : Math.max(0, session.max_images - (usage[0]?.images_used || 0)), remainingVideos: access.unlimited ? null : Math.max(0, session.max_videos - (usage[0]?.videos_used || 0)) });
     }
 
     const kind = action === 'edit' ? 'image' : action === 'video' ? 'video' : '';
@@ -129,13 +129,17 @@ Deno.serve(async (req) => {
       if (!/^[0-9a-f-]{36}$/i.test(imageGenerationId)) return json({ message: '먼저 바뀐 그림을 만들어 주세요.' }, 400);
       requestBody = { model: 'ray-3.2', type: 'video', prompt: await polishPrompt(prompt, 'video'), video: { resolution: '540p', duration: '5s', start_frame: { generation_id: imageGenerationId } }, user_id: quotaClientId };
     }
-    const reserved = await db('/rpc/reserve_art_quota', { method: 'POST', body: JSON.stringify({ p_session_id: session.id, p_client_id: quotaClientId, p_kind: kind }) });
-    if (!reserved?.allowed) return json({ message: kind === 'image' ? '이 기기의 그림 변환 횟수를 모두 썼습니다.' : '이 기기의 영상 생성 횟수를 모두 썼습니다.' }, 429);
+    let quotaReserved = false;
+    if (!access.unlimited) {
+      const reserved = await db('/rpc/reserve_art_quota', { method: 'POST', body: JSON.stringify({ p_session_id: session.id, p_client_id: quotaClientId, p_kind: kind }) });
+      if (!reserved?.allowed) return json({ message: kind === 'image' ? '이 참가 코드의 그림 변환 횟수를 모두 썼습니다.' : '이 참가 코드의 영상 생성 횟수를 모두 썼습니다.' }, 429);
+      quotaReserved = true;
+    }
     let generation;
     try {
       generation = await luma('/generations', { method: 'POST', body: JSON.stringify(requestBody) });
     } catch (error) {
-      await db('/rpc/release_art_quota', { method: 'POST', body: JSON.stringify({ p_session_id: session.id, p_client_id: quotaClientId, p_kind: kind }) }).catch(console.error);
+      if (quotaReserved) await db('/rpc/release_art_quota', { method: 'POST', body: JSON.stringify({ p_session_id: session.id, p_client_id: quotaClientId, p_kind: kind }) }).catch(console.error);
       throw error;
     }
     await db('/art_jobs', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ session_id: session.id, client_id: quotaClientId, kind, provider_id: generation.id, state: generation.state || 'queued' }) });
