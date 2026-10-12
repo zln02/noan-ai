@@ -6,7 +6,7 @@
 <link rel="icon" href="../../assets/favicon-32.png" sizes="32x32">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="color-scheme" content="light">
-<title>노안남초 × 노안중 × 독도 기억력 게임</title>
+<title>노안초 × 노안남초 × 노안중 · 독도 기억력 게임</title>
 <style>
 @font-face{font-family:"Jua";src:url("../quiz/fonts/jua.woff2") format("woff2");font-display:swap}
 :root{
@@ -110,7 +110,6 @@ svg{display:block}
 #name .box{gap:calc(var(--u)*1.4)}
 .flabel{align-self:flex-start;font-family:var(--disp);font-size:calc(var(--u)*3);color:var(--sea-d);margin-top:calc(var(--u)*.8)}
 .flabel small{font-family:var(--font,inherit);font-size:.7em;color:var(--muted);font-weight:700}
-#orgInput{font-size:calc(var(--u)*4.2);padding:calc(var(--u)*1.4)}
 #nameInput{font-size:calc(var(--u)*5)}
 .orgs{display:flex;gap:calc(var(--u)*1.2);width:100%}
 .org{flex:1;min-height:64px;border-radius:calc(var(--u)*2);background:#eaf4ff;color:var(--sea-d);font-family:var(--disp);font-size:calc(var(--u)*3.2);box-shadow:0 calc(var(--u)*.6) 0 #a5d0f5}
@@ -358,9 +357,9 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
 <!-- 첫 화면 -->
 <section id="home" class="screen on">
   <div class="wrap">
-    <div class="mascot"><div class="bubble" id="homeBubble">노안남초·노안중 친구들, 독도를 기억해 줘!</div><div class="bot" id="homeBot"></div></div>
+    <div class="mascot"><div class="bubble" id="homeBubble">노안초·노안남초·노안중 친구들, 독도를 기억해 줘!</div><div class="bot" id="homeBot"></div></div>
     <div class="main">
-      <h1 class="logo"><span class="l1">노안남초 × 노안중 × 독도</span><span class="l2">기억력 <em>게임</em></span></h1>
+      <h1 class="logo"><span class="l1">노안초 × 노안남초 × 노안중</span><span class="l2">독도 기억력 <em>게임</em></span></h1>
       <div class="rules" id="rules"></div>
       <button id="startBtn" class="clay-btn"><span>터치해서 시작!</span></button>
     </div>
@@ -375,9 +374,8 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
 <section id="name" class="screen">
   <div class="box card3d">
     <h2>이름과 소속을 알려 줘!</h2>
-    <label class="flabel" for="orgInput">소속 <small>(학교)</small></label>
-    <div class="orgs" id="orgs"><button type="button" class="org" data-org="노안남초">노안남초</button><button type="button" class="org" data-org="노안중">노안중</button><button type="button" class="org" data-org="">직접 쓰기</button></div>
-    <input id="orgInput" class="field" maxlength="10" autocomplete="off" spellcheck="false" placeholder="예) 노안남초, 노안중">
+    <div class="flabel">소속 <small>(하나를 골라 주세요)</small></div>
+    <div class="orgs" id="orgs" role="group" aria-label="소속 선택"><button type="button" class="org" data-org="노안초">노안초</button><button type="button" class="org" data-org="노안남초">노안남초</button><button type="button" class="org" data-org="노안중">노안중</button></div>
     <label class="flabel" for="nameInput">이름 <small>(랭킹에 올라가요 · 8글자까지)</small></label>
     <input id="nameInput" class="field" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예) 김노안">
     <p class="privacy">🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요. 별명을 써도 괜찮아요.</p>
@@ -5889,34 +5887,32 @@ void main() {
   setInterval(function () { if (BIG) Board.refresh().then(drawBig); else if ($('home').classList.contains('on')) Board.refresh().then(drawHome); }, 5000);
 
   /* ===== 대기 · 이름 ===== */
-  var bubbles = ['노안남초·노안중 친구들, 독도를 기억해 줘!', '독도는 우리 땅! 같이 알아볼까?', '같은 독도 그림 두 장을 찾아!', '0.01초 차이로 1등이 바뀌어!', '터치하면 바로 시작!'];
+  var bubbles = ['노안초·노안남초·노안중 친구들, 독도를 기억해 줘!', '독도는 우리 땅! 같이 알아볼까?', '같은 독도 그림 두 장을 찾아!', '0.01초 차이로 1등이 바뀌어!', '터치하면 바로 시작!'];
   var bi = 0; setInterval(function () { if (!$('home').classList.contains('on')) return; var top = Board.data().top[0]; var l = bubbles.concat(top ? ['지금 1등은 ' + fmt(top.ms) + '초!'] : []); bi = (bi + 1) % l.length; $('homeBubble').textContent = l[bi]; restart($('homeBubble'), 'pop'); }, 3000);
   var NA = ['번개', '천재', '용감한', '반짝이는', '슈퍼', '날쌘', '똑똑한', '씩씩한', '황금'], NB = ['강치', '갈매기', '등대지기', '독도지킴이', '나주배', '고래', '돌고래', '거북이'];
   function nick() { return NA[Math.floor(Math.random() * NA.length)] + ' ' + NB[Math.floor(Math.random() * NB.length)]; }
   function goHome() {
     clearAll(); document.body.classList.remove('under', 'diving'); show('home'); Stage3.set('idle'); Bgm.setMode('idle'); Board.refresh().then(drawHome); drawHome();
   }
-  function pickOrg(v) { [].forEach.call($('orgs').children, function (b) { b.classList.toggle('on', b.dataset.org === v && v !== ''); }); }
+  function pickOrg(v) { [].forEach.call($('orgs').children, function (b) { var on = b.dataset.org === v; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
   $('orgs').addEventListener('click', function (e) {
     var b = e.target.closest('.org'); if (!b) return; Sfx.play('flip');
-    if (b.dataset.org) { $('orgInput').value = b.dataset.org; pickOrg(b.dataset.org); $('nameInput').focus(); }
-    else { $('orgInput').value = ''; pickOrg(''); $('orgInput').focus(); }
+    G.org = b.dataset.org; pickOrg(G.org); $('nameInput').focus();
   });
-  $('orgInput').addEventListener('input', function () { pickOrg(this.value.trim()); });
-  $('startBtn').addEventListener('click', function () { Sfx.play('go'); flash('start'); $('orgInput').value = ''; pickOrg(''); $('nameInput').value = ''; $('nameMsg').textContent = ''; show('name'); bumpIdle(); });
+  $('startBtn').addEventListener('click', function () { Sfx.play('go'); flash('start'); G.org = ''; pickOrg(''); $('nameInput').value = ''; $('nameMsg').textContent = ''; show('name'); bumpIdle(); });
   $('nameBack').addEventListener('click', goHome);
   $('randBtn').addEventListener('click', function () { $('nameInput').value = nick(); Sfx.play('flip'); });
   $('goBtn').addEventListener('click', submitName);
   $('nameInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') submitName(); });
   function submitName() {
     var v = $('nameInput').value.replace(/[<>\u0000-\u001f]/g, '').trim();
+    if (!G.org) { $('nameMsg').textContent = '노안초·노안남초·노안중 중 하나를 골라 주세요'; restart($('orgs'), 'shake'); return; }
     if (!v) { $('nameMsg').textContent = '이름을 쓰거나 「별명으로 할래요」를 눌러 주세요'; restart($('nameInput'), 'shake'); return; }
-    G.org = $('orgInput').value.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 10);
-    $('nameInput').blur(); $('orgInput').blur(); diveIn(v.slice(0, 8));
+    $('nameInput').blur(); diveIn(v.slice(0, 8));
   }
 
   /* ===== 게임 ===== */
-  var G = {cards: [], open: [], found: 0, miss: 0, combo: 0, t0: 0, raf: 0, phase: 'idle', name: ''}, timers = [];
+  var G = {cards: [], open: [], found: 0, miss: 0, combo: 0, t0: 0, raf: 0, phase: 'idle', name: '', org: ''}, timers = [];
   function later(fn, ms) { var id = setTimeout(fn, ms); timers.push(id); return id; }
   function clearAll() { timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(G.raf); G.phase = 'idle'; $('peek').classList.remove('on'); document.body.classList.remove('peeking'); $('fact').classList.remove('on'); stopConfetti(); }
   function layout() {
