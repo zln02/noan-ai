@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>내 그림 살리기 · 노안 AI교육</title>
+<link rel="icon" href="../../assets/favicon-32.png" sizes="32x32">
+<link rel="stylesheet" href="../../shared/tokens.css">
+<style>
+:root{--blue:#1a73e8;--blue2:#0b57c7;--sky:#eef4fb;--navy:#102a43;--orange:#d85d13;--shadow:0 18px 50px rgba(30,70,120,.13)}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#f7fbff,#eef4fb 55%,#fff8ed);color:var(--navy);font-family:var(--font);min-height:100vh}button,input,textarea{font:inherit}button{cursor:pointer}.skip{position:fixed;left:12px;top:-80px;z-index:10;background:#fff;padding:10px}.skip:focus{top:12px}.top{background:#fff;border-bottom:1px solid #d8e5f5}.top-in{max-width:1180px;margin:auto;padding:14px 22px;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:900;color:var(--navy);text-decoration:none}.back{color:var(--blue2);font-weight:800}.wrap{max-width:1180px;margin:auto;padding:34px 22px 70px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:center;margin-bottom:24px}.eyebrow{color:var(--blue2);font-weight:900}.hero h1{margin:8px 0;font-size:clamp(36px,5vw,64px);letter-spacing:-2px}.hero p{font-size:19px;line-height:1.65;color:#52677c}.hero-art{min-height:230px;border-radius:30px;background:linear-gradient(145deg,#1a73e8,#5bb8ff);position:relative;overflow:hidden;box-shadow:var(--shadow)}.hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.2)}.hero-art:before{width:230px;height:230px;right:-40px;top:-70px}.hero-art:after{width:150px;height:150px;left:25px;bottom:-70px}.hero-art b{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:60px;text-shadow:0 4px 20px rgba(0,0,0,.2)}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}.steps span{background:#fff;border:1px solid #d8e5f5;border-radius:14px;padding:12px;font-weight:800}.steps b{display:inline-grid;place-items:center;width:26px;height:26px;margin-right:6px;border-radius:50%;background:var(--blue);color:#fff}.studio{display:grid;grid-template-columns:420px 1fr;gap:22px}.panel{background:#fff;border:1px solid #d8e5f5;border-radius:22px;padding:22px;box-shadow:var(--shadow)}.panel h2{margin:0 0 16px;font-size:22px}.field{margin:0 0 17px}.field label{display:block;font-weight:900;margin-bottom:7px}.field small{display:block;color:#667b90;margin-top:6px;line-height:1.45}.field input,.field textarea{width:100%;border:2px solid #cbdcf0;border-radius:12px;padding:13px;background:#fbfdff}.field textarea{min-height:132px;resize:vertical;line-height:1.55}.field input:focus,.field textarea:focus{outline:3px solid rgba(26,115,232,.2);border-color:var(--blue)}.drop{display:grid;place-items:center;min-height:170px;border:2px dashed #9fbfe5;border-radius:16px;background:var(--sky);text-align:center;padding:20px}.drop input{position:absolute;opacity:0;pointer-events:none}.drop strong{display:block;color:var(--blue2);font-size:18px}.preview{width:100%;max-height:320px;object-fit:contain;border-radius:14px;background:#edf3f8}.actions{display:grid;gap:10px}.btn{min-height:52px;border:0;border-radius:13px;padding:12px 18px;font-weight:900}.primary{background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--blue2)}.primary:hover{background:var(--blue2)}.secondary{background:#fff;border:2px solid var(--blue);color:var(--blue2)}.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}.status{min-height:26px;margin:12px 0 0;font-weight:800;color:#52677c}.status.err{color:#b42318}.status.ok{color:#137a50}.result{display:grid;grid-template-columns:1fr 1fr;gap:16px}.stage{min-height:390px;border-radius:18px;background:#eaf1f8;display:grid;place-items:center;overflow:hidden;position:relative}.stage img,.stage video{width:100%;height:100%;max-height:520px;object-fit:contain}.empty{text-align:center;color:#6d8093;padding:30px}.empty b{display:block;font-size:42px;margin-bottom:8px}.tag{position:absolute;left:12px;top:12px;background:rgba(16,42,67,.86);color:#fff;padding:6px 10px;border-radius:999px;font-size:13px;font-weight:800}.download{display:inline-flex;margin-top:12px;color:var(--blue2);font-weight:900}.notice{margin-top:16px;border-left:5px solid var(--orange);background:#fff5e9;padding:13px 15px;border-radius:10px;line-height:1.55}.quota{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.quota span{padding:6px 10px;border-radius:999px;background:var(--sky);color:var(--blue2);font-weight:800;font-size:13px}:focus-visible{outline:3px solid #d85d13;outline-offset:3px}
+@media(max-width:900px){.hero,.studio{grid-template-columns:1fr}.hero-art{min-height:160px}.steps{grid-template-columns:1fr 1fr}.result{grid-template-columns:1fr}.stage{min-height:300px}}
+@media(max-width:520px){.wrap{padding:22px 14px 50px}.panel{padding:16px}.steps{grid-template-columns:1fr}.hero h1{font-size:40px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문으로</a>
+<header class="top"><div class="top-in"><a class="brand" href="../../index.html">노안 AI교육</a><a class="back" href="../index.html">수업 도구로 돌아가기</a></div></header>
+<main class="wrap" id="main">
+  <section class="hero">
+    <div><span class="eyebrow">미술 수업 · 생성형 AI</span><h1>내 그림이<br>살아 움직여요</h1><p>그림을 넣고 원하는 변화를 한 문장으로 쓰세요. 바뀐 그림을 확인한 다음 5초 영상으로 만듭니다.</p></div>
+    <div class="hero-art" aria-hidden="true"><b>✎ → ✨ → ▶</b></div>
+  </section>
+  <div class="steps" aria-label="사용 순서"><span><b>1</b>그림 넣기</span><span><b>2</b>문장 쓰기</span><span><b>3</b>바뀐 그림 확인</span><span><b>4</b>영상 저장</span></div>
+  <section class="studio">
+    <div class="panel">
+      <h2>그림과 문장을 준비해요</h2>
+      <div class="quota"><span id="imageQuota">그림 변환 3회</span><span id="videoQuota">영상 1회 · 540p</span></div>
+      <div class="field"><label for="classCode">수업 코드</label><input id="classCode" maxlength="20" autocomplete="off" placeholder="선생님이 알려 준 코드"></div>
+      <div class="field"><label for="accessCode">내 참가 코드</label><input id="accessCode" maxlength="20" autocomplete="off" autocapitalize="characters" placeholder="선생님께 받은 개인 코드"><small>탭을 여러 개 열어도 이 코드의 사용 횟수는 합쳐집니다.</small></div>
+      <label class="drop" id="drop" for="imageFile"><input id="imageFile" type="file" accept="image/jpeg,image/png,image/webp"><span><strong>그림을 눌러서 골라요</strong>JPG·PNG·WEBP · 얼굴과 이름이 없는 작품</span></label>
+      <div class="field" style="margin-top:17px"><label for="prompt">어떻게 바꿀까요?</label><textarea id="prompt" maxlength="600" placeholder="예) 민화 속 호랑이를 학으로 바꾸고, 원래 그림의 붓 자국과 배경은 그대로 남겨 줘."></textarea><small>무엇을 바꿀지, 무엇을 그대로 둘지 함께 쓰면 더 잘 나옵니다.</small></div>
+      <div class="actions"><button class="btn primary" id="editBtn" disabled>AI로 그림 바꾸기</button><button class="btn secondary" id="videoBtn" disabled>이 그림을 5초 영상으로 만들기</button></div>
+      <p class="status" id="status" role="status" aria-live="polite">그림을 먼저 골라 주세요.</p>
+      <div class="notice"><strong>안전 규칙</strong><br>학생 이름·얼굴·성적이 들어간 이미지는 올리지 않습니다. 작품만 촬영하고, 결과는 수업 뒤 바로 내려받으세요.</div>
+    </div>
+    <div class="panel">
+      <h2>결과를 확인해요</h2>
+      <div class="result">
+        <div><div class="stage" id="imageStage"><div class="empty"><b>🖼</b>바뀐 그림이 여기에 나와요</div></div><a class="download" id="imageDownload" hidden target="_blank" rel="noopener">바뀐 그림 내려받기</a></div>
+        <div><div class="stage" id="videoStage"><div class="empty"><b>🎬</b>움직이는 영상이 여기에 나와요</div></div><a class="download" id="videoDownload" hidden target="_blank" rel="noopener">영상 내려받기</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+(function(){'use strict';
+var FUNCTION_URL='https://dovpodhwmredayldjrvb.supabase.co/functions/v1/art-motion';
+var PUBLIC_KEY='sb_publishable_T5RxDUQ0qOjSfUqbwmqYxw_z0afNxi_';
+var $=function(id){return document.getElementById(id)}, file=null, imageGeneration='', imageUrl='', busy=false;
+var clientId=(function(){try{var k='noan.art.client.v1',v=localStorage.getItem(k);if(!v){v=crypto.randomUUID();localStorage.setItem(k,v)}return v}catch(e){return 'browser-'+Math.random().toString(36).slice(2)}})();
+function say(t,c){$('status').textContent=t;$('status').className='status'+(c?' '+c:'')}
+function sync(){var ready=!!file&&$('prompt').value.trim().length>3&&$('classCode').value.trim()&&$('accessCode').value.trim();$('editBtn').disabled=busy||!ready;$('videoBtn').disabled=busy||!imageGeneration}
+function api(body){return fetch(FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json',apikey:PUBLIC_KEY},body:JSON.stringify(Object.assign({clientId:clientId,classCode:$('classCode').value.trim(),accessCode:$('accessCode').value.trim()},body))}).then(async function(r){var d=await r.json().catch(function(){return{}});if(!r.ok)throw new Error(d.message||'서버 요청에 실패했습니다.');return d})}
+function dataUrl(f){return new Promise(function(ok,bad){var r=new FileReader;r.onload=function(){ok(String(r.result))};r.onerror=bad;r.readAsDataURL(f)})}
+function poll(id,kind){var tries=0;return new Promise(function(resolve,reject){function tick(){api({action:'status',generationId:id,kind:kind}).then(function(d){if(d.state==='completed')return resolve(d);if(d.state==='failed')return reject(new Error(d.message||'AI가 결과를 만들지 못했습니다.'));if(++tries>80)return reject(new Error('만드는 시간이 너무 길어졌습니다. 잠시 뒤 다시 해 주세요.'));say(kind==='image'?'그림을 바꾸는 중이에요…':'영상을 만드는 중이에요…');setTimeout(tick,5000)}).catch(reject)}tick()})}
+function showImage(url){imageUrl=url;$('imageStage').innerHTML='<span class="tag">바뀐 그림</span><img src="'+url+'" alt="AI로 바꾼 학생 작품">';$('imageDownload').href=url;$('imageDownload').hidden=false}
+function showVideo(url){$('videoStage').innerHTML='<span class="tag">5초 영상</span><video src="'+url+'" controls autoplay muted loop playsinline aria-label="학생 작품으로 만든 영상"></video>';$('videoDownload').href=url;$('videoDownload').hidden=false}
+$('imageFile').addEventListener('change',function(){file=this.files&&this.files[0];if(!file)return;if(file.size>4*1024*1024){file=null;this.value='';say('그림은 4MB 이하로 골라 주세요.','err');return}var u=URL.createObjectURL(file);$('drop').innerHTML='<input id="imageFileNext" type="file" accept="image/jpeg,image/png,image/webp"><img class="preview" src="'+u+'" alt="선택한 원본 그림"><strong style="margin-top:8px">다른 그림 고르기</strong>';$('imageFileNext').addEventListener('change',function(){location.reload()});say('문장을 쓰고 그림 바꾸기를 눌러 주세요.');sync()});
+$('prompt').addEventListener('input',sync);$('classCode').addEventListener('input',sync);$('accessCode').addEventListener('input',sync);
+$('editBtn').addEventListener('click',async function(){busy=true;sync();try{say('그림을 서버에 보내는 중이에요…');var raw=await dataUrl(file), comma=raw.indexOf(','), d=await api({action:'edit',prompt:$('prompt').value.trim(),image:{data:raw.slice(comma+1),mediaType:file.type}});say('AI가 그림을 바꾸는 중이에요…');var done=await poll(d.generationId,'image');imageGeneration=d.generationId;showImage(done.url);say('바뀐 그림을 확인하세요. 마음에 들면 영상을 만드세요.','ok');$('imageQuota').textContent='그림 변환 남은 횟수 '+done.remainingImages}catch(e){say(e.message,'err')}finally{busy=false;sync()}});
+$('videoBtn').addEventListener('click',async function(){busy=true;sync();try{say('영상 만들기를 시작해요…');var d=await api({action:'video',prompt:$('prompt').value.trim()+' 자연스럽게 살아 움직인다. 원래 그림의 화풍과 구도를 유지한다.',imageGenerationId:imageGeneration});var done=await poll(d.generationId,'video');showVideo(done.url);say('완성! 영상을 내려받아 주세요.','ok');$('videoQuota').textContent='영상 남은 횟수 '+done.remainingVideos}catch(e){say(e.message,'err')}finally{busy=false;sync()}});
+})();
+</script>
+</body>
+</html>

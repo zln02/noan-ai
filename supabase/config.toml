@@ -1,0 +1,4 @@
+project_id = "dovpodhwmredayldjrvb"
+
+[functions.art-motion]
+verify_jwt = false

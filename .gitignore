@@ -8,6 +8,9 @@ tools/icons-raw.json
 tools/icons-missing.txt
 
 node_modules/
+.env
+supabase/.temp/
+supabase/functions/.env
 .DS_Store
 Thumbs.db
 desktop.ini
