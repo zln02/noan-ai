@@ -114,6 +114,9 @@ html.gl .bot svg{visibility:hidden}
 .ab-head b{font-family:var(--disp);font-size:calc(var(--u)*4);color:var(--violet-d)}
 .ab-head small{font-size:calc(var(--u)*2.1);font-weight:800;color:var(--muted);white-space:nowrap}
 .ab-foot{font-size:calc(var(--u)*1.9);font-weight:700;color:var(--muted);text-align:center}
+.rank-admin-btn{align-self:center;min-height:40px;padding:8px 15px;border:2px solid #b9c8ff;border-radius:999px;background:#fff;color:#4632a8;font:800 calc(var(--u)*1.8)/1 system-ui,sans-serif;box-shadow:0 4px 0 #b9c8ff;cursor:pointer}
+.rank-admin-btn:hover{transform:translateY(-1px)}
+.rank-admin-btn:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
 .rank{list-style:none;display:flex;flex-direction:column;gap:calc(var(--u)*1)}
 .rank li{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:calc(var(--u)*1.2);background:#f1ecff;border-radius:calc(var(--u)*2);
   padding:calc(var(--u)*1) calc(var(--u)*1.6);font-size:calc(var(--u)*2.5);font-weight:800;box-shadow:inset 0 calc(var(--u)*-.4) 0 rgba(107,79,224,.12);animation:rowIn .5s var(--d,0ms) cubic-bezier(.2,1.4,.4,1) both}
@@ -562,6 +565,7 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
       <div class="ab-head"><b>🏆 오늘의 랭킹</b><small id="aBoardSub"></small></div>
       <ol class="rank" id="aBoardList"></ol>
       <div class="ab-foot">빨리 맞힐수록 점수 UP · 연속 정답 보너스</div>
+      <button type="button" class="rank-admin-btn">랭킹 관리</button>
     </aside>
   </div>
 </section>
@@ -643,6 +647,7 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
   <div class="bb-wrap card3d">
     <div class="bb-head"><span class="bb-school">노안중 도전! 퀴즈쇼</span><h2>오늘의 랭킹 TOP 10</h2><span class="bb-count">오늘 <b id="bbCount">0</b>명 도전</span></div>
     <ol class="rank big" id="bbList"></ol>
+    <button type="button" class="rank-admin-btn">랭킹 관리</button>
   </div>
 </section>
 <div id="flash" aria-hidden="true"></div>
@@ -697,7 +702,7 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
       <div class="field"><label>아무도 안 만지면 대기 화면으로 (초)</label><input type="number" id="sIdle" min="10" max="300"></div>
       <div class="field"><label>효과음</label><select id="sSound"><option value="1">켜기</option><option value="0">끄기</option></select></div>
       <div class="field"><label>배경음악 크기 (0~100, 0이면 끄기 · 화면 구석 음표 버튼으로도 끄고 켤 수 있어요)</label><input type="number" id="sBgm" min="0" max="100"></div>
-      <div class="field"><label>관리 화면 비밀번호 (숫자 4자리)</label><input type="text" id="sPin" maxlength="4" inputmode="numeric"></div>
+      <div class="field"><label>관리 화면 비밀번호 (독도 게임과 공통)</label><input type="text" id="sPin" value="0000" readonly aria-readonly="true"></div>
       <div class="row"><button class="btn pri" id="sSave">설정 저장</button></div>
     </section>
     <section data-panel="stats">
@@ -9579,6 +9584,168 @@ void main() {
   ],
   "answer": 0,
   "exp": "할아버지가 제일 좋아하는 건 할머니!"
+ },
+ {
+  "id": "new_20261014_01",
+  "cat": "sci",
+  "type": "mc",
+  "q": "지구가 태양 주위를 한 바퀴 도는 데 걸리는 시간은?",
+  "choices": [
+   "하루",
+   "한 달",
+   "약 1년",
+   "약 10년"
+  ],
+  "answer": 2,
+  "exp": "지구의 공전 주기는 약 365.24일이에요."
+ },
+ {
+  "id": "new_20261014_02",
+  "cat": "sci",
+  "type": "ox",
+  "q": "소리는 진공 상태에서도 전달된다.",
+  "choices": [
+   "O",
+   "X"
+  ],
+  "answer": 1,
+  "exp": "소리는 물질의 진동으로 전달되므로 진공에서는 전달되지 않아요."
+ },
+ {
+  "id": "new_20261014_03",
+  "cat": "sci",
+  "type": "mc",
+  "q": "식물이 광합성을 할 때 주로 흡수하는 기체는?",
+  "choices": [
+   "산소",
+   "이산화 탄소",
+   "질소",
+   "수소"
+  ],
+  "answer": 1,
+  "exp": "식물은 이산화 탄소와 물을 이용해 양분을 만들고 산소를 내보내요."
+ },
+ {
+  "id": "new_20261014_04",
+  "cat": "soc",
+  "type": "mc",
+  "q": "우리나라에서 법을 만드는 국가 기관은?",
+  "choices": [
+   "국회",
+   "법원",
+   "교육청",
+   "기상청"
+  ],
+  "answer": 0,
+  "exp": "국회는 국민을 대표해 법률을 제정하고 개정해요."
+ },
+ {
+  "id": "new_20261014_05",
+  "cat": "soc",
+  "type": "ox",
+  "q": "독도는 행정구역상 경상북도 울릉군에 속한다.",
+  "choices": [
+   "O",
+   "X"
+  ],
+  "answer": 0,
+  "exp": "독도의 주소는 경상북도 울릉군 울릉읍 독도리예요."
+ },
+ {
+  "id": "new_20261014_06",
+  "cat": "ai",
+  "type": "mc",
+  "q": "생성형 AI를 사용할 때 가장 먼저 확인할 것은?",
+  "choices": [
+   "글자 수",
+   "답변의 사실 여부",
+   "배경색",
+   "입력 속도"
+  ],
+  "answer": 1,
+  "exp": "AI 답변에는 오류가 있을 수 있으므로 근거와 사실을 확인해야 해요."
+ },
+ {
+  "id": "new_20261014_07",
+  "cat": "ai",
+  "type": "ox",
+  "q": "학생 이름과 성적을 생성형 AI에 그대로 입력해도 된다.",
+  "choices": [
+   "O",
+   "X"
+  ],
+  "answer": 1,
+  "exp": "학생 개인정보는 AI에 입력하지 않아야 해요."
+ },
+ {
+  "id": "new_20261014_08",
+  "cat": "brain",
+  "type": "mc",
+  "q": "어떤 수에 7을 더했더니 20이 되었다. 어떤 수는?",
+  "choices": [
+   "11",
+   "12",
+   "13",
+   "14"
+  ],
+  "answer": 2,
+  "exp": "20에서 7을 빼면 13이에요."
+ },
+ {
+  "id": "new_20261014_09",
+  "cat": "brain",
+  "type": "mc",
+  "q": "삼각형의 세 내각의 크기를 모두 더하면?",
+  "choices": [
+   "90°",
+   "180°",
+   "270°",
+   "360°"
+  ],
+  "answer": 1,
+  "exp": "모든 삼각형의 세 내각의 합은 180°예요."
+ },
+ {
+  "id": "new_20261014_10",
+  "cat": "lang",
+  "type": "mc",
+  "q": "다음 중 맞춤법이 바른 말은?",
+  "choices": [
+   "되요",
+   "돼요",
+   "됬어요",
+   "안되요"
+  ],
+  "answer": 1,
+  "exp": "‘되어요’가 줄어든 말은 ‘돼요’예요."
+ },
+ {
+  "id": "new_20261014_11",
+  "cat": "lang",
+  "type": "mc",
+  "q": "영어 단어 library의 뜻은?",
+  "choices": [
+   "운동장",
+   "도서관",
+   "과학실",
+   "교무실"
+  ],
+  "answer": 1,
+  "exp": "library는 도서관이라는 뜻이에요."
+ },
+ {
+  "id": "new_20261014_12",
+  "cat": "fun",
+  "type": "mc",
+  "q": "세상에서 가장 뜨거운 과일은?",
+  "choices": [
+   "사과",
+   "천도복숭아",
+   "수박",
+   "포도"
+  ],
+  "answer": 1,
+  "exp": "천 도(1000도)라서 천도복숭아!"
  }
 ];
   /* QUESTIONS:END */
@@ -9597,7 +9764,7 @@ void main() {
   // 점수: 정답 100 + 빠르기 보너스 최대 50 + 연속 정답 보너스(2연속부터 +20씩, 최대 +60). 노안중 보너스 문제는 전부 2배.
   var PTS = {base: 100, speed: 50, streak: 20, streakMax: 60, bonusMul: 2, golden: 300}; // golden: 1등 도전 골든 퀴즈 점수
   var DEFAULT_SETTINGS = {count: 6, bonusEvery: 3, pass: 4, timer: 15, sub: '6문제 중 4개 맞히면 선물!', passMsg: '선생님께 이 화면을 보여 주고 선물 받아 가세요!',
-    failMsg: '아깝다! 참여 선물 받아 가세요.', idle: 30, sound: true, pin: '7979', bgmVol: 50, bgmOn: true};
+    failMsg: '아깝다! 참여 선물 받아 가세요.', idle: 30, sound: true, pin: '0000', bgmVol: 50, bgmOn: true};
   var K = {recent: 'noanQuiz.recent.v1', q: 'noanQuiz.questions.v6', s: 'noanQuiz.settings.v3', st: 'noanQuiz.stats.v1', lb: 'noanQuiz.board.v1'};
   var FEEDBACK_AUTO_MS = 5000, RESULT_RETURN_S = 15, LOCK_MS = 700, MAX_IMG = 1280, STAMP_MS = 1150, WARN_S = 5;
 
@@ -9610,7 +9777,14 @@ void main() {
   var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
   var questions = store.get(K.q, null);
   if (!Array.isArray(questions) || !questions.length) questions = clone(DEFAULT_QUESTIONS);
+  // 새 기본 문제만 기존 기기의 문제 목록에 보탠다. 선생님이 만든 문제와 수정 내용은 유지한다.
+  DEFAULT_QUESTIONS.filter(function (q) { return q.id.indexOf('new_20261014_') === 0; }).forEach(function (q) {
+    if (!questions.some(function (saved) { return saved.id === q.id; })) questions.push(clone(q));
+  });
+  store.set(K.q, questions);
   var settings = Object.assign({}, DEFAULT_SETTINGS, store.get(K.s, {}));
+  settings.pin = '0000';
+  store.set(K.s, settings);
 
   var $ = function (id) { return document.getElementById(id); };
   function show(id) {
@@ -11345,7 +11519,8 @@ void main() {
     });
   })();
   function drawPin() { [].forEach.call($('pinDots').children, function (d, i) { d.classList.toggle('f', i < pinBuf.length); }); }
-  function openPin() { pinBuf = ''; $('pinMsg').textContent = ''; drawPin(); $('pinOv').classList.add('on'); }
+  function openPin(tabName) { adminStartTab = typeof tabName === 'string' ? tabName : 'list'; pinBuf = ''; $('pinMsg').textContent = ''; drawPin(); $('pinOv').classList.add('on'); }
+  [].forEach.call(document.querySelectorAll('.rank-admin-btn'), function (b) { b.addEventListener('click', function () { openPin('stats'); }); });
 
   function confirmBox(text, onYes) {
     $('confirmText').textContent = text; $('confirmOv').classList.add('on');
@@ -11355,7 +11530,8 @@ void main() {
 
   /* ===== 관리 화면 ===== */
   $('eCat').innerHTML = CAT_IDS.map(function (c) { return '<option value="' + c + '">' + esc(CAT[c].label) + '</option>'; }).join('');
-  function openAdmin() { clearTimeout(idleT); S.phase = 'admin'; Bgm.setMode('off'); show('admin'); tab('list'); }
+  var adminStartTab = 'list';
+  function openAdmin() { clearTimeout(idleT); S.phase = 'admin'; Bgm.setMode('off'); show('admin'); tab(adminStartTab); adminStartTab = 'list'; }
   $('adminClose').addEventListener('click', goAttract);
   $('adminNav').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) tab(b.dataset.tab); });
   function tab(name) {
@@ -11443,10 +11619,10 @@ void main() {
   function fillSettings() {
     $('sCount').value = settings.count; $('sBonus').value = settings.bonusEvery; $('sPass').value = settings.pass; $('sTimer').value = settings.timer; $('sSub').value = settings.sub;
     $('sPassMsg').value = settings.passMsg; $('sFailMsg').value = settings.failMsg; $('sIdle').value = settings.idle;
-    $('sSound').value = settings.sound ? '1' : '0'; $('sBgm').value = settings.bgmVol; $('sPin').value = settings.pin;
+    $('sSound').value = settings.sound ? '1' : '0'; $('sBgm').value = settings.bgmVol; $('sPin').value = '0000';
   }
   $('sSave').addEventListener('click', function () {
-    var bonusEvery = Math.round(+$('sBonus').value), count = Math.round(+$('sCount').value), pass = Math.round(+$('sPass').value), idle = Math.round(+$('sIdle').value), pin = $('sPin').value.trim();
+    var bonusEvery = Math.round(+$('sBonus').value), count = Math.round(+$('sCount').value), pass = Math.round(+$('sPass').value), idle = Math.round(+$('sIdle').value), pin = '0000';
     var timerRaw = $('sTimer').value.trim(), timer = +timerRaw, bgmRaw = $('sBgm').value.trim(), bgmVol = +bgmRaw;
     if (!(count >= 1 && count <= 20)) { toast('문제 수는 1~20 사이로 해 주세요.'); return; }
     if (!(bonusEvery >= 0 && bonusEvery <= 20)) { toast('보너스 간격은 0~20 사이로 해 주세요. (0은 보너스 없음)'); return; }
@@ -11470,7 +11646,7 @@ void main() {
     $('stTable').innerHTML = rows.length ? rows.map(function (r) { return '<tr><td>' + esc(r.t) + '</td><td>' + r.n + '</td><td>' + r.p + '%</td></tr>'; }).join('')
       : '<tr><td colspan="3">아직 기록이 없어요.</td></tr>';
   }
-  $('stReset').addEventListener('click', function () { confirmBox('오늘 통계와 랭킹을 지울까요?', function () { var all = store.get(K.st, {}); delete all[todayKey()]; store.set(K.st, all); Board.clearToday(); drawStats(); }); });
+  $('stReset').addEventListener('click', function () { confirmBox('오늘 통계와 랭킹을 지울까요?', function () { var all = store.get(K.st, {}); delete all[todayKey()]; store.set(K.st, all); Board.clearToday().then(function () { drawStats(); drawAttractBoard(); drawBigBoard(); toast('오늘 통계와 랭킹을 지웠어요.'); }); }); });
 
   $('bExport').addEventListener('click', function () {
     try {
