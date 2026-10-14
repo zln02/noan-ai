@@ -494,6 +494,36 @@ body[data-screen="quiz"] #bgmBtn,body[data-screen="admin"] #bgmBtn,body[data-scr
 .stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px}
 .stat div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
 .stat b{display:block;font-size:30px;color:var(--blue)}
+/* 관리자 화면: 교사가 현장에서 빠르게 찾고 누를 수 있는 간단한 구성 */
+#admin header{position:sticky;top:0;z-index:3;box-shadow:0 8px 24px rgba(21,10,61,.18)}
+#admin .admin-title{display:flex;flex-direction:column;gap:2px;margin-right:auto}
+#admin .admin-title h2{margin:0}
+#admin .admin-title small{color:#d9d2ff;font-size:12px;font-weight:700}
+#admin nav{padding:4px;background:rgba(255,255,255,.1);border-radius:12px}
+#admin nav button{border:0;border-radius:9px;transition:background .15s,color .15s,transform .15s}
+#admin nav button:hover{background:rgba(255,255,255,.14)}
+#admin nav button.on{box-shadow:0 3px 10px rgba(0,0,0,.18)}
+#admin main{padding:24px;background:linear-gradient(180deg,#f7f5ff,#eef2fb)}
+#admin section.on{background:#fff;border:1px solid #e4def8;border-radius:18px;padding:22px;box-shadow:0 12px 32px rgba(58,42,158,.08)}
+#admin h4{font-size:22px;color:var(--ink)}
+#admin .admin-help{margin:-4px 0 18px;color:var(--muted);font-size:14px;line-height:1.55}
+#admin [data-panel="settings"].on,#admin [data-panel="edit"].on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+#admin [data-panel="settings"] h4,#admin [data-panel="settings"] .admin-help,#admin [data-panel="settings"] .row,
+#admin [data-panel="edit"] h4,#admin [data-panel="edit"] .admin-help,#admin [data-panel="edit"] .row{grid-column:1/-1}
+#admin [data-panel="edit"] #eChoicesWrap,#admin [data-panel="edit"] #eOxWrap{grid-column:1/-1}
+#admin .field{padding:12px;border:1px solid #ebe7f8;border-radius:12px;background:#faf9ff}
+#admin .field input:focus,#admin .field select:focus,#admin .field textarea:focus{outline:3px solid #cfc4ff;border-color:var(--violet)}
+#admin .qrow{box-shadow:0 3px 10px rgba(58,42,158,.05)}
+#admin .stat div{border:0;background:linear-gradient(145deg,#f4f0ff,#fff);box-shadow:inset 0 0 0 1px #e5ddff}
+#admin table{width:100%;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;border-collapse:separate;border-spacing:0}
+#admin #stReset{min-width:240px}
+@media(max-width:760px){
+  #admin header{align-items:stretch;padding:12px}#admin .admin-title{width:100%}#admin nav{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}
+  #admin nav button{padding:8px 6px;font-size:13px}#adminClose{width:100%}#admin main{padding:12px}
+  #admin section.on{padding:16px}#admin [data-panel="settings"].on,#admin [data-panel="edit"].on{grid-template-columns:1fr}
+  #admin [data-panel="settings"] .field,#admin [data-panel="edit"] .field{grid-column:1}
+  .qrow{flex-wrap:wrap}.qrow .info{flex-basis:calc(100% - 80px)}.qrow>.btn{flex:1;min-height:44px;padding:8px}
+}
 table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
 th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-size:14px}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:14px 22px;border-radius:12px;font-weight:700;font-size:18px;z-index:60;display:none;max-width:90vw;text-align:center}
@@ -658,12 +688,12 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
 <!-- 관리자 -->
 <section id="admin" class="screen" aria-label="관리">
   <header>
-    <h2>퀴즈 관리</h2>
+    <div class="admin-title"><h2>퀴즈 관리</h2><small>문제 · 게임 설정 · 오늘 랭킹을 한곳에서 관리합니다</small></div>
     <nav id="adminNav">
-      <button data-tab="list" class="on">문제 목록</button>
-      <button data-tab="edit">문제 추가</button>
-      <button data-tab="settings">설정</button>
-      <button data-tab="stats">오늘 통계</button>
+      <button data-tab="list" class="on">문제</button>
+      <button data-tab="edit">새 문제</button>
+      <button data-tab="settings">게임 설정</button>
+      <button data-tab="stats">랭킹·통계</button>
       <button data-tab="backup">백업</button>
     </nav>
     <button class="btn pri" id="adminClose">퀴즈로 돌아가기</button>
@@ -676,6 +706,7 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
     </section>
     <section data-panel="edit">
       <h4 id="editTitle">문제 추가</h4>
+      <p class="admin-help">문제와 정답, 짧은 해설만 입력하면 바로 출제 목록에 들어갑니다.</p>
       <div class="field"><label>분야</label><select id="eCat"></select></div>
       <div class="field"><label>형식</label>
         <select id="eType"><option value="mc">4지선다</option><option value="ox">O / X</option></select></div>
@@ -691,7 +722,8 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
       <div class="row"><button class="btn" id="eCancel">취소</button><button class="btn pri" id="eSave">저장</button></div>
     </section>
     <section data-panel="settings">
-      <h4>설정</h4>
+      <h4>게임 설정</h4>
+      <p class="admin-help">수업이나 행사 상황에 맞춰 문제 수와 시간, 선물 기준을 바꿀 수 있습니다.</p>
       <div class="field"><label>한 번에 내는 문제 수</label><input type="number" id="sCount" min="1" max="20"></div>
       <div class="field"><label>노안중 보너스 문제 간격 (3이면 3·6·9번째가 보너스, 0이면 보너스 없음)</label><input type="number" id="sBonus" min="0" max="20"></div>
       <div class="field"><label>선물 기준 (몇 개 이상 맞히면)</label><input type="number" id="sPass" min="0" max="20"></div>
@@ -707,6 +739,7 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
     </section>
     <section data-panel="stats">
       <h4>오늘 통계 <small id="statDate" style="color:var(--muted)"></small></h4>
+      <p class="admin-help">오늘 참여 결과를 확인하거나 아래 버튼으로 오늘 랭킹만 새로 시작할 수 있습니다.</p>
       <div class="stat">
         <div>참여<b id="stPlayed">0</b></div>
         <div>선물 기준 통과<b id="stPassed">0</b></div>
@@ -718,6 +751,7 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
     </section>
     <section data-panel="backup">
       <h4>백업</h4>
+      <p class="admin-help">다른 컴퓨터에서도 같은 문제를 쓰려면 파일로 내보낸 뒤 가져오세요.</p>
       <div class="note">[내보내기]로 문제·설정 파일(.json)을 받아 두면, 다른 기기에서 [가져오기]로 그대로 옮길 수 있어요.</div>
       <div class="row" style="justify-content:flex-start;margin-bottom:16px">
         <button class="btn pri" id="bExport">내보내기</button>
