@@ -317,6 +317,17 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
   #clear .wrap .mascot{display:none}
   #clearTime{font-size:calc(var(--u)*17)}
 }
+/* ---------- one 24-card mode ---------- */
+#name .shake{animation:nudge .4s}
+@keyframes nudge{25%{transform:translateX(-8px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+#fact{pointer-events:none}
+#grid > .card{grid-column:span 2}
+#play.many .side{width:14%}
+#play.many .side .bubble{font-size:calc(var(--u)*2.4)}
+@media (orientation:landscape){
+  /* big screen: ten rows as two columns of five so the whole top 10 fits on a TV */
+  .rank.big{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(5,auto);grid-auto-flow:column;column-gap:calc(var(--u)*3)}
+}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -344,6 +355,7 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
   <linearGradient id="g-cover" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a5230"/><stop offset=".5" stop-color="#5c3a1e"/><stop offset="1" stop-color="#3b2210"/></linearGradient>
   <linearGradient id="g-green" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#69db7c"/><stop offset="1" stop-color="#1b7f47"/></linearGradient>
   <radialGradient id="g-navy" cx=".4" cy=".25" r=".9"><stop offset="0" stop-color="#5c7cfa"/><stop offset=".55" stop-color="#2541b2"/><stop offset="1" stop-color="#0f1f66"/></radialGradient>
+  <linearGradient id="g-petal" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#f3f0ff"/><stop offset=".45" stop-color="#d0bfff"/><stop offset="1" stop-color="#9775fa"/></linearGradient>
 </defs></svg>
 <div id="sea" aria-hidden="true">
   <div class="sun"></div>
@@ -450,11 +462,10 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
   <div class="admin-head"><h3>독도 게임 관리</h3><p>게임 난이도와 랭킹을 간편하게 관리합니다.</p></div>
   <div class="admin-body">
     <fieldset><legend>게임 설정</legend><div class="admin-grid">
-      <div><label>게임 방식</label><select id="setMode"><option value="same">같은 그림 짝 맞추기</option><option value="qa">독도 문제 ↔ 그림 짝 맞추기 (어려움)</option></select></div>
-      <div><label>카드 짝 수</label><select id="setPairs"><option value="5">5쌍 (10장)</option><option value="6">6쌍 (12장)</option><option value="7">7쌍 (14장)</option><option value="8">8쌍 (16장)</option></select></div>
-      <div><label>시작 전 미리 보기</label><select id="setPeek"><option value="0">안 보여 줌</option><option value="2">2초</option><option value="3">3초</option><option value="4">4초</option><option value="5">5초</option></select></div>
-      <div><label>효과음</label><select id="setSound"><option value="1">켜기</option><option value="0">끄기</option></select></div>
-    </div></fieldset>
+      <div><label for="setPairs">카드 짝 수</label><select id="setPairs"><option value="8">8쌍 (16장)</option><option value="9">9쌍 (18장)</option><option value="10">10쌍 (20장)</option><option value="11">11쌍 (22장)</option><option value="12">12쌍 (24장) · 기본</option></select></div>
+      <div><label for="setPeek">시작 전 미리 보기</label><select id="setPeek"><option value="3">3초</option><option value="4">4초</option><option value="5">5초 · 기본</option><option value="6">6초</option><option value="7">7초</option><option value="8">8초</option></select></div>
+      <div><label for="setSound">효과음</label><select id="setSound"><option value="1">켜기</option><option value="0">끄기</option></select></div>
+    </div><p id="setNote" style="margin-top:8px;font-size:13px;line-height:1.5;color:var(--muted)">랭킹은 카드 짝 수마다 따로 매겨져요. 기본은 12쌍(카드 24장)이에요.</p></fieldset>
     <fieldset><legend>랭킹 관리</legend>
       <div class="pin-note"><span>퀴즈쇼와 공통 관리자 번호</span><input id="setPin" value="0000" readonly aria-label="관리자 번호" aria-readonly="true"></div>
       <div class="rank-tools"><div><label>현재 랭킹 이름</label><input id="setSeason" maxlength="30"></div><button class="btn dan" id="clearRankBtn">새 랭킹 시작</button></div>
@@ -4691,14 +4702,27 @@ void main() {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
   var K = {s: 'dokdoMem.settings.v1', r: 'dokdoMem.records.v2', q: 'dokdoMem.pending.v1'};
-  var DEF = {pairs: 6, peek: 3, sound: true, pin: '0000', mode: 'same', bgmVol: 50, bgmOn: true, season: '2026 독도의 날'}; // mode: same = 같은 그림, qa = 그림↔독도 문제
+  var DEF = {pairs: 12, peek: 5, sound: true, pin: '0000', mode: 'same', bgmVol: 50, bgmOn: true, season: '2026 독도의 날'}; // mode: same = 같은 그림, qa = 그림↔독도 문제
   var IDLE_S = 40, CLEAR_RETURN_S = 25, WARN_S = 5;
   var store = {
     get: function (k, fb) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch (e) { return fb; } },
     set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
   };
-  var settings = Object.assign({}, DEF, store.get(K.s, {}));
+  /* One mode only: same-picture pairs, 12 pairs (24 cards) by default.
+     Settings saved by older versions (6 pairs / 3 s, qa mode, levels) are reset to the new defaults once. */
+  var SETTINGS_V = 2;
+  function clampInt(v, lo, hi, fb) { v = Math.round(Number(v)); return isFinite(v) && v >= lo && v <= hi ? v : fb; }
+  function sanitizeSettings(s, saved) {
+    if (!saved || (+saved.v || 0) < SETTINGS_V) { s.pairs = DEF.pairs; s.peek = DEF.peek; }
+    delete s.levels; delete s.levelPick;
+    s.v = SETTINGS_V; s.mode = 'same';
+    s.pairs = clampInt(s.pairs, 8, 12, DEF.pairs); s.peek = clampInt(s.peek, 3, 8, DEF.peek);
+    return s;
+  }
+  var savedSettings = store.get(K.s, {});
+  var settings = sanitizeSettings(Object.assign({}, DEF, savedSettings), savedSettings);
   settings.pin = '0000';
+  try { localStorage.removeItem('dokdoMem.level.v1'); } catch (e) { /* storage blocked: nothing to clean */ }
   store.set(K.s, settings);
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]; }); }
   function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
@@ -5500,14 +5524,20 @@ void main() {
       svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M26 112 C28 90 42 80 60 80 C78 80 92 90 94 112Z" fill="url(#g-hanbok)"/><path d="M52 80 L60 96 L68 80" fill="#fff" opacity=".85"/><circle cx="60" cy="58" r="22" fill="url(#g-skin)"/><ellipse cx="60" cy="38" rx="44" ry="7" fill="url(#g-gat)"/><path d="M44 38 C44 20 76 20 76 38Z" fill="url(#g-gat)"/><path d="M42 44 Q42 76 60 80 Q78 76 78 44" stroke="#111" stroke-width="1" fill="none" opacity=".45"/><circle cx="52" cy="58" r="3" fill="#1b0f08"/><circle cx="68" cy="58" r="3" fill="#1b0f08"/><circle cx="53" cy="57" r="1" fill="#fff"/><circle cx="69" cy="57" r="1" fill="#fff"/><path d="M50 52 L56 51 M64 51 L70 52" stroke="#3b2208" stroke-width="2.5" stroke-linecap="round"/><path d="M48 70 Q60 82 72 70 Q66 78 60 78 Q54 78 48 70Z" fill="#3b2208"/><path d="M55 67 Q60 70 65 67" stroke="#8a4b2b" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="48" cy="64" rx="4" ry="2.5" fill="#ff8fa3" opacity=".45"/><ellipse cx="72" cy="64" rx="4" ry="2.5" fill="#ff8fa3" opacity=".45"/></svg>'},
     day: {q: '10월 25일은 무슨 날일까요?', name: '독도의 날', fact: '10월 25일은 독도의 날! 독도가 우리 땅임을 함께 기억하는 날이에요.',
       svg: '<svg viewBox="0 0 120 120">' + SH + '<rect x="16" y="20" width="88" height="86" rx="10" fill="url(#g-white)"/><path d="M16 30 Q16 20 26 20 L94 20 Q104 20 104 30 L104 44 L16 44Z" fill="url(#g-blue)"/><rect x="34" y="12" width="6" height="16" rx="3" fill="#495057"/><rect x="80" y="12" width="6" height="16" rx="3" fill="#495057"/><text x="60" y="39" font-size="13" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle">10월</text><text x="60" y="89" font-size="40" font-family="Jua,sans-serif" fill="url(#g-red)" text-anchor="middle">25</text><path d="M86 92 l3 6 6 1 -4.5 4 1 6 -5.5 -3 -5.5 3 1 -6 -4.5 -4 6 -1z" fill="url(#g-gold)"/></svg>'},
-    post: {q: '독도에서 편지를 보낼 때 쓰는 빨간 통은?', name: '독도 우체통', fact: '독도에도 우체통이 있어요! 주소는 「경상북도 울릉군 울릉읍 독도리」예요.',
-      svg: '<svg viewBox="0 0 120 120">' + SH + '<rect x="54" y="88" width="12" height="22" fill="url(#g-rockgrey)"/><path d="M30 40 C30 22 44 14 60 14 C76 14 90 22 90 40 L90 92 L30 92Z" fill="url(#g-red)"/><rect x="40" y="44" width="40" height="7" rx="3.5" fill="#212529"/><rect x="40" y="62" width="40" height="22" rx="3" fill="url(#g-white)"/><path d="M42 64 L60 76 L78 64" stroke="#e03131" stroke-width="3" fill="none"/><path d="M38 26 Q44 21 52 22" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".55" fill="none"/></svg>'},
+    addr: {q: '「경상북도 울릉군 울릉읍 독도리」, 우편번호 40240은 무엇일까요?', name: '독도 주소', fact: '독도에도 우편번호(40240)와 주소가 있어요. 주소는 「경상북도 울릉군 울릉읍 독도리」예요.',
+      svg: '<svg viewBox="0 0 120 120">' + SH + '<rect x="10" y="26" width="100" height="72" rx="8" fill="url(#g-white)"/><rect x="10" y="26" width="100" height="72" rx="8" fill="none" stroke="#c3ccd6" stroke-width="2"/><rect x="80" y="33" width="22" height="26" rx="2" fill="#fff" stroke="#f03e3e" stroke-width="2.5" stroke-dasharray="3 2"/><rect x="83" y="36" width="16" height="20" fill="#e7f5ff"/><path d="M84 53 C85 48 87 45 89 47 L90.5 53Z M89.5 53 C91 46 94 43 97 47 L98 53Z" fill="url(#g-rock)"/><rect x="83" y="52.5" width="16" height="3.5" fill="#4dabf7"/><rect x="20" y="38" width="48" height="5" rx="2.5" fill="#868e96"/><rect x="20" y="48" width="40" height="5" rx="2.5" fill="#adb5bd"/><rect x="20" y="58" width="30" height="5" rx="2.5" fill="#adb5bd"/><g fill="#fff" stroke="#f03e3e" stroke-width="2"><rect x="22" y="70" width="13" height="17" rx="2"/><rect x="38" y="70" width="13" height="17" rx="2"/><rect x="54" y="70" width="13" height="17" rx="2"/><rect x="70" y="70" width="13" height="17" rx="2"/><rect x="86" y="70" width="13" height="17" rx="2"/></g><g font-family="Jua,sans-serif" font-size="13" fill="#0b3d91" text-anchor="middle"><text x="28.5" y="83">4</text><text x="44.5" y="83">0</text><text x="60.5" y="83">2</text><text x="76.5" y="83">4</text><text x="92.5" y="83">0</text></g></svg>'},
     guard: {q: '독도에서 우리 땅을 지키는 경찰 아저씨들은?', name: '독도경비대', fact: '독도경비대는 1년 내내 독도에 머물며 우리 땅을 지키고 있어요.',
-      svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M60 10 L98 24 C98 62 86 90 60 108 C34 90 22 62 22 24Z" fill="url(#g-navy)"/><path d="M60 18 L90 29 C90 60 80 84 60 99 C40 84 30 60 30 29Z" fill="none" stroke="url(#g-gold)" stroke-width="3"/><path d="M60 34 l6 13 14 2 -10 10 2.5 14 -12.5 -7 -12.5 7 2.5 -14 -10 -10 14 -2z" fill="url(#g-gold)"/><text x="60" y="90" font-size="10" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle">독도경비대</text><path d="M34 30 Q46 22 58 22" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".35" fill="none"/></svg>'}
+      svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M60 10 L98 24 C98 62 86 90 60 108 C34 90 22 62 22 24Z" fill="url(#g-navy)"/><path d="M60 18 L90 29 C90 60 80 84 60 99 C40 84 30 60 30 29Z" fill="none" stroke="url(#g-gold)" stroke-width="3"/><path d="M60 34 l6 13 14 2 -10 10 2.5 14 -12.5 -7 -12.5 7 2.5 -14 -10 -10 14 -2z" fill="url(#g-gold)"/><text x="60" y="90" font-size="10" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle">독도경비대</text><path d="M34 30 Q46 22 58 22" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".35" fill="none"/></svg>'},
+    aster: {q: '독도 바위틈에 피는 연보라색 바닷가 국화는?', name: '해국', fact: '해국은 바닷가 바위틈에서 자라는 국화예요. 늦여름부터 가을까지 연보라색 꽃이 피어요.',
+      svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M8 112 C14 94 28 86 44 88 C56 80 76 81 88 89 C102 89 111 99 113 112Z" fill="url(#g-rockgrey)"/><path d="M30 98 C38 94 46 95 52 99" stroke="rgba(255,255,255,.35)" stroke-width="3" fill="none" stroke-linecap="round"/><g fill="none" stroke="#2b8a3e" stroke-width="3" stroke-linecap="round"><path d="M54 90 C52 76 52 62 50 52"/><path d="M62 90 C66 72 74 56 82 45"/><path d="M46 91 C43 82 39 74 36 68"/></g><ellipse cx="40" cy="84" rx="10" ry="4.2" transform="rotate(-28 40 84)" fill="url(#g-leaf)"/><ellipse cx="70" cy="80" rx="10" ry="4.2" transform="rotate(32 70 80)" fill="url(#g-leaf)"/><ellipse cx="58" cy="70" rx="8" ry="3.6" transform="rotate(-40 58 70)" fill="url(#g-leaf)"/><g transform="translate(36 64) scale(0.72)"><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(0.0)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(25.7)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(51.4)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(77.1)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(102.9)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(128.6)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(154.3)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(180.0)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(205.7)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(231.4)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(257.1)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(282.9)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(308.6)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(334.3)"/><circle r="6.2" fill="url(#g-gold)"/><circle cx="-1.8" cy="-1.8" r="1.6" fill="#fff8db" opacity=".8"/></g><g transform="translate(82 42) scale(0.86)"><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(0.0)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(25.7)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(51.4)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(77.1)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(102.9)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(128.6)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(154.3)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(180.0)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(205.7)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(231.4)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(257.1)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(282.9)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(308.6)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(334.3)"/><circle r="6.2" fill="url(#g-gold)"/><circle cx="-1.8" cy="-1.8" r="1.6" fill="#fff8db" opacity=".8"/></g><g transform="translate(50 47) scale(1.0)"><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(0.0)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(25.7)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(51.4)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(77.1)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(102.9)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(128.6)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(154.3)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(180.0)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(205.7)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(231.4)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(257.1)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(282.9)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(308.6)"/><ellipse cx="0" cy="-10.5" rx="3.3" ry="9" fill="url(#g-petal)" transform="rotate(334.3)"/><circle r="6.2" fill="url(#g-gold)"/><circle cx="-1.8" cy="-1.8" r="1.6" fill="#fff8db" opacity=".8"/></g></svg>'},
+    petrel: {q: '독도에서 새끼를 키우는 작은 바닷새는?', name: '바다제비', fact: '바다제비는 독도에서 새끼를 키우는 작은 바닷새예요. 괭이갈매기와 함께 독도의 소중한 새예요.',
+      svg: '<svg viewBox="0 0 120 120"><circle cx="97" cy="21" r="10" fill="url(#g-gold)"/><path d="M0 90 Q15 82 30 90 T60 90 T90 90 T120 90 V120 H0Z" fill="url(#g-sea)"/><path d="M0 101 Q15 95 30 101 T60 101 T90 101 T120 101" stroke="#fff" stroke-width="2.5" fill="none" opacity=".55"/><ellipse cx="60" cy="96" rx="20" ry="3.2" fill="rgba(5,30,80,.28)"/><path d="M55 50 C44 38 28 31 8 33 C22 40 35 49 50 61Z" fill="url(#g-gat)"/><path d="M65 50 C76 38 92 31 112 33 C98 40 85 49 70 61Z" fill="url(#g-gat)"/><g fill="none" stroke="#b08968" stroke-width="2.6" stroke-linecap="round" opacity=".85"><path d="M49 46 C40 40 30 37 21 37"/><path d="M71 46 C80 40 90 37 99 37"/></g><path d="M54 66 L46 84 L60 75 L74 84 L66 66Z" fill="url(#g-gat)"/><ellipse cx="60" cy="56" rx="8.5" ry="15" fill="url(#g-gat)"/><circle cx="60" cy="39.5" r="7.6" fill="url(#g-gat)"/><path d="M57.6 33.5 L60 27 L62.4 33.5Z" fill="#212529"/><circle cx="56.6" cy="38.6" r="1.9" fill="#fff"/><circle cx="63.4" cy="38.6" r="1.9" fill="#fff"/><circle cx="56.9" cy="38.9" r=".9" fill="#111"/><circle cx="63.1" cy="38.9" r=".9" fill="#111"/></svg>'},
+    arch: {q: '가운데가 뻥 뚫려 문처럼 보이는 독도의 바위는?', name: '독립문바위', fact: '독립문바위는 가운데가 뚫려 문처럼 보이는 독도의 바위예요.',
+      svg: '<svg viewBox="0 0 120 120"><circle cx="98" cy="20" r="9" fill="url(#g-gold)"/><path d="M83 30 q4 -4 8 0 q4 -4 8 0" stroke="#495057" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M0 84 Q15 78 30 84 T60 84 T90 84 T120 84 V120 H0Z" fill="url(#g-sea)"/><path fill-rule="evenodd" d="M12 98 C12 82 15 66 23 54 C27 46 29 39 35 34 C41 27 49 22 57 24 C64 20 72 22 78 28 C87 33 95 44 100 57 C103 64 106 71 104 79 C107 85 109 91 109 98Z M44 98 C43 85 46 72 54 65 C62 59 72 63 77 74 C80 83 80 91 80 98Z" fill="url(#g-rock)"/><path d="M98 98 C99 90 103 84 108 84 C113 84 116 90 117 98Z" fill="url(#g-rock)"/><path d="M24 64 C28 50 36 41 46 35" stroke="rgba(255,255,255,.35)" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M88 50 C93 58 97 68 99 78" stroke="rgba(10,20,80,.25)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M44 31 C50 24 60 22 68 25 C62 27 56 29 50 34Z" fill="url(#g-leaf)"/><path d="M6 99 Q20 94 34 99 T62 99 T90 99 T116 99" stroke="#fff" stroke-width="3" fill="none" opacity=".85" stroke-linecap="round"/><path d="M46 108 Q60 104 74 108" stroke="#fff" stroke-width="2.4" fill="none" opacity=".6" stroke-linecap="round"/></svg>'},
   };
   ART.noan = {q: '독도 체험학습을 다녀온 우리 학교는?', name: '노안중학교', fact: '노안중 학생들은 독도 체험학습을 다녀왔어요. 우리 땅 독도를 직접 보고 왔답니다!',
     svg: '<svg viewBox="0 0 120 120">' + SH + '<path d="M18 104 L18 52 L60 30 L102 52 L102 104Z" fill="url(#g-white)"/><path d="M12 54 L60 26 L108 54 L102 58 L60 34 L18 58Z" fill="url(#g-green)"/><rect x="50" y="40" width="20" height="20" rx="10" fill="#fff" stroke="#1b7f47" stroke-width="2.5"/><path d="M60 44 V50 L64 53" stroke="#1b7f47" stroke-width="2" stroke-linecap="round" fill="none"/><g fill="url(#g-blue)"><rect x="26" y="66" width="14" height="12" rx="2"/><rect x="80" y="66" width="14" height="12" rx="2"/><rect x="26" y="84" width="14" height="12" rx="2"/><rect x="80" y="84" width="14" height="12" rx="2"/></g><rect x="50" y="76" width="20" height="28" rx="3" fill="url(#g-wood)"/><rect x="58" y="6" width="2.5" height="24" fill="#868e96"/><path d="M60.5 7 L78 12 L60.5 17Z" fill="url(#g-red)"/><text x="60" y="118" font-size="9" font-family="Jua,sans-serif" fill="#1b7f47" text-anchor="middle">NOAN</text></svg>'};
-  var ART_IDS = ['seal', 'gull', 'isles', 'light', 'flag', 'tree', 'ahn', 'day', 'post', 'guard'];
+  var ART_IDS = ['seal', 'gull', 'isles', 'light', 'flag', 'tree', 'ahn', 'day', 'addr', 'guard', 'aster', 'petrel', 'arch'];
   var FEATURED = 'noan'; // 매 판 꼭 나오는 카드 (노안중)
   var BACK = '<svg viewBox="0 0 100 125" preserveAspectRatio="none"><g fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2"><path d="M0 30 Q12 24 25 30 T50 30 T75 30 T100 30"/><path d="M0 50 Q12 44 25 50 T50 50 T75 50 T100 50"/><path d="M0 95 Q12 89 25 95 T50 95 T75 95 T100 95"/><path d="M0 115 Q12 109 25 115 T50 115 T75 115 T100 115"/></g><path d="M22 78 C28 66 34 58 40 57 C45 56 46 64 50 78Z M52 78 C56 68 62 60 70 58 C75 57 78 52 82 55 C85 60 86 70 88 78Z" fill="rgba(255,255,255,.85)"/><path d="M14 78 H90" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><text x="50" y="102" font-size="11" font-family="Jua,sans-serif" fill="#fff" text-anchor="middle">독도</text></svg>';
 
@@ -5827,12 +5857,14 @@ void main() {
      - 인터넷이 끊기면 이 기기에 먼저 저장하고(대기열), 연결되면 자동으로 올린다.
      - 「랭킹 이름(시즌)」이 같은 기록끼리 순위를 매긴다. 관리 화면 「랭킹 리셋」으로 바꾼다. */
   var CLOUD = {url: 'https://dovpodhwmredayldjrvb.supabase.co/rest/v1/dokdo_scores', key: 'sb_publishable_T5RxDUQ0qOjSfUqbwmqYxw_z0afNxi_'};
+  function boardCfg() { return {pairs: +settings.pairs, mode: 'same'}; }
   var Board = (function () {
-    var online = false, cache = {top: [], count: 0};
+    var online = false, held = 0, cache = {top: [], count: 0}; // held: queued records the server refuses for now
     function season() { return settings.season || DEF.season; }
-    function mine(l) { return l.filter(function (e) { return e.season === season() && e.pairs === +settings.pairs && (e.mode || 'same') === (settings.mode || 'same'); }); }
-    function sorted(l) { return l.slice().sort(function (a, b) { return a.ms - b.ms || a.t - b.t; }); }
+    function mine(l, c) { c = c || boardCfg(); return l.filter(function (e) { return e.season === season() && +e.pairs === +c.pairs && (e.mode || 'same') === (c.mode || 'same'); }); }
+    function sorted(l) { return l.slice().sort(function (a, b) { return a.ms - b.ms || (a.t || 0) - (b.t || 0); }); }
     function records() { return store.get(K.r, []); }
+    function queue() { return store.get(K.q, []); }
     function fromLocal() { var l = sorted(mine(records())); return {top: l.slice(0, 10), count: l.length, local: true}; }
     function req(qs, opt) {
       var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
@@ -5841,49 +5873,73 @@ void main() {
         headers: Object.assign({apikey: CLOUD.key, 'Content-Type': 'application/json'}, opt.headers || {})})
         .then(function (r) { clearTimeout(tm); return r; });
     }
-    function filt() { return 'season=eq.' + encodeURIComponent(season()) + '&pairs=eq.' + (+settings.pairs) + '&mode=eq.' + (settings.mode || 'same'); }
+    function filt() { var c = boardCfg(); return 'season=eq.' + encodeURIComponent(season()) + '&pairs=eq.' + c.pairs + '&mode=eq.' + c.mode; }
     function total(r) { var cr = r.headers.get('content-range') || ''; var n = +(cr.split('/')[1] || 0); return isNaN(n) ? 0 : n; }
     function row(e) { return {client_id: e.id, season: e.season, name: e.name, org: e.org || '', ms: e.ms, miss: e.miss, pairs: e.pairs, mode: e.mode || 'same'}; }
-    function push(e) { // 성공 또는 이미 올라간 기록(409)이면 true
+    // 'done' = stored (or a duplicate / an invalid record that will never be accepted),
+    // 'held' = server refuses it for now (old pairs check 23514, endpoint 404) -> keep and retry,
+    // 'net'  = network or server error -> keep and retry
+    function push(e) {
       return req('', {method: 'POST', body: JSON.stringify(row(e)), headers: {Prefer: 'return=minimal'}})
-        .then(function (r) { // 성공·중복(409)·DB가 거부한 잘못된 기록(4xx)은 다시 올리지 않음. 서버·인터넷 문제만 재시도
-          return r.ok || r.status === 409 || (r.status >= 400 && r.status < 500 && r.status !== 401 && r.status !== 408 && r.status !== 429); }, function () { return false; });
+        .then(function (r) {
+          if (r.ok || r.status === 409) return 'done';
+          if (r.status === 404) return 'held';
+          if (r.status === 400) return r.json().then(function (b) { return b && String(b.code) === '23514' ? 'held' : 'done'; }, function () { return 'done'; });
+          if (r.status >= 400 && r.status < 500 && r.status !== 401 && r.status !== 408 && r.status !== 429) return 'done';
+          return 'net';
+        }, function () { return 'net'; });
     }
     function flush() { // 대기열 올리기
-      var q = store.get(K.q, []); if (!q.length) return Promise.resolve();
-      return q.reduce(function (p, e) { return p.then(function (left) { return push(e).then(function (ok) { if (!ok) left.push(e); return left; }); }); }, Promise.resolve([]))
-        .then(function (left) { store.set(K.q, left); online = left.length < q.length || online; drawStatus(); });
+      var q = queue(); if (!q.length) { held = 0; drawStatus(); return Promise.resolve(); }
+      return q.reduce(function (p, e) {
+        return p.then(function (acc) { return push(e).then(function (res) {
+          if (res !== 'done') acc.left.push(e); if (res === 'held') acc.held++; if (res !== 'net') acc.reached = true; return acc; }); });
+      }, Promise.resolve({left: [], held: 0, reached: false})).then(function (acc) {
+        var ids = q.map(function (e) { return e.id; }); // keep records queued while this flush was running
+        store.set(K.q, acc.left.concat(queue().filter(function (e) { return ids.indexOf(e.id) < 0; })));
+        held = acc.held; if (acc.reached) online = true; drawStatus();
+      });
     }
     function refresh() {
       return req('?select=name,org,ms,miss,created_at&' + filt() + '&order=ms.asc,created_at.asc&limit=10', {headers: {Prefer: 'count=exact'}})
         .then(function (r) { if (!r.ok) throw new Error(r.status); var n = total(r); return r.json().then(function (rows) {
-          online = true; cache = {top: rows.map(function (x) { return {name: x.name, org: x.org, ms: x.ms, miss: x.miss}; }), count: n}; drawStatus(); return cache; }); })
+          // records still waiting in this device's queue are shown together with the server rows
+          var pend = mine(queue());
+          online = true;
+          cache = {top: sorted(rows.map(function (x) { return {name: x.name, org: x.org, ms: x.ms, miss: x.miss}; }).concat(pend)).slice(0, 10), count: n + pend.length};
+          drawStatus(); return cache; }); })
         .catch(function () { online = false; cache = fromLocal(); drawStatus(); return cache; });
     }
     function add(e) {
       e.season = season();
       var l = records(); l.push(e); store.set(K.r, l.slice(-2000)); // 이 기기에도 사본 보관
       var localRank = function () { var m = mine(records()); return {rank: m.filter(function (x) { return x.ms < e.ms; }).length + 1, count: m.length}; };
-      return push(e).then(function (ok) {
-        if (!ok) { var q = store.get(K.q, []); q.push(e); store.set(K.q, q); online = false; drawStatus(); return localRank(); }
-        online = true;
+      return push(e).then(function (res) {
+        if (res !== 'done') { var q = queue(); q.push(e); store.set(K.q, q); }
+        if (res === 'net') { online = false; drawStatus(); return localRank(); }
+        if (res === 'held') held++;
+        online = true; drawStatus();
         return Promise.all([
           req('?select=id&' + filt() + '&ms=lt.' + e.ms, {headers: {Prefer: 'count=exact', Range: '0-0'}}).then(total),
           refresh()
-        ]).then(function (v) { return {rank: v[0] + 1, count: cache.count}; }, localRank);
+        ]).then(function (v) {
+          var ahead = mine(queue()).filter(function (x) { return x.id !== e.id && x.ms < e.ms; }).length;
+          return {rank: v[0] + ahead + 1, count: v[1].count};
+        }, localRank);
       });
     }
     function drawStatus() {
-      var q = store.get(K.q, []).length, el = $('netState'); if (!el) return;
+      var q = queue().length, el = $('netState'); if (!el) return;
       el.className = 'net ' + (online ? 'on' : 'off');
-      el.textContent = online ? (q ? '온라인 · ' + q + '건 올리는 중' : '온라인 랭킹') : '인터넷 연결 안 됨 · 이 기기에 저장 중' + (q ? ' (' + q + '건 대기)' : '');
+      el.textContent = online ? (q ? (held ? '온라인 랭킹 · 기록 ' + q + '건은 이 기기에 보관 중 (서버 준비 중)' : '온라인 · ' + q + '건 올리는 중') : '온라인 랭킹')
+        : '인터넷 연결 안 됨 · 이 기기에 저장 중' + (q ? ' (' + q + '건 대기)' : '');
     }
     setInterval(flush, 15000); window.addEventListener('online', function () { flush().then(refresh); });
     return {
       detect: function () { return flush(); },
       refresh: refresh, add: add, flush: flush,
       newSeason: function (name) { settings.season = name; store.set(K.s, settings); cache = {top: [], count: 0}; return refresh(); },
-      season: season, pending: function () { return store.get(K.q, []).length; }, online: function () { return online; },
+      season: season, pending: function () { return queue().length; }, held: function () { return held; }, online: function () { return online; },
       data: function () { return cache; }
     };
   })();
@@ -5893,22 +5949,24 @@ void main() {
     if (ghosts) for (var k = top.length; k < n; k++) html += '<li class="ghost"><span class="rk">' + (k + 1) + '</span><span class="nm">도전자를 기다려요</span><b>—</b></li>';
     return html || '<li class="ghost"><span class="nm">아직 기록이 없어요</span></li>';
   }
+  // re-render only when the rows really changed, so the 5-second refresh does not replay the slide-in animation
+  function setHtml(el, html) { if (el._html !== html) { el._html = html; el.innerHTML = html; } }
   function drawHome() {
-    var d = Board.data(); $('homeRank').innerHTML = rankRows(d.top, 5, true);
+    var d = Board.data(), cards = settings.pairs * 2;
+    setHtml($('homeRank'), rankRows(d.top, 5, true));
     $('homeTitle').textContent = '🏆 ' + Board.season() + ' 랭킹';
-    $('homeCount').textContent = d.count ? d.count + '명 도전' : settings.pairs + '쌍 기준';
-    $('rules').innerHTML = '<div class="rule"><i>1</i><b>' + (settings.peek ? settings.peek + '초 동안' : '카드를') + '</b><small>' + (settings.peek ? '그림 기억하기' : '두 장씩 뒤집기') + '</small></div>' +
-      (settings.mode !== 'qa' ? '<div class="rule"><i>2</i><b>같은 그림 ' + settings.pairs + '쌍</b><small>두 장씩 뒤집어 찾기</small></div>'
-        : '<div class="rule"><i>2</i><b>독도 문제 ↔ 그림</b><small>' + settings.pairs + '쌍 짝 맞추기</small></div>') +
+    $('homeCount').textContent = d.count ? d.count + '명 도전' : '카드 ' + cards + '장 기준';
+    $('rules').innerHTML = '<div class="rule"><i>1</i><b>카드 ' + cards + '장</b><small>같은 그림 짝 찾기</small></div>' +
+      '<div class="rule"><i>2</i><b>' + settings.peek + '초 기억</b><small>먼저 그림 보기</small></div>' +
       '<div class="rule"><i>3</i><b>가장 빠르게!</b><small>0.01초까지 기록</small></div>';
   }
   var BIG = /[?&]board\b/.test(location.search);
-  function drawBig() { var d = Board.data(); $('bigRank').innerHTML = rankRows(d.top, 10, false); $('bigTitle').textContent = '🏆 ' + Board.season() + ' · 독도 기억력 랭킹'; $('bigCount').textContent = d.count + '명 도전 · ' + settings.pairs + '쌍 기준'; }
+  function drawBig() { var d = Board.data(); setHtml($('bigRank'), rankRows(d.top, 10, false)); $('bigTitle').textContent = '🏆 ' + Board.season() + ' · 독도 기억력 랭킹'; $('bigCount').textContent = d.count + '명 도전 · 카드 ' + settings.pairs * 2 + '장'; }
   setInterval(function () { if (BIG) Board.refresh().then(drawBig); else if ($('home').classList.contains('on')) Board.refresh().then(drawHome); }, 5000);
 
   /* ===== 대기 · 이름 ===== */
   var bubbles = ['노안초·노안남초·노안중 친구들, 독도를 기억해 줘!', '독도는 우리 땅! 같이 알아볼까?', '같은 독도 그림 두 장을 찾아!', '0.01초 차이로 1등이 바뀌어!', '터치하면 바로 시작!'];
-  var bi = 0; setInterval(function () { if (!$('home').classList.contains('on')) return; var top = Board.data().top[0]; var l = bubbles.concat(top ? ['지금 1등은 ' + fmt(top.ms) + '초!'] : []); bi = (bi + 1) % l.length; $('homeBubble').textContent = l[bi]; restart($('homeBubble'), 'pop'); }, 3000);
+  var bi = 0; setInterval(function () { if (!$('home').classList.contains('on')) return; var top = Board.data().top[0]; var l = bubbles.concat(['카드 ' + settings.pairs * 2 + '장, ' + settings.peek + '초 동안 기억해!'], top ? ['지금 1등은 ' + fmt(top.ms) + '초!'] : []); bi = (bi + 1) % l.length; $('homeBubble').textContent = l[bi]; restart($('homeBubble'), 'pop'); }, 3000);
   var NA = ['번개', '천재', '용감한', '반짝이는', '슈퍼', '날쌘', '똑똑한', '씩씩한', '황금'], NB = ['강치', '갈매기', '등대지기', '독도지킴이', '나주배', '고래', '돌고래', '거북이'];
   function nick() { return NA[Math.floor(Math.random() * NA.length)] + ' ' + NB[Math.floor(Math.random() * NB.length)]; }
   function goHome() {
@@ -5937,15 +5995,23 @@ void main() {
   function clearAll() { timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(G.raf); G.phase = 'idle'; $('peek').classList.remove('on'); document.body.classList.remove('peeking'); $('fact').classList.remove('on'); stopConfetti(); }
   function layout() {
     var grid = $('grid'), n = G.cards.length; if (!n) return;
-    var W = grid.clientWidth, H = grid.clientHeight, gap = Math.min(innerWidth, innerHeight) * 0.016, best = null;
+    var W = grid.clientWidth, H = grid.clientHeight, gap = Math.min(innerWidth, innerHeight) * (n >= 20 ? 0.012 : 0.016), best = null;
+    var A = n >= 20 ? 1.15 : 1.25; // card height / width: a little squarer when there are many cards
     for (var cols = 2; cols <= n; cols++) {
-      var rows = Math.ceil(n / cols); if (rows * cols - n >= cols) continue;
-      var cw = Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) * 0.8);
-      if (!best || cw > best.cw) best = {cols: cols, cw: cw};
+      var rows = Math.ceil(n / cols), empty = rows * cols - n; if (empty >= cols || rows < 2) continue;
+      var cw = Math.min((W - gap * (cols - 1)) / cols, ((H - gap * (rows - 1)) / rows) / A);
+      var score = cw * (empty ? 0.9 - 0.2 * empty / cols : 1); // a ragged last row has to buy a clearly bigger card
+      if (!best || score > best.score) best = {cols: cols, rows: rows, cw: cw, score: score};
     }
-    grid.style.gridTemplateColumns = 'repeat(' + best.cols + ',' + Math.floor(best.cw) + 'px)';
-    grid.style.gridAutoRows = Math.floor(best.cw * 1.25) + 'px';
-    grid.style.setProperty('--cs', Math.floor(best.cw) + 'px');
+    var cw = Math.floor(best.cw), ch = Math.floor(cw * A);
+    // every card spans two half-columns, so an incomplete last row can be centred (also by half a card)
+    grid.style.columnGap = grid.style.rowGap = gap.toFixed(2) + 'px';
+    grid.style.gridTemplateColumns = 'repeat(' + best.cols * 2 + ',' + ((cw - gap) / 2).toFixed(2) + 'px)';
+    grid.style.gridAutoRows = ch + 'px';
+    grid.style.setProperty('--cs', cw + 'px');
+    var lead = best.cols * (best.rows - 1), last = n - lead;
+    [].forEach.call(grid.children, function (el, i) { el.style.gridColumn = i === lead && last < best.cols ? (1 + best.cols - last) + ' / span 2' : ''; });
+    G.layout = {cols: best.cols, rows: best.rows, cw: cw, ch: ch};
   }
   window.addEventListener('resize', layout);
   // 게임 들어가기: 배돌이가 점프해서 풍덩 → 파도가 덮치며 바닷속으로
@@ -5963,8 +6029,9 @@ void main() {
   }
   function begin(name) {
     timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(G.raf); $('peek').classList.remove('on'); G.name = name; G.found = 0; G.miss = 0; G.combo = 0; G.open = []; G.phase = 'peek';
-    var ids = [FEATURED].concat(shuffle(ART_IDS.slice()).slice(0, (+settings.pairs || 6) - 1));
-    var qa = settings.mode === 'qa';
+    var ids = [FEATURED].concat(shuffle(ART_IDS.slice()).slice(0, Math.min(ART_IDS.length, settings.pairs - 1)));
+    var qa = false; // one mode only: same-picture pairs
+    $('play').classList.toggle('many', ids.length * 2 >= 20);
     G.cards = shuffle(ids.map(function (id) { return {id: id, kind: 'pic'}; }).concat(ids.map(function (id) { return {id: id, kind: qa ? 'q' : 'pic'}; })))
       .map(function (c, i) { c.i = i; c.done = false; return c; });
     $('hudName').textContent = name + (G.org ? ' · ' + G.org : ''); $('hudMiss').textContent = '0'; $('hudPairs').textContent = '0/' + ids.length; $('timer').innerHTML = '0.00<small>초</small>';
@@ -5974,7 +6041,7 @@ void main() {
       var a = ART[c.id], front = c.kind === 'q' ? '<div class="qcard"><i>Q</i><p>' + esc(a.q) + '</p></div>' : a.svg + '<span>' + esc(a.name) + '</span>';
       return '<div class="card' + (c.kind === 'q' ? ' isq' : '') + '" data-i="' + i + '" style="--i:' + i + '"><div class="in"><div class="face back">' + BACK + '</div><div class="face front">' + front + '</div></div></div>'; }).join('');
     show('play'); layout(); bumpIdle(); Stage3.set('question', grid); document.body.classList.add('under');
-    var peek = +settings.peek || 0, els = grid.children;
+    var peek = settings.peek, els = grid.children;
     if (!peek) { later(startClock, 700); return; }
     // 그림 미리 보기: 전부 앞면 → 카운트다운 → 뒤집기
     later(function () { [].forEach.call(els, function (el) { el.classList.add('up'); }); Sfx.play('flip'); }, 700);
@@ -5990,7 +6057,8 @@ void main() {
   }
   function startClock() {
     if (G.phase === 'idle') return;
-    G.phase = 'play'; $('grid').className = ''; Sfx.play('go'); Bgm.intensity(0); Bgm.setMode('question', true); $('playBubble').textContent = settings.mode !== 'qa' ? '같은 그림을 찾아!' : '문제와 정답 그림을 짝지어!';
+    var qa = false;
+    G.phase = 'play'; $('grid').className = ''; Sfx.play('go'); Bgm.intensity(0); Bgm.setMode('question', true); $('playBubble').textContent = !qa ? '같은 그림을 찾아!' : '문제와 정답 그림을 짝지어!';
     G.t0 = performance.now();
     (function tick() { if (G.phase !== 'play') return; $('timer').innerHTML = fmt(performance.now() - G.t0) + '<small>초</small>'; G.raf = requestAnimationFrame(tick); })();
   }
@@ -6025,7 +6093,7 @@ void main() {
   }
   function finish() {
     G.phase = 'done'; cancelAnimationFrame(G.raf);
-    var ms = Math.round(performance.now() - G.t0), entry = {id: 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: G.name, org: G.org || '', ms: ms, miss: G.miss, pairs: G.cards.length / 2, mode: settings.mode || 'same', t: Date.now()};
+    var ms = Math.round(performance.now() - G.t0), entry = {id: 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: G.name, org: G.org || '', ms: ms, miss: G.miss, pairs: G.cards.length / 2, mode: 'same', t: Date.now()};
     $('timer').innerHTML = fmt(ms) + '<small>초</small>';
     later(function () {
       show('clear'); Sfx.play('fanfare'); confettiRain(160); Stage3.result(G.miss === 0 ? 1 : 0.8, true); Bgm.outro(1); flash('ok');
@@ -6084,14 +6152,14 @@ void main() {
     if (k === '지움') pin = pin.slice(0, -1); else if (pin.length < 4) pin += k; drawPin();
     if (pin.length === 4) { if (pin === String(settings.pin)) { $('pinOv').classList.remove('on'); openAdmin(); } else { $('pinMsg').textContent = '비밀번호가 달라요'; pin = ''; setTimeout(drawPin, 400); } }
   });
-  function openAdmin() { clearTimeout(idleT); $('setMode').value = settings.mode || 'same'; $('setPairs').value = settings.pairs; $('setPeek').value = settings.peek; $('setSound').value = settings.sound ? '1' : '0'; $('setPin').value = '0000'; $('setSeason').value = Board.season();
+  function openAdmin() { clearTimeout(idleT); $('setPairs').value = settings.pairs; $('setPeek').value = settings.peek; $('setSound').value = settings.sound ? '1' : '0'; $('setPin').value = '0000'; $('setSeason').value = Board.season();
     $('netAdmin').textContent = (Board.online() ? '온라인 DB에 연결됨' : '온라인 DB에 연결 안 됨') + ' · 올릴 기록 대기 ' + Board.pending() + '건 · 예전 랭킹 기록은 DB에 그대로 남아요';
     $('adminOv').classList.add('on'); }
   $('adminClose').addEventListener('click', function () { $('adminOv').classList.remove('on'); });
   $('adminSave').addEventListener('click', function () {
     var p = '0000';
     var sn = $('setSeason').value.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 30) || Board.season();
-    settings = Object.assign({}, settings, {season: sn, mode: $('setMode').value, pairs: +$('setPairs').value, peek: +$('setPeek').value, sound: $('setSound').value === '1', pin: p});
+    settings = sanitizeSettings(Object.assign({}, settings, {season: sn, pairs: +$('setPairs').value, peek: +$('setPeek').value, sound: $('setSound').value === '1', pin: p}), {v: SETTINGS_V});
     store.set(K.s, settings); $('adminOv').classList.remove('on'); toast('저장했어요'); goHome();
   });
   $('clearRankBtn').addEventListener('click', function () {
@@ -6117,7 +6185,8 @@ void main() {
   drawHome();
   if (BIG) show('bigboard');
   Board.detect().then(function () { return Board.refresh(); }).then(function () { if (BIG) drawBig(); else drawHome(); });
-  window.__dokdo = {bgm: Bgm.info, bgmLevel: Bgm.level, art: ART, G: G, begin: begin, settings: function () { return settings; }, board: Board};
+  window.__dokdo = {bgm: Bgm.info, bgmLevel: Bgm.level, art: ART, artIds: ART_IDS, G: G, begin: begin, settings: function () { return settings; }, board: Board,
+    layout: function () { return G.layout; }};
 })();
 </script>
 </body>
