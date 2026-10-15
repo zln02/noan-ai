@@ -5503,17 +5503,17 @@ void main() {
 
     /* --- 렌더 루프 (탭이 숨겨지거나 관리 화면이면 멈춤) · 느리면 해상도를 자동으로 낮춤 --- */
     function resize() {
-      W = innerWidth; H = innerHeight; baseDpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      R.setPixelRatio(baseDpr * quality); R.setSize(W, H, false);
+      W = innerWidth; H = innerHeight; baseDpr = Math.min(window.devicePixelRatio || 1, 2);
+      R.setPixelRatio(Math.max(Math.min(baseDpr, 1.25), baseDpr * quality)); /* never blurrier than ~1.25x on retina */ R.setSize(W, H, false);
       cam.aspect = W / H; cam.updateProjectionMatrix(); cam.updateMatrixWorld();
     }
     function adapt(dt) {
       if (locked) return;
       acc += dt; accN++; if (acc < 2 || (accN < 6 && acc < 3)) return; // 2초마다 평균 프레임 시간을 본다
       var avg = acc / accN; acc = 0; accN = 0;
-      if (avg > 1 / 12 && quality > 0.4) { quality = 0.4; good = 0; resize(); } // 아주 느린 기기: 바로 최저 해상도로
-      else if (avg > 1 / 40 && quality > 0.6) { quality = Math.max(0.6, quality - 0.1); good = 0; resize(); }
-      else if (avg < 1 / 56 && quality < 1 && ++good >= 4) { quality = Math.min(1, quality + 0.1); good = 0; resize(); }
+      if (avg > 1 / 12 && quality > 0.5) { quality = 0.5; good = 0; resize(); } // 아주 느린 기기: 바로 최저 해상도로
+      else if (avg > 1 / 30 && quality > 0.6) { quality = Math.max(0.6, quality - 0.1); good = 0; resize(); }
+      else if (avg < 1 / 50 && quality < 1 && ++good >= 3) { quality = Math.min(1, quality + 0.1); good = 0; resize(); }
       if (dust) dust.geometry.setDrawRange(0, quality < 0.7 ? DUST_N / 2 : DUST_N);
     }
     function wantRun() { return api.ok && !document.hidden && !(api.pausedFn ? api.pausedFn() : $('admin').classList.contains('on')); }
