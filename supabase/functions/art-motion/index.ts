@@ -30,8 +30,9 @@ const luma = async (path: string, init?: RequestInit) => {
 };
 
 const polishPrompt = async (prompt: string, kind: 'image' | 'video') => {
-  const key = Deno.env.get('GEMINI_API_KEY');
+  const key = Deno.env.get('ANTHROPIC_API_KEY');
   if (!key) return prompt;
+  const model = Deno.env.get('ANTHROPIC_MODEL') || 'claude-haiku-4-5-20251001';
   const purpose = kind === 'image'
     ? '학생 작품의 화풍과 배경을 보존하면서 요청한 대상만 정확히 바꾸는 이미지 편집'
     : '완성된 그림의 화풍과 구도를 보존하면서 대상이 자연스럽게 살아 움직이는 5초 영상';
@@ -44,20 +45,25 @@ const polishPrompt = async (prompt: string, kind: 'image' | 'video') => {
     `학생 요청: ${prompt}`,
   ].join('\n');
   try {
-    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent', {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+      },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: instruction }] }],
-        generationConfig: { maxOutputTokens: 220, thinkingConfig: { thinkingLevel: 'minimal' } },
+        model,
+        max_tokens: 220,
+        messages: [{ role: 'user', content: instruction }],
       }),
     });
-    if (!res.ok) throw new Error(`Gemini API 오류 ${res.status}`);
+    if (!res.ok) throw new Error(`Anthropic API 오류 ${res.status}`);
     const data = await res.json();
-    const text = String(data.candidates?.[0]?.content?.parts?.[0]?.text || '').trim();
+    const text = String(data.content?.find((block: { type?: string }) => block.type === 'text')?.text || '').trim();
     return text ? text.slice(0, 600) : prompt;
   } catch (error) {
-    console.error('Gemini prompt fallback', error);
+    console.error('Anthropic prompt fallback', error);
     return prompt;
   }
 };
