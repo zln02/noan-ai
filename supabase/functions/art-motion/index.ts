@@ -4,6 +4,8 @@ const cors = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
+const BUCKET = 'art-results';
+
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { ...cors, 'Content-Type': 'application/json; charset=utf-8' },
 });
@@ -68,10 +70,14 @@ const polishPrompt = async (prompt: string, kind: 'image' | 'video') => {
   }
 };
 
+const serverKey = () => {
+  const keys = JSON.parse(Deno.env.get('SUPABASE_SECRET_KEYS') || '{}');
+  return keys.default || Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
+};
+
 const db = async (path: string, init?: RequestInit) => {
   const url = Deno.env.get('SUPABASE_URL');
-  const keys = JSON.parse(Deno.env.get('SUPABASE_SECRET_KEYS') || '{}');
-  const key = keys.default || Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  const key = serverKey();
   if (!url || !key) throw new Error('Supabase 서버 키가 없습니다.');
   const res = await fetch(`${url}/rest/v1${path}`, {
     ...init,
@@ -82,12 +88,130 @@ const db = async (path: string, init?: RequestInit) => {
   return data;
 };
 
+const storage = async (path: string, init: RequestInit) => {
+  const key = serverKey();
+  return fetch(`${Deno.env.get('SUPABASE_URL')}/storage/v1${path}`, {
+    ...init,
+    headers: { apikey: key, Authorization: `Bearer ${key}`, ...(init.headers || {}) },
+  });
+};
+
+const kstStamp = (iso: string) => {
+  const d = new Date(Date.parse(iso) + 9 * 3600_000).toISOString();
+  return { day: d.slice(0, 10), time: d.slice(11, 16).replace(':', '') };
+};
+
+const labelSlug = (label: string) => {
+  const n = label.match(/\d+/)?.[0];
+  if (/학생/.test(label) && n) return `student-${n.padStart(2, '0')}`;
+  if (/선생님/.test(label)) return 'teacher';
+  return 'unknown';
+};
+
+type Job = { id: string; kind: string; provider_id: string; created_at: string };
+
+// Copies a finished Luma result into Supabase Storage so it outlives Luma's 1-hour link.
+const archive = async (job: Job, label: string, sourceUrl: string) => {
+  const res = await fetch(sourceUrl);
+  if (!res.ok) throw new Error(`결과 파일 다운로드 실패 ${res.status}`);
+  const type = res.headers.get('content-type') || (job.kind === 'video' ? 'video/mp4' : 'image/jpeg');
+  const ext = type.includes('mp4') ? 'mp4' : type.includes('png') ? 'png' : type.includes('webp') ? 'webp' : 'jpg';
+  const { day, time } = kstStamp(job.created_at);
+  const path = `${day}/${labelSlug(label)}_${job.kind}_${time}_${job.provider_id.slice(0, 8)}.${ext}`;
+  const up = await storage(`/object/${BUCKET}/${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': type, 'x-upsert': 'true' },
+    body: await res.arrayBuffer(),
+  });
+  if (!up.ok) throw new Error(`저장소 업로드 실패 ${up.status} ${await up.text()}`);
+  await db(`/art_jobs?id=eq.${job.id}`, { method: 'PATCH', body: JSON.stringify({ storage_path: path }) });
+  return path;
+};
+
+const signPaths = async (paths: string[], expiresIn = 3600) => {
+  if (!paths.length) return new Map<string, string>();
+  const res = await storage(`/object/sign/${BUCKET}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ expiresIn, paths }),
+  });
+  const data = await res.json().catch(() => []);
+  const base = `${Deno.env.get('SUPABASE_URL')}/storage/v1`;
+  return new Map<string, string>((Array.isArray(data) ? data : [])
+    .filter((row: { signedURL?: string }) => row.signedURL)
+    .map((row: { path: string; signedURL: string }) => [row.path, `${base}${row.signedURL}`]));
+};
+
+const findPrompt = (o: unknown, depth = 0): string | null => {
+  if (!o || typeof o !== 'object' || depth > 4) return null;
+  const rec = o as Record<string, unknown>;
+  if (typeof rec.prompt === 'string' && rec.prompt) return rec.prompt;
+  for (const v of Object.values(rec)) {
+    const p = findPrompt(v, depth + 1);
+    if (p) return p;
+  }
+  return null;
+};
+
+const lumaResult = (g: Record<string, any>) => ({
+  state: String(g.state || g.status || 'processing'),
+  url: String(g.output?.[0]?.url || g.assets?.video || g.assets?.image || ''),
+  prompt: findPrompt(g),
+});
+
+// Admin-only: recover results whose Luma links expired, by asking Luma for a fresh link and archiving.
+const adminArchive = async (req: Request, body: Record<string, unknown>) => {
+  const token = req.headers.get('x-admin-token') || '';
+  const ok = token && (await db(`/art_admin_tokens?token_hash=eq.${await sha256(token)}&select=label&limit=1`))[0];
+  if (!ok) return json({ message: '권한이 없습니다.' }, 403);
+  const limit = Math.min(Math.max(Number(body.limit) || 5, 1), 10);
+  if (body.mode === 'prompts') {
+    const missing: { id: string; provider_id: string }[] = await db(`/art_jobs?polished_prompt=is.null&provider_id=not.is.null&select=id,provider_id&limit=30`);
+    let filled = 0;
+    let sampleKeys: string[] = [];
+    for (const job of missing) {
+      const raw = await luma(`/generations/${job.provider_id}`).catch(() => null);
+      if (!raw) continue;
+      if (!sampleKeys.length) sampleKeys = Object.keys(raw);
+      const prompt = findPrompt(raw);
+      if (prompt) { await db(`/art_jobs?id=eq.${job.id}`, { method: 'PATCH', body: JSON.stringify({ polished_prompt: prompt }) }); filled++; }
+    }
+    return json({ checked: missing.length, filled, sampleKeys });
+  }
+  const jobs: (Job & { client_id: string; state: string })[] = await db(`/art_jobs?storage_path=is.null&provider_id=not.is.null&select=id,client_id,kind,provider_id,state,created_at&order=created_at.asc&limit=${limit}`);
+  const codes: { id: string; label: string }[] = await db('/art_access_codes?select=id,label');
+  const labelOf = new Map(codes.map((c) => [String(c.id), c.label]));
+  const results = [];
+  for (const job of jobs) {
+    const label = labelOf.get(job.client_id) || 'unknown';
+    try {
+      const g = lumaResult(await luma(`/generations/${job.provider_id}`));
+      if (g.state !== 'completed' || !g.url) {
+        if (g.state === 'failed') await db(`/art_jobs?id=eq.${job.id}`, { method: 'PATCH', body: JSON.stringify({ state: 'failed', storage_path: 'unavailable:failed' }) });
+        results.push({ label, kind: job.kind, created_at: job.created_at, status: g.state });
+        continue;
+      }
+      const path = await archive(job, label, g.url);
+      await db(`/art_jobs?id=eq.${job.id}`, { method: 'PATCH', body: JSON.stringify({ state: 'completed', polished_prompt: g.prompt }) });
+      results.push({ label, kind: job.kind, created_at: job.created_at, status: 'archived', path, prompt: g.prompt });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      await db(`/art_jobs?id=eq.${job.id}`, { method: 'PATCH', body: JSON.stringify({ storage_path: `unavailable:${message.slice(0, 120)}` }) }).catch(console.error);
+      results.push({ label, kind: job.kind, created_at: job.created_at, status: 'error', message });
+    }
+  }
+  const remaining: unknown[] = await db('/art_jobs?storage_path=is.null&provider_id=not.is.null&select=id');
+  return json({ processed: results.length, remaining: remaining.length, results });
+};
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
   if (req.method !== 'POST') return json({ message: 'POST만 사용할 수 있습니다.' }, 405);
   try {
     const body = await req.json();
     const action = String(body.action || '');
+    if (action === 'archive') return await adminArchive(req, body);
+
     const clientId = String(body.clientId || '').slice(0, 80);
     const classCode = String(body.classCode || '').trim().slice(0, 20);
     const accessCode = String(body.accessCode || '').trim().toUpperCase().replace(/\s+/g, '').slice(0, 20);
@@ -102,6 +226,22 @@ Deno.serve(async (req) => {
     if (!access) return json({ message: '참가 코드를 다시 확인해 주세요.' }, 403);
     const quotaClientId = String(access.id);
 
+    if (action === 'gallery') {
+      if (!access.unlimited) return json({ message: '선생님 코드로만 볼 수 있습니다.' }, 403);
+      const jobs = await db(`/art_jobs?session_id=eq.${session.id}&storage_path=not.is.null&storage_path=not.like.unavailable*&select=id,client_id,kind,created_at,prompt,polished_prompt,storage_path&order=created_at.desc&limit=200`);
+      const codes: { id: string; label: string }[] = await db(`/art_access_codes?session_id=eq.${session.id}&select=id,label`);
+      const labelOf = new Map(codes.map((c) => [String(c.id), c.label]));
+      const signed = await signPaths(jobs.map((j: { storage_path: string }) => j.storage_path));
+      return json({ items: jobs.map((j: Record<string, string>) => ({
+        label: labelOf.get(j.client_id) || '알 수 없음',
+        kind: j.kind,
+        createdAt: j.created_at,
+        prompt: j.prompt || null,
+        polishedPrompt: j.polished_prompt || null,
+        url: signed.get(j.storage_path) || '',
+      })) });
+    }
+
     if (action === 'polish') {
       const prompt = String(body.prompt || '').trim().slice(0, 600);
       const kind = body.kind === 'video' ? 'video' : 'image';
@@ -111,14 +251,19 @@ Deno.serve(async (req) => {
 
     if (action === 'status') {
       const generationId = String(body.generationId || '');
-      const jobs = await db(`/art_jobs?provider_id=eq.${encodeURIComponent(generationId)}&session_id=eq.${session.id}&client_id=eq.${encodeURIComponent(quotaClientId)}&select=id,kind&limit=1`);
+      const jobs = await db(`/art_jobs?provider_id=eq.${encodeURIComponent(generationId)}&session_id=eq.${session.id}&client_id=eq.${encodeURIComponent(quotaClientId)}&select=id,kind,provider_id,created_at,storage_path&limit=1`);
       if (!jobs[0]) return json({ message: '이 기기에서 만든 작업이 아닙니다.' }, 403);
-      const result = await luma(`/generations/${generationId}`);
-      const state = result.state || result.status || 'processing';
-      const url = result.output?.[0]?.url || result.assets?.video || result.assets?.image || '';
-      if (state === 'completed' || state === 'failed') await db(`/art_jobs?id=eq.${jobs[0].id}`, { method: 'PATCH', body: JSON.stringify({ state, result_url: url || null }) });
+      const raw = await luma(`/generations/${generationId}`);
+      const result = lumaResult(raw);
+      const { state, url } = result;
+      if (state === 'completed' || state === 'failed') {
+        if (state === 'completed' && url && !jobs[0].storage_path) {
+          await archive(jobs[0], access.label, url).catch((error) => console.error('archive failed', error));
+        }
+        await db(`/art_jobs?id=eq.${jobs[0].id}`, { method: 'PATCH', body: JSON.stringify({ state, result_url: url || null }) });
+      }
       const usage = await db(`/art_usage?session_id=eq.${session.id}&client_id=eq.${encodeURIComponent(quotaClientId)}&select=images_used,videos_used&limit=1`);
-      return json({ state, url, message: result.failure_reason || result.error || '', unlimited: !!access.unlimited, remainingImages: access.unlimited ? null : Math.max(0, session.max_images - (usage[0]?.images_used || 0)), remainingVideos: access.unlimited ? null : Math.max(0, session.max_videos - (usage[0]?.videos_used || 0)) });
+      return json({ state, url, message: raw.failure_reason || raw.error || '', unlimited: !!access.unlimited, remainingImages: access.unlimited ? null : Math.max(0, session.max_images - (usage[0]?.images_used || 0)), remainingVideos: access.unlimited ? null : Math.max(0, session.max_videos - (usage[0]?.videos_used || 0)) });
     }
 
     const kind = action === 'edit' ? 'image' : action === 'video' ? 'video' : '';
@@ -126,17 +271,20 @@ Deno.serve(async (req) => {
     const prompt = String(body.prompt || '').trim().slice(0, 600);
     if (prompt.length < 4) return json({ message: '바꾸고 싶은 내용을 문장으로 써 주세요.' }, 400);
     let requestBody: Record<string, unknown>;
+    let polished: string;
     if (kind === 'image') {
       const image = body.image || {};
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(image.mediaType) || !image.data || image.data.length > 5_600_000) return json({ message: '4MB 이하 JPG·PNG·WEBP만 사용할 수 있습니다.' }, 400);
-      requestBody = { model: 'uni-1', type: 'image_edit', prompt: await polishPrompt(prompt, 'image'), source: { data: image.data, media_type: image.mediaType }, output_format: 'jpeg', user_id: quotaClientId };
+      polished = await polishPrompt(prompt, 'image');
+      requestBody = { model: 'uni-1', type: 'image_edit', prompt: polished, source: { data: image.data, media_type: image.mediaType }, output_format: 'jpeg', user_id: quotaClientId };
     } else {
       const imageGenerationId = String(body.imageGenerationId || '');
       if (!/^[0-9a-f-]{36}$/i.test(imageGenerationId)) return json({ message: '먼저 바뀐 그림을 만들어 주세요.' }, 400);
       const imageJobs = await db(`/art_jobs?provider_id=eq.${encodeURIComponent(imageGenerationId)}&session_id=eq.${session.id}&client_id=eq.${encodeURIComponent(quotaClientId)}&kind=eq.image&state=eq.completed&select=result_url&limit=1`);
       const startUrl = String(imageJobs[0]?.result_url || '');
       if (!startUrl.startsWith('https://')) return json({ message: '바뀐 그림이 아직 준비되지 않았습니다. 잠시 뒤 다시 해 주세요.' }, 409);
-      requestBody = { model: 'ray-3.2', type: 'video', prompt: await polishPrompt(prompt, 'video'), video: { resolution: '540p', duration: '5s', start_frame: { url: startUrl } }, user_id: quotaClientId };
+      polished = await polishPrompt(prompt, 'video');
+      requestBody = { model: 'ray-3.2', type: 'video', prompt: polished, video: { resolution: '540p', duration: '5s', start_frame: { url: startUrl } }, user_id: quotaClientId };
     }
     let quotaReserved = false;
     if (!access.unlimited) {
@@ -151,7 +299,7 @@ Deno.serve(async (req) => {
       if (quotaReserved) await db('/rpc/release_art_quota', { method: 'POST', body: JSON.stringify({ p_session_id: session.id, p_client_id: quotaClientId, p_kind: kind }) }).catch(console.error);
       throw error;
     }
-    await db('/art_jobs', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ session_id: session.id, client_id: quotaClientId, kind, provider_id: generation.id, state: generation.state || 'queued' }) });
+    await db('/art_jobs', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ session_id: session.id, client_id: quotaClientId, kind, provider_id: generation.id, state: generation.state || 'queued', prompt, polished_prompt: polished }) });
     return json({ generationId: generation.id, state: generation.state || 'queued' }, 201);
   } catch (error) {
     console.error(error);
