@@ -40,7 +40,8 @@ footer{text-align:center;font-size:11px;color:var(--math-muted);padding:0 20px 2
   <div class="workspace">
     <aside class="controls" aria-label="그림과 문장 준비">
       <section><h2><span>01</span> 코드 넣기</h2>
-                <label class="field" for="accessCode">내 참가 코드<input id="accessCode" maxlength="20" autocomplete="off" autocapitalize="characters" placeholder="선생님께 받은 개인 코드"><small>탭을 여러 개 열어도 이 코드의 사용 횟수는 합쳐집니다.</small></label>
+                <label class="field" for="accessCode">내 참가 코드<input id="accessCode" maxlength="20" autocomplete="off" autocapitalize="characters" placeholder="선생님께 받은 개인 코드"><small>선생님이 알려 준 코드를 넣어요.</small></label>
+        <label class="field" for="studentNo">내 번호<input id="studentNo" type="number" min="1" max="99" inputmode="numeric" placeholder="출석번호 (예: 7)"><small>선생님이 누구 작품인지 알 수 있게 번호만 적어요. 이름은 쓰지 않아요.</small></label>
         <button class="teacher-link" id="galleryBtn" type="button">선생님 코드로 작품 모아보기</button>
       </section>
       <section><h2><span>02</span> 그림 고르기</h2>
@@ -58,7 +59,7 @@ footer{text-align:center;font-size:11px;color:var(--math-muted);padding:0 20px 2
     </aside>
     <div class="right-column">
       <section class="preview-panel" aria-labelledby="preview-heading">
-        <div class="preview-bar"><h2 id="preview-heading">결과 미리보기</h2><div class="quota"><span id="imageQuota">그림 변환 3회</span><span id="videoQuota">영상 1회 · 540p</span></div></div>
+        <div class="preview-bar"><h2 id="preview-heading">결과 미리보기</h2><div class="quota"><span id="imageQuota">그림 변환 5회</span><span id="videoQuota">영상 2회 · 540p</span></div></div>
         <div class="result">
           <div><h3>바뀐 그림</h3><div class="stage" id="imageStage"><div class="empty"><b>🖼</b>바뀐 그림이 여기에 나와요</div></div></div>
           <div><h3>5초 영상</h3><div class="stage" id="videoStage"><div class="empty"><b>🎬</b>움직이는 영상이 여기에 나와요</div></div></div>
@@ -68,7 +69,7 @@ footer{text-align:center;font-size:11px;color:var(--math-muted);padding:0 20px 2
       <section class="gallery-panel" id="galleryPanel" hidden aria-labelledby="gallery-heading"><div class="preview-bar"><h2 id="gallery-heading">선생님 작품 모아보기</h2><div class="filters" role="group" aria-label="작품 필터"><select id="fWho" aria-label="학생"><option value="">학생 전체</option></select><select id="fKind" aria-label="종류"><option value="">그림·영상 전체</option><option value="image">그림만</option><option value="video">영상만</option></select><select id="fDay" aria-label="날짜"><option value="">날짜 전체</option></select><span class="count" id="fCount"></span><button class="mini" id="galleryRefresh" type="button">새로고침</button></div></div><div class="gallery" id="gallery"></div></section>
       <p class="status" id="status" role="status" aria-live="polite">그림을 먼저 골라 주세요.</p>
       <section class="notice" aria-label="안전 규칙"><h2>안전 규칙</h2><ul><li>학생 이름·얼굴·성적이 들어간 이미지는 올리지 않습니다. 작품만 촬영합니다.</li><li>만드는 동안 창을 닫지 않습니다. 그림은 1~2분, 영상은 1~3분 걸립니다.</li><li>AI로 만든 결과물은 「AI로 만듦」이라고 표시해서 공유합니다.</li></ul></section>
-      <details class="help"><summary>처음 사용하시나요?</summary><ol><li>선생님께 받은 내 참가 코드를 넣습니다.</li><li>작품 사진을 고르고, 바꿀 내용을 쓴 뒤 「AI로 그림 바꾸기」를 누릅니다. (최대 3번)</li><li>가장 마음에 드는 그림에서 움직임을 쓰고 「5초 영상으로 만들기」를 누릅니다. (1번)</li><li>바뀐 그림과 영상을 내려받습니다.</li></ol></details>
+      <details class="help"><summary>처음 사용하시나요?</summary><ol><li>선생님께 받은 내 참가 코드를 넣습니다.</li><li>작품 사진을 고르고, 바꿀 내용을 쓴 뒤 「AI로 그림 바꾸기」를 누릅니다. (최대 5번)</li><li>가장 마음에 드는 그림에서 움직임을 쓰고 「5초 영상으로 만들기」를 누릅니다. (2번)</li><li>바뀐 그림과 영상을 내려받습니다.</li></ol></details>
     </div>
   </div>
 </main>
@@ -84,7 +85,7 @@ var clientId=(function(){try{var k='noan.art.client.v1',v=localStorage.getItem(k
 function motionPrompt(){var m=$('motionPrompt').value.trim();return (m.length>3?m:$('prompt').value.trim()+' 자연스럽게 살아 움직인다.')+' 원래 그림의 화풍과 구도를 유지한다.'}
 function say(t,c){$('status').textContent=t;$('status').className='status'+(c?' '+c:'')}
 function sync(){var ready=!!file&&$('prompt').value.trim().length>3&&$('accessCode').value.trim();$('editBtn').disabled=busy||!ready;$('videoBtn').disabled=busy||!imageGeneration}
-function api(body){return fetch(FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json',apikey:PUBLIC_KEY},body:JSON.stringify(Object.assign({clientId:clientId,classCode:CLASS_CODE,accessCode:$('accessCode').value.trim()},body))}).then(async function(r){var d=await r.json().catch(function(){return{}});if(!r.ok)throw new Error(d.message||'서버 요청에 실패했습니다.');return d})}
+function api(body){return fetch(FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json',apikey:PUBLIC_KEY},body:JSON.stringify(Object.assign({clientId:clientId,classCode:CLASS_CODE,studentNo:$('studentNo').value.trim(),accessCode:$('accessCode').value.trim()},body))}).then(async function(r){var d=await r.json().catch(function(){return{}});if(!r.ok)throw new Error(d.message||'서버 요청에 실패했습니다.');return d})}
 function dataUrl(f){return new Promise(function(ok,bad){var r=new FileReader;r.onload=function(){ok(String(r.result))};r.onerror=bad;r.readAsDataURL(f)})}
 function poll(id,kind){var tries=0;return new Promise(function(resolve,reject){function tick(){api({action:'status',generationId:id,kind:kind}).then(function(d){if(d.state==='completed')return resolve(d);if(d.state==='failed')return reject(new Error(d.message||'AI가 결과를 만들지 못했습니다.'));if(++tries>80)return reject(new Error('만드는 시간이 너무 길어졌습니다. 잠시 뒤 다시 해 주세요.'));say(kind==='image'?'그림을 바꾸는 중이에요…':'영상을 만드는 중이에요…');setTimeout(tick,5000)}).catch(reject)}tick()})}
 function showImage(url){imageUrl=url;$('imageStage').innerHTML='<span class="tag">바뀐 그림</span><img src="'+url+'" alt="AI로 바꾼 학생 작품">';$('imageDownload').href=url;$('imageDownload').hidden=false}

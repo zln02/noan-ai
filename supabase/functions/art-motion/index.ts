@@ -103,6 +103,8 @@ const kstStamp = (iso: string) => {
 
 const labelSlug = (label: string) => {
   const n = label.match(/\d+/)?.[0];
+  if (/번$/.test(label) && n) return `no-${n.padStart(2, '0')}`;
+  if (/공용/.test(label)) return 'shared';
   if (/학생/.test(label) && n) return `student-${n.padStart(2, '0')}`;
   if (/선생님/.test(label)) return 'teacher';
   return 'unknown';
@@ -183,7 +185,7 @@ const adminArchive = async (req: Request, body: Record<string, unknown>) => {
   const labelOf = new Map(codes.map((c) => [String(c.id), c.label]));
   const results = [];
   for (const job of jobs) {
-    const label = labelOf.get(job.client_id) || 'unknown';
+    const label = labelOf.get(job.client_id.split(':')[0]) || 'unknown';
     try {
       const g = lumaResult(await luma(`/generations/${job.provider_id}`));
       if (g.state !== 'completed' || !g.url) {
@@ -221,19 +223,24 @@ Deno.serve(async (req) => {
     const session = sessions[0];
     if (!session || (session.expires_at && Date.parse(session.expires_at) < Date.now())) return json({ message: '수업 코드가 없거나 사용 시간이 끝났습니다.' }, 403);
     const accessHash = await sha256(accessCode);
-    const accesses = await db(`/art_access_codes?session_id=eq.${session.id}&code_hash=eq.${accessHash}&active=eq.true&select=id,label,unlimited&limit=1`);
+    const accesses = await db(`/art_access_codes?session_id=eq.${session.id}&code_hash=eq.${accessHash}&active=eq.true&select=id,label,unlimited,shared&limit=1`);
     const access = accesses[0];
     if (!access) return json({ message: '참가 코드를 다시 확인해 주세요.' }, 403);
-    const quotaClientId = String(access.id);
+    // A shared class code counts usage per device per day, so one code can serve a whole class.
+    const today = new Date(Date.now() + 9 * 3600_000).toISOString().slice(0, 10);
+    const quotaClientId = access.shared ? `${access.id}:${clientId}:${today}` : String(access.id);
+    const no = Number(body.studentNo);
+    const studentNo = Number.isInteger(no) && no >= 1 && no <= 99 ? no : null;
+    const workLabel = access.shared ? (studentNo ? `${studentNo}번` : '학생 공용') : access.label;
 
     if (action === 'gallery') {
       if (!access.unlimited) return json({ message: '선생님 코드로만 볼 수 있습니다.' }, 403);
-      const jobs = await db(`/art_jobs?session_id=eq.${session.id}&storage_path=not.is.null&storage_path=not.like.unavailable*&select=id,client_id,kind,created_at,prompt,polished_prompt,storage_path&order=created_at.desc&limit=200`);
+      const jobs = await db(`/art_jobs?session_id=eq.${session.id}&storage_path=not.is.null&storage_path=not.like.unavailable*&select=id,client_id,student_no,kind,created_at,prompt,polished_prompt,storage_path&order=created_at.desc&limit=300`);
       const codes: { id: string; label: string }[] = await db(`/art_access_codes?session_id=eq.${session.id}&select=id,label`);
       const labelOf = new Map(codes.map((c) => [String(c.id), c.label]));
       const signed = await signPaths(jobs.map((j: { storage_path: string }) => j.storage_path));
       return json({ items: jobs.map((j: Record<string, string>) => ({
-        label: labelOf.get(j.client_id) || '알 수 없음',
+        label: j.student_no ? `${j.student_no}번` : (labelOf.get(String(j.client_id).split(':')[0]) || '알 수 없음'),
         kind: j.kind,
         createdAt: j.created_at,
         prompt: j.prompt || null,
@@ -258,7 +265,7 @@ Deno.serve(async (req) => {
       const { state, url } = result;
       if (state === 'completed' || state === 'failed') {
         if (state === 'completed' && url && !jobs[0].storage_path) {
-          await archive(jobs[0], access.label, url).catch((error) => console.error('archive failed', error));
+          await archive(jobs[0], workLabel, url).catch((error) => console.error('archive failed', error));
         }
         await db(`/art_jobs?id=eq.${jobs[0].id}`, { method: 'PATCH', body: JSON.stringify({ state, result_url: url || null }) });
       }
@@ -289,7 +296,7 @@ Deno.serve(async (req) => {
     let quotaReserved = false;
     if (!access.unlimited) {
       const reserved = await db('/rpc/reserve_art_quota', { method: 'POST', body: JSON.stringify({ p_session_id: session.id, p_client_id: quotaClientId, p_kind: kind }) });
-      if (!reserved?.allowed) return json({ message: kind === 'image' ? '이 참가 코드의 그림 변환 횟수를 모두 썼습니다.' : '이 참가 코드의 영상 생성 횟수를 모두 썼습니다.' }, 429);
+      if (!reserved?.allowed) return json({ message: access.shared ? '오늘 이 기기에서 쓸 수 있는 횟수를 모두 썼습니다.' : kind === 'image' ? '이 참가 코드의 그림 변환 횟수를 모두 썼습니다.' : '이 참가 코드의 영상 생성 횟수를 모두 썼습니다.' }, 429);
       quotaReserved = true;
     }
     let generation;
@@ -299,7 +306,7 @@ Deno.serve(async (req) => {
       if (quotaReserved) await db('/rpc/release_art_quota', { method: 'POST', body: JSON.stringify({ p_session_id: session.id, p_client_id: quotaClientId, p_kind: kind }) }).catch(console.error);
       throw error;
     }
-    await db('/art_jobs', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ session_id: session.id, client_id: quotaClientId, kind, provider_id: generation.id, state: generation.state || 'queued', prompt, polished_prompt: polished }) });
+    await db('/art_jobs', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ session_id: session.id, client_id: quotaClientId, kind, provider_id: generation.id, state: generation.state || 'queued', prompt, polished_prompt: polished, student_no: studentNo }) });
     return json({ generationId: generation.id, state: generation.state || 'queued' }, 201);
   } catch (error) {
     console.error(error);
