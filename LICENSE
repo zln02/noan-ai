@@ -26,7 +26,6 @@ SOFTWARE.
 
 다음은 노안중학교의 소유이며 재사용을 허락하지 않는다:
 
-- `assets/noari/` — 마스코트 「노아리」 그림 일체
 - `assets/logo.png`, `assets/favicon-32.png`, `assets/apple-touch-icon.png` — 학교 로고·교표
 - `guide/노안중_AI안내서.pdf`, `data/tasks.json` 의 문장 — 학교 연수 자료
 - `docs/manual-*.md` — 전라남도교육청 매뉴얼 분석 결과 (원본 저작물은 교육청 소유)

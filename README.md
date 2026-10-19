@@ -60,7 +60,7 @@ noan-ai/
 │   ├── approval.json   도구 승인 현황
 │   └── contest.json  showcase.json
 ├── shared/   tokens.css  site.css  deck.css  icons.js  deck.js  site.js
-├── assets/   noari/(마스코트)  guide/(캡처)  qr-*.svg
+├── assets/   guide/(캡처)  qr-*.svg  thumbs
 ├── tools/    sync-data.js  sync-notion.js  check-copy.js  guide-build.py  CONTRACT.md
 ├── docs/     decisions.md  handover.md  requests.md  cli/  manual-findings.md  shots/
 ├── private/  (gitignore) 학교 실물 자료
@@ -126,8 +126,8 @@ node tools/sync-data.js --check
 ## 라이선스
 
 코드는 MIT ([LICENSE](LICENSE)).
-마스코트 「노아리」와 학교 로고·교표는 **노안중학교 소유이며 재사용을 허락하지 않는다**
-(`assets/noari/`, `assets/logo.png`). 저장소를 참고하실 때 그 파일들은 빼고 보시면 된다.
+학교 로고·교표는 **노안중학교 소유이며 재사용을 허락하지 않는다**
+(`assets/logo.png`). 저장소를 참고하실 때 그 파일들은 빼고 보시면 된다.
 
 ---
 

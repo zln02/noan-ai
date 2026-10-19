@@ -8,6 +8,7 @@
 <meta name="description" content="선생님이 수업과 행사에 바로 쓰는 도구 모음. 설치도 가입도 없이 열면 바로 씁니다.">
 <link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="노안중 AI">
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/site.css">
 <link rel="stylesheet" href="../shared/portal.css">
@@ -36,8 +37,11 @@
 .s-card{display:flex;flex-direction:column;border:1px solid var(--p-border);border-radius:16px;background:#fff;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s}
 .s-card:hover{transform:translateY(-3px);border-color:#CFE0F5;box-shadow:0 10px 26px rgba(30,80,150,.10)}
 .s-thumb{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--p-border)}
-.s-thumb svg{position:absolute;inset:0;width:100%;height:100%}
-.s-thumb img{position:absolute;left:12px;bottom:0;height:86%;width:auto;filter:drop-shadow(0 6px 8px rgba(0,0,0,.25))}
+/* thumbs:poster */
+.s-thumb{background:#dcebfa}
+.s-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+.s-card:hover .s-thumb img{transform:scale(1.03)}
+@media (prefers-reduced-motion:reduce){.s-thumb img,.s-card:hover .s-thumb img{transition:none;transform:none}}
 .s-new{position:absolute;top:12px;right:12px;padding:3px 11px;border-radius:999px;background:#fff;color:#D9480F;font-size:13px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .s-body{display:flex;flex-direction:column;gap:10px;padding:18px 20px 20px;flex:1}
 .s-tags{display:flex;flex-wrap:wrap;gap:6px}
@@ -192,15 +196,7 @@
       <!-- 도형 -->
       <article class="s-card" data-use="class">
         <a class="s-thumb" href="math/index.html" tabindex="-1" aria-hidden="true">
-          <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
-            <rect width="320" height="180" fill="#F2F7FF"/>
-            <g stroke="#DBE7FB"><path d="M0 20H320M0 40H320M0 60H320M0 80H320M0 100H320M0 120H320M0 140H320M0 160H320M20 0V180M40 0V180M60 0V180M80 0V180M100 0V180M120 0V180M140 0V180M160 0V180M180 0V180M200 0V180M220 0V180M240 0V180M260 0V180M280 0V180M300 0V180"/></g>
-            <path d="M42 136 L98 46 L142 136Z" fill="#bfdbfe" stroke="#2563EB" stroke-width="3" stroke-linejoin="round"/>
-            <text x="92" y="154" font-size="13" font-weight="700" fill="#1e4e79" text-anchor="middle" font-family="system-ui,sans-serif">밑변 8cm</text>
-            <circle cx="196" cy="90" r="36" fill="#fde68a" stroke="#b45309" stroke-width="3"/><path d="M196 90 L232 90" stroke="#b45309" stroke-width="2.5" stroke-dasharray="4 3"/>
-            <g stroke="#047857" stroke-width="3" stroke-linejoin="round"><path d="M248 70 L284 58 L300 72 L264 84Z" fill="#a7f3d0"/><path d="M248 70 L264 84 L264 132 L248 118Z" fill="#6ee7b7"/><path d="M264 84 L300 72 L300 120 L264 132Z" fill="#34d399"/></g>
-            <rect x="196" y="140" width="96" height="26" rx="13" fill="#fff" stroke="#DBE7FB"/><text x="244" y="158" font-size="13" font-weight="800" fill="#2563EB" text-anchor="middle" font-family="system-ui,sans-serif">넓이 = ?</text>
-          </svg>
+          <img src="thumbs/math.webp" alt="점토 느낌의 삼각형·원기둥·정육면체와 자" width="1280" height="720" loading="lazy" decoding="async">
         </a>
         <div class="s-body">
           <div class="s-tags"><span>수학</span><span>수업·평가</span></div>
@@ -227,22 +223,7 @@
       <!-- 미술 AI -->
       <article class="s-card" data-use="class">
         <a class="s-thumb" href="art-motion/index.html" tabindex="-1" aria-hidden="true">
-          <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
-            <defs><linearGradient id="abg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fef3c7"/><stop offset=".48" stop-color="#fce7f3"/><stop offset="1" stop-color="#dbeafe"/></linearGradient></defs>
-            <rect width="320" height="180" fill="url(#abg)"/>
-            <rect x="24" y="20" width="126" height="140" rx="14" fill="#fff" stroke="#e5d7c7"/>
-            <path d="M48 128 C58 92 79 48 103 43 C123 57 130 86 124 118 C104 143 70 145 48 128Z" fill="#d99132" stroke="#533725" stroke-width="4"/>
-            <path d="M69 62 C58 44 53 41 48 42 M110 60 C122 42 129 40 135 43" fill="none" stroke="#533725" stroke-width="5" stroke-linecap="round"/>
-            <path d="M66 93 Q78 84 89 94 M100 94 Q111 84 121 93" fill="none" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
-            <path d="M91 107 Q96 114 102 107" fill="none" stroke="#1f2937" stroke-width="3"/>
-            <path d="M164 90h27" stroke="#1a73e8" stroke-width="5" stroke-linecap="round"/><path d="m183 79 12 11-12 11" fill="none" stroke="#1a73e8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-            <rect x="210" y="20" width="86" height="140" rx="14" fill="#102a43"/>
-            <circle cx="253" cy="87" r="31" fill="#fff" opacity=".12"/>
-            <path d="M236 105 C234 81 238 55 253 48 C268 56 274 78 270 105" fill="#f8fafc" stroke="#dbeafe" stroke-width="3"/>
-            <path d="M250 55 C245 43 248 35 258 30 C265 40 263 50 257 57" fill="none" stroke="#f8fafc" stroke-width="5" stroke-linecap="round"/>
-            <path d="M236 79 Q222 65 218 78 M270 80 Q285 65 290 79" fill="none" stroke="#f8fafc" stroke-width="5" stroke-linecap="round"/>
-            <circle cx="282" cy="39" r="4" fill="#fde68a"/><path d="M282 28v22M271 39h22" stroke="#fde68a" stroke-width="3" stroke-linecap="round"/>
-          </svg>
+          <img src="thumbs/art-motion.webp" alt="종이 위 물고기 그림이 입체로 튀어나오는 모습" width="1280" height="720" loading="lazy" decoding="async">
           <span class="s-new">AI</span>
         </a>
         <div class="s-body">
@@ -271,17 +252,7 @@
       <!-- 퀴즈 -->
       <article class="s-card" data-use="event class">
         <a class="s-thumb" href="quiz/index.html" tabindex="-1" aria-hidden="true">
-          <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
-            <defs><radialGradient id="qbg" cx=".5" cy=".3" r=".9"><stop offset="0" stop-color="#7b5cf0"/><stop offset=".6" stop-color="#3b2a9e"/><stop offset="1" stop-color="#1a0f4a"/></radialGradient></defs>
-            <rect width="320" height="180" fill="url(#qbg)"/>
-            <path d="M70 0 L100 180 L40 180Z M250 0 L290 180 L220 180Z" fill="#ffe3a3" opacity=".12"/>
-            <rect x="128" y="22" width="172" height="40" rx="12" fill="#fff"/><text x="214" y="48" font-size="15" font-weight="800" fill="#24184f" text-anchor="middle" font-family="system-ui,sans-serif">물의 화학식은?</text>
-            <rect x="128" y="72" width="82" height="34" rx="10" fill="#ff5c5c"/><rect x="218" y="72" width="82" height="34" rx="10" fill="#339af0"/>
-            <rect x="128" y="114" width="82" height="34" rx="10" fill="#ffc933"/><rect x="218" y="114" width="82" height="34" rx="10" fill="#20c997"/>
-            <g font-size="14" font-weight="800" text-anchor="middle" font-family="system-ui,sans-serif"><text x="169" y="94" fill="#fff">▲ CO₂</text><text x="259" y="94" fill="#fff">◆ H₂O</text><text x="169" y="136" fill="#4a2a00">● O₂</text><text x="259" y="136" fill="#fff">■ NaCl</text></g>
-            <ellipse cx="64" cy="170" rx="54" ry="11" fill="#6b4fe0"/><ellipse cx="64" cy="166" rx="54" ry="9" fill="#fff3d6"/>
-          </svg>
-          <img src="dokdo/img/pear-happy.webp" alt="" width="105" height="135">
+          <img src="thumbs/quiz.webp" alt="게임쇼 무대 위 3D 배돌이와 네 가지 답 버튼" width="1280" height="720" loading="lazy" decoding="async">
         </a>
         <div class="s-body">
           <div class="s-tags"><span class="ev">축제·부스</span><span>초등부터</span><span>문제 386개</span></div>
@@ -309,19 +280,7 @@
       <!-- 독도 -->
       <article class="s-card" data-use="event">
         <a class="s-thumb" href="dokdo/index.html" tabindex="-1" aria-hidden="true">
-          <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
-            <defs><linearGradient id="dbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset=".45" stop-color="#4dabf7"/><stop offset=".46" stop-color="#1c7ed6"/><stop offset="1" stop-color="#0b3d91"/></linearGradient></defs>
-            <rect width="320" height="180" fill="url(#dbg)"/>
-            <rect x="14" y="14" width="212" height="28" rx="14" fill="#fff" opacity=".94"/><text x="120" y="33" font-size="13" font-weight="800" fill="#0b3d91" text-anchor="middle" font-family="system-ui,sans-serif">노안초 · 노안남초 · 노안중</text>
-            <circle cx="282" cy="28" r="15" fill="#ffe066"/>
-            <path d="M150 84 C158 60 170 42 184 40 C194 39 198 56 204 84Z" fill="#1e3a8a"/><path d="M206 84 C212 66 222 50 236 46 C246 44 252 36 260 40 C268 50 270 66 274 84Z" fill="#1e40af"/>
-            <path d="M0 86 Q40 78 80 86 T160 86 T240 86 T320 86 V96 H0Z" fill="#74c0fc" opacity=".6"/>
-            <g transform="translate(150 104)"><rect width="44" height="56" rx="7" fill="#2fb36b"/><text x="22" y="35" font-size="18" font-weight="900" fill="#fff" text-anchor="middle" font-family="system-ui,sans-serif">초</text></g>
-            <g transform="translate(202 110) rotate(8)"><rect width="44" height="56" rx="7" fill="#f08c00"/><text x="22" y="35" font-size="18" font-weight="900" fill="#fff" text-anchor="middle" font-family="system-ui,sans-serif">남</text></g>
-            <g transform="translate(254 104)"><rect width="44" height="56" rx="7" fill="#1971c2"/><text x="22" y="35" font-size="18" font-weight="900" fill="#fff" text-anchor="middle" font-family="system-ui,sans-serif">중</text></g>
-            <g fill="none" stroke="#fff" stroke-width="2" opacity=".6"><circle cx="30" cy="120" r="5"/><circle cx="122" cy="150" r="4"/><circle cx="304" cy="100" r="3"/></g>
-          </svg>
-          <img src="dokdo/img/pear-idle.webp" alt="" width="105" height="135">
+          <img src="thumbs/dokdo.webp" alt="3D 배돌이와 독도 그림 카드 뒤집기" width="1280" height="720" loading="lazy" decoding="async">
         </a>
         <div class="s-body">
           <div class="s-tags"><span class="ev">독도의 날·부스</span><span>초등부터</span><span>카드 24장 · 랭킹</span></div>
@@ -349,18 +308,7 @@
       <!-- 독도 OX -->
       <article class="s-card" data-use="event class">
         <a class="s-thumb" href="dokdo-ox/index.html" tabindex="-1" aria-hidden="true">
-          <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
-            <defs><linearGradient id="obg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset=".45" stop-color="#4dabf7"/><stop offset=".46" stop-color="#1c7ed6"/><stop offset="1" stop-color="#0b3d91"/></linearGradient></defs>
-            <rect width="320" height="180" fill="url(#obg)"/>
-            <rect x="14" y="14" width="156" height="28" rx="14" fill="#fff" opacity=".94"/><text x="92" y="33" font-size="13" font-weight="800" fill="#0b3d91" text-anchor="middle" font-family="system-ui,sans-serif">10월 25일 독도의 날</text>
-            <circle cx="282" cy="28" r="15" fill="#ffe066"/>
-            <path d="M196 80 C200 66 207 56 215 55 C221 54 223 64 226 80Z" fill="#1e3a8a"/><path d="M228 80 C232 70 238 61 246 59 C252 58 255 53 260 56 C264 62 266 71 268 80Z" fill="#1e40af"/>
-            <path d="M0 81 Q40 73 80 81 T160 81 T240 81 T320 81 V92 H0Z" fill="#74c0fc" opacity=".6"/>
-            <g transform="translate(138 98)"><rect y="6" width="72" height="66" rx="14" fill="#1864ab"/><rect width="72" height="66" rx="14" fill="#339af0"/><circle cx="36" cy="33" r="18" fill="none" stroke="#fff" stroke-width="9"/></g>
-            <g transform="translate(224 98)"><rect y="6" width="72" height="66" rx="14" fill="#c92a2a"/><rect width="72" height="66" rx="14" fill="#ff5c5c"/><path d="M22 19 L50 47 M50 19 L22 47" stroke="#fff" stroke-width="9" stroke-linecap="round"/></g>
-            <g fill="none" stroke="#fff" stroke-width="2" opacity=".6"><circle cx="30" cy="112" r="5"/><circle cx="124" cy="150" r="4"/><circle cx="306" cy="96" r="3"/></g>
-          </svg>
-          <img src="dokdo-ox/img/gangchi-star.webp" alt="" width="105" height="135">
+          <img src="thumbs/dokdo-ox.webp" alt="O·X 풍선 사이에서 독도 위를 떠 있는 3D 독이" width="1280" height="720" loading="lazy" decoding="async">
         </a>
         <div class="s-body">
           <div class="s-tags"><span class="ev">독도의 날·부스</span><span>초등·중학생</span><span>문제 167개</span></div>
@@ -388,52 +336,7 @@
       <!-- 독도 생물 합치기 -->
       <article class="s-card" data-use="event class">
         <a class="s-thumb" href="dokdo-merge/index.html" tabindex="-1" aria-hidden="true">
-          <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
-            <defs><linearGradient id="mbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9be0ff"/><stop offset=".45" stop-color="#4dabf7"/><stop offset="1" stop-color="#0b3d91"/></linearGradient>
-              <linearGradient id="mjar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3f8ff" stop-opacity=".55"/><stop offset="1" stop-color="#74c0fc" stop-opacity=".55"/></linearGradient></defs>
-            <rect width="320" height="180" fill="url(#mbg)"/>
-            <path d="M120 0 L150 0 L118 180 L70 180Z M220 0 L240 0 L230 180 L196 180Z" fill="#fff" opacity=".1"/>
-            <rect x="14" y="14" width="150" height="28" rx="14" fill="#fff" opacity=".94"/><text x="89" y="33" font-size="13" font-weight="800" fill="#0b3d91" text-anchor="middle" font-family="system-ui,sans-serif">같은 생물끼리 합체!</text>
-            <g transform="translate(168 40)">
-              <rect x="0" y="0" width="132" height="132" rx="14" fill="url(#mjar)" stroke="#fff" stroke-width="5" stroke-opacity=".85"/>
-              <rect x="-6" y="-4" width="16" height="8" rx="4" fill="#fff"/><rect x="122" y="-4" width="16" height="8" rx="4" fill="#fff"/>
-              <path d="M8 26 H124" stroke="#fff" stroke-width="2.5" stroke-dasharray="7 5" opacity=".85"/>
-              <rect x="5" y="118" width="122" height="10" rx="4" fill="#f3dca6"/>
-              <circle cx="28" cy="98" r="22" fill="#f5a855" stroke="#c46524" stroke-width="2.5"/>
-              <path d="M24 92 a3 3 0 1 1 5 2 a7 7 0 1 1 -11 -6 a12 12 0 1 1 1 15" fill="none" stroke="#9a4a14" stroke-width="2.4" opacity=".55" stroke-linecap="round"/>
-              <ellipse cx="33" cy="106" rx="11" ry="8" fill="#fff3dd"/>
-              <g stroke="#e8472a" stroke-width="7" stroke-linecap="round"><path d="M58 110 q-6 8 -12 8"/><path d="M68 114 q0 6 -4 8"/><path d="M84 114 q2 6 6 8"/><path d="M94 110 q6 8 12 8"/></g>
-              <circle cx="76" cy="90" r="26" fill="#ff7f50" stroke="#d63a1e" stroke-width="2.5"/>
-              <ellipse cx="114" cy="110" rx="13" ry="11" fill="#5257b0" stroke="#26245e" stroke-width="2"/>
-              <circle cx="46" cy="58" r="13" fill="#a86ae0" stroke="#4a2280" stroke-width="5" stroke-dasharray="2 2.2"/>
-              <circle cx="46" cy="58" r="11" fill="#a86ae0"/>
-              <circle cx="104" cy="64" r="10" fill="#8ff0de" stroke="#1f9a8f" stroke-width="2"/>
-              <circle cx="72" cy="14" r="10" fill="#6aa83c" stroke="#2f6224" stroke-width="2"/>
-              <g fill="#24203a"><circle cx="29" cy="104" r="2"/><circle cx="37" cy="104" r="2"/><circle cx="67" cy="90" r="3.2"/><circle cx="85" cy="90" r="3.2"/><circle cx="41" cy="58" r="2"/><circle cx="51" cy="58" r="2"/><circle cx="100" cy="64" r="1.7"/><circle cx="108" cy="64" r="1.7"/><circle cx="68" cy="14" r="1.6"/><circle cx="76" cy="14" r="1.6"/><circle cx="109" cy="109" r="1.8" fill="#fff"/><circle cx="119" cy="109" r="1.8" fill="#fff"/></g>
-              <path d="M71 98 q5 4 10 0" fill="none" stroke="#24203a" stroke-width="2" stroke-linecap="round"/>
-              <g fill="#ff8fa3" opacity=".7"><ellipse cx="61" cy="96" rx="4" ry="2.4"/><ellipse cx="91" cy="96" rx="4" ry="2.4"/></g>
-              <rect x="12" y="18" width="5" height="86" rx="2.5" fill="#fff" opacity=".35"/>
-            </g>
-            <g fill="none" stroke="#fff" stroke-width="2" opacity=".6"><circle cx="30" cy="70" r="5"/><circle cx="128" cy="62" r="4"/><circle cx="312" cy="150" r="3"/></g>
-            <!-- 괭이갈매기 마스코트 -->
-            <g transform="translate(78 118)">
-              <ellipse cx="0" cy="54" rx="34" ry="6" fill="#0b3d91" opacity=".25"/>
-              <path d="M-16 47 l6-8 6 8z M4 47 l6-8 6 8z" fill="#ffb000"/>
-              <g fill="#9aa8bd" stroke="#6b7a92" stroke-width="2"><path d="M30 0 Q50 6 47 26 Q43 40 28 38 Q25 16 30 0Z"/><path d="M-30 0 Q-50 6 -47 26 Q-43 40 -28 38 Q-25 16 -30 0Z"/></g>
-              <circle cx="0" cy="-1" r="45" fill="#fbfdff" stroke="#8a9bb2" stroke-width="2.4"/>
-              <g fill="#9aa8bd" stroke="#6b7a92" stroke-width="2"><path d="M31 1 Q50 7 47 25 Q43 39 28 37 Q25 15 31 1Z"/><path d="M-31 1 Q-50 7 -47 25 Q-43 39 -28 37 Q-25 15 -31 1Z"/></g>
-              <path d="M46 24 Q43 39 28 37 Q38 32 46 24Z M-46 24 Q-43 39 -28 37 Q-38 32 -46 24Z" fill="#2b2b38"/>
-              <ellipse cx="-16" cy="-38" rx="12" ry="6" fill="#fff" transform="rotate(-30 -16 -38)"/>
-              <path d="M-23 10 Q0 17 23 10 L20 15 Q8 19 3 27 L0 29 L-3 27 Q-8 19 -20 15Z" fill="#5fe0c8" stroke="#21a58e" stroke-width="1.4"/>
-              <circle cx="0" cy="17" r="3" fill="#ffd43b" stroke="#e09600" stroke-width="1"/>
-              <g fill="#24203a"><ellipse cx="-15" cy="-12" rx="3.8" ry="4.5"/><ellipse cx="15" cy="-12" rx="3.8" ry="4.5"/></g>
-              <g fill="#fff"><circle cx="-16.3" cy="-13.6" r="1.5"/><circle cx="13.7" cy="-13.6" r="1.5"/></g>
-              <g fill="#ff8ca0" opacity=".55"><ellipse cx="-27" cy="-4" rx="5" ry="3"/><ellipse cx="27" cy="-4" rx="5" ry="3"/></g>
-              <path d="M-8.5 -5 Q0 -9 8.5 -5 L0 8Z" fill="#ffd43b" stroke="#e09600" stroke-width="1.3" stroke-linejoin="round"/>
-              <circle cx="1.5" cy="2.5" r="1.8" fill="#e03131"/>
-            </g>
-
-          </svg>
+          <img src="thumbs/dokdo-merge.webp" alt="3D 괭이갈매기와 바다 생물이 담긴 유리병" width="1280" height="720" loading="lazy" decoding="async">
           <span class="s-new">NEW</span>
         </a>
         <div class="s-body">

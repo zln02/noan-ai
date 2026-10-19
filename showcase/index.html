@@ -90,9 +90,7 @@
   }
 
   function empty(msg) {
-    grid.innerHTML = '<p class="muted">' + msg + '</p>' +
-      '<picture><source srcset="../assets/noari/noari-cheer.webp" type="image/webp">' +
-      '<img class="noari" src="../assets/noari/noari-cheer.png" alt="노안중학교 마스코트 노아리" width="160" height="160" loading="lazy" onerror="this.closest(\'picture\').remove()"></picture>';
+    grid.innerHTML = '<p class="muted">' + msg + '</p>';
   }
 
   function render(items) {
