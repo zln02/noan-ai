@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173b68">
+<title>노안중 게임 기기 진단</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:20px;background:#eef4fa;color:#17304f;font:16px/1.55 Arial,"Malgun Gothic",sans-serif}main{max-width:720px;margin:auto}h1{font-size:26px;margin:0 0 8px}h2{font-size:19px;margin:0 0 10px}p{margin:0 0 14px}.card{background:#fff;border:1px solid #cbd9e9;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 5px 18px rgba(17,49,84,.06)}.item{padding:10px 0;border-top:1px solid #e5edf5}.item:first-child{border-top:0}.name{display:block;font-weight:700}.detail{display:block;color:#52657a;font-size:14px;overflow-wrap:anywhere}.ok,.warn,.fail{display:inline-block;padding:2px 8px;border-radius:999px;font-size:13px;font-weight:700;margin-right:6px}.ok{background:#dcf6e9;color:#145a37}.warn{background:#fff1c7;color:#765000}.fail{background:#ffe1df;color:#9d2420}a{color:#0b5eaf;font-weight:700}code{overflow-wrap:anywhere}.actions{display:flex;gap:10px;flex-wrap:wrap}.actions a,.actions button{border:0;border-radius:10px;padding:11px 14px;background:#0b5eaf;color:#fff;text-decoration:none;font:inherit;font-weight:700;cursor:pointer}.actions button{background:#dfeaf6;color:#17304f}#running{font-weight:700;color:#a43b26}#errors{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 ui-monospace,monospace}
+</style>
+</head>
+<body>
+<main>
+  <h1>노안중 게임 기기 진단</h1>
+  <p>퀴즈 화면이 깨지거나 오프라인 저장이 안 될 때, <strong>게임을 여는 바로 그 브라우저</strong>에서 이 페이지를 열어 주세요. 아래 결과는 기기 안에만 표시됩니다.</p>
+  <div class="actions"><a href="quiz/index.html">퀴즈쇼 열기</a><button type="button" onclick="location.reload()">다시 검사</button></div>
+  <section class="card"><h2>실행 상태</h2><p id="running">자바스크립트 실행 확인 중…</p><div id="features"></div></section>
+  <section class="card"><h2>브라우저 정보</h2><p id="browser">확인 중…</p><p id="sw">오프라인 저장 확인 중…</p></section>
+  <section class="card"><h2>최근 퀴즈 오류</h2><p>오류가 없으면 게임을 한 번 연 뒤 이 페이지로 돌아와 다시 검사하세요.</p><div id="errors">확인 중…</div></section>
+  <p>화면이 계속 깨지면 이 페이지 전체를 캡처해서 보내 주세요. 퀴즈 첫 화면의 <strong>화면 깨짐? 안정 모드</strong>도 눌러 볼 수 있습니다.</p>
+</main>
+<script>
+(function () {
+  'use strict';
+  document.getElementById('running').textContent = '자바스크립트 실행됨';
+  var box = document.getElementById('features');
+  function add(name, state, detail) {
+    var row = document.createElement('div'); row.className = 'item';
+    var title = document.createElement('span'); title.className = 'name';
+    var badge = document.createElement('span'); badge.className = state === '지원' ? 'ok' : state === '제한' ? 'warn' : 'fail';
+    badge.textContent = state; title.appendChild(badge); title.appendChild(document.createTextNode(name));
+    var note = document.createElement('span'); note.className = 'detail'; note.textContent = detail;
+    row.appendChild(title); row.appendChild(note); box.appendChild(row);
+  }
+  var css = window.CSS && CSS.supports;
+  var grid = !!(css && CSS.supports('display', 'grid'));
+  var cssMin = !!(css && CSS.supports('width', 'min(1vw, 1vh)'));
+  var mix = !!(css && CSS.supports('color', 'color-mix(in srgb, red 75%, white)'));
+  var webgl2 = false;
+  try { webgl2 = !!document.createElement('canvas').getContext('webgl2'); } catch (_) {}
+  var storage = false;
+  try { localStorage.setItem('noan-compat-check', '1'); storage = localStorage.getItem('noan-compat-check') === '1'; localStorage.removeItem('noan-compat-check'); } catch (_) {}
+  add('기본 게임 자바스크립트', '지원', '이 진단 페이지의 코드가 실행되었습니다.');
+  add('3D 화면 (WebGL 2)', webgl2 ? '지원' : '제한', webgl2 ? '3D를 표시할 수 있습니다.' : '퀴즈는 기본 그림으로 표시됩니다. 안정 모드를 권장합니다.');
+  add('CSS 격자 배치', grid ? '지원' : '제한', grid ? '화면 배치를 지원합니다.' : '대체 배치로 표시됩니다.');
+  add('새 화면 크기 문법', cssMin ? '지원' : '제한', cssMin ? '새 문법을 지원합니다.' : '구형 브라우저용 크기 설정을 사용합니다.');
+  add('새 보기 색상 문법', mix ? '지원' : '제한', mix ? '새 색상 효과를 지원합니다.' : '기본 색상으로 표시됩니다.');
+  add('기록 저장소', storage ? '지원' : '불가', storage ? '랭킹과 설정을 이 브라우저에 저장할 수 있습니다.' : '기기 설정에서 사이트 저장소를 허용해야 합니다.');
+  add('오프라인 기능', 'serviceWorker' in navigator && 'caches' in window ? '지원' : '불가', '서비스 워커와 캐시 기능이 모두 필요합니다.');
+  document.getElementById('browser').textContent = navigator.userAgent;
+  if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistration) {
+    navigator.serviceWorker.getRegistration('./').then(function (reg) {
+      document.getElementById('sw').textContent = reg && reg.active ? '오프라인 앱 등록됨: ' + reg.active.state : '오프라인 앱 미등록. 수업도구에서 다운로드를 눌러 주세요.';
+    }, function () { document.getElementById('sw').textContent = '오프라인 앱 등록 상태를 읽지 못했습니다.'; });
+  } else document.getElementById('sw').textContent = '이 브라우저는 오프라인 앱 등록을 지원하지 않습니다.';
+  var errors = document.getElementById('errors');
+  try {
+    var list = JSON.parse(localStorage.getItem('noan-quiz-errors-v1') || '[]');
+    errors.textContent = list.length ? list.map(function (entry) { return entry.time + ' | ' + entry.message + ' | ' + entry.source + ':' + entry.line; }).join('\n') : '기록된 오류 없음';
+  } catch (_) { errors.textContent = '오류 기록을 읽지 못했습니다.'; }
+})();
+</script>
+</body>
+</html>

@@ -99,6 +99,7 @@
 .s-offline button:hover{background:var(--p-blue-dark)}
 .s-offline button:disabled{opacity:.65;cursor:wait}
 .s-offline button:focus-visible{outline:3px solid #A84F13;outline-offset:3px}
+.s-offline .s-compat-link{display:block;text-align:center;padding:8px 10px;color:var(--p-blue-dark);font-size:14px;font-weight:800}
 .s-offline-status{grid-column:1/-1;margin-top:-4px !important;padding:12px 15px;border-radius:10px;background:#fff;border:1px solid var(--p-border);font-size:14px}
 .s-offline-small{grid-column:1/-1;font-size:13.5px !important;color:var(--p-muted) !important}
 
@@ -203,6 +204,7 @@
     </div>
     <div class="s-offline-actions">
       <button id="offlineDownload" type="button">오프라인 다운로드</button>
+      <a class="s-compat-link" href="compat.html">태블릿 호환성 확인</a>
     </div>
     <p class="s-offline-status" id="offlineStatus" role="status" aria-live="polite">홈 화면 아이콘으로 연 화면에서 저장 완료 메시지를 확인하고, 비행기 모드에서 다시 실행해 보세요. 갤럭시 탭의 삼성 인터넷과 Chrome은 각각 따로 저장됩니다.</p>
     <p class="s-offline-small">인터넷에 연결된 동안에는 기존 GitHub Pages 주소와 온라인 랭킹을 그대로 사용합니다. 오프라인 기록은 각 태블릿에 저장되고 5대의 실시간 통합 랭킹은 표시되지 않습니다. 「내 그림 살리기」는 AI 서버가 필요해 오프라인 대상에서 제외됩니다.</p>
