@@ -119,8 +119,7 @@
 (function () {
   'use strict';
 
-  /* 회차 자료. 문장은 저장소에 있던 것을 그대로 옮긴 것이다.
-     2회차 주제가 정해지면 여기 한 곳만 고치면 된다. */
+  /* 회차별 연수 자료 */
   var SESSIONS = [
     {
       round: '1회차',
@@ -132,11 +131,12 @@
     },
     {
       round: '2회차',
-      title: '투표로 결정',
+      title: 'AI로 30초 수업 영상 만들기',
       date: '',
       dateLong: '날짜 미정',
-      desc: '1회차에서 받은 표를 세어 주제를 정합니다.',
-      deck: null
+      desc: '120분 실습 · AI 장면 생성부터 편집과 MP4 저장까지 한 편을 완성합니다.',
+      deck: 's2.html',
+      pptx: 'assets/s2/노안중_2회차_AI영상만들기.pptx'
     },
     {
       round: '3회차',
@@ -212,14 +212,15 @@
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v11H3z"></path><path d="M12 15v5"></path><path d="M8 21l4-3 4 3"></path></svg>' +
         '</span>' +
         '<span class="p-res-copy">' +
-          '<b>발표자료</b>' +
-          '<span>연수에서 사용한 발표자료입니다. 브라우저에서 그대로 열립니다.</span>' +
+          '<b>' + (session.pptx ? '실습 안내' : '발표자료') + '</b>' +
+          '<span>' + (session.pptx ? '시간표와 실습 순서를 브라우저에서 확인합니다.' : '연수에서 사용한 발표자료입니다. 브라우저에서 그대로 열립니다.') + '</span>' +
         '</span>' +
         '<a class="p-res-open" href="' + esc(session.deck) + '">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>' +
-          '덱 열기' +
+          (session.pptx ? '안내 보기' : '덱 열기') +
         '</a>' +
       '</div>' +
+      (session.pptx ? '<div class="p-res-item"><span class="p-res-icon" aria-hidden="true">↓</span><span class="p-res-copy"><b>2회차 PPTX</b><span>13장 발표자료를 내려받아 연수에 사용할 수 있습니다.</span></span><a class="p-res-open" href="' + esc(session.pptx) + '" download>PPTX 받기</a></div>' : '') +
     '</div>';
   }
 
