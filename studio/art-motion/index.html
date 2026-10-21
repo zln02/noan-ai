@@ -59,7 +59,7 @@ footer{text-align:center;font-size:11px;color:var(--math-muted);padding:0 20px 2
     </aside>
     <div class="right-column">
       <section class="preview-panel" aria-labelledby="preview-heading">
-        <div class="preview-bar"><h2 id="preview-heading">결과 미리보기</h2><div class="quota"><span id="imageQuota">그림 변환 5회</span><span id="videoQuota">영상 2회 · 540p</span></div></div>
+        <div class="preview-bar"><h2 id="preview-heading">결과 미리보기</h2><div class="quota"><span id="imageQuota">참가 코드당 그림 최대 5회</span><span id="videoQuota">영상 최대 2회 · 540p</span></div></div>
         <div class="result">
           <div><h3>바뀐 그림</h3><div class="stage" id="imageStage"><div class="empty"><b>🖼</b>바뀐 그림이 여기에 나와요</div></div></div>
           <div><h3>5초 영상</h3><div class="stage" id="videoStage"><div class="empty"><b>🎬</b>움직이는 영상이 여기에 나와요</div></div></div>
@@ -70,6 +70,7 @@ footer{text-align:center;font-size:11px;color:var(--math-muted);padding:0 20px 2
       <p class="status" id="status" role="status" aria-live="polite">그림을 먼저 골라 주세요.</p>
       <section class="notice" aria-label="안전 규칙"><h2>안전 규칙</h2><ul><li>학생 이름·얼굴·성적이 들어간 이미지는 올리지 않습니다. 작품만 촬영합니다.</li><li>만드는 동안 창을 닫지 않습니다. 그림은 1~2분, 영상은 1~3분 걸립니다.</li><li>AI로 만든 결과물은 「AI로 만듦」이라고 표시해서 공유합니다.</li></ul></section>
       <details class="help"><summary>처음 사용하시나요?</summary><ol><li>선생님께 받은 내 참가 코드를 넣습니다.</li><li>작품 사진을 고르고, 바꿀 내용을 쓴 뒤 「AI로 그림 바꾸기」를 누릅니다. (최대 5번)</li><li>가장 마음에 드는 그림에서 움직임을 쓰고 「5초 영상으로 만들기」를 누릅니다. (2번)</li><li>바뀐 그림과 영상을 내려받습니다.</li></ol></details>
+      <details class="help"><summary>선생님용 · 유료 AI 크레딧 잔액 확인</summary><p>위의 생성 횟수는 참가 코드의 사용 한도입니다. 실제 AI 크레딧 잔액과 사용 비용은 <a href="https://platform.lumalabs.ai/" target="_blank" rel="noopener noreferrer">Luma 계정 대시보드</a>에 로그인해 확인해 주세요. 그림·영상 생성 비용은 이 계정에서 차감됩니다.</p></details>
     </div>
   </div>
 </main>
@@ -90,7 +91,7 @@ function dataUrl(f){return new Promise(function(ok,bad){var r=new FileReader;r.o
 function poll(id,kind){var tries=0;return new Promise(function(resolve,reject){function tick(){api({action:'status',generationId:id,kind:kind}).then(function(d){if(d.state==='completed')return resolve(d);if(d.state==='failed')return reject(new Error(d.message||'AI가 결과를 만들지 못했습니다.'));if(++tries>80)return reject(new Error('만드는 시간이 너무 길어졌습니다. 잠시 뒤 다시 해 주세요.'));say(kind==='image'?'그림을 바꾸는 중이에요…':'영상을 만드는 중이에요…');setTimeout(tick,5000)}).catch(reject)}tick()})}
 function showImage(url){imageUrl=url;$('imageStage').innerHTML='<span class="tag">바뀐 그림</span><img src="'+url+'" alt="AI로 바꾼 학생 작품">';$('imageDownload').href=url;$('imageDownload').hidden=false}
 function showVideo(url){$('videoStage').innerHTML='<span class="tag">5초 영상</span><video src="'+url+'" controls autoplay muted loop playsinline aria-label="학생 작품으로 만든 영상"></video>';$('videoDownload').href=url;$('videoDownload').hidden=false}
-function quotaText(kind,d){return d.unlimited?'선생님 실험용 · 무제한':(kind==='image'?'그림 변환 남은 횟수 '+d.remainingImages:'영상 남은 횟수 '+d.remainingVideos)}
+function quotaText(kind,d){return d.unlimited?'참가 코드 횟수 제한 없음 · 유료 크레딧 별도':(kind==='image'?'참가 코드 그림 남은 횟수 '+d.remainingImages:'참가 코드 영상 남은 횟수 '+d.remainingVideos)}
 $('imageFile').addEventListener('change',function(){file=this.files&&this.files[0];if(!file)return;if(file.size>4*1024*1024){file=null;this.value='';say('그림은 4MB 이하로 골라 주세요.','err');return}var u=URL.createObjectURL(file);$('dropInner').innerHTML='<img class="preview" src="'+u+'" alt="선택한 원본 그림"><strong>다른 그림 고르기</strong>';say('문장을 쓰고 그림 바꾸기를 눌러 주세요.');sync()});
 $('prompt').addEventListener('input',sync);$('accessCode').addEventListener('input',sync);
 $('editBtn').addEventListener('click',async function(){busy=true;sync();try{say('그림을 서버에 보내는 중이에요…');var raw=await dataUrl(file), comma=raw.indexOf(','), d=await api({action:'edit',prompt:$('prompt').value.trim(),image:{data:raw.slice(comma+1),mediaType:file.type}});say('AI가 그림을 바꾸는 중이에요…');var done=await poll(d.generationId,'image');imageGeneration=d.generationId;showImage(done.url);say('바뀐 그림을 확인하세요. 마음에 들면 영상을 만드세요.','ok');$('imageQuota').textContent=quotaText('image',done)}catch(e){say(e.message,'err')}finally{busy=false;sync()}});
