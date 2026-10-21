@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
 <link rel="icon" href="../../assets/noan-ai-icon-32.png" sizes="32x32">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#1877e6">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="color-scheme" content="light">
 <title>노안중 도전! 퀴즈쇼</title>
@@ -12113,6 +12115,7 @@ void main() {
     function fromLocal() { var l = sorted(loadLocal()); return {top: l.slice(0, 10), count: l.length}; }
     function rankIn(list, e) { return list.filter(function (x) { return x.pts > e.pts; }).length + 1; }
     function api(path, body) {
+      if (!navigator.onLine) return Promise.reject(new Error('offline'));
       var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
       return fetch(path, Object.assign({cache: 'no-store', signal: ctl && ctl.signal}, body ? {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)} : {}))
         .then(function (r) { clearTimeout(tm); if (!r.ok) throw new Error(r.status); return r.json(); });
@@ -12358,5 +12361,6 @@ void main() {
     bgm: Bgm.info, bgmLevel: Bgm.level, stage: Stage, board: Board};
 })();
 </script>
+<script src="../offline.js"></script>
 </body>
 </html>

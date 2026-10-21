@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
 <link rel="icon" href="../../assets/noan-ai-icon-32.png" sizes="32x32">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#1877e6">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="color-scheme" content="light">
 <title>노안초 × 노안남초 × 노안중 · 독도 OX 퀴즈</title>
@@ -6824,6 +6826,7 @@ void main() {
     function pending() { var q = store.get(K.q, []); return Array.isArray(q) ? q : []; }
     function fromLocal() { var l = sorted(mine(records())); return {top: l.slice(0, 10), count: l.length, local: true}; }
     function req(qs, opt) {
+      if (!navigator.onLine) return Promise.reject(new Error('offline'));
       var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
       opt = opt || {};
       return fetch(CLOUD.url + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
@@ -7417,5 +7420,6 @@ void main() {
   window.__dokdoOx = {S: S, stops: STOPS, world: W3, snd: function () { return Snd.level(); }, skip: function () { if (S.skip) S.skip(); }, start: start, answer: pick, next: next, settings: function () { return settings; }, questions: DEFAULT_QUESTIONS, board: Board, pickSet: pickSet, bgm: Bgm.info, stage: Stage.info};
 })();
 </script>
+<script src="../offline.js"></script>
 </body>
 </html>

@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
 <link rel="icon" href="../../assets/noan-ai-icon-32.png" sizes="32x32">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#1877e6">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="color-scheme" content="light">
 <title>독도 생물 합치기</title>
@@ -5542,6 +5544,7 @@ void main() {
     function view(e) { return {id: String(e.id || ''), name: cleanName(e.name) || '이름 없음', org: ORGS.indexOf(e.org) >= 0 ? e.org : '', score: Math.max(0, Math.round(+e.score) || 0), top: clamp(Math.round(+e.top) || 1, 1, MAXL), t: +e.t || 0}; }
     function fromLocal() { var l = sorted(mine(records())); return {top: l.slice(0, 10).map(view), count: l.length, local: true}; }
     function req(qs, opt) {
+      if (!navigator.onLine) return Promise.reject(new Error('offline'));
       var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
       opt = opt || {};
       return fetch(CLOUD.url + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
@@ -6118,5 +6121,6 @@ void main() {
   };
 })();
 </script>
+<script src="../offline.js"></script>
 </body>
 </html>

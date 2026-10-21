@@ -8,6 +8,8 @@
 <meta name="description" content="선생님이 수업과 행사에 바로 쓰는 도구 모음. 설치도 가입도 없이 열면 바로 씁니다.">
 <link rel="icon" href="../assets/noan-ai-icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/noan-ai-touch-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1877e6">
 <meta name="apple-mobile-web-app-title" content="노안중 AI">
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/site.css">
@@ -87,6 +89,19 @@
 .s-ask p{margin:3px 0 0;color:var(--p-muted);font-size:15px}
 .s-ask .s-open{margin-left:auto;padding:0 22px;white-space:nowrap}
 
+/* 태블릿 오프라인 저장 */
+.s-offline{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px 28px;margin-top:18px;background:linear-gradient(115deg,#eaf4ff,#fff 62%);border-color:#bfd9f8}
+.s-offline h2{margin:4px 0 6px;font-size:clamp(22px,2.4vw,29px);letter-spacing:-.8px;color:var(--p-navy2)}
+.s-offline p{margin:0;color:#34445a;line-height:1.65}
+.s-offline .s-offline-kicker{color:var(--p-blue-dark);font-size:14px;font-weight:800}
+.s-offline-actions{display:grid;gap:8px;min-width:210px}
+.s-offline button{min-height:52px;padding:0 20px;border:0;border-radius:11px;background:var(--p-blue);color:#fff;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
+.s-offline button:hover{background:var(--p-blue-dark)}
+.s-offline button:disabled{opacity:.65;cursor:wait}
+.s-offline button:focus-visible{outline:3px solid #A84F13;outline-offset:3px}
+.s-offline-status{grid-column:1/-1;margin-top:-4px !important;padding:12px 15px;border-radius:10px;background:#fff;border:1px solid var(--p-border);font-size:14px}
+.s-offline-small{grid-column:1/-1;font-size:13.5px !important;color:var(--p-muted) !important}
+
 @media (max-width:1180px){.s-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:900px){
   .s-hero-art{position:relative;height:170px;order:-1;flex:none}
@@ -97,6 +112,8 @@
   .s-grid,.s-steps{grid-template-columns:1fr}
   .s-filter{width:100%} .s-filter button{flex:1}
   .s-ask{flex-wrap:wrap} .s-ask .s-open{margin-left:0;width:100%}
+  .s-offline{grid-template-columns:1fr}
+  .s-offline-actions{width:100%}
 }
 @media (prefers-reduced-motion:reduce){.s-card,.s-card:hover{transition:none;transform:none}}
 </style>
@@ -171,11 +188,24 @@
       <h1 id="sHeroTitle">열면 바로 쓰는 수업 도구</h1>
       <p>주소를 열면 그 자리에서 쓰고, 인쇄하면 그대로 학습지가 됩니다.<br>수업은 물론 축제·독도의 날 부스에도 바로 쓰세요.</p>
       <ul class="s-facts">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>인터넷 끊겨도 동작</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>미리 저장하면 오프라인</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M10.5 18h3"/></svg>태블릿·전자칠판</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg>A4 인쇄</li>
       </ul>
     </div>
+  </section>
+
+  <section class="p-panel s-offline" aria-labelledby="offlineTitle">
+    <div>
+      <span class="s-offline-kicker">인터넷 없는 행사 준비</span>
+      <h2 id="offlineTitle">태블릿에 게임을 미리 저장하세요</h2>
+      <p>행사 전에 홈 화면에 추가하고, 그 아이콘으로 다시 연 다음 아래 버튼을 누르세요. 퀴즈쇼·독도 기억력·독도 OX·독도 생물 합치기·도형 만들기와 필요한 그림·소리가 저장됩니다.</p>
+    </div>
+    <div class="s-offline-actions">
+      <button id="offlineDownload" type="button">오프라인 다운로드</button>
+    </div>
+    <p class="s-offline-status" id="offlineStatus" role="status" aria-live="polite">홈 화면 아이콘으로 연 화면에서 저장 완료 메시지를 확인하고, 비행기 모드에서 다시 실행해 보세요.</p>
+    <p class="s-offline-small">인터넷에 연결된 동안에는 기존 GitHub Pages 주소와 온라인 랭킹을 그대로 사용합니다. 오프라인 기록은 각 태블릿에 저장되고 5대의 실시간 통합 랭킹은 표시되지 않습니다. 「내 그림 살리기」는 AI 서버가 필요해 오프라인 대상에서 제외됩니다.</p>
   </section>
 
   <!-- 도구 목록 -->
@@ -227,7 +257,7 @@
           <span class="s-new">AI</span>
         </a>
         <div class="s-body">
-          <div class="s-tags"><span>미술</span><span>생성형 AI</span><span>5초 영상</span></div>
+          <div class="s-tags"><span>미술</span><span>생성형 AI</span><span>5초 영상</span><span>인터넷 필요</span></div>
           <h3><a href="art-motion/index.html">내 그림 살리기</a></h3>
           <p class="s-desc">학생 작품과 한 문장을 넣으면 그림 속 대상이 바뀌고, 원래 화풍을 살린 5초 영상으로 움직입니다.</p>
           <ul class="s-meta">
@@ -373,9 +403,9 @@
       <p>세 단계면 준비 끝이에요.</p>
     </div>
     <ol class="s-steps">
-      <li><span class="n">1</span><div><b>주소 열기</b><p>태블릿이나 전자칠판에서 도구를 열어요. 한 번 열어 두면 인터넷이 끊겨도 돌아가요.</p></div></li>
-      <li><span class="n">2</span><div><b>전체 화면으로</b><p>PC는 <kbd>F11</kbd>, 태블릿은 「홈 화면에 추가」로 열면 주소창 없이 꽉 차요.</p></div></li>
-      <li><span class="n">3</span><div><b>끝나면 기록 정리</b><p>퀴즈 기록은 그 기기에만 남아요. 독도 게임·독도 OX 퀴즈 랭킹은 온라인에 남고, 관리 화면에서 새 랭킹을 시작할 수 있어요.</p></div></li>
+      <li><span class="n">1</span><div><b>홈 화면에 추가</b><p>iPad는 Safari 공유 메뉴, 안드로이드는 Chrome 메뉴에서 홈 화면에 추가해요.</p></div></li>
+      <li><span class="n">2</span><div><b>앱에서 다운로드</b><p>홈 화면 아이콘으로 연 다음 위 버튼을 눌러 저장 완료를 확인해요.</p></div></li>
+      <li><span class="n">3</span><div><b>오프라인 시험</b><p>비행기 모드에서 앱을 다시 열어 봐요. 점수는 기기마다 저장돼요.</p></div></li>
     </ol>
   </section>
 
@@ -419,5 +449,6 @@
 </script>
 <script src="../shared/icons.js"></script>
 <script src="../shared/site.js"></script>
+<script src="offline.js"></script>
 </body>
 </html>
