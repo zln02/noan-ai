@@ -1,6 +1,6 @@
 /* Offline bundle for the five tools that can run without a server.
    Bump CACHE_VERSION whenever the bundled pages or assets change. */
-const CACHE_VERSION = 'noan-studio-v3';
+const CACHE_VERSION = 'noan-studio-v4';
 const CACHE_PREFIX = 'noan-studio-';
 const FILES = [
   'index.html',

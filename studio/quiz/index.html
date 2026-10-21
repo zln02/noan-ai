@@ -10865,12 +10865,14 @@ void main() {
     var R, scene, cam, canvas, bgMat, rig, hover, body, headPivot, armA, armB, antenna, tipGlow, thrust, shadow, pool, eyeMat;
     var faceCx, faceTex, chestCx, chestTex, glowTex, confetti, dust, dustBase, shapes = [];
     var BONUS_TOP, BONUS_BOT, BONUS_GLOW;
-    var running = false, last = 0, t = 0, W = 0, H = 0, quality = 1, locked = false, acc = 0, accN = 0, good = 0, baseDpr = 1;
+    var mobile = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 1;
+    var qualityCap = mobile ? 0.85 : 1, frameMs = mobile ? 1000 / 30 : 0;
+    var running = false, last = 0, t = 0, W = 0, H = 0, quality = qualityCap, locked = false, acc = 0, accN = 0, good = 0, baseDpr = 1;
     var ST = {diveT: -1, mood: 'idle', lookEl: null, warn: false, warnK: 0, grade: '', actions: [], blinkAt: 1.5, blinkT: -1, waveAt: 2.5, hopAt: 0, spinAt: 0,
       glanceAt: 4, glanceEl: null, glanceUntil: 0, chest: '?', chestKey: '', faceKey: '', snapped: false, happyK: 0};
     var cur = null, rigC = {x: 0, y: 0, s: 1, vis: 0}, rigT = {x: 0, y: 0, s: 1, vis: 0};
     var pointer = {x: 0, y: 0, t: -1e9};
-    var FIT_H = 3.7, FIT_W = 2.9, CF_N = 200, DUST_N = 220;
+    var FIT_H = 3.7, FIT_W = 2.9, CF_N = mobile ? 100 : 200, DUST_N = mobile ? 100 : 220;
     var CF = [], tv1, tv2, tv3, dummy, zeroM;
     var COL = {mint: 0x3fd98f, gold: 0xffc93c, coral: 0xff6b6b, sky: 0x4dabf7, pink: 0xf783ac, violet: 0x845ef7};
     var bonusK = 0, bonusOn = false;
@@ -10943,13 +10945,14 @@ void main() {
         return phys(c, {roughness: 0.32, clearcoat: 1, clearcoatRoughness: 0.12, sheen: 0.6, sheenColor: new T.Color(0xffffff), sheenRoughness: 0.5});
       });
       var xGeo = new T.CapsuleGeometry(0.17, 1.15, 8, 16);
-      for (var i = 0; i < 13; i++) {
+      var shapeCount = mobile ? 7 : 13;
+      for (var i = 0; i < shapeCount; i++) {
         var gi = i % geos.length, mat = mats[i % mats.length], o;
         if (geos[gi]) o = new T.Mesh(geos[gi], mat);
         else { o = new T.Group(); var b1 = new T.Mesh(xGeo, mat), b2 = new T.Mesh(xGeo, mat); b1.rotation.z = Math.PI / 4; b2.rotation.z = -Math.PI / 4; o.add(b1, b2); }
         o.userData.base = mat.color.clone();
         // 글자와 버튼이 있는 가운데는 피해서 화면 가장자리에만 둔다
-        var a = (i + Math.random() * 0.5) / 13 * Math.PI * 2, rr0 = 0.92 + Math.random() * 0.22;
+        var a = (i + Math.random() * 0.5) / shapeCount * Math.PI * 2, rr0 = 0.92 + Math.random() * 0.22;
         o.userData = {base: o.userData.base, nx: clamp(Math.cos(a) * rr0 * 1.05, -1.15, 1.15), ny: clamp(Math.sin(a) * rr0, -1.1, 1.1),
           d: 26 + (i * 7 % 11) * 1.8, sp: 0.06 + Math.random() * 0.1, ph: Math.random() * 6.28,
           rx: (Math.random() - 0.5) * 0.5, ry: (Math.random() - 0.5) * 0.6, sc: 0.65 + Math.random() * 0.5};
@@ -11506,7 +11509,7 @@ void main() {
 
     /* --- 렌더 루프 (탭이 숨겨지거나 관리 화면이면 멈춤) · 느리면 해상도를 자동으로 낮춤 --- */
     function resize() {
-      W = innerWidth; H = innerHeight; baseDpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      W = innerWidth; H = innerHeight; baseDpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.15 : 1.5);
       R.setPixelRatio(baseDpr * quality); R.setSize(W, H, false);
       cam.aspect = W / H; cam.updateProjectionMatrix(); cam.updateMatrixWorld();
     }
@@ -11515,14 +11518,15 @@ void main() {
       acc += dt; accN++; if (acc < 2 || accN < 6) return; // 2초마다 평균 프레임 시간을 본다
       var avg = acc / accN; acc = 0; accN = 0;
       if (avg > 1 / 12 && quality > 0.35) { quality = 0.35; good = 0; resize(); } // 아주 느린 기기: 바로 최저 해상도로
-      else if (avg > 1 / 40 && quality > 0.5) { quality = Math.max(0.5, quality - 0.15); good = 0; resize(); }
-      else if (avg < 1 / 56 && quality < 1 && ++good >= 4) { quality = Math.min(1, quality + 0.1); good = 0; resize(); }
+      else if (avg > (mobile ? 1 / 22 : 1 / 40) && quality > 0.5) { quality = Math.max(0.5, quality - 0.15); good = 0; resize(); }
+      else if (avg < (mobile ? 1 / 32 : 1 / 56) && quality < qualityCap && ++good >= 4) { quality = Math.min(qualityCap, quality + 0.1); good = 0; resize(); }
       dust.geometry.setDrawRange(0, quality < 0.7 ? DUST_N / 2 : DUST_N);
     }
     function wantRun() { return api.ok && !document.hidden && !(api.pausedFn ? api.pausedFn() : $('admin').classList.contains('on')); }
     function frame(now) {
       if (!wantRun()) { running = false; return; }
       requestAnimationFrame(frame);
+      if (frameMs && now - last < frameMs - 2) return;
       var dt = Math.min(0.1, Math.max(0.001, (now - last) / 1000)); last = now; t += dt;
       try {
         if (innerWidth !== W || innerHeight !== H) resize();
@@ -11542,7 +11546,7 @@ void main() {
       if (!supported()) return false;
       try {
         canvas = $('stage3d');
-        R = new T.WebGLRenderer({canvas: canvas, antialias: true, alpha: !!opts.transparent, powerPreference: 'high-performance', stencil: false});
+        R = new T.WebGLRenderer({canvas: canvas, antialias: !mobile, alpha: !!opts.transparent, powerPreference: 'high-performance', stencil: false});
         R.outputColorSpace = T.SRGBColorSpace; R.toneMapping = T.NeutralToneMapping; R.toneMappingExposure = 1.0; R.setClearColor(0x1a0f4a, 1);
         scene = new T.Scene(); scene.fog = new T.Fog(0x2a1a6e, 22, 56);
         cam = new T.PerspectiveCamera(30, 1, 0.1, 120); cam.position.set(0, 1.4, 13); cam.lookAt(0, 0.5, 0);
@@ -11595,7 +11599,7 @@ void main() {
       ST.grade = ratio >= 1 ? 'perfect' : ratio >= 0.6 ? 'great' : 'good';
       if (passed) spawn('rain', ratio >= 1 ? 190 : 130);
     };
-    api.lock = function (on) { locked = on !== false; if (locked && R) { quality = 1; resize(); } };
+    api.lock = function (on) { locked = on !== false; if (locked && R) { quality = qualityCap; resize(); } };
     api.info = function () { return {pk: PK.t0 >= 0 && hover ? {u: +(t - PK.t0).toFixed(2), x: +hover.position.x.toFixed(2), y: +hover.position.y.toFixed(2), vis: hover.visible, lid: +box.userData.lid.rotation.x.toFixed(2), box: box.visible, by: +box.position.y.toFixed(2)} : null, ok: api.ok, running: running, mood: ST.mood, warn: ST.warn, grade: ST.grade, chest: ST.warn && ST.mood === 'question' ? '!' : ST.chest, quality: quality, visible: !!(rig && rig.visible)}; };
     // 테스트용: 지금 장면을 그려서 픽셀이 비어 있지 않은지, 로봇이 실제로 그려지는지 확인
     // 도구용: 배돌이만 투명 배경으로 찍어 그림(PNG/WebP)으로 내보냄 (독도 게임 등 3D 없는 페이지에 씀)
