@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>요청하기 · 노안중 AI교육</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="필요한 걸 함께 요청해요. 많이 모인 요청부터 연수와 자료로 만들어집니다.">
+<meta name="description" content="필요한 연수와 자료를 요청할 문장을 만들고, 코디네이터에게 전달하는 방법을 안내합니다.">
 <link rel="icon" href="../assets/noan-ai-icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/noan-ai-touch-180.png">
 <meta name="apple-mobile-web-app-title" content="노안중 AI">
@@ -41,9 +41,9 @@
 
   <section class="r-hero" aria-labelledby="rHeroTitle">
     <div class="r-hero-copy">
-      <div class="r-eyebrow">선생님들의 요청 게시판</div>
-      <h1 id="rHeroTitle">필요한 걸 함께 요청해요</h1>
-      <p class="r-lede">이미 올라온 요청에 공감을 눌러 힘을 보태거나, 새 요청을 남겨주세요.<br>많이 모인 요청부터 연수와 자료로 만들어집니다.</p>
+      <div class="r-eyebrow">선생님들의 요청</div>
+      <h1 id="rHeroTitle">필요한 걸 알려주세요</h1>
+      <p class="r-lede">요청할 내용을 작성해 복사한 뒤 교무실이나 업무 메신저로 전달해 주세요. 코디네이터가 받은 요청을 이 목록에 올립니다.</p>
       <p class="r-lede">「이거 만들어 주세요」보다 <strong>「이 일이 오래 걸려요」</strong>라고 말씀해 주시는 게 좋습니다. 그래야 제가 자동화할 지점을 찾습니다.</p>
     </div>
     <div class="r-stats">
@@ -56,13 +56,13 @@
     <div class="r-filters" id="rFilters" role="group" aria-label="상태로 거르기"></div>
     <button class="r-new" type="button" id="rNew" aria-expanded="false" aria-controls="rForm">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
-      새 요청 쓰기
+      보낼 요청 작성하기
     </button>
   </div>
 
   <section class="r-form" id="rForm" aria-labelledby="rFormTitle" hidden>
     <div class="r-form-head">
-      <h2 id="rFormTitle">새 요청 쓰기</h2>
+      <h2 id="rFormTitle">보낼 요청 작성하기</h2>
       <button class="r-close" type="button" id="rClose" aria-label="닫기">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
       </button>
@@ -95,10 +95,10 @@
     </div>
 
     <div class="r-made" id="rMade" hidden>
-      <h3>이대로 보내주세요</h3>
+      <h3>문장이 준비됐습니다. 복사해서 전달해 주세요</h3>
       <pre id="rMadeText"></pre>
       <p><button class="btn" type="button" id="rCopy">복사</button></p>
-      <p class="r-hint">수 · 목 오전 교무실에서 말로 하셔도 되고, 종이 쪽지나 업무 메신저로 주셔도 됩니다. 제가 게시판에 옮겨 적습니다.</p>
+      <p class="r-hint">여기서 작성한 내용은 자동 접수되지 않습니다. 수 · 목 오전 교무실에서 말로 하셔도 되고, 종이 쪽지나 업무 메신저로 주셔도 됩니다. 코디네이터가 목록에 옮겨 적습니다.</p>
     </div>
   </section>
 
@@ -113,7 +113,7 @@
   </div>
 
   <section class="p-panel" aria-labelledby="rWaysTitle">
-    <h2 id="rWaysTitle" class="section-title">폼 말고도 됩니다</h2>
+    <h2 id="rWaysTitle" class="section-title">전달하는 방법</h2>
     <div class="grid cols-3">
       <div class="card">
         <h3 class="card-title">교무실에서 말로</h3>
@@ -136,9 +136,6 @@
       <li>지금은 얼마나 걸리는지 — "한 번에 서너 시간" 정도면 충분합니다</li>
     </ol>
 
-    <div class="formbox" id="requestForm" data-form="">
-      <p>폼 주소가 정해지면 여기에 바로 뜹니다. 그때까지는 위 방법으로 알려주세요.</p>
-    </div>
   </section>
 
 </main>
@@ -158,18 +155,12 @@
 (function () {
   'use strict';
 
-  /* 요청 게시판.
-     원본은 data/requests.json 이다. 코디네이터가 받은 요청을 거기에 옮겨 적는다.
-     이 사이트는 서버가 없다 — 그래서 이 화면에서 글이 올라가지는 않는다.
-     「새 요청 쓰기」 는 보내실 문장을 만들어 드리는 데까지가 하는 일이다. */
+  /* 요청 목록은 data/requests.json에서 읽는다. 작성기는 전달할 문장만 만든다. */
 
   var ALL = '전체';
-  var VOTE_KEY = 'noan-request-votes';
-
   var DATA = null;
   var filter = ALL;
   var draftTag = '';
-  var votes = {};
 
   var filtersBox = document.getElementById('rFilters');
   var listBox = document.getElementById('rList');
@@ -190,29 +181,10 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
-  /* 공감은 이 브라우저에만 남는다. 서버로 가지 않고, 남에게 보이지도 않는다. */
-  function loadVotes() {
-    try {
-      votes = JSON.parse(window.localStorage.getItem(VOTE_KEY) || '{}') || {};
-    } catch (error) {
-      votes = {};
-    }
-  }
-
-  function saveVotes() {
-    try {
-      window.localStorage.setItem(VOTE_KEY, JSON.stringify(votes));
-    } catch (error) { /* 저장이 막혀 있어도 화면은 그대로 돈다 */ }
-  }
-
   function statusClass(status) {
     if (status.indexOf('검토') === 0) return 'r-status-검토';
     if (status.indexOf('준비') === 0) return 'r-status-준비';
     return 'r-status-해결';
-  }
-
-  function countOf(item) {
-    return (Number(item.count) || 0) + (votes[item.id] ? 1 : 0);
   }
 
   function agoText(iso) {
@@ -269,21 +241,13 @@
       listBox.innerHTML = '<p class="r-empty">' +
         (DATA.items.length ?
           '이 상태인 요청이 아직 없습니다.' :
-          '아직 올라온 요청이 없습니다.<br>첫 요청을 남겨주세요 — 위 「새 요청 쓰기」 를 누르시면 보내실 문장을 만들어 드립니다.') +
+          '아직 올라온 요청이 없습니다.<br>위 「보낼 요청 작성하기」를 눌러 전달할 문장을 만들어 보세요.') +
         '</p>';
       return;
     }
 
     listBox.innerHTML = visible.map(function (item) {
-      var on = !!votes[item.id];
-
       return '<article class="r-item">' +
-        '<button class="r-vote" type="button" data-vote="' + esc(item.id) + '"' +
-          ' aria-pressed="' + (on ? 'true' : 'false') + '"' +
-          ' aria-label="이 요청에 공감">' +
-          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6"></path><path d="m5 12 7-7 7 7"></path></svg>' +
-          '<b>' + countOf(item) + '</b>' +
-        '</button>' +
         '<div class="r-item-main">' +
           '<div class="r-pills">' +
             '<span class="r-status ' + statusClass(item.status) + '">' + esc(item.status) + '</span>' +
@@ -329,15 +293,6 @@
     if (!button) return;
     filter = button.getAttribute('data-filter');
     renderFilters();
-    renderList();
-  });
-
-  listBox.addEventListener('click', function (event) {
-    var button = event.target.closest('button[data-vote]');
-    if (!button) return;
-    var id = button.getAttribute('data-vote');
-    votes[id] = !votes[id];
-    saveVotes();
     renderList();
   });
 
@@ -393,7 +348,6 @@
   function boot(data) {
     DATA = data;
     draftTag = DATA.tags[0] || '';
-    loadVotes();
     renderStats();
     renderFilters();
     renderList();
@@ -421,19 +375,6 @@
     boot(data);
   });
 
-  /* 노션 폼 자리 — data-form 이 채워지면 iframe 을 살린다 */
-  var box = document.getElementById('requestForm');
-  var src = box && box.getAttribute('data-form');
-
-  if (src) {
-    var iframe = document.createElement('iframe');
-    iframe.src = src;
-    iframe.title = '요청 폼';
-    iframe.loading = 'lazy';
-    box.innerHTML = '';
-    box.className += ' is-live';
-    box.appendChild(iframe);
-  }
 })();
 </script>
 </body>
