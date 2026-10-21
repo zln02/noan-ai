@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="노안중 AI">
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/site.css">
-<link rel="stylesheet" href="../shared/portal.css?v=20261021b">
+<link rel="stylesheet" href="../shared/portal.css?v=20261021d">
 </head>
 <body class="portal p-legacy">
 <a class="skip" href="#main">본문으로</a>
@@ -46,10 +46,12 @@
         <p class="lede">결제도, 계정 신설도, 승인 절차도 필요 없습니다. 전남교육청이 이미 드린 것입니다.</p>
         <p class="muted">업무별 AI 안내서 17가지가 궁금하신가요? <a href="../index.html">안내서 보러가기 →</a></p>
       </div>
-      <div class="qr-box">
-        <div class="qr"><img src="../assets/qr-site.svg" alt="노안중 AI교육 사이트 QR 코드" width="160" height="160" onerror="this.parentNode.parentNode.classList.add('is-gone')"></div>
-        <p class="small muted">휴대폰으로 이 쪽 열기</p>
-      </div>
+      <nav class="library-quick" aria-label="할 일로 도구 찾기">
+        <h2>무엇을 하시나요?</h2>
+        <a class="library-quick-link" href="#card-miricanvas"><span>가정통신문·발표자료 만들기<small>미리캔버스 Pro</small></span><span aria-hidden="true">↗</span></a>
+        <a class="library-quick-link" href="#card-gemini"><span>긴 공문 요약하기<small>Gemini</small></span><span aria-hidden="true">↗</span></a>
+        <a class="library-quick-link" href="#card-classroom"><span>과제 배부·수합하기<small>구글 클래스룸</small></span><span aria-hidden="true">↗</span></a>
+      </nav>
     </div>
   </div>
 </section>
@@ -59,7 +61,7 @@
     <h2 class="section-title">교육청이 지원하는 도구 5</h2>
     <div class="grid cols-2">
 
-      <div class="card tilt" id="card-miricanvas">
+      <div class="card tilt" id="card-miricanvas" tabindex="-1">
         <span class="badge"><span data-icon="miricanvas" data-icon-size="24"></span>미리캔버스 Pro</span>
         <h3 class="card-title">가정통신문 · 팜플렛 · 발표자료</h3>
         <p class="card-lede">교육청 MOU로 교직원 무료. AI 프레젠테이션·AI 이미지·템플릿 50만 개. 화면에서 바로 인쇄 주문도 됩니다.</p>
@@ -75,13 +77,13 @@
         <p class="card-lede small">최초 1회만 교직원 인증이 필요합니다 — 비밀번호 인증 후 본인인증으로 간편인증과 공동인증서를 둘 다 등록합니다. 문의: 전남창의융합교육원 061-330-2144 · 아이모두 고객센터 1877-1052</p>
       </div>
 
-      <div class="card tilt" id="card-gemini">
+      <div class="card tilt" id="card-gemini" tabindex="-1">
         <span class="badge"><span data-icon="googlegemini" data-icon-size="24"></span>Gemini</span>
         <h3 class="card-title">긴 공문을 읽고 근거를 댑니다</h3>
         <p class="card-lede">아이모두 계정에 포함되어 있습니다. 공문 PDF를 올리고 "우리 학교가 해야 할 일만 정리해줘"라고 물어보세요. 개인정보가 들어간 공문은 올리지 않습니다.</p>
       </div>
 
-      <div class="card tilt" id="card-classroom">
+      <div class="card tilt" id="card-classroom" tabindex="-1">
         <span class="badge"><span data-icon="googleclassroom" data-icon-size="24"></span>구글 클래스룸</span>
         <h3 class="card-title">과제 배부 · 수합</h3>
         <p class="card-lede">아이모두에 포함됩니다. 유튜브 양방향 퀴즈도 여기서 만듭니다. 학생 계정은 학교 확인이 필요합니다.</p>
@@ -145,6 +147,15 @@
 </section>
 
 </main>
+<aside class="library-share" aria-label="자료실 공유">
+  <div class="p-wrap library-share-inner">
+    <div>
+      <strong>동료 선생님께 자료실 공유하기</strong>
+      <p>휴대폰 카메라로 QR 코드를 스캔하면 이 사이트가 열립니다.</p>
+    </div>
+    <img src="../assets/qr-site.svg" alt="노안중 AI교육 사이트 QR 코드" width="96" height="96">
+  </div>
+</aside>
 <footer class="p-footer">
   <div class="p-wrap p-footer-grid">
     <img src="../assets/logo.png" alt="노안중학교" width="120" height="40">

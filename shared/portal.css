@@ -1280,9 +1280,86 @@ body.portal.p-legacy {
 
 .portal .hero-a.library-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, .85fr);
+  gap: 48px;
 }
+
+.portal .library-quick {
+  display: grid;
+  gap: 8px;
+  align-self: stretch;
+  padding: 18px;
+  border: 1px solid #DDE8F5;
+  border-radius: 18px;
+  background: #F4F8FE;
+}
+
+.portal .library-quick h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--p-navy);
+}
+
+body.portal.p-legacy main a.library-quick-link:not(.btn):not(.card):not([class^="p-"]):not([class*=" p-"]) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 14px;
+  border: 1px solid #E0E8F2;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--p-navy);
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.35;
+  text-decoration: none;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+
+.portal .library-quick-link small {
+  display: block;
+  margin-top: 3px;
+  color: var(--p-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.portal .library-quick-link:hover,
+.portal .library-quick-link:focus-visible {
+  border-color: var(--p-blue);
+  box-shadow: 0 4px 14px rgba(24, 119, 230, .12);
+  transform: translateY(-1px);
+}
+
+.portal .library-quick-link:focus-visible {
+  outline: 3px solid var(--p-blue);
+  outline-offset: 2px;
+}
+
+.portal #card-miricanvas:target,
+.portal #card-gemini:target,
+.portal #card-classroom:target {
+  border-color: var(--p-blue);
+  box-shadow: 0 0 0 4px rgba(24, 119, 230, .18);
+}
+
+.library-share {
+  margin: 8px 0 28px;
+}
+
+.library-share-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  color: var(--p-navy);
+}
+
+.library-share-inner strong { font-size: 16px; }
+.library-share-inner p { margin: 2px 0 0; color: var(--p-muted); font-size: 14px; }
+.library-share-inner img { flex: none; }
 
 @media (max-width: 767px) {
   .portal .hero-a.is-text-only {
@@ -1294,6 +1371,11 @@ body.portal.p-legacy {
     padding: 24px;
   }
 
+  .portal .library-quick {
+    margin-top: 22px;
+    padding: 14px;
+  }
+
   .portal .hero-a.is-text-only h1,
   .portal .hero-a.library-hero h1 {
     margin: 12px 0 8px;
@@ -1301,7 +1383,7 @@ body.portal.p-legacy {
     line-height: 1.16;
   }
 
-  .portal .hero-a.library-hero .qr-box {
+  .library-share {
     display: none;
   }
 }
