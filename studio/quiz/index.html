@@ -76,6 +76,10 @@ html.lite .bgfx .grad,html.lite .blob{animation:none}
 html.gl .bot{animation:none}
 html.gl .bot svg{visibility:hidden}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.2vmin)}}
+.bot.pearWin{animation:pearWin .75s ease-out}
+.bot.pearMiss{animation:pearMiss .6s ease-out}
+@keyframes pearWin{0%,100%{transform:translateY(0) rotate(0)}45%{transform:translateY(-2vh) rotate(-7deg)}70%{transform:translateY(-1vh) rotate(7deg)}}
+@keyframes pearMiss{0%,100%{transform:rotate(0)}30%{transform:rotate(-7deg)}60%{transform:rotate(5deg)}}
 .bot .wave{transform-origin:172px 146px;animation:wave 1.4s ease-in-out infinite}
 @keyframes wave{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(16deg)}}
 .bot .eyes{transform-origin:106px 128px;animation:blink 4.5s infinite}
@@ -151,6 +155,28 @@ html.gl #countdown{background:radial-gradient(circle at 50% 45%,rgba(21,10,61,0)
 @keyframes cdpop{0%{transform:scale(1.8) rotate(-10deg);opacity:0}60%{transform:scale(.9);opacity:1}100%{transform:scale(1);opacity:1}}
 #cdBot{position:absolute;left:50%;bottom:2vh;width:40vh;margin-left:-20vh;height:56vh;pointer-events:none}
 html.no3d #cdBot{display:none}
+.bot .pear-art{position:relative;display:block;width:100%;height:100%}
+.bot .pear-sprite{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;transform:scale(1.22);opacity:0}
+.bot .pear-art.ready .pear-sprite{opacity:1}
+.bot .pear-art.ready .pear-svg{display:none}
+.bot .pear-svg{display:block;width:100%;height:100%}
+html.gl .bot .pear-art{visibility:hidden}
+html.no3d .bgfx .grad,html.no3d .blob{animation:none}
+html.no3d #cdScene{display:block}
+#cdScene{display:none;position:absolute;left:0;right:0;bottom:0;height:72vh;overflow:hidden;pointer-events:none}
+.cd-flight{position:absolute;left:50%;bottom:22vh;width:34vmin;height:43vmin;margin-left:-17vmin;z-index:2;animation:pearFlight 5.15s ease-in-out both}
+.cd-flight img{width:100%;height:100%;object-fit:contain;transform:scale(1.22)}
+@keyframes pearFlight{0%{transform:translate(-150%,-8vh) rotate(-20deg) scale(1);opacity:0}10%{opacity:1}31%{transform:translate(-35%,4vh) rotate(12deg) scale(.9);opacity:1}46%{transform:translate(0,17vh) rotate(0) scale(.36);opacity:1}53%,76%{transform:translate(0,17vh) rotate(0) scale(.36);opacity:0}84%{transform:translate(0,0) rotate(-8deg) scale(.8);opacity:1}100%{transform:translate(0,-5vh) rotate(0) scale(1);opacity:1}}
+.cd-gift{position:absolute;left:50%;bottom:8vh;width:30vmin;height:22vmin;margin-left:-15vmin;border-radius:1.5vmin 1.5vmin 3vmin 3vmin;background:linear-gradient(140deg,#ffc95c,#e9893d 65%,#bd5b33);box-shadow:inset -.9vmin -1vmin 0 rgba(103,40,26,.25),0 1.5vmin 0 rgba(20,5,45,.28);z-index:3;animation:giftRise 5.15s ease-in-out both}
+.cd-gift:before{content:'';position:absolute;left:42%;top:0;width:16%;height:100%;background:linear-gradient(90deg,#fff0ad,#fff8cf,#ffe58a)}
+.cd-gift:after{content:'✦';position:absolute;left:0;right:0;top:4vmin;text-align:center;color:#91517d;font-size:9vmin;text-shadow:0 .3vmin #fff4ba}
+.cd-lid{position:absolute;left:-1.5vmin;bottom:100%;width:33vmin;height:5vmin;border-radius:2vmin;background:linear-gradient(#ffe28d,#f3ae58);box-shadow:0 .7vmin 0 #ad5a47;transform-origin:80% 100%;animation:giftLid 5.15s ease-in-out both}
+.cd-lid:before{content:'';position:absolute;left:43%;top:0;width:14%;height:100%;background:#fff5ba}
+@keyframes giftRise{0%,9%{transform:translateY(24vh) scale(.7);opacity:0}20%,69%{transform:translateY(0) scale(1);opacity:1}72%{transform:translateY(1vh) scale(1.06);opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
+@keyframes giftLid{0%,24%,60%{transform:rotate(0)}32%,48%{transform:rotate(-28deg)}75%{transform:rotate(-18deg)}100%{transform:rotate(-28deg)}}
+html.no3d #countdown .cd-ready,html.no3d #countdown #cdNum{z-index:4}
+@media(prefers-reduced-motion:reduce){html.no3d .cd-flight,html.no3d .cd-gift,html.no3d .cd-lid{animation:none}.cd-flight{transform:translateY(-5vh)}}
+
 
 /* ================= 노안중 보너스 안내 ================= */
 #bonusIntro{position:fixed;inset:0;z-index:42;display:none;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(255,180,0,.35),rgba(61,15,0,.75));overflow:hidden}
@@ -632,7 +658,7 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
 </section>
 
 <!-- 카운트다운 -->
-<div id="countdown" aria-live="assertive"><i class="cd-ring"></i><div id="cdBot" aria-hidden="true"></div><div class="cd-ready">준비~</div><div id="cdNum">3</div></div>
+<div id="countdown" aria-live="assertive"><i class="cd-ring"></i><div id="cdBot" aria-hidden="true"></div><div id="cdScene" aria-hidden="true"><div class="cd-flight"><img src="assets/pear-idle.png" alt=""></div><div class="cd-gift"><div class="cd-lid"></div></div></div><div class="cd-ready">준비~</div><div id="cdNum">3</div></div>
 
 <!-- 노안중 보너스 문제 안내 -->
 <div id="bonusIntro" aria-live="assertive">
@@ -10552,6 +10578,14 @@ void main() {
       '<g class="wave"><path d="M172 146 Q188 132 190 116" stroke="#e9a630" stroke-width="10" fill="none" stroke-linecap="round"/><circle cx="190" cy="110" r="10" fill="#fff"/></g>';
     return '<svg viewBox="0 0 212 240" aria-hidden="true">' + defs + limbs + pear + '</svg>';
   }
+  function setBot(el, mood) {
+    if (!el) return;
+    el.innerHTML = '<span class="pear-art"><img class="pear-sprite" src="assets/pear-idle.png" alt=""><span class="pear-svg">' + botSvg(mood) + '</span></span>';
+    var img = el.getElementsByTagName('img')[0];
+    function ready() { if (img.naturalWidth) img.parentNode.className += ' ready'; }
+    img.onload = ready;
+    if (img.complete) ready();
+  }
   var ICON = {
     flame: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c1.2 4.2 5.8 6.4 5.8 12a5.8 5.8 0 0 1-11.6 0c0-2.4 1.1-4.1 2.4-5.3 0 2.3 1.1 3.5 2.3 3.6-.3-3.6-.6-6.6 1.1-10.3z"/></svg>',
     star: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.8l3.1 6.6 7.2.8-5.3 5 1.4 7.1L12 17.7l-6.4 3.6L7 14.2l-5.3-5 7.2-.8z"/></svg>',
@@ -11857,14 +11891,14 @@ void main() {
     Board.refresh(); // 골든 퀴즈 판단용 최신 1등 점수
     Sfx.play('start');
     show(null); Stage.set('count'); Bgm.setMode('count', true);
-    if (Stage.ok) [[800, 'stamp'], [1700, 'whoosh'], [2550, 'stamp']].forEach(function (e) { // 상자 쿵 · 배돌이 슝 · 뚜껑 쾅
+    [[800, 'stamp'], [1700, 'whoosh'], [2550, 'stamp']].forEach(function (e) { // 상자 쿵 · 배돌이 슝 · 뚜껑 쾅
       setTimeout(function () { if (S.phase === 'countdown') Sfx.play(e[1]); }, e[0]); });
     runCountdown(function () { show('quiz'); intro(); bumpIdle(); });
   }
 
   function runCountdown(done) {
     var ov = $('countdown'), num = $('cdNum'), steps = ['5', '4', '3', '2', '1', '시작!'], i = 0;
-    S.phase = 'countdown'; clearTimeout(cdT); ov.classList.add('on'); Stage.kick();
+    S.phase = 'countdown'; clearTimeout(cdT); ov.classList.remove('on'); void ov.offsetWidth; ov.classList.add('on'); Stage.kick();
     (function step() {
       if (S.phase !== 'countdown') return;
       if (i >= steps.length) { ov.classList.remove('on'); done(); return; }
@@ -11905,7 +11939,7 @@ void main() {
     box.className = 'choices' + (q.type === 'ox' ? ' ox' : '');
     box.innerHTML = item.choices.map(function (c, k) {
       return '<button class="choice" style="--i:' + k + '" data-k="' + k + '"><span class="badge">' + SHAPES[k] + '</span><span class="ctext">' + esc(c) + '</span></button>'; }).join('');
-    $('qBot').innerHTML = botSvg('idle');
+    setBot($('qBot'), 'idle');
     fitQuestion();
     Stage.set('question', $('qText')); Bgm.setMode('question', true);
     startTimer();
@@ -12045,7 +12079,8 @@ void main() {
     var fb = $('feedback');
     fb.className = 'on ' + (ok ? 'ok' : 'ng'); $('quiz').classList.add('fbon');
     $('fbFace').innerHTML = botSvg(ok ? 'happy' : 'sad', true);
-    $('qBot').innerHTML = botSvg(ok ? 'happy' : 'sad');
+    setBot($('qBot'), ok ? 'happy' : 'sad');
+    if (!Stage.ok) restartAnim($('qBot'), ok ? 'pearWin' : 'pearMiss');
     $('fbTitle').innerHTML = esc(ok ? (S.streak >= 2 ? '정답! ' + S.streak + '연속!' : '정답!') : timeout ? '시간 초과!' : '아쉬워요!') +
       (ok ? '<span class="fbpts' + (bonusQ ? ' gold' : '') + '">+' + gain + (golden ? ' 🏆' : bonusQ ? ' ×2' : '') + '</span>' : '');
     if (golden) { $('fbTitle').insertAdjacentHTML('afterbegin', ok ? '골든 퀴즈 ' : ''); if (ok) setTimeout(function () { bigText('🏆 1등 역전!', 'crown', 1600); }, 400); }
@@ -12104,7 +12139,7 @@ void main() {
     $('resTicketTitle').textContent = '선물 대상';
     $('resTicketNo').textContent = '오늘 ' + st.passed + '번째 · ' + new Date().toTimeString().slice(0, 5);
     $('resMsg').textContent = passed ? settings.passMsg : settings.failMsg;
-    $('rBot').innerHTML = botSvg(ratio >= 0.6 ? 'happy' : 'idle');
+    setBot($('rBot'), ratio >= 0.6 ? 'happy' : 'idle');
     $('rBubble').textContent = ratio >= 1 ? '완벽해! 최고야!' : passed ? '와, 대단해!' : '도전해 줘서 고마워!';
     $('resRank').innerHTML = '&nbsp;';
     S.entry = {id: 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: nickname(), pts: S.points, ok: S.score, total: total, t: Date.now()};
@@ -12410,7 +12445,7 @@ void main() {
     try { localStorage.setItem('noan-quiz-safe-mode', safeMode ? '0' : '1'); } catch (_) {}
     location.reload();
   });
-  $('aBot').innerHTML = botSvg('idle'); $('qBot').innerHTML = botSvg('idle');
+  setBot($('aBot'), 'idle'); setBot($('qBot'), 'idle');
   drawBgmBtns(); refreshAttract(); Stage.set('idle'); Stage.kick();
   if (BOARD_MODE) { show('board'); drawBigBoard(); }
   Board.detect().then(function (on) {

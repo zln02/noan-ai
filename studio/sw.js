@@ -1,6 +1,6 @@
 /* Offline bundle for the five tools that can run without a server.
    Bump CACHE_VERSION whenever the bundled pages or assets change. */
-var CACHE_VERSION = 'noan-studio-v6';
+var CACHE_VERSION = 'noan-studio-v7';
 var CACHE_PREFIX = 'noan-studio-';
 var FILES = [
   'index.html',
@@ -10,6 +10,7 @@ var FILES = [
   'icons/icon-192.png',
   'icons/icon-512.png',
   'quiz/index.html',
+  'quiz/assets/pear-idle.png',
   'quiz/fonts/jua.woff2',
   'dokdo/index.html',
   'dokdo/img/pear-happy.webp',
