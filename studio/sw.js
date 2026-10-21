@@ -1,8 +1,8 @@
 /* Offline bundle for the five tools that can run without a server.
    Bump CACHE_VERSION whenever the bundled pages or assets change. */
-const CACHE_VERSION = 'noan-studio-v4';
-const CACHE_PREFIX = 'noan-studio-';
-const FILES = [
+var CACHE_VERSION = 'noan-studio-v5';
+var CACHE_PREFIX = 'noan-studio-';
+var FILES = [
   'index.html',
   'offline.js',
   'manifest.webmanifest',
@@ -39,69 +39,78 @@ const FILES = [
   '../assets/noan-ai-icon-32.png',
   '../assets/noan-ai-touch-180.png'
 ];
-const URLS = FILES.map(path => new URL(path, self.registration.scope).href);
+var URLS = FILES.map(function (path) { return new URL(path, self.registration.scope).href; });
 
-self.addEventListener('install', event => {
+self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(CACHE_VERSION)
-      .then(cache => cache.addAll(URLS))
-      .then(() => self.skipWaiting())
+      .then(function (cache) { return cache.addAll(URLS); })
+      .then(function () { return self.skipWaiting(); })
   );
 });
 
-self.addEventListener('activate', event => {
+self.addEventListener('activate', function (event) {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_VERSION)
-        .map(key => caches.delete(key))))
-      .then(() => self.clients.claim())
+      .then(function (keys) {
+        return Promise.all(keys.filter(function (key) {
+          return key.indexOf(CACHE_PREFIX) === 0 && key !== CACHE_VERSION;
+        }).map(function (key) { return caches.delete(key); }));
+      })
+      .then(function () { return self.clients.claim(); })
   );
 });
 
-self.addEventListener('fetch', event => {
-  const request = event.request;
+self.addEventListener('fetch', function (event) {
+  var request = event.request;
   if (request.method !== 'GET') return;
-  const url = new URL(request.url);
-  if (url.origin !== self.location.origin || url.pathname.includes('/api/')) return;
-  const inStudio = url.pathname.startsWith(new URL(self.registration.scope).pathname);
-  if (!inStudio && !URLS.some(asset => new URL(asset).pathname === url.pathname)) return;
+  var url = new URL(request.url);
+  if (url.origin !== self.location.origin || url.pathname.indexOf('/api/') !== -1) return;
+  var inStudio = url.pathname.indexOf(new URL(self.registration.scope).pathname) === 0;
+  if (!inStudio && !URLS.some(function (asset) { return new URL(asset).pathname === url.pathname; })) return;
 
-  event.respondWith((async () => {
-    const cache = await caches.open(CACHE_VERSION);
+  event.respondWith(caches.open(CACHE_VERSION).then(function (cache) {
     if (request.mode === 'navigate') {
-      try {
-        const response = await fetch(request);
-        if (response.ok) await cache.put(request, response.clone());
-        return response;
-      } catch (error) {
-        const saved = await cache.match(request, {ignoreSearch: true});
-        if (saved) return saved;
-        throw error;
-      }
+      return fetch(request).then(function (response) {
+        if (!response.ok) return response;
+        return cache.put(request, response.clone()).then(function () { return response; });
+      }).catch(function () {
+        return cache.match(request, {ignoreSearch: true}).then(function (saved) {
+          if (saved) return saved;
+          throw new Error('Offline page unavailable');
+        });
+      });
     }
-    const saved = await cache.match(request, {ignoreSearch: true});
-    if (saved) return saved;
-    const response = await fetch(request);
-    if (response.ok) await cache.put(request, response.clone());
-    return response;
-  })());
+    return cache.match(request, {ignoreSearch: true}).then(function (saved) {
+      if (saved) return saved;
+      return fetch(request).then(function (response) {
+        if (!response.ok) return response;
+        return cache.put(request, response.clone()).then(function () { return response; });
+      });
+    });
+  }));
 });
 
-self.addEventListener('message', event => {
+self.addEventListener('message', function (event) {
   if (!event.data || event.data.type !== 'OFFLINE_PREPARE' || !event.ports[0]) return;
-  event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_VERSION);
-    const missing = [];
-    for (const url of URLS) {
-      if (await cache.match(url)) continue;
-      try {
-        const response = await fetch(url, {cache: 'reload'});
-        if (!response.ok) throw new Error(String(response.status));
-        await cache.put(url, response);
-      } catch (_) {
-        missing.push(new URL(url).pathname);
-      }
-    }
-    event.ports[0].postMessage({ok: missing.length === 0, total: URLS.length, missing});
-  })());
+  event.waitUntil(caches.open(CACHE_VERSION).then(function (cache) {
+    var missing = [];
+    var stale = [];
+    var sequence = Promise.resolve();
+    URLS.forEach(function (url) {
+      sequence = sequence.then(function () {
+        return fetch(url, {cache: 'reload'}).then(function (response) {
+          if (!response.ok) throw new Error(String(response.status));
+          return cache.put(url, response);
+        }).catch(function () {
+          return cache.match(url).then(function (saved) {
+            (saved ? stale : missing).push(new URL(url).pathname);
+          });
+        });
+      });
+    });
+    return sequence.then(function () {
+      event.ports[0].postMessage({ok: missing.length === 0 && stale.length === 0, version: CACHE_VERSION, total: URLS.length, missing: missing, stale: stale});
+    });
+  }));
 });

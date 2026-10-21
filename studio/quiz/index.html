@@ -18,6 +18,7 @@
   --green:#2fb36b; --green-d:#1b7f47; --red:#ff5c5c; --red-d:#c92a2a;
   --ink:#24184f; --muted:#6c63a0; --line:#e3dcff; --bg:#f3f0ff; --blue:#6b4fe0; --card:#fff;
   --cat:#6b4fe0; --tint:#e5dbff;
+  --u: 1vmin;
   --u: min(1vw, 1vh);
   --bot-h: 58vh;
   --host-w: 21vw;
@@ -61,8 +62,11 @@ html.gl .bgfx{display:none}
 .blob.b3{width:40vmin;height:40vmin;right:30vw;top:-12vmin;background:radial-gradient(circle,rgba(77,171,247,.35),rgba(77,171,247,0) 68%);animation-delay:-3s}
 @keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(6vmin,-5vmin) scale(1.12)}100%{transform:translate(-4vmin,4vmin) scale(.94)}}
 #adminHotspot{position:absolute;top:0;right:0;width:12vmin;height:12vmin;z-index:5}
+.safe-mode-btn{position:absolute;top:12px;left:12px;z-index:8;padding:9px 12px;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:rgba(21,10,61,.65);color:#fff;font-size:13px;font-weight:800;line-height:1.2;backdrop-filter:blur(4px)}
+.safe-mode-btn:focus-visible{outline:3px solid #ffe48a;outline-offset:2px}
+html.lite .bgfx .grad,html.lite .blob{animation:none}
 
-.a-wrap{position:relative;z-index:1;width:100%;height:100%;display:grid;grid-template-columns:28% 1fr 28%;gap:calc(var(--u)*3);align-items:center}
+.a-wrap{position:relative;z-index:1;width:100%;height:100%;display:flex;display:grid;grid-template-columns:28% 1fr 28%;gap:calc(var(--u)*3);align-items:center}
 .a-mascot{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;height:100%}
 .a-mascot .bubble{margin-bottom:calc(var(--u)*-1);z-index:2}
 .a-mascot .bot{width:100%;height:auto;aspect-ratio:5/6;max-height:66vh}
@@ -228,8 +232,9 @@ html.no3d #cdBot{display:none}
 #quiz.bonus .tag{background:linear-gradient(180deg,#ffa94d,#e8590c)}
 #quiz.bonus .qnum{color:#b35c00}
 /* 보기: 카훗식 4색+모양, 말랑한 3D 키 */
-.choices{width:100%;display:grid;gap:calc(var(--u)*2.2);grid-template-columns:1fr 1fr}
+.choices{width:100%;display:flex;flex-wrap:wrap;display:grid;gap:calc(var(--u)*2.2);grid-template-columns:1fr 1fr}
 .choice{--cc:var(--c0);--cd:var(--c0d);position:relative;min-height:calc(var(--u)*14);color:#fff;border-radius:calc(var(--u)*3.4);
+  background:var(--cc);
   background:linear-gradient(180deg,color-mix(in srgb,var(--cc) 75%,#fff) 0%,var(--cc) 45%,var(--cc) 100%);
   font-family:var(--disp);font-size:calc(var(--u)*4.4);display:flex;align-items:center;gap:calc(var(--u)*2);padding:calc(var(--u)*1.8) calc(var(--u)*2.6);text-align:left;text-shadow:0 calc(var(--u)*.35) 0 rgba(0,0,0,.22);
   box-shadow:inset 0 calc(var(--u)*.6) 0 rgba(255,255,255,.45),inset 0 calc(var(--u)*-.7) 0 rgba(0,0,0,.12),0 calc(var(--u)*1.2) 0 var(--cd),0 calc(var(--u)*2.4) calc(var(--u)*3.4) rgba(12,0,50,.45);
@@ -531,11 +536,30 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:14px 22px;border-radius:12px;font-weight:700;font-size:18px;z-index:60;display:none;max-width:90vw;text-align:center}
 #toast.on{display:block}
 
+@supports not (display:grid){
+  @media (orientation:landscape){
+    .a-mascot{flex:0 0 19%}.a-main{flex:1 1 auto}.a-board{flex:0 0 25%}
+  }
+  .choice{width:calc(50% - 12px)}
+  .choices.ox .choice{width:calc(50% - 12px)}
+  @media (orientation:portrait){.choice{width:100%}}
+}
+
+/* 9.7형 구형 태블릿의 가로 화면: 제목과 랭킹이 서로 겹치지 않게 조정 */
+@media (orientation:landscape) and (max-width:1200px){
+  .a-wrap{grid-template-columns:19% minmax(0,1fr) 25%;gap:12px}
+  .logo .l2{font-size:6vw;font-size:clamp(44px,6vw,72px)}
+  .logo .l1{font-size:4vw;font-size:clamp(30px,4vw,50px)}
+  #attract .step{min-width:0}
+  #startBtn{min-height:70px}
+  .home{min-height:60px}
+}
+
 /* ================= 세로 화면 ================= */
 @media (orientation:portrait){
   :root{--bot-h:24vh;--host-w:0px}
-  #attract{padding:calc(var(--u)*5) calc(var(--u)*4)}
-  .a-wrap{display:flex;flex-direction:column;align-items:center;justify-content:space-evenly}
+  #attract{padding:52px max(12px,calc(var(--u)*4)) 20px;overflow-y:auto;overscroll-behavior:contain;justify-content:flex-start}
+  .a-wrap{height:auto;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
   .a-main{display:contents}
   .logo{order:2} .logo .l2{font-size:calc(var(--u)*13.5)} .logo .l1{font-size:calc(var(--u)*8)} .a-mascot{order:3}
   #attract .steps{order:4} #startBtn{order:5;font-size:calc(var(--u)*7)} #attract .sub.prize{order:6;font-size:calc(var(--u)*3.6)} #aToday{order:7}
@@ -543,20 +567,24 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
   #attract .step{min-width:calc(var(--u)*25)} #attract .step b{font-size:calc(var(--u)*3.8)} #attract .step small{font-size:calc(var(--u)*2.5)}
   .a-board{order:8;width:100%;max-width:calc(var(--u)*90)}
   .rank li{font-size:calc(var(--u)*3.2)}
-  .a-wrap{justify-content:space-between;gap:calc(var(--u)*2)} .a-wrap > *, .a-main > *{flex-shrink:0}
+  .a-wrap{gap:calc(var(--u)*3)} .a-wrap > *, .a-main > *{flex-shrink:0}
   .a-board{padding:calc(var(--u)*2) calc(var(--u)*2.4);gap:calc(var(--u)*1)} .a-board .rank li:nth-child(n+4), .a-board .ab-foot{display:none}
   .a-mascot .bubble{display:none}
   .bubble{font-size:calc(var(--u)*4.4)}
   #cdBot{width:60vw;margin-left:-30vw;bottom:6vh;height:52vh}
   .topbar{flex-wrap:wrap;row-gap:calc(var(--u)*2.4)}
   .topbar .dots{order:5;flex-basis:100%}
-  .qhost{position:static;width:100%;height:16vh;flex:0 0 auto;align-items:center}
+  #quiz{overflow-y:auto;overscroll-behavior:contain;justify-content:flex-start;padding:12px max(12px,calc(var(--u)*4)) 28px}
+  #quiz .qbox{flex:0 0 auto;min-height:auto;margin-left:0}
+  #quiz .qbox .sp{display:none}
+  .qhost{position:static;width:100%;height:12vh;flex:0 0 auto;align-items:center}
   .qhost .bot{height:100%;width:auto}
   #quiz.fbon .qhost,#quiz.q2 .qhost{height:10vh}
   #quiz.q3 .qhost,#quiz.fbon.tight .qhost{display:none}
   .choices{grid-template-columns:1fr}
+  .choices .choice{min-height:64px}
   .choices.ox{grid-template-columns:1fr 1fr}
-  .choices.ox .choice{min-height:calc(var(--u)*34)}
+  .choices.ox .choice{min-height:96px}
   .qtext{font-size:calc(var(--u)*6.4)}
   .qimg{max-height:24vh}
   #quiz.fbon .qtext{font-size:calc(var(--u)*5)}
@@ -581,6 +609,7 @@ th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;font-
 <section id="attract" class="screen on" aria-label="대기 화면">
   <div class="bgfx" aria-hidden="true"><div class="grad"></div><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
   <button id="adminHotspot" aria-label="관리"></button>
+  <button id="safeModeBtn" class="safe-mode-btn" type="button" aria-pressed="false">화면 깨짐? 안정 모드</button>
   <div class="a-wrap">
     <div class="a-mascot">
       <div class="bubble" id="aBubble">안녕! 나는 퀴즈봇 노아야</div>
@@ -12352,7 +12381,16 @@ void main() {
   });
 
   /* ===== 시작 ===== */
-  document.documentElement.classList.add(Stage.init() ? 'gl' : 'no3d');
+  var safeMode = false;
+  try { safeMode = localStorage.getItem('noan-quiz-safe-mode') === '1'; } catch (_) {}
+  document.documentElement.classList.toggle('lite', safeMode);
+  document.documentElement.classList.add(!safeMode && Stage.init() ? 'gl' : 'no3d');
+  $('safeModeBtn').textContent = safeMode ? '3D 다시 켜기' : '화면 깨짐? 안정 모드';
+  $('safeModeBtn').setAttribute('aria-pressed', String(safeMode));
+  $('safeModeBtn').addEventListener('click', function () {
+    try { localStorage.setItem('noan-quiz-safe-mode', safeMode ? '0' : '1'); } catch (_) {}
+    location.reload();
+  });
   $('aBot').innerHTML = botSvg('idle'); $('qBot').innerHTML = botSvg('idle');
   drawBgmBtns(); refreshAttract(); Stage.set('idle'); Stage.kick();
   if (BOARD_MODE) { show('board'); drawBigBoard(); }
