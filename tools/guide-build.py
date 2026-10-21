@@ -3,12 +3,13 @@
 
 data/tasks.json 하나가 원본이다. 인쇄본(A4 가로)과 웹이 같은 데이터에서 나온다.
 
-  python3 build2.py        guide-print.html 생성
+  python3 tools/guide-build.py        tools/guide-print.html 생성
 """
 import json
 import pathlib
 
-DATA = next(p for p in (pathlib.Path("../data/tasks.json"), pathlib.Path("tasks.json")) if p.exists())
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+DATA = ROOT / "data/tasks.json"
 D = json.loads(DATA.read_text(encoding="utf-8"))
 META, GROUPS, TASKS = D["meta"], D["groups"], D["tasks"]
 GMAP = {g["id"]: g for g in GROUPS}
@@ -23,7 +24,7 @@ SCHOOL = dict(
 AGE = SCHOOL["year"] - SCHOOL["opened"]
 
 # 로고가 오면 assets/logo.svg 로 두면 워터마크가 로고로 바뀐다.
-LOGO = pathlib.Path("assets/logo.svg")
+LOGO = ROOT / "assets/logo.svg"
 
 CSS = """
 :root{--ink:#0E3B33;--ink2:#155146;--mint:#3FAE93;--mint2:#7FD6C2;--warm:#D97A38;
@@ -117,7 +118,7 @@ LEAF = """<svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 6c-6 12-18
 
 def wm():
     if LOGO.exists():
-        inner = f'<img src="{LOGO}" alt="">'
+        inner = '<img src="../assets/logo.svg" alt="">'
     else:
         inner = LEAF
     return f'<div class="wm">{inner}<div class="t">{SCHOOL["name"]}</div></div>'
@@ -141,40 +142,45 @@ def cover():
   </div>
 </div>
 <div class="qr" style="position:absolute;right:20mm;bottom:34mm;text-align:center">
-  <img src="qr-guide.svg" alt="안내서 웹 주소 QR"><div>휴대폰으로 열기</div>
+  <div>온라인 안내서<br>{META['site']}</div>
 </div>
 {foot(f"{SCHOOL['addr']}", f"{META['updated']} · AI교육 코디네이터 박진영")}
 </section>"""
 
 
 def toc():
-    out = [f'<section class="slide"><div class="bar"></div>{wm()}',
-           '<div class="head" style="margin-left:0"><h1>무엇을 하시려고요?</h1>',
-           '<div class="r"><div class="when">하시려는 일을 찾아 그 쪽만 보시면 됩니다.<br>'
-           '필요한 쪽만 뽑아 인쇄하셔도 됩니다.</div></div></div>']
-    if META.get("tip"):
-        out.append(f'<div class="tip"><b>도구가 안 보이실 때</b>{META["tip"]}</div>')
-    for g in GROUPS:
-        items = [t for t in TASKS if t["group"] == g["id"]]
-        out.append(f'<div class="gsec"><h2><span class="tag {g["color"]}">{g["label"]}</span>'
-                   f'<span style="font-size:11.5pt;color:var(--mute);font-weight:400">{g["sub"]}</span></h2>'
-                   '<div class="cards">')
-        for t in items:
-            out.append(f'<div class="card {"warm" if g["id"]=="class" else ""}">'
-                       f'<div class="n">{t["no"]}</div><div class="t">{t["title"]}</div>'
-                       f'<div class="w">{t["when"]}</div></div>')
-        out.append('</div></div>')
-    out.append(foot("노안중학교 AI 안내서", f"모두 {len(TASKS)}가지 · {META['site']}"))
-    out.append('</section>')
+    out = []
+    chunks = [TASKS[:13], TASKS[13:]]
+    for page, chunk in enumerate(chunks, start=1):
+        out.extend([f'<section class="slide"><div class="bar"></div>{wm()}',
+                    f'<div class="head" style="margin-left:0"><h1>무엇을 하시려고요? {page}/2</h1>',
+                    '<div class="r"><div class="when">하시려는 일을 찾아 그 쪽만 보시면 됩니다.<br>'
+                    '필요한 쪽만 뽑아 인쇄하셔도 됩니다.</div></div></div>'])
+        if page == 1 and META.get("tip"):
+            out.append(f'<div class="tip"><b>도구가 안 보이실 때</b>{META["tip"]}</div>')
+        for g in GROUPS:
+            items = [t for t in chunk if t["group"] == g["id"]]
+            if not items:
+                continue
+            out.append(f'<div class="gsec"><h2><span class="tag {g["color"]}">{g["label"]}</span>'
+                       f'<span style="font-size:11.5pt;color:var(--mute);font-weight:400">{g["sub"]}</span></h2>'
+                       '<div class="cards">')
+            for t in items:
+                out.append(f'<div class="card {"warm" if g["id"]=="class" else ""}">'
+                           f'<div class="n">{t["no"]}</div><div class="t">{t["title"]}</div>'
+                           f'<div class="w">{t["when"]}</div></div>')
+            out.append('</div></div>')
+        out.append(foot("노안중학교 AI 안내서", f"목차 {page}/2 · 모두 {len(TASKS)}가지 · {META['site']}"))
+        out.append('</section>')
     return "".join(out)
 
 
 def find_shot(name):
     """assets/guide/ 에 실제로 있는 파일만 돌려준다."""
-    for base in ("../assets/guide", "shots"):
-        p = pathlib.Path(base) / name
+    for base in (ROOT / "assets/guide", ROOT / "tools/shots"):
+        p = base / name
         if p.exists():
-            return p.as_posix()
+            return p.relative_to(ROOT / "tools").as_posix() if base == ROOT / "tools/shots" else "../assets/guide/" + name
     return None
 
 
@@ -252,13 +258,14 @@ def card(t, i, n):
 
 
 def main():
-    n = len(TASKS) + 2
-    body = cover() + toc() + "".join(card(t, i + 3, n) for i, t in enumerate(TASKS))
+    n = len(TASKS) + 3
+    body = cover() + toc() + "".join(card(t, i + 4, n) for i, t in enumerate(TASKS))
     doc = ('<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">'
            f'<title>{SCHOOL["name"]} AI 안내서</title><style>{CSS}</style></head>'
            f'<body>{body}</body></html>')
-    pathlib.Path("guide-print.html").write_text(doc, encoding="utf-8")
-    print(f"표지1 + 목차1 + 카드{len(TASKS)} = {n}장 → guide-print.html")
+    output = ROOT / "tools/guide-print.html"
+    output.write_text(doc, encoding="utf-8")
+    print(f"표지1 + 목차2 + 카드{len(TASKS)} = {n}장 → {output}")
 
 
 if __name__ == "__main__":
