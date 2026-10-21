@@ -28,6 +28,12 @@ test('업무 안내서는 찾기와 상세 열기에 필요한 실제 데이터�
     for (const shot of task.shot ? [].concat(task.shot) : []) {
       assert.ok(exists(`assets/guide/${shot}`), `${task.id}: 없는 캡처 ${shot}`);
     }
+    assert.ok(Array.isArray(task.sources) && task.sources.length, `${task.id}: 확인 근거 없음`);
+    for (const source of task.sources) {
+      assert.ok(source.label && source.detail, `${task.id}: 근거 설명 부족`);
+      if (source.url) assert.match(source.url, /^https:\/\//, `${task.id}: 안전하지 않은 근거 주소`);
+      assert.match(source.checked, /^\d{4}-\d{2}-\d{2}$/, `${task.id}: 확인일 없음`);
+    }
   }
   for (const shortcut of json('data/quicktasks.json')) {
     assert.ok(numbers.has(shortcut.no), `${shortcut.label}: 연결되지 않은 카드`);

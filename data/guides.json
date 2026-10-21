@@ -23,8 +23,8 @@
   "verdict": "link",
   "url": "https://help.miricanvas.com/hc/ko/articles/50160277897881",
   "source": "help.miricanvas.com",
-  "note": "전남교육청 전용 Pro 가이드가 헬프센터에 이미 있다",
-  "checked": "2026-09-06"
+  "note": "전남교육청 교직원용 Pro 연동 절차 · 적용 10~20분",
+  "checked": "2026-10-21"
  },
  {
   "tool": "퀴즈앤",
@@ -66,10 +66,10 @@
   "tool": "NotebookLM",
   "kind": "official",
   "verdict": "summary",
-  "url": "https://support.google.com/notebooklm/answer/16164461?hl=ko",
+  "url": "https://support.google.com/gemininotebook/answer/16215270?hl=ko",
   "source": "support.google.com",
-  "note": "화면엔 「Gemini Notebook」. 업무 예시 없음",
-  "checked": "2026-09-06"
+  "note": "Gemini Notebook 공식 소스 추가 절차",
+  "checked": "2026-10-21"
  },
  {
   "tool": "Gemini",
@@ -91,12 +91,12 @@
  },
  {
   "tool": "JNE GPT",
-  "kind": "official",
-  "verdict": "make",
-  "url": "https://docs.wrks.ai/user-guide/specific-organizations/sengpt.md",
-  "source": "docs.wrks.ai",
-  "note": "서울 senGPT 문서를 골격으로. 전남 버전 없음",
-  "checked": "2026-09-06"
+  "kind": "portal",
+  "verdict": "start",
+  "url": "https://ai.jne.kr/",
+  "source": "ai.jne.kr",
+  "note": "아이모두에서 JNE GPT 시작하기",
+  "checked": "2026-10-21"
  },
  {
   "tool": "웨일 UBT",

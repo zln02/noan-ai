@@ -484,6 +484,22 @@
     return '<div class="g-path">[ ' + path + ' ]</div>';
   }
 
+  function evidenceHtml(task) {
+    var sources = task.sources || [];
+    if (!sources.length) return '';
+
+    return '<div class="g-evidence"><strong>확인한 가이드</strong><ul>' +
+      sources.map(function (source) {
+        var label = esc(source.label);
+        var title = source.url ?
+          '<a href="' + esc(source.url) + '" target="_blank" rel="noopener">' + label + '</a>' : label;
+        return '<li>' + title +
+          (source.detail ? ' · ' + esc(source.detail) : '') +
+          (source.checked ? ' <small>확인 ' + esc(source.checked) + '</small>' : '') +
+        '</li>';
+      }).join('') + '</ul></div>';
+  }
+
   function stepsHtml(task) {
     /* 단계마다 흰 카드 하나 — 번호 동그라미, 문장, 그 단계의 화면.
        shot 이 배열이면 n번째 캡처가 n번째 단계로 들어간다.
@@ -585,7 +601,7 @@
     if (!manuals.length) return '';
 
     return '<details class="g-section g-fold">' +
-      '<summary>공식 매뉴얼</summary>' +
+      '<summary>관련 공식 안내·도구</summary>' +
       '<div class="g-fold-body"><ul class="g-manuals">' +
         manuals.map(function (guide) {
           var label = guide.note || guide.source || guide.tool;
@@ -669,6 +685,7 @@
           '<h2>추천 도구</h2>' +
           '<p class="g-tool-line">도구: ' + esc(task.tool) + '</p>' +
           pathHtml(task) +
+          evidenceHtml(task) +
         '</section>' +
 
         '<section class="g-section g-steps-section">' +

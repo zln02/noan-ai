@@ -7,6 +7,7 @@ data/tasks.json 하나가 원본이다. 인쇄본(A4 가로)과 웹이 같은 �
 """
 import json
 import pathlib
+from html import escape
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DATA = ROOT / "data/tasks.json"
@@ -47,7 +48,7 @@ body{font-family:"Noto Sans CJK KR","Noto Sans KR",sans-serif;color:var(--ink);
 .wm .t{font-size:20pt;font-weight:900;letter-spacing:-1px;}
 .wm img{width:24mm;height:24mm;}
 
-.bignum{position:absolute;left:-10mm;top:9mm;font-size:88pt;font-weight:900;letter-spacing:-4px;
+.bignum{position:absolute;left:9mm;top:12mm;font-size:68pt;font-weight:900;letter-spacing:-3px;
         color:var(--ink);opacity:.9;line-height:1;}
 .head{display:flex;justify-content:space-between;align-items:flex-start;
       margin-left:31mm;border-bottom:1px solid var(--line);padding-bottom:6px;}
@@ -78,6 +79,8 @@ ol.st li:before{content:counter(s);position:absolute;left:0;top:1px;width:6mm;he
         padding:6mm 7mm;font-size:11.5pt;line-height:1.55;margin:0 0 4mm;}
 .cau{background:#FAEDEC;border-left:6px solid var(--stop);border-radius:5px;
      padding:9px 13px;font-size:11pt;line-height:1.55;}
+.src{margin-top:3mm;font-size:8.5pt;line-height:1.4;color:var(--mute);}
+.src b{color:var(--ink2);}
 .shotwrap{position:relative;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#F2F9F7;}
 .shotgrid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm;}
 .shotwrap img{width:100%;display:block;}
@@ -240,6 +243,10 @@ def card(t, i, n):
     if t.get("prompt_note"):
         left.append(f'<div class="prnote">{t["prompt_note"]}</div>')
     left.append(f'<div class="cau">{t["caution"]}</div>')
+    sources = t.get("sources") or []
+    if sources:
+        details = " / ".join(escape(s["label"] + " " + s["detail"]) for s in sources)
+        left.append(f'<div class="src"><b>확인한 가이드</b> {details}</div>')
     sh = shot(t)
     right = f'<div class="right">{sh}</div>' if sh else ''
     mn = t.get("min") or [0, 0]

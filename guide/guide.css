@@ -1272,6 +1272,23 @@ a {
   font-size: 13px;
 }
 
+.g-evidence {
+  margin-top: 14px;
+  padding: 13px 15px;
+  border: 1px solid #D8E6EF;
+  border-radius: 12px;
+  background: #F5FAFD;
+  color: #385167;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.g-evidence strong { display: block; margin-bottom: 6px; color: #173A56; }
+.g-evidence ul { margin: 0; padding-left: 18px; }
+.g-evidence li + li { margin-top: 4px; }
+.g-evidence a { color: #195BAB; font-weight: 750; }
+.g-evidence small { color: #657A8C; white-space: nowrap; }
+
 .g-shot-section {
   position: sticky;
   top: 94px;
