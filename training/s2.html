@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2회차 · AI로 30초 수업 영상 만들기 · 노안중 AI교육</title>
+<title>2회차 · AI로 20초 수업 영상 만들기 · 노안중 AI교육</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="AI 영상 생성과 편집을 따라 하며 30초 수업 영상을 완성하는 120분 교원 연수 자료입니다.">
+<meta name="description" content="AI 장면 생성과 편집을 따라 하며 20초 수업 영상을 완성하는 60분 교원 연수 자료입니다.">
 <link rel="icon" href="../assets/noan-ai-icon-32.png">
 <link rel="stylesheet" href="../shared/tokens.css">
 <style>
-  body{background:#f4f8ff;color:#141b2d}
+  body{background:#f8f6f1;color:#13202a}
   .wrap{max-width:1040px;margin:0 auto;padding:24px 24px 90px}
-  .back{display:inline-block;color:#2b67cf;font-weight:700;text-decoration:none;margin-bottom:28px}
-  .hero{background:#0b2e65;color:white;padding:clamp(32px,6vw,70px);border-radius:28px}
-  .eyebrow{color:#85d9df;font-size:16px;font-weight:800;letter-spacing:.05em}
+  .back{display:inline-block;color:#0a7779;font-weight:700;text-decoration:none;margin-bottom:28px}
+  .hero{background:#13202a;color:white;padding:clamp(32px,6vw,70px);border-radius:22px;border-left:10px solid #20b6b0}
+  .eyebrow{color:#20b6b0;font-size:16px;font-weight:800;letter-spacing:.05em}
   h1{font-size:clamp(34px,5vw,58px);line-height:1.2;letter-spacing:-.04em;margin:16px 0}
   .hero p{font-size:clamp(18px,2vw,24px);line-height:1.5}
   .buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-  .button,.button:visited{display:inline-block;background:#2b7fff;color:white;padding:14px 19px;border-radius:12px;font-weight:800;text-decoration:none}
-  .button.light{background:white;color:#0b2e65}
+  .button,.button:visited{display:inline-block;background:#fa6b58;color:#13202a;padding:14px 19px;border-radius:10px;font-weight:800;text-decoration:none}
+  .button.light{background:white;color:#13202a}
   .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:22px 0}
-  .card{background:white;border:1px solid #d8e6f5;border-radius:20px;padding:27px;box-shadow:0 6px 18px rgba(11,46,101,.05)}
-  .card h2{font-size:25px;color:#0b2e65;margin:0 0 15px}
+  .card{background:white;border:1px solid #d8d5cc;border-radius:16px;padding:27px}
+  .card h2{font-size:25px;color:#13202a;margin:0 0 15px}
   .card p,.card li{font-size:18px;line-height:1.65}
   .card ol,.card ul{padding-left:24px;margin:0}
   .card li+li{margin-top:8px}
-  .shot{width:100%;border-radius:12px;border:1px solid #d8e6f5;margin-top:16px}
-  .prompt{background:#f4f8ff;border-left:5px solid #2b7fff;padding:17px;border-radius:0 12px 12px 0;white-space:pre-wrap}
-  .note{font-size:15px;color:#45546f;margin-top:12px}
+  .shot{width:100%;border-radius:12px;border:1px solid #d8d5cc;margin-top:16px}
+  .prompt{background:#f8f6f1;border-left:5px solid #20b6b0;padding:17px;border-radius:0 12px 12px 0;white-space:pre-wrap}
+  .note{font-size:15px;color:#53626b;margin-top:12px}
   @media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:16px 16px 60px}}
 </style>
 </head>
@@ -35,20 +35,20 @@
 <main class="wrap">
   <a class="back" href="index.html">← 연수 목록</a>
   <header class="hero">
-    <span class="eyebrow">노안중학교 교원연수 · 2회차 · 120분</span>
-    <h1>AI로 30초 수업 영상 만들기</h1>
-    <p>기획 → 5초 AI 장면 생성 → 자막과 소리 편집 → MP4 저장.<br>선생님마다 자기 수업에 쓸 20~30초 영상 한 편을 완성합니다.</p>
-    <div class="buttons"><a class="button light" href="assets/s2/노안중_2회차_AI영상만들기.pptx" download>13장 PPTX 내려받기</a><a class="button" href="#plan">실습 순서 보기</a></div>
+    <span class="eyebrow">노안중학교 교원연수 · 2회차 · 60분</span>
+    <h1>AI로 20초 수업 영상 만들기</h1>
+    <p>내 교과의 한 장면을 기획하고, AI로 생성하고, 직접 편집합니다.<br>마지막에는 수업에 쓸 MP4 파일을 저장합니다.</p>
+    <div class="buttons"><a class="button light" href="assets/s2/노안중_2회차_AI영상_60분실습.pptx" download>10장 PPTX 내려받기</a><a class="button" href="#plan">실습 순서 보기</a></div>
   </header>
   <div class="grid" id="plan">
-    <section class="card"><h2>120분 실습 순서</h2><ol><li>0–25분 · 주제와 3장면 대본</li><li>25–60분 · JNE GPT에서 5초 장면 생성·검토</li><li>60–105분 · 미리캔버스에서 편집·자막·소리</li><li>105–120분 · MP4 저장·재생·짝 점검</li></ol></section>
-    <section class="card"><h2>완성 기준</h2><ul><li>20~30초, 16:9 MP4</li><li>장면 3개와 읽기 쉬운 자막</li><li>확인한 교과 내용과 사용 권한이 있는 소리</li><li>다운로드한 파일을 다시 열어 재생 확인</li></ul></section>
-    <section class="card"><h2>실습 1 · 장면 기획</h2><p class="prompt">중학교 [학년] [교과]의 [주제]를 여는 25초 영상 대본을 만드세요. 3장면으로 나누고 장면마다 길이, 화면, 자막 한 줄, 내레이션 한 줄을 표로 적으세요. 확인되지 않은 사실은 [교사 확인]으로 남겨 주세요.</p></section>
+    <section class="card"><h2>60분 실습 순서</h2><ol><li>0–5분 · 완성 예시와 주제 선택</li><li>5–12분 · 3장면 대본 작성</li><li>12–27분 · JNE GPT로 5초 장면 생성</li><li>27–47분 · 미리캔버스에서 편집</li><li>47–55분 · 자막 확인과 MP4 저장</li><li>55–60분 · 재생·짝 점검</li></ol></section>
+    <section class="card"><h2>완성 기준</h2><ul><li>15~20초, 16:9 MP4</li><li>장면 3개와 읽기 쉬운 자막</li><li>학생에게 남길 질문 한 개</li><li>교과 내용·개인정보·저작권 확인</li><li>다운로드한 파일 재생 확인</li></ul></section>
+    <section class="card"><h2>실습 1 · 장면 기획</h2><p class="prompt">중학교 [학년] [교과]의 [주제]를 여는 18초 영상 대본을 만드세요. 3장면으로 나누고 각 장면의 길이, 화면, 자막 한 줄을 표로 적으세요. 끝은 학생 질문으로 마무리하세요. 불확실한 사실은 [교사 확인]으로 남겨 주세요.</p></section>
     <section class="card"><h2>실습 2 · 5초 영상 생성</h2><p>아이모두 → JNE GPT → 비디오. 16:9와 5초 길이를 확인하고 요청문을 입력합니다.</p><img class="shot" src="assets/s2/jnegpt-video-ui.jpg" alt="JNE GPT 비디오 생성 화면. 프롬프트 입력과 화면 비율, 길이 설정이 보인다."><p class="note">계정마다 비디오 권한·사용 한도가 다를 수 있습니다. 연수 전에 확인하세요.</p></section>
-    <section class="card"><h2>실습 3 · 영상 편집</h2><ol><li>장면 3개를 순서대로 배치</li><li>너무 긴 장면 자르기</li><li>자막을 직접 입력하고 소리 추가</li><li>다운로드 → MP4로 저장</li></ol></section>
-    <section class="card"><h2>진행 전 준비</h2><ul><li>교사 계정에서 두 도구 접속 확인</li><li>사용 권한과 생성 한도 확인</li><li>예비 5초 클립과 이미지 준비</li><li>이어폰·와이파이·저장 공간 확인</li></ul></section>
+    <section class="card"><h2>실습 3 · 영상 편집</h2><ol><li>AI 클립 1개와 이미지 2개 배치</li><li>전체 길이를 15~20초로 정리</li><li>자막을 직접 입력</li><li>시간이 남으면 사용 권한이 있는 소리 추가</li><li>다운로드 → MP4로 저장</li></ol></section>
+    <section class="card"><h2>연수 전 강사 준비</h2><ul><li>교사 계정에서 두 도구 접속 확인</li><li>비디오 권한과 생성 한도 확인</li><li>예비 5초 클립과 이미지 2개 준비</li><li>이어폰·와이파이·저장 공간 점검</li></ul></section>
   </div>
-  <p class="note">학생 얼굴·이름·목소리는 이번 실습 재료에 넣지 않습니다. AI가 만든 사실과 자막은 교사가 확인합니다.</p>
+  <p class="note">연수 방식은 <a href="https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&amp;boardSeq=105627&amp;lev=0&amp;m=020402&amp;opType=N&amp;page=7&amp;s=moe&amp;searchType=null&amp;statusYN=W">교육부의 교과 연계 AI 연수 방향</a>과 <a href="https://www.unesco.org/en/articles/ai-competency-framework-teachers">UNESCO 교원 AI 역량 틀</a>을 참고했습니다. 학생 얼굴·이름·목소리는 실습 재료에 넣지 않고, 생성 결과는 교사가 확인합니다.</p>
 </main>
 </body>
 </html>
