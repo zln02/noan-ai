@@ -88,6 +88,17 @@ ol.st li:before{content:counter(s);position:absolute;left:0;top:1px;width:6mm;he
 .mark span{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:3px;
            background:var(--red);color:#fff;font-size:8.5pt;font-weight:700;
            padding:1px 7px;border-radius:9px;white-space:nowrap;}
+.shotcap{font-size:8pt;color:var(--mute);line-height:1.4;margin:2mm 0 0;}
+.resultbox{margin-top:4mm;padding:3mm 4mm;border:1px solid #C9DDD7;border-radius:4px;background:#F2F9F6;}
+.resultbox b{display:block;font-size:10pt;margin-bottom:1mm;}
+.resultbox small{display:block;font-size:7.5pt;color:var(--mute);margin-bottom:2mm;}
+.resultbox p{font-size:9pt;line-height:1.35;margin:0 0 1mm;}
+.resultshot{display:block;width:55%;max-height:54mm;object-fit:contain;object-position:left top;margin-top:3mm;border:1px solid var(--line);}
+.right:has(.resultshot){display:grid;grid-template-columns:1fr 1fr;gap:2mm;align-items:start;}
+.right:has(.resultshot) .shotwrap{grid-column:1;grid-row:1;}
+.right:has(.resultshot) .shotcap{grid-column:1 / 3;grid-row:2;margin:0;}
+.right:has(.resultshot) .resultbox{grid-column:1 / 3;grid-row:3;margin-top:0;}
+.right:has(.resultshot) .resultshot{grid-column:2;grid-row:1;width:100%;max-height:none;margin:0;}
 .mins{margin-top:4mm;font-size:11pt;color:var(--mute);}
 .mins b{color:var(--ink);font-size:13pt;}
 
@@ -248,7 +259,14 @@ def card(t, i, n):
         details = " / ".join(escape(s["label"] + " " + s["detail"]) for s in sources)
         left.append(f'<div class="src"><b>확인한 가이드</b> {details}</div>')
     sh = shot(t)
-    right = f'<div class="right">{sh}</div>' if sh else ''
+    cap = f'<p class="shotcap">{escape(t["shot_caption"])}</p>' if sh and t.get("shot_caption") else ''
+    ex = t.get("result_example") or []
+    result = ('<div class="resultbox"><b>이런 결과가 나와요</b>'
+              f'<small>{escape(t.get("result_note", "가상 정보로 만든 결과 구성 예시"))}</small>'
+              + ''.join(f'<p>{escape(line)}</p>' for line in ex) + '</div>') if ex else ''
+    result_src = find_shot(t.get("result_shot")) if t.get("result_shot") else None
+    result_image = f'<img class="resultshot" src="{result_src}" alt="{escape(t["title"])} 결과 화면">' if result_src else ''
+    right = f'<div class="right">{sh}{cap}{result}{result_image}</div>' if sh else ''
     mn = t.get("min") or [0, 0]
     mins = (f'<div class="mins">보통 <b>{mn[0]}분</b> 걸리던 일이 <b>{mn[1]}분</b> 쯤으로 줄어듭니다. '
             f'<span style="font-size:9.5pt">— 초기 추정입니다. 해보시고 알려주세요.</span></div>') if mn[0] else ''

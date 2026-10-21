@@ -41,6 +41,22 @@ test('업무 안내서는 찾기와 상세 열기에 필요한 실제 데이터�
   assert.ok(numbers.has('16'), '업무 지시서 바로가기 없음');
 });
 
+test('모든 업무 카드에 실제 화면과 결과 예시가 연결된다', () => {
+  for (const task of tasks.tasks) {
+    assert.ok(task.shot, `${task.id}: 실제 화면 없음`);
+    assert.ok(task.shot_caption, `${task.id}: 화면 출처 설명 없음`);
+    assert.ok(task.result_note && Array.isArray(task.result_example) && task.result_example.length,
+      `${task.id}: 결과 예시 없음`);
+    if (task.result_shot) assert.ok(exists(`assets/guide/${task.result_shot}`), `${task.id}: 결과 화면 파일 없음`);
+    for (const mark of task.marks || []) {
+      assert.equal(mark.length, 5, `${task.id}: 클릭 표시 형식 오류`);
+      assert.ok(mark.slice(0, 4).every(Number.isFinite), `${task.id}: 클릭 표시 좌표 오류`);
+      assert.ok(mark[0] >= 0 && mark[1] >= 0 && mark[0] + mark[2] <= 100 && mark[1] + mark[3] <= 100,
+        `${task.id}: 클릭 표시가 화면 밖으로 나감`);
+    }
+  }
+});
+
 test('공개 작품은 동의 기준을 갖고, 실제 도구 링크는 파일이 존재한다', () => {
   for (const item of json('data/showcase.json')) {
     assert.equal(typeof item.consent, 'boolean', '동의 여부를 명시해야 함');

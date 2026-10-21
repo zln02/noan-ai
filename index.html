@@ -466,8 +466,22 @@
     }).join('');
 
     return '<section class="g-section g-shot-section' + (many ? ' g-shot-many' : '') + '" hidden>' +
-      '<h2>시연 영상 / 캡처</h2>' +
+      '<h2>실제 화면 · 누를 곳</h2>' +
       figures +
+      (task.shot_caption ? '<p class="g-shot-caption">' + esc(task.shot_caption) + '</p>' : '') +
+    '</section>';
+  }
+
+  function resultHtml(task) {
+    var lines = task.result_example || [];
+    if (!lines.length) return '';
+    return '<section class="g-section g-result-section">' +
+      '<h2>이런 결과가 나와요</h2>' +
+      '<p class="g-result-note">' + esc(task.result_note || '가상 정보로 만든 결과 구성 예시') + '</p>' +
+      '<div class="g-result-preview">' + lines.map(function (line) {
+        return '<p>' + esc(line) + '</p>';
+      }).join('') + '</div>' +
+      (task.result_shot ? '<figure class="g-result-shot"><img src="assets/guide/' + esc(task.result_shot) + '" alt="' + esc(task.title) + ' 결과 화면"><figcaption>가상 학교·행사 정보로 생성한 실제 화면</figcaption></figure>' : '') +
     '</section>';
   }
 
@@ -701,6 +715,7 @@
           '</section>' : '') +
 
         shotHtml(task) +
+        resultHtml(task) +
 
         (task.caution ?
           '<div class="g-caution g-caution-box">' +
