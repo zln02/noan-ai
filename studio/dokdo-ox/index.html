@@ -5650,13 +5650,35 @@ window.NoanFullscreen = (function () {
       R.setPixelRatio(LITE ? Math.min(baseDpr, 1) * Math.max(quality, 0.75) : Math.max(Math.min(baseDpr, 1.25), baseDpr * quality)); /* never blurrier than ~1.25x on retina */ R.setSize(W, H, false);
       cam.aspect = W / H; cam.updateProjectionMatrix(); cam.updateMatrixWorld();
     }
-    function adapt(dt) {
+
+    /* 시작 화면에서 셰이더·텍스처를 미리 준비 (게임 중 첫 장면·전환에서 멈추지 않게) */
+    var warm = false;
+    function prewarm() {
+      setTimeout(function () { warm = true; }, 4000); // 안전장치: 늦어도 4초 뒤에는 그리기 시작
+      try {
+        var up = function () {
+          warm = true;
+          scene.traverse(function (o) {
+            [].concat(o.material || []).forEach(function (m) {
+              ['map', 'alphaMap', 'emissiveMap', 'normalMap', 'roughnessMap', 'bumpMap'].forEach(function (k) { if (m[k] && m[k].isTexture) R.initTexture(m[k]); });
+              if (m.uniforms) for (var u in m.uniforms) { var v = m.uniforms[u] && m.uniforms[u].value; if (v && v.isTexture) R.initTexture(v); }
+            });
+          });
+        };
+        var par = R.extensions && R.extensions.has && R.extensions.has('KHR_parallel_shader_compile'); // 병렬 준비를 지원하는 기기만 비동기로
+        if (par && R.compileAsync) R.compileAsync(scene, cam).then(up, up); else { R.compile(scene, cam); up(); }
+      } catch (e) { warm = true; /* 준비에 실패해도 게임은 그대로 (처음 그릴 때 준비됨) */ }
+    }
+    var slow = 0;
+    function adapt(dt) { // 화질 조절: 느리면 두 번 연속 확인 후 낮추고, 올리는 건 게임 밖에서만 (해상도를 바꿀 때마다 잠깐 멈춤)
       if (locked) return;
+      var busy = S.phase !== 'idle' && S.phase !== 'done';
       acc += dt; accN++; if (acc < 2 || (accN < 6 && acc < 3)) return; // 2초마다 평균 프레임 시간을 본다
-      var avg = acc / accN / (LITE ? 2 : 1); // 가벼운 모드는 초당 30장이 기준 acc = 0; accN = 0;
-      if (avg > 1 / 12 && quality > 0.5) { quality = 0.5; good = 0; resize(); } // 아주 느린 기기: 바로 최저 해상도로
-      else if (avg > 1 / 30 && quality > 0.6) { quality = Math.max(0.6, quality - 0.1); good = 0; resize(); }
-      else if (avg < 1 / 50 && quality < 1 && ++good >= 3) { quality = Math.min(1, quality + 0.1); good = 0; resize(); }
+      var avg = acc / accN / (LITE ? 2 : 1); acc = 0; accN = 0; // 가벼운 모드는 초당 30장이 기준
+      if (avg > 1 / 12 && quality > 0.5) { quality = 0.5; good = 0; slow = 0; resize(); } // 아주 느린 기기: 바로 최저 해상도로
+      else if (avg > 1 / 30 && quality > 0.6) { good = 0; if (++slow >= 2) { slow = 0; quality = Math.max(0.6, quality - 0.1); resize(); } }
+      else if (avg < 1 / 50 && quality < 1 && !busy && ++good >= 3) { slow = 0; quality = Math.min(1, quality + 0.1); good = 0; resize(); }
+      else slow = 0;
       if (dust) dust.geometry.setDrawRange(0, quality < 0.7 ? DUST_N / 2 : DUST_N);
     }
     function wantRun() { return api.ok && !document.hidden && !(api.pausedFn ? api.pausedFn() : $('admin').classList.contains('on')); }
@@ -5664,6 +5686,7 @@ window.NoanFullscreen = (function () {
       if (!wantRun()) { running = false; return; }
       requestAnimationFrame(frame);
       if (LITE && now - last < 30) return; // 초당 30장
+      if (!warm) return; // 셰이더 준비가 끝날 때까지 (보통 1초 안쪽) 기다렸다가 그리기
       var raw = Math.min(1.5, Math.max(0.001, (now - last) / 1000)), dt = Math.min(0.1, raw); last = now; t += dt;
       try {
         if (innerWidth !== W || innerHeight !== H) resize();
@@ -6371,11 +6394,13 @@ window.NoanFullscreen = (function () {
       try {
         canvas = $('stage3d');
         R = new T.WebGLRenderer({canvas: canvas, antialias: !LITE, alpha: !!opts.transparent, powerPreference: 'high-performance', stencil: false});
-        R.outputColorSpace = T.SRGBColorSpace; R.toneMapping = T.NeutralToneMapping; R.toneMappingExposure = 1.0; R.setClearColor(0x1a0f4a, 1);
+        R.outputColorSpace = T.SRGBColorSpace; R.debug.checkShaderErrors = false; // 배포용: 셰이더 오류 검사로 기다리지 않음 R.toneMapping = T.NeutralToneMapping; R.toneMappingExposure = 1.0; R.setClearColor(0x1a0f4a, 1);
         scene = new T.Scene(); scene.fog = new T.Fog(0x2a1a6e, 22, 56);
         cam = new T.PerspectiveCamera(30, 1, 0.1, 120); cam.position.set(0, 1.4, 13); cam.lookAt(0, 0.5, 0);
-        var pm = new T.PMREMGenerator(R), room = new T.RoomEnvironment();
-        scene.environment = pm.fromScene(room, 0.04).texture; scene.environmentIntensity = 0.85; room.dispose(); pm.dispose();
+        if (!LITE) { // 반사 환경 (가벼운 모드에서는 준비 시간이 길어 생략하고 은은한 전체 조명으로 대신)
+          var pm = new T.PMREMGenerator(R), room = new T.RoomEnvironment();
+          scene.environment = pm.fromScene(room, 0.04).texture; scene.environmentIntensity = 0.85; room.dispose(); pm.dispose();
+        } else scene.add(new T.AmbientLight(0xffffff, 0.9));
         // 픽사풍 조명: 따뜻한 주광 + 하늘색 보조광 + 분홍·보라 테두리광
         scene.add(new T.HemisphereLight(0xe2efff, 0x2d5f8f, 0.85));
         var key = new T.DirectionalLight(0xffe2c2, 2.6); key.position.set(4, 7, 8); scene.add(key);
@@ -6391,7 +6416,8 @@ window.NoanFullscreen = (function () {
           [api.bgMesh, dust, pool, rig.userData.pod].concat(shapes).forEach(function (o) { if (o) o.visible = false; });
           rig.children.forEach(function (o) { if (o.geometry && o.geometry.type === 'RingGeometry') o.visible = false; });
         }
-        if (opts.world) { WORLD.build(); api.world = WORLD.api; try { R.compile(scene, cam); } catch (e) { /* 미리 셰이더 준비 (첫 장면 전환 끊김 줄이기) */ } }
+        if (opts.world) { WORLD.build(); api.world = WORLD.api; }
+        prewarm();
         canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); fail(); }, false);
       } catch (e) { return false; }
       api.ok = true;
