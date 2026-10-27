@@ -4895,6 +4895,30 @@ window.NoanFullscreen = (function () {
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
+
+  /* 태블릿 가벼운 모드: 안드로이드 태블릿 등 터치 기기에서 3D를 가볍게 (해상도 1배, 계단 현상 보정 끔, 초당 30장, 광택 재질 단순화).
+     ?lite=1 / ?lite=0 으로 직접 켜고 끌 수 있고, 그 선택은 이 기기에 기억해요. */
+  var LITE = (function () {
+    try {
+      var q = /[?&]lite=([01])/.exec(location.search);
+      if (q) localStorage.setItem('noanLite', q[1]);
+      var saved = localStorage.getItem('noanLite');
+      if (saved === '1') return true;
+      if (saved === '0') return false;
+    } catch (e) { /* 저장소를 못 쓰면 자동 판단 */ }
+    var coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    var mem = navigator.deviceMemory || 4, cores = navigator.hardwareConcurrency || 4;
+    return coarse && (/Android/i.test(navigator.userAgent) || mem <= 4 || cores <= 6);
+  })();
+  if (LITE) document.documentElement.classList.add('lite3d');
+  var LITE_DROP = /^(clearcoat|sheen|transmission|thickness|ior|iridescence|specularIntensity|specularColor|attenuation|dispersion|anisotropy)/;
+  function physMat(o) { // 가벼운 모드에서는 광택(클리어코트·시언) 계산을 빼고 표준 재질로
+    var T3 = window.THREE;
+    if (!LITE) return new T3.MeshPhysicalMaterial(o);
+    var s = {};
+    for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k) && !LITE_DROP.test(k)) s[k] = o[k];
+    return new T3.MeshStandardMaterial(s);
+  }
   var FS = null; // 전체 화면 모듈 (맨 아래에서 연결)
   // 예전 랭킹이 쓰던 dokdoOx.records.v1 · dokdoOx.pending.v1 은 더 읽거나 쓰지 않고 지우지도 않음
   var K = {s: 'dokdoOx.settings.v1', recent: 'dokdoOx.recent.v1'};
@@ -4943,7 +4967,7 @@ window.NoanFullscreen = (function () {
       glanceAt: 4, glanceEl: null, glanceUntil: 0, chest: '?', chestKey: '', faceKey: '', snapped: false, happyK: 0};
     var cur = null, rigC = {x: 0, y: 0, s: 1, vis: 0}, rigT = {x: 0, y: 0, s: 1, vis: 0};
     var pointer = {x: 0, y: 0, t: -1e9};
-    var FIT_H = 3.7, FIT_W = 2.9, CF_N = 200, DUST_N = 220;
+    var FIT_H = 3.7, FIT_W = 2.9, CF_N = LITE ? 90 : 200, DUST_N = LITE ? 100 : 220;
     var CF = [], tv1, tv2, tv3, dummy, zeroM;
     var COL = {mint: 0x3fd98f, gold: 0xffc93c, coral: 0xff6b6b, sky: 0x4dabf7, pink: 0xf783ac, violet: 0x845ef7};
     var bonusK = 0, bonusOn = false;
@@ -4968,7 +4992,7 @@ window.NoanFullscreen = (function () {
       return new T.MeshBasicMaterial({color: color, map: map || glowTex, transparent: true, opacity: opacity, blending: T.AdditiveBlending, depthWrite: false, toneMapped: false});
     }
     function phys(color, o) {
-      return new T.MeshPhysicalMaterial(Object.assign({color: color, roughness: 0.34, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.08}, o || {}));
+      return physMat(Object.assign({color: color, roughness: 0.34, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.08}, o || {}));
     }
 
     /* --- 배경: 그라데이션 + 무대 조명 줄기 (화면 전체 셰이더 한 장) --- */
@@ -5623,13 +5647,13 @@ window.NoanFullscreen = (function () {
     /* --- 렌더 루프 (탭이 숨겨지거나 관리 화면이면 멈춤) · 느리면 해상도를 자동으로 낮춤 --- */
     function resize() {
       W = innerWidth; H = innerHeight; baseDpr = Math.min(window.devicePixelRatio || 1, 2);
-      R.setPixelRatio(Math.max(Math.min(baseDpr, 1.25), baseDpr * quality)); /* never blurrier than ~1.25x on retina */ R.setSize(W, H, false);
+      R.setPixelRatio(LITE ? Math.min(baseDpr, 1) * Math.max(quality, 0.75) : Math.max(Math.min(baseDpr, 1.25), baseDpr * quality)); /* never blurrier than ~1.25x on retina */ R.setSize(W, H, false);
       cam.aspect = W / H; cam.updateProjectionMatrix(); cam.updateMatrixWorld();
     }
     function adapt(dt) {
       if (locked) return;
       acc += dt; accN++; if (acc < 2 || (accN < 6 && acc < 3)) return; // 2초마다 평균 프레임 시간을 본다
-      var avg = acc / accN; acc = 0; accN = 0;
+      var avg = acc / accN / (LITE ? 2 : 1); // 가벼운 모드는 초당 30장이 기준 acc = 0; accN = 0;
       if (avg > 1 / 12 && quality > 0.5) { quality = 0.5; good = 0; resize(); } // 아주 느린 기기: 바로 최저 해상도로
       else if (avg > 1 / 30 && quality > 0.6) { quality = Math.max(0.6, quality - 0.1); good = 0; resize(); }
       else if (avg < 1 / 50 && quality < 1 && ++good >= 3) { quality = Math.min(1, quality + 0.1); good = 0; resize(); }
@@ -5639,6 +5663,7 @@ window.NoanFullscreen = (function () {
     function frame(now) {
       if (!wantRun()) { running = false; return; }
       requestAnimationFrame(frame);
+      if (LITE && now - last < 30) return; // 초당 30장
       var raw = Math.min(1.5, Math.max(0.001, (now - last) / 1000)), dt = Math.min(0.1, raw); last = now; t += dt;
       try {
         if (innerWidth !== W || innerHeight !== H) resize();
@@ -5821,8 +5846,8 @@ window.NoanFullscreen = (function () {
             '  vec3 V = normalize(cameraPosition - vW), N = normalize(vN + vec3(rip * 0.05, 0.0, rip * 0.04));',
             '  float fr = pow(1.0 - max(dot(N, V), 0.0), 3.0); c = mix(c, uSky, fr * 0.5);',
             '  vec3 Hh = normalize(V + normalize(uSun)); c += vec3(1.0, 0.95, 0.8) * pow(max(dot(N, Hh), 0.0), 160.0) * 0.9;',
-            '  float r2 = sin(vW.x * 4.1 + uTime * 3.1) * sin(vW.z * 3.7 - uTime * 2.6); vec3 N2 = normalize(N + vec3(r2 * 0.3, 0.0, r2 * 0.25));',
-            '  c += vec3(1.0) * pow(max(dot(N2, Hh), 0.0), 900.0) * 1.6 * (1.0 - smoothstep(60.0, 220.0, length(cameraPosition.xz - vW.xz)));', // 반짝이는 물결
+            LITE ? '' : '  float r2 = sin(vW.x * 4.1 + uTime * 3.1) * sin(vW.z * 3.7 - uTime * 2.6); vec3 N2 = normalize(N + vec3(r2 * 0.3, 0.0, r2 * 0.25));',
+            LITE ? '' : '  c += vec3(1.0) * pow(max(dot(N2, Hh), 0.0), 900.0) * 1.6 * (1.0 - smoothstep(60.0, 220.0, length(cameraPosition.xz - vW.xz)));', // 반짝이는 물결
             '  float d = length(cameraPosition.xz - vW.xz); c = mix(c, uFog, smoothstep(160.0, 760.0, d));',
             '  gl_FragColor = vec4(c, 1.0);', '  #include <colorspace_fragment>', '}'].join('\n'),
           toneMapped: false, fog: false});
@@ -6035,9 +6060,9 @@ window.NoanFullscreen = (function () {
       function makeBalloons() {
         [[0x339af0, 'O'], [0xff5c5c, 'X']].forEach(function (d, k) {
           var g = new T.Group(); g.visible = false; scene.add(g);
-          var skinM = new T.MeshPhysicalMaterial({color: d[0], transparent: true, opacity: 0.5, roughness: 0.12, clearcoat: 1, depthWrite: false, toneMapped: true});
+          var skinM = physMat({color: d[0], transparent: true, opacity: 0.5, roughness: 0.12, clearcoat: 1, depthWrite: false, toneMapped: true});
           var skin = new T.Mesh(new T.SphereGeometry(1, 28, 20), skinM); skin.scale.set(1, 1.1, 1); g.add(skin);
-          var gm = new T.MeshPhysicalMaterial({color: d[0], roughness: 0.3, clearcoat: 1, emissive: new T.Color(d[0]), emissiveIntensity: 0.2});
+          var gm = physMat({color: d[0], roughness: 0.3, clearcoat: 1, emissive: new T.Color(d[0]), emissiveIntensity: 0.2});
           var gly = new T.Group(); g.add(gly);
           if (d[1] === 'O') gly.add(new T.Mesh(new T.TorusGeometry(0.5, 0.17, 16, 40), gm));
           else [-1, 1].forEach(function (sd) { var c = new T.Mesh(new T.CapsuleGeometry(0.16, 0.95, 8, 16), gm); c.rotation.z = sd * Math.PI / 4; gly.add(c); });
@@ -6345,7 +6370,7 @@ window.NoanFullscreen = (function () {
       if (!supported()) return false;
       try {
         canvas = $('stage3d');
-        R = new T.WebGLRenderer({canvas: canvas, antialias: true, alpha: !!opts.transparent, powerPreference: 'high-performance', stencil: false});
+        R = new T.WebGLRenderer({canvas: canvas, antialias: !LITE, alpha: !!opts.transparent, powerPreference: 'high-performance', stencil: false});
         R.outputColorSpace = T.SRGBColorSpace; R.toneMapping = T.NeutralToneMapping; R.toneMappingExposure = 1.0; R.setClearColor(0x1a0f4a, 1);
         scene = new T.Scene(); scene.fog = new T.Fog(0x2a1a6e, 22, 56);
         cam = new T.PerspectiveCamera(30, 1, 0.1, 120); cam.position.set(0, 1.4, 13); cam.lookAt(0, 0.5, 0);
@@ -6356,7 +6381,7 @@ window.NoanFullscreen = (function () {
         var key = new T.DirectionalLight(0xffe2c2, 2.6); key.position.set(4, 7, 8); scene.add(key);
         var fillL = new T.DirectionalLight(0xbfe0ff, 1.1); fillL.position.set(-6, 2, 6); scene.add(fillL);
         var rimM = new T.DirectionalLight(0xa6e8ff, 2.4); rimM.position.set(-6, 4, -5); scene.add(rimM);
-        var rimG = new T.DirectionalLight(0x8fc3ff, 2.2); rimG.position.set(6, 3, -6); scene.add(rimG);
+        var rimG = new T.DirectionalLight(0x8fc3ff, 2.2); rimG.position.set(6, 3, -6); if (!LITE) scene.add(rimG);
         glowTex = radialTex([[0, 'rgba(255,255,255,1)'], [0.22, 'rgba(255,255,255,.55)'], [0.55, 'rgba(255,255,255,.12)'], [1, 'rgba(255,255,255,0)']]);
         tv1 = new T.Vector3(); tv2 = new T.Vector3(); tv3 = new T.Vector3(); dummy = new T.Object3D();
         BONUS_TOP = new T.Color(0xd9480f); BONUS_BOT = new T.Color(0x3d0f00); BONUS_GLOW = new T.Color(0xffd43b);
@@ -6437,25 +6462,25 @@ window.NoanFullscreen = (function () {
   /* QUESTIONS:BEGIN */
   var DEFAULT_QUESTIONS = [
     {"id": "dx001", "tag": "basic", "answer": 0, "lv": 1, "grp": "g01", "q": "독도는 대한민국 땅이에요.", "exp": "맞아요! 독도는 경상북도 울릉군에 속한 우리 땅이에요."},
-    {"id": "dx002", "tag": "basic", "answer": 1, "lv": 1, "grp": "g02", "q": "독도는 서해에 있는 섬이에요.", "exp": "독도는 동해에 있어요. 울릉도의 동쪽 바다예요."},
+    {"id": "dx002", "tag": "basic", "answer": 1, "lv": 1, "grp": "g02", "q": "독도는 서해에 있는 섬이에요.", "exp": "독도는 동해에 있어요. 울릉도에서 동남쪽으로 약 87km 떨어진 바다예요."},
     {"id": "dx003", "tag": "basic", "answer": 0, "lv": 1, "grp": "g16", "q": "10월 25일은 독도의 날이에요.", "exp": "맞아요! 독도가 우리 땅임을 함께 기억하는 날이에요."},
     {"id": "dx004", "tag": "basic", "answer": 0, "lv": 2, "q": "독도의 주소는 ‘경상북도 울릉군 울릉읍 독도리’예요.", "exp": "맞아요! 독도에도 우리나라 주소가 있어요."},
-    {"id": "dx005", "tag": "basic", "answer": 1, "lv": 2, "q": "독도는 섬 하나로만 이루어져 있어요.", "exp": "독도는 동도·서도 두 큰 섬과 89개의 작은 바위섬으로 이루어져 있어요."},
-    {"id": "dx006", "tag": "basic", "answer": 0, "lv": 1, "q": "독도의 두 큰 섬 이름은 동도와 서도예요.", "exp": "맞아요! 동쪽 섬은 동도, 서쪽 섬은 서도예요."},
+    {"id": "dx005", "tag": "basic", "answer": 1, "lv": 2, "q": "독도는 섬 하나로만 이루어져 있어요.", "exp": "독도는 동도·서도 두 큰 섬과 89개의 작은 바위섬으로 이루어져 있어요.", "grp": "g28"},
+    {"id": "dx006", "tag": "basic", "answer": 0, "lv": 1, "q": "독도의 두 큰 섬 이름은 동도와 서도예요.", "exp": "맞아요! 동쪽 섬은 동도, 서쪽 섬은 서도예요.", "grp": "g28"},
     {"id": "dx007", "tag": "nature", "answer": 0, "lv": 2, "grp": "g04", "q": "독도의 두 큰 섬 중 더 높은 섬은 서도예요.", "exp": "맞아요! 서도는 약 168m, 동도는 약 99m 높이예요."},
     {"id": "dx008", "tag": "basic", "answer": 1, "lv": 2, "q": "독도에서 가장 가까운 우리나라 섬은 제주도예요.", "exp": "독도와 가장 가까운 섬은 울릉도예요. 약 87km 떨어져 있어요."},
     {"id": "dx009", "tag": "history", "answer": 0, "lv": 2, "grp": "g08", "q": "맑은 날에는 울릉도에서 맨눈으로 독도가 보여요.", "exp": "맞아요! 그래서 옛날 울릉도 사람들도 독도를 잘 알고 있었어요."},
-    {"id": "dx010", "tag": "history", "answer": 0, "lv": 2, "q": "독도는 일본의 오키섬보다 울릉도에 더 가까워요.", "exp": "맞아요! 울릉도에서는 약 87km, 일본 오키섬에서는 약 158km예요."},
-    {"id": "dx011", "tag": "basic", "answer": 1, "lv": 1, "q": "독도는 아무도 머물지 않는 빈 섬이에요.", "exp": "독도에는 독도경비대와 등대를 지키는 사람들이 머물며 지키고 있어요."},
+    {"id": "dx010", "tag": "history", "answer": 0, "lv": 2, "q": "독도는 일본의 오키섬보다 울릉도에 더 가까워요.", "exp": "맞아요! 울릉도에서는 약 87km, 일본 오키섬에서는 약 158km예요.", "grp": "g30"},
+    {"id": "dx011", "tag": "basic", "answer": 1, "lv": 1, "q": "독도는 아무도 머물지 않는 빈 섬이에요.", "exp": "주민은 지금 없지만, 독도경비대 대원과 등대 관리원, 독도관리사무소 직원 등 20여 명이 늘 머물며 독도를 지켜요."},
     {"id": "dx012", "tag": "basic", "answer": 0, "lv": 2, "q": "독도를 지키는 독도경비대는 경찰이에요.", "exp": "맞아요! 경찰 대원들이 1년 내내 독도를 지켜요."},
     {"id": "dx013", "tag": "basic", "answer": 0, "lv": 1, "q": "독도에는 밤바다의 배에게 길을 알려 주는 등대가 있어요.", "exp": "맞아요! 독도 등대는 밤마다 불을 밝혀 배들을 지켜 줘요."},
     {"id": "dx015", "tag": "nature", "answer": 0, "lv": 2, "grp": "g05", "q": "괭이갈매기는 고양이처럼 ‘냐아~’ 하고 울어요.", "exp": "맞아요! 고양이(괭이)처럼 울어서 괭이갈매기라고 해요."},
     {"id": "dx016", "tag": "nature", "answer": 1, "lv": 2, "grp": "g14", "q": "독도 강치는 지금도 독도 바다에서 쉽게 볼 수 있어요.", "exp": "1900년대 초부터 일본 어업회사가 마구 잡아서 지금은 볼 수 없어요."},
-    {"id": "dx017", "tag": "nature", "answer": 0, "lv": 2, "q": "독도는 섬 전체를 천연기념물로 정해 보호하고 있어요.", "exp": "맞아요! 귀한 새와 식물이 사는 곳이라 소중히 지키고 있어요."},
-    {"id": "dx018", "tag": "nature", "answer": 0, "lv": 2, "q": "독도는 아주 오래전 바닷속 화산이 터져서 생긴 섬이에요.", "exp": "맞아요! 바닷속 화산 활동으로 만들어진 섬이에요."},
+    {"id": "dx017", "tag": "nature", "answer": 0, "lv": 2, "q": "독도는 섬 전체를 천연기념물로 정해 보호하고 있어요.", "exp": "맞아요! 독도는 섬 전체가 천연기념물 ‘독도천연보호구역’이에요. 귀한 새와 식물이 살아서 소중히 지켜요.", "grp": "g31"},
+    {"id": "dx018", "tag": "nature", "answer": 0, "lv": 2, "q": "독도는 아주 오래전 바닷속 화산이 터져서 생긴 섬이에요.", "exp": "맞아요! 바닷속 화산 활동으로 만들어진 섬이에요.", "grp": "g33"},
     {"id": "dx019", "tag": "nature", "answer": 1, "lv": 2, "q": "독도는 울릉도보다 늦게 생긴 섬이에요.", "exp": "독도는 울릉도보다 훨씬 먼저 생긴 ‘형님 섬’이에요."},
-    {"id": "dx020", "tag": "nature", "answer": 0, "lv": 2, "q": "독도 바다는 차가운 물과 따뜻한 물이 만나서 물고기가 많아요.", "exp": "맞아요! 두 물이 만나는 곳이라 먹이가 풍부해요."},
-    {"id": "dx021", "tag": "nature", "answer": 0, "lv": 2, "q": "독도 바위틈에는 오래 살아온 사철나무가 있어요.", "exp": "맞아요! 바위틈에서 100년 넘게 살아온 소중한 나무예요."},
+    {"id": "dx020", "tag": "nature", "answer": 0, "lv": 2, "q": "독도 바다는 차가운 물과 따뜻한 물이 만나서 물고기가 많아요.", "exp": "맞아요! 두 물이 만나는 곳이라 먹이가 풍부해요.", "grp": "g34"},
+    {"id": "dx021", "tag": "nature", "answer": 0, "lv": 2, "q": "독도 바위틈에는 오래 살아온 사철나무가 있어요.", "exp": "맞아요! 동도 바위틈에 100년쯤 된 사철나무가 자라요. 2012년 천연기념물로도 지정됐어요."},
     {"id": "dx022", "tag": "nature", "answer": 1, "lv": 1, "q": "독도는 바위뿐이라 식물이 하나도 자라지 않아요.", "exp": "사철나무, 해국 같은 식물이 바위틈에서 씩씩하게 자라요."},
     {"id": "dx023", "tag": "nature", "answer": 0, "lv": 2, "q": "괭이갈매기는 봄이 되면 독도에서 알을 낳고 새끼를 키워요.", "exp": "맞아요! 봄의 독도는 괭이갈매기들로 북적여요."},
     {"id": "dx024", "tag": "history", "answer": 0, "lv": 2, "grp": "g09", "q": "안용복은 일본에 건너가 ‘울릉도와 독도는 조선 땅’이라고 당당히 말했어요.", "exp": "맞아요! 조선 숙종 때의 어부 안용복이에요."},
@@ -6466,7 +6491,7 @@ window.NoanFullscreen = (function () {
     {"id": "dx029", "tag": "history", "answer": 0, "lv": 3, "grp": "g12", "q": "1877년 일본 정부도 ‘울릉도와 독도는 일본과 관계없다’고 문서에 적었어요.", "exp": "맞아요! 일본의 최고 기관(태정관)이 직접 쓴 기록이에요."},
     {"id": "dx030", "tag": "history", "answer": 0, "lv": 3, "grp": "g13", "q": "일본은 1905년 우리나라에 알리지 않고 독도를 자기 땅에 넣었어요.", "exp": "맞아요! 러일 전쟁 중 대한제국에 알리지 않고 한 일이라 인정할 수 없어요."},
     {"id": "dx031", "tag": "history", "answer": 1, "lv": 2, "q": "독도는 원래 주인이 없는 땅이었어요.", "exp": "옛 책과 1900년 법에 이미 우리 땅으로 적혀 있었어요."},
-    {"id": "dx032", "tag": "history", "answer": 0, "lv": 3, "grp": "g26", "q": "1946년 연합국은 독도를 일본이 다스리는 땅에서 빼라고 명령했어요.", "exp": "맞아요! 2차 세계 대전이 끝난 뒤 연합국 사령부가 내린 명령이에요."},
+    {"id": "dx032", "tag": "history", "answer": 0, "lv": 3, "grp": "g26", "q": "1946년 연합국은 독도를 일본이 다스리는 땅에서 빼라고 명령했어요.", "exp": "맞아요! 제2차 세계 대전이 끝난 뒤 연합국 사령부가 내린 명령이에요."},
     {"id": "dx033", "tag": "history", "answer": 0, "lv": 2, "grp": "g21", "q": "6·25 전쟁 무렵 울릉도 주민들이 ‘독도의용수비대’를 만들어 독도를 지켰어요.", "exp": "맞아요! 주민들이 스스로 나서서 우리 땅을 지켰어요."},
     {"id": "dx034", "tag": "history", "answer": 1, "lv": 1, "grp": "g01", "q": "독도는 일본 땅인데 우리나라가 빌려 쓰고 있어요.", "exp": "독도는 처음부터 우리 땅이에요. 빌린 땅이 아니에요."},
     {"id": "dx035", "tag": "history", "answer": 0, "lv": 2, "q": "지금 독도는 대한민국이 실제로 다스리고 지키고 있어요.", "exp": "맞아요! 경비대가 지키고, 주소도 있는 우리 땅이에요."},
@@ -6476,7 +6501,7 @@ window.NoanFullscreen = (function () {
     {"id": "dx039", "tag": "basic", "answer": 0, "lv": 2, "grp": "g06", "q": "독도는 우리나라 가장 동쪽 끝에 있는 섬이에요.", "exp": "맞아요! 그래서 우리나라에서 해가 가장 먼저 뜨는 곳이에요."},
     {"id": "dx040", "tag": "basic", "answer": 1, "lv": 1, "grp": "g06", "q": "독도는 우리나라에서 해가 가장 늦게 뜨는 곳이에요.", "exp": "독도는 동쪽 끝이라 해가 가장 먼저 떠요."},
     {"id": "dx041", "tag": "history", "answer": 0, "lv": 2, "q": "‘독도’라는 이름은 ‘돌섬’에서 왔다는 이야기가 있어요.", "exp": "맞아요! 사투리로 돌을 ‘독’이라 해서 돌섬 → 독섬 → 독도가 됐다는 설명이에요."},
-    {"id": "dx042", "tag": "basic", "answer": 0, "lv": 1, "q": "독도가 우리 땅인 이유는 화내기보다 증거를 들어 차분히 말하는 게 좋아요.", "exp": "맞아요! 옛 책과 기록이 우리 편이에요. 증거로 당당하게!"},
+    {"id": "dx042", "tag": "basic", "answer": 0, "lv": 1, "q": "독도가 우리 땅인 이유를 말할 때는 화내기보다 증거를 들어 차분히 말하는 게 좋아요.", "exp": "맞아요! 옛 책과 기록이 우리 편이에요. 증거로 당당하게!"},
     {"id": "dx043", "tag": "basic", "answer": 0, "lv": 2, "q": "동도와 서도 사이에는 바닷물이 흘러요.", "exp": "맞아요! 두 섬은 약 150m 떨어져 있고 사이로 바닷물이 흘러요."},
     {"id": "dx044", "tag": "history", "answer": 1, "lv": 1, "grp": "g15", "q": "일본이 부르는 이름 ‘다케시마’가 독도의 올바른 이름이에요.", "exp": "우리 땅의 올바른 이름은 ‘독도’예요."},
     {"id": "dx045", "tag": "noan", "answer": 0, "lv": 2, "q": "노안중 학생자치회는 독도의 날 말고도 스승의 날과 체육대회 행사를 주관해요.", "exp": "맞아요! 노안중은 학생자치회가 학교 행사를 직접 준비해요."},
@@ -6490,20 +6515,20 @@ window.NoanFullscreen = (function () {
     {"id": "dx053", "tag": "basic", "answer": 1, "lv": 1, "grp": "g07", "q": "독도는 아무도 들어갈 수 없는 금지된 섬이에요.", "exp": "날씨가 좋으면 관광객도 배를 타고 가서 동도에 잠깐 내려 볼 수 있어요."},
     {"id": "dx054", "tag": "basic", "answer": 0, "lv": 2, "grp": "g07", "q": "날씨가 좋으면 관광객도 독도에 내려 볼 수 있어요.", "exp": "맞아요! 배를 타고 가서 동도 선착장에 잠깐 내릴 수 있어요."},
     {"id": "dx055", "tag": "basic", "answer": 1, "lv": 2, "grp": "g07", "q": "독도는 1년 내내 언제든지 배를 대고 내릴 수 있어요.", "exp": "바람과 파도가 세서 배를 대지 못하는 날이 많아요."},
-    {"id": "dx056", "tag": "basic", "answer": 0, "lv": 2, "grp": "g07", "q": "독도는 바람과 파도가 세서 배가 섬에 닿지 못하는 날이 많아요.", "exp": "맞아요! 그래서 독도에 내리면 ‘3대가 덕을 쌓아야 한다’는 말도 있어요."},
+    {"id": "dx056", "tag": "basic", "answer": 0, "lv": 2, "grp": "g07", "q": "독도는 바람과 파도가 세서 배가 섬에 닿지 못하는 날이 많아요.", "exp": "맞아요! 그래서 ‘독도에 내리려면 3대가 덕을 쌓아야 한다’는 말도 있어요."},
     {"id": "dx057", "tag": "basic", "answer": 1, "lv": 1, "q": "독도에는 학교가 있어요.", "exp": "독도에는 학교가 없어요. 경비대와 등대 관리원 등이 머물러요."},
-    {"id": "dx058", "tag": "basic", "answer": 1, "lv": 1, "q": "독도에는 자동차가 다니는 큰 도로가 있어요.", "exp": "독도에는 자동차가 다니는 도로가 없어요. 계단과 좁은 길이 있어요."},
+    {"id": "dx058", "tag": "basic", "answer": 1, "lv": 1, "q": "독도에는 자동차가 다니는 큰 도로가 있어요.", "exp": "독도에는 자동차가 다니는 도로가 없어요. ‘독도이사부길’ 같은 이름은 주소용이고, 실제로는 계단과 좁은 길이 있어요."},
     {"id": "dx059", "tag": "basic", "answer": 1, "lv": 1, "q": "동도와 서도는 다리로 이어져 있어요.", "exp": "두 섬을 잇는 다리는 없어요. 배를 타고 오가요."},
     {"id": "dx060", "tag": "basic", "answer": 0, "lv": 2, "q": "독도의 선착장(배를 대는 곳)은 동도에 있어요.", "exp": "맞아요! 배는 동도 선착장에 닿아요."},
     {"id": "dx061", "tag": "basic", "answer": 0, "lv": 2, "q": "독도 등대와 독도경비대는 동도에 있어요.", "exp": "맞아요! 동도에 등대와 경비대 건물이 있어요."},
-    {"id": "dx062", "tag": "basic", "answer": 0, "lv": 2, "q": "서도에는 어민들이 머무는 숙소가 있어요.", "exp": "맞아요! 서도에는 어민(주민) 숙소가 있어요."},
+    {"id": "dx062", "tag": "basic", "answer": 0, "lv": 2, "q": "서도에는 주민이 머물 수 있는 ‘주민숙소’가 있어요.", "exp": "맞아요! 서도에 주민숙소가 있어요. 지금은 그곳에 사는 주민이 없어요."},
     {"id": "dx063", "tag": "basic", "answer": 0, "lv": 2, "q": "독도에도 우편번호가 있어요.", "exp": "맞아요! 독도의 우편번호는 40240이에요."},
     {"id": "dx064", "tag": "basic", "answer": 0, "lv": 2, "q": "독도에는 ‘독도이사부길’, ‘독도안용복길’ 같은 길 이름이 있어요.", "exp": "맞아요! 동도는 독도이사부길, 서도는 독도안용복길 주소를 써요."},
     {"id": "dx065", "tag": "basic", "answer": 0, "lv": 1, "q": "독도에도 태극기가 펄럭여요.", "exp": "맞아요! 독도는 대한민국 땅이니까요."},
     {"id": "dx066", "tag": "basic", "answer": 1, "lv": 1, "q": "독도에는 편의점과 식당이 있어요.", "exp": "독도에는 가게나 식당이 없어요."},
     {"id": "dx067", "tag": "basic", "answer": 0, "lv": 2, "q": "독도에는 한반도 모양을 닮은 바위가 있어요.", "exp": "맞아요! 동도에 있는 ‘한반도 바위’예요."},
     {"id": "dx068", "tag": "basic", "answer": 0, "lv": 2, "q": "독도에는 가운데가 뚫려 문처럼 보이는 ‘독립문바위’가 있어요.", "exp": "맞아요! 동도 옆 바다에 있는 바위로, 가운데가 문처럼 뚫려 있어요."},
-    {"id": "dx069", "tag": "basic", "answer": 0, "lv": 2, "q": "서도의 가장 높은 봉우리 이름은 ‘대한봉’이에요.", "exp": "맞아요! 동도의 가장 높은 봉우리는 ‘우산봉’이에요."},
+    {"id": "dx069", "tag": "basic", "answer": 0, "lv": 2, "q": "서도의 가장 높은 봉우리 이름은 ‘대한봉’이에요.", "exp": "맞아요! 서도의 가장 높은 봉우리는 ‘대한봉’, 동도의 가장 높은 봉우리는 ‘우산봉’이에요.", "grp": "g29"},
     {"id": "dx070", "tag": "basic", "answer": 1, "lv": 1, "q": "독도는 대한민국에서 가장 큰 섬이에요.", "exp": "가장 큰 섬은 제주도예요. 독도는 작은 섬이에요."},
     {"id": "dx071", "tag": "basic", "answer": 1, "lv": 1, "grp": "g18", "q": "독도는 너무 작아서 지도에 그리지 않아요.", "exp": "독도는 작아도 우리나라 지도에 꼭 그려야 하는 우리 땅이에요."},
     {"id": "dx072", "tag": "basic", "answer": 0, "lv": 1, "grp": "g18", "q": "우리나라 지도를 그릴 때는 독도도 꼭 함께 그려야 해요.", "exp": "맞아요! 울릉도 옆 독도까지 그려야 완성이에요."},
@@ -6517,33 +6542,33 @@ window.NoanFullscreen = (function () {
     {"id": "dx080", "tag": "nature", "answer": 0, "lv": 2, "grp": "g14", "q": "강치는 바다사자 무리에 속하는 동물이에요.", "exp": "맞아요! 옛날 독도 바위 위에서 무리 지어 살았어요."},
     {"id": "dx081", "tag": "nature", "answer": 0, "lv": 2, "grp": "g14", "q": "옛날 독도에는 강치가 아주 많이 살았어요.", "exp": "맞아요! 독도는 강치가 무리 지어 살던 큰 번식지였어요."},
     {"id": "dx082", "tag": "nature", "answer": 1, "lv": 1, "grp": "g05", "q": "괭이갈매기는 강아지처럼 ‘멍멍’ 하고 울어요.", "exp": "괭이갈매기는 고양이처럼 ‘냐아~’ 하고 울어요."},
-    {"id": "dx083", "tag": "nature", "answer": 0, "lv": 2, "q": "독도에는 바다제비 같은 바닷새도 살아요.", "exp": "맞아요! 독도는 바닷새들의 소중한 보금자리예요."},
+    {"id": "dx083", "tag": "nature", "answer": 0, "lv": 2, "q": "독도에는 바다제비 같은 바닷새도 살아요.", "exp": "맞아요! 독도는 바닷새들의 소중한 보금자리예요.", "grp": "g35"},
     {"id": "dx084", "tag": "nature", "answer": 0, "lv": 2, "q": "해국은 독도 바위틈에 피는 연보라색 꽃이에요.", "exp": "맞아요! 늦여름부터 가을까지 연보라색 꽃을 피워요."},
     {"id": "dx085", "tag": "nature", "answer": 0, "lv": 2, "q": "독도에는 노란 꽃을 피우는 땅채송화가 자라요.", "exp": "맞아요! 바위에 붙어 자라는 작은 식물이에요."},
     {"id": "dx086", "tag": "nature", "answer": 1, "lv": 1, "q": "독도에는 나무가 빽빽한 숲이 있어요.", "exp": "독도는 바위섬이라 숲은 없고, 바위틈에 작은 나무와 풀이 자라요."},
-    {"id": "dx087", "tag": "nature", "answer": 1, "lv": 1, "q": "독도에는 동물이 하나도 살지 않아요.", "exp": "괭이갈매기, 바다제비 같은 새와 많은 바다 생물이 살아요."},
+    {"id": "dx087", "tag": "nature", "answer": 1, "lv": 1, "q": "독도에는 동물이 하나도 살지 않아요.", "exp": "괭이갈매기, 바다제비 같은 새와 많은 바다 생물이 살아요.", "grp": "g35"},
     {"id": "dx088", "tag": "nature", "answer": 0, "lv": 2, "q": "독도 바다에는 미역, 전복, 소라 같은 바다 생물이 살아요.", "exp": "맞아요! 독도 바다는 바다 생물이 가득한 보물 창고예요."},
     {"id": "dx089", "tag": "nature", "answer": 0, "lv": 2, "q": "독도 주변 동해 바다 밑에는 ‘불타는 얼음’이라 불리는 자원이 있어요.", "exp": "맞아요! 메탄 하이드레이트로, 동해 울릉분지에 묻혀 있어요."},
     {"id": "dx090", "tag": "nature", "answer": 1, "lv": 1, "q": "독도 바다는 물이 얕아서 물고기가 살지 않아요.", "exp": "독도 바다는 깊고, 물고기와 바다 생물이 아주 많아요."},
-    {"id": "dx091", "tag": "nature", "answer": 0, "lv": 2, "q": "바다 위에 보이는 독도는 바닷속 큰 산의 꼭대기 부분이에요.", "exp": "맞아요! 바다 밑 약 2,000m 높이의 큰 화산 꼭대기가 독도예요."},
+    {"id": "dx091", "tag": "nature", "answer": 0, "lv": 2, "q": "바다 위에 보이는 독도는 바닷속 큰 산의 꼭대기 부분이에요.", "exp": "맞아요! 바다 밑 약 2,000m 높이의 큰 화산 꼭대기가 독도예요.", "grp": "g32"},
     {"id": "dx092", "tag": "nature", "answer": 1, "lv": 1, "q": "독도의 화산은 지금도 펑펑 터지고 있어요.", "exp": "독도의 화산 활동은 아주 오래전에 멈췄어요."},
-    {"id": "dx093", "tag": "nature", "answer": 1, "lv": 1, "q": "독도는 사람이 흙을 쌓아 만든 섬이에요.", "exp": "독도는 바닷속 화산이 만든 자연의 섬이에요."},
+    {"id": "dx093", "tag": "nature", "answer": 1, "lv": 1, "q": "독도는 사람이 흙을 쌓아 만든 섬이에요.", "exp": "독도는 바닷속 화산이 만든 자연의 섬이에요.", "grp": "g33"},
     {"id": "dx094", "tag": "nature", "answer": 0, "lv": 2, "q": "서도에는 ‘물골’이라는 샘물이 있어요.", "exp": "맞아요! 바위틈에서 물이 조금씩 솟아나는 곳이에요."},
     {"id": "dx095", "tag": "nature", "answer": 1, "lv": 1, "q": "독도에는 비나 눈이 한 번도 오지 않아요.", "exp": "독도에도 비가 오고 겨울에는 눈도 내려요."},
     {"id": "dx096", "tag": "nature", "answer": 1, "lv": 2, "grp": "g04", "q": "동도가 서도보다 더 높아요.", "exp": "서도가 약 168m로 동도(약 99m)보다 더 높아요."},
     {"id": "dx097", "tag": "nature", "answer": 0, "lv": 2, "q": "독도 바닷속에는 해조류가 숲처럼 자라는 ‘바다 숲’이 있어요.", "exp": "맞아요! 바다 숲은 물고기들의 집이 되어 줘요."},
-    {"id": "dx098", "tag": "history", "answer": 0, "lv": 2, "q": "아주 옛날 울릉도에는 ‘우산국’이라는 나라가 있었어요.", "exp": "맞아요! 독도도 우산국에 속했고, 512년 신라 땅이 되었어요."},
+    {"id": "dx098", "tag": "history", "answer": 0, "lv": 2, "q": "아주 옛날 울릉도에는 ‘우산국’이라는 나라가 있었어요.", "exp": "맞아요! 독도도 우산국에 속했고, 512년 신라 땅이 되었어요.", "grp": "g10"},
     {"id": "dx099", "tag": "history", "answer": 0, "lv": 3, "grp": "g10", "q": "신라 장군 이사부는 512년에 우산국을 신라 땅으로 만들었어요.", "exp": "맞아요! 이때부터 울릉도와 독도는 우리 땅이 되었어요."},
     {"id": "dx100", "tag": "history", "answer": 0, "lv": 3, "q": "이사부 장군은 나무로 만든 사자로 우산국 사람들을 놀라게 했대요.", "exp": "맞아요! ‘삼국사기’에 나오는 이야기예요."},
     {"id": "dx101", "tag": "history", "answer": 1, "lv": 2, "grp": "g10", "q": "이사부는 조선 시대의 어부예요.", "exp": "이사부는 신라의 장군이에요. 안용복이 조선의 어부예요."},
-    {"id": "dx102", "tag": "history", "answer": 1, "lv": 2, "q": "우산국은 일본에 있던 나라예요.", "exp": "우산국은 울릉도와 독도에 있던 나라로, 신라 땅이 되었어요."},
+    {"id": "dx102", "tag": "history", "answer": 1, "lv": 2, "q": "우산국은 일본에 있던 나라예요.", "exp": "우산국은 울릉도와 독도에 있던 나라로, 신라 땅이 되었어요.", "grp": "g10"},
     {"id": "dx103", "tag": "history", "answer": 0, "lv": 2, "q": "조선 시대에 만든 우리 지도에도 우산도(독도)가 그려져 있어요.", "exp": "맞아요! 옛 지도에 울릉도와 우산도가 함께 그려져 있어요."},
     {"id": "dx104", "tag": "history", "answer": 0, "lv": 3, "grp": "g08", "q": "세종실록지리지에는 ‘우산과 무릉 두 섬은 날씨가 맑으면 바라볼 수 있다’고 적혀 있어요.", "exp": "맞아요! 옛 사람들도 두 섬을 함께 알고 있었다는 증거예요."},
     {"id": "dx105", "tag": "history", "answer": 1, "lv": 2, "q": "세종실록지리지는 일본에서 만든 책이에요.", "exp": "세종실록지리지는 조선 세종 때의 기록을 담은 우리 책이에요."},
     {"id": "dx106", "tag": "history", "answer": 1, "lv": 2, "grp": "g08", "q": "울릉도와 독도는 멀어서 옛날 사람들은 독도를 몰랐어요.", "exp": "맑은 날 울릉도에서 독도가 보여서 옛날부터 잘 알았어요."},
     {"id": "dx107", "tag": "history", "answer": 0, "lv": 3, "grp": "g24", "q": "일본 사람이 만든 옛 지도 중에도 독도를 조선 땅과 같은 색으로 칠한 지도가 있어요.", "exp": "맞아요! ‘삼국접양지도’는 울릉도와 독도를 조선과 같은 색으로 칠했어요."},
     {"id": "dx108", "tag": "history", "answer": 1, "lv": 3, "grp": "g24", "q": "일본의 옛 지도에는 모두 독도가 일본 땅으로 그려져 있어요.", "exp": "일본 옛 지도 중에도 독도를 조선 땅으로 칠한 지도가 있어요."},
-    {"id": "dx109", "tag": "history", "answer": 0, "lv": 3, "q": "1667년 일본 책 ‘은주시청합기’는 오키섬을 일본의 서북쪽 경계로 보았어요.", "exp": "맞아요! 우리 정부는 이를 독도가 일본 땅 밖이었다는 근거로 봐요."},
+    {"id": "dx109", "tag": "mid_history", "answer": 0, "lv": 3, "q": "1667년 일본 책 ‘은주시청합기’는 오키섬을 일본의 서북쪽 경계로 보았어요.", "exp": "맞아요! 우리 정부는 이를 독도가 일본 땅 밖이었다는 근거로 봐요."},
     {"id": "dx110", "tag": "history", "answer": 0, "lv": 3, "grp": "g27", "q": "안용복 일이 있은 뒤 일본은 자기 어부들이 울릉도에 가지 못하게 막았어요.", "exp": "맞아요! 일본도 울릉도가 조선 땅임을 인정한 거예요."},
     {"id": "dx111", "tag": "history", "answer": 1, "lv": 2, "grp": "g09", "q": "안용복은 신라의 장군이에요.", "exp": "안용복은 조선 숙종 때의 어부예요."},
     {"id": "dx112", "tag": "history", "answer": 1, "lv": 3, "grp": "g12", "q": "1877년 일본 정부는 독도를 일본 땅이라고 정했어요.", "exp": "1877년 일본 정부는 오히려 ‘독도는 일본과 관계없다’고 적었어요."},
@@ -6559,14 +6584,14 @@ window.NoanFullscreen = (function () {
     {"id": "dx122", "tag": "history", "answer": 0, "lv": 2, "grp": "g20", "q": "일본 시마네현은 2월 22일을 ‘다케시마의 날’로 정해 행사를 열어요.", "exp": "맞아요! 2005년에 조례로 정했고, 우리 정부는 해마다 항의해요."},
     {"id": "dx123", "tag": "history", "answer": 1, "lv": 2, "grp": "g13", "q": "일본이 1905년에 독도를 자기 땅에 넣은 것은 올바른 일이에요.", "exp": "이미 우리 땅이던 독도를 대한제국에 알리지 않고 넣은 것이라 인정할 수 없어요."},
     {"id": "dx124", "tag": "history", "answer": 0, "lv": 2, "grp": "g23", "q": "우리 정부는 독도 문제를 국제 재판에 맡길 필요가 없다는 입장이에요.", "exp": "맞아요! 독도는 우리 땅이라 영유권 분쟁 자체가 없다는 입장이에요."},
-    {"id": "dx125", "tag": "history", "answer": 0, "lv": 2, "q": "일본 오키섬에서는 맨눈으로 독도가 보이지 않아요.", "exp": "맞아요! 너무 멀어서 보이지 않아요. 울릉도에서는 보여요."},
+    {"id": "dx125", "tag": "history", "answer": 0, "lv": 2, "q": "일본 오키섬에서는 맨눈으로 독도가 보이지 않아요.", "exp": "맞아요! 너무 멀어서 보이지 않아요. 울릉도에서는 보여요.", "grp": "g30"},
     {"id": "dx126", "tag": "history", "answer": 0, "lv": 2, "q": "독도는 옛날부터 울릉도에 딸린 섬으로 여겨졌어요.", "exp": "맞아요! 옛 책에 울릉도와 독도가 늘 함께 나와요."},
     {"id": "dx127", "tag": "noan", "answer": 0, "lv": 2, "grp": "g19", "q": "노안중 학생자치회는 독도의 날 행사를 직접 준비해요.", "exp": "맞아요! 노안중 학생들이 독도의 날 행사를 주관해요."},
     {"id": "dx128", "tag": "noan", "answer": 0, "lv": 2, "grp": "g19", "q": "10월에는 노안중 학생들이 초등학생 친구들과 함께하는 독도 교육을 열어요.", "exp": "맞아요! 노안중 학생이 준비한 초·중 연계 독도 교육이에요."},
     {"id": "dx129", "tag": "mid_history", "answer": 0, "lv": 3, "grp": "g11", "q": "1900년 칙령 제41호는 울도군이 ‘울릉전도, 죽도, 석도’를 다스린다고 정했어요.", "exp": "맞아요! 여기 나오는 석도가 지금의 독도예요."},
     {"id": "dx130", "tag": "mid_history", "answer": 1, "lv": 3, "grp": "g11", "q": "칙령 제41호에는 ‘독도’라는 이름이 그대로 적혀 있어요.", "exp": "칙령에는 ‘석도’라고 적혀 있고, 석도가 지금의 독도예요."},
     {"id": "dx131", "tag": "mid_history", "answer": 0, "lv": 3, "grp": "g11", "q": "‘독섬’을 한자 뜻으로 쓰면 석도(石島), 소리로 쓰면 독도(獨島)가 돼요.", "exp": "맞아요! ‘독’은 돌의 사투리라 석도를 독도로 봐요."},
-    {"id": "dx132", "tag": "mid_history", "answer": 1, "lv": 3, "grp": "g11", "q": "칙령 제41호가 나온 1900년에 울도군은 경상북도에 속했어요.", "exp": "1900년 울도군은 강원도에 속했고, 뒤에 경상북도로 옮겨졌어요."},
+    {"id": "dx132", "tag": "mid_history", "answer": 1, "lv": 3, "grp": "g11", "q": "칙령 제41호가 나온 1900년에 울도군은 경상북도에 속했어요.", "exp": "1900년 울도군은 강원도에 속했어요. 1906년 경상남도, 1914년 경상북도로 옮겨졌어요."},
     {"id": "dx133", "tag": "mid_history", "answer": 0, "lv": 3, "grp": "g12", "q": "1877년 일본 태정관 지령에는 ‘죽도 외 일도’는 일본과 관계없다고 적혀 있어요.", "exp": "맞아요! 죽도는 울릉도, 일도는 독도를 가리켜요."},
     {"id": "dx134", "tag": "mid_history", "answer": 1, "lv": 3, "grp": "g12", "q": "1877년 태정관 지령은 조선 정부가 일본에 보낸 문서예요.", "exp": "태정관 지령은 일본 최고 국가기관이 일본 내무성에 내린 지시예요."},
     {"id": "dx135", "tag": "mid_history", "answer": 0, "lv": 3, "grp": "g27", "q": "1696년 일본 에도 막부는 일본 사람이 울릉도로 건너가는 것을 금지했어요.", "exp": "맞아요! 안용복 사건 뒤 내린 ‘도해금지령’이에요."},
@@ -6586,23 +6611,23 @@ window.NoanFullscreen = (function () {
     {"id": "dx149", "tag": "mid_history", "answer": 1, "lv": 3, "grp": "g21", "q": "독도의용수비대는 광복 직후인 1945년에 만들어졌어요.", "exp": "독도의용수비대는 1953년 4월 20일 홍순칠 대장을 중심으로 만들어졌어요."},
     {"id": "dx150", "tag": "mid_history", "answer": 0, "lv": 3, "grp": "g21", "q": "독도의용수비대는 1956년 말 독도를 지키는 임무를 경찰에 넘겼어요.", "exp": "맞아요! 1956년 12월 30일 무기와 임무를 경찰에 넘겼어요."},
     {"id": "dx151", "tag": "mid_history", "answer": 1, "lv": 3, "q": "독도 등대는 2000년대에 처음 세워졌어요.", "exp": "독도 등대는 1954년 8월 무인등대로 처음 세워졌어요."},
-    {"id": "dx152", "tag": "mid_history", "answer": 0, "lv": 3, "q": "‘리앙쿠르 록스’는 1849년 프랑스 배가 독도에 붙인 이름이에요.", "exp": "맞아요! 프랑스 포경선 이름에서 왔고 국제적으로 널리 쓰였어요."},
+    {"id": "dx152", "tag": "mid_history", "answer": 0, "lv": 3, "q": "‘리앙쿠르 암(Liancourt Rocks)’은 1849년 프랑스 배의 이름을 따서 서양에서 독도를 부른 이름이에요.", "exp": "맞아요! 독도를 본 프랑스 포경선 ‘리앙쿠르호’의 이름에서 왔어요."},
     {"id": "dx153", "tag": "mid_basic", "answer": 1, "lv": 3, "q": "‘독도리’라는 행정구역은 대한제국 때인 1900년에 생겼어요.", "exp": "독도리는 2000년에 새로 만들어진 행정구역이에요."},
-    {"id": "dx154", "tag": "mid_nature", "answer": 1, "lv": 3, "q": "독도가 천연기념물로 처음 지정된 것은 2010년대예요.", "exp": "독도는 1982년 천연기념물로 지정됐어요. 1999년 지금 이름이 됐어요."},
+    {"id": "dx154", "tag": "mid_nature", "answer": 1, "lv": 3, "q": "독도가 천연기념물로 처음 지정된 것은 2010년대예요.", "exp": "독도는 1982년 천연기념물로 지정됐고, 1999년 ‘독도천연보호구역’으로 이름이 바뀌었어요.", "grp": "g31"},
     {"id": "dx155", "tag": "mid_nature", "answer": 0, "lv": 3, "q": "독도는 약 460만 년 전 바닷속 화산 활동으로 만들어지기 시작했어요.", "exp": "맞아요! 약 250만 년 전 바다 위로 모습을 드러냈어요."},
-    {"id": "dx156", "tag": "mid_nature", "answer": 1, "lv": 3, "q": "독도 아래 바닷속 화산(해산)은 높이 200m쯤인 작은 산이에요.", "exp": "독도는 수심 약 2,000m 바다 밑에서 솟은 큰 해산의 꼭대기예요."},
-    {"id": "dx157", "tag": "mid_nature", "answer": 0, "lv": 3, "q": "동해에서는 따뜻한 동한난류와 차가운 북한한류가 만나 조경수역을 이뤄요.", "exp": "맞아요! 성질이 다른 바닷물이 만나 먹이와 물고기가 많아요."},
+    {"id": "dx156", "tag": "mid_nature", "answer": 1, "lv": 3, "q": "독도 아래 바닷속 화산(해산)은 높이 200m쯤인 작은 산이에요.", "exp": "독도는 수심 약 2,000m 바다 밑에서 솟은 큰 해산의 꼭대기예요.", "grp": "g32"},
+    {"id": "dx157", "tag": "mid_nature", "answer": 0, "lv": 3, "q": "동해에서는 따뜻한 동한난류와 차가운 북한한류가 만나 조경수역을 이뤄요.", "exp": "맞아요! 성질이 다른 바닷물이 만나 먹이와 물고기가 많아요.", "grp": "g34"},
     {"id": "dx158", "tag": "mid_nature", "answer": 0, "lv": 3, "q": "독도 주변 바다에서 난류성 물고기인 참다랑어의 알과 새끼가 확인됐어요.", "exp": "맞아요! 국립수산과학원이 2021년에 처음 확인했어요."},
     {"id": "dx159", "tag": "mid_nature", "answer": 1, "lv": 3, "grp": "g14", "q": "독도 강치는 지금 국제자연보전연맹(IUCN)이 ‘멸종 위기종’으로 보호해요.", "exp": "IUCN은 1990년대에 강치를 이미 ‘절멸’로 분류했어요."},
     {"id": "dx160", "tag": "mid_nature", "answer": 0, "lv": 3, "grp": "g14", "q": "1904년부터 1941년까지 일본 어업회사가 잡은 강치는 1만 마리가 넘어요.", "exp": "맞아요! 약 1만 6,500마리가 잡혀 결국 사라졌어요."},
-    {"id": "dx161", "tag": "mid_nature", "answer": 1, "lv": 3, "q": "코끼리바위(공암)는 독도 동도 옆에 있는 바위예요.", "exp": "코끼리바위(공암)는 울릉도 북서쪽 바다에 있어요."},
-    {"id": "dx162", "tag": "mid_nature", "answer": 1, "lv": 3, "q": "독도 봉우리 이름 ‘우산봉’은 서도에 있어요.", "exp": "우산봉은 동도(98.6m), 대한봉은 서도(168.5m)의 봉우리예요."},
-    {"id": "dx163", "tag": "mid_basic", "answer": 1, "lv": 3, "q": "독도 전체 면적은 축구장 1,000개를 합친 것보다 넓어요.", "exp": "독도 면적은 약 18만 7,554㎡로 축구장 약 26개 정도예요."},
+    {"id": "dx161", "tag": "mid_nature", "answer": 1, "lv": 3, "q": "독도의 코끼리바위는 동도 옆에 있는 바위예요.", "exp": "독도의 코끼리바위는 서도 쪽에 있어요. 울릉도에도 ‘공암’이라는 이름난 코끼리바위가 있어요."},
+    {"id": "dx162", "tag": "mid_nature", "answer": 1, "lv": 3, "q": "독도 봉우리 이름 ‘우산봉’은 서도에 있어요.", "exp": "우산봉은 동도(98.6m), 대한봉은 서도(168.5m)의 봉우리예요.", "grp": "g29"},
+    {"id": "dx163", "tag": "mid_basic", "answer": 1, "lv": 3, "q": "독도 전체 면적은 축구장 1,000개를 합친 것보다 넓어요.", "exp": "독도 전체 면적은 18만 7,554㎡로, 축구장 약 26개 크기예요."},
     {"id": "dx164", "tag": "mid_basic", "answer": 0, "lv": 3, "q": "독도 주변 12해리 바다는 대한민국의 영해예요.", "exp": "맞아요! 우리나라 영해는 해안(기선)에서 12해리(약 22km)까지예요. 독도도 둘레 12해리 바다가 대한민국 영해예요."},
     {"id": "dx165", "tag": "mid_basic", "answer": 1, "lv": 3, "grp": "g15", "q": "옛날 일본에서 ‘다케시마’는 늘 독도만 가리키는 이름이었어요.", "exp": "에도 시대 일본은 울릉도를 ‘다케시마’, 독도를 ‘마쓰시마’라 불렀어요."},
     {"id": "dx166", "tag": "mid_nature", "answer": 1, "lv": 3, "q": "독도는 비가 거의 오지 않는 건조한 사막 같은 기후예요.", "exp": "독도는 비 오는 날이 1년에 150일쯤인 해양성 기후예요."},
     {"id": "dx167", "tag": "mid_basic", "answer": 1, "lv": 3, "grp": "g16", "q": "독도의 날은 법률로 정한 국가기념일이에요.", "exp": "아직 국가기념일은 아니에요. 2000년 민간단체 독도수호대가 정했어요."},
-    {"id": "dx168", "tag": "mid_history", "answer": 0, "lv": 3, "q": "‘독도’라는 이름은 1904년 일본 군함 니타카호의 항해일지에도 나와요.", "exp": "맞아요! 기록으로 확인되는 가장 이른 ‘독도’ 표기예요."}
+    {"id": "dx168", "tag": "mid_history", "answer": 0, "lv": 3, "q": "‘독도’라는 이름은 1904년 일본 군함 니이타카호의 항해일지에도 나와요.", "exp": "맞아요! ‘한국인은 이 섬을 독도라고 쓴다’고 적혀 있어요. 지금까지 확인된 기록 가운데 가장 이른 ‘독도’ 표기로 꼽혀요."}
   ];
   /* QUESTIONS:END */
   var TAGS = {basic: '기초', nature: '자연', history: '역사', noan: '우리 학교', mid_basic: '기초', mid_nature: '자연', mid_history: '역사'};

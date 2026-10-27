@@ -4839,6 +4839,30 @@ window.NoanFullscreen = (function () {
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
+
+  /* 태블릿 가벼운 모드: 안드로이드 태블릿 등 터치 기기에서 3D를 가볍게 (해상도 1배, 계단 현상 보정 끔, 초당 30장, 광택 재질 단순화).
+     ?lite=1 / ?lite=0 으로 직접 켜고 끌 수 있고, 그 선택은 이 기기에 기억해요. */
+  var LITE = (function () {
+    try {
+      var q = /[?&]lite=([01])/.exec(location.search);
+      if (q) localStorage.setItem('noanLite', q[1]);
+      var saved = localStorage.getItem('noanLite');
+      if (saved === '1') return true;
+      if (saved === '0') return false;
+    } catch (e) { /* 저장소를 못 쓰면 자동 판단 */ }
+    var coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    var mem = navigator.deviceMemory || 4, cores = navigator.hardwareConcurrency || 4;
+    return coarse && (/Android/i.test(navigator.userAgent) || mem <= 4 || cores <= 6);
+  })();
+  if (LITE) document.documentElement.classList.add('lite3d');
+  var LITE_DROP = /^(clearcoat|sheen|transmission|thickness|ior|iridescence|specularIntensity|specularColor|attenuation|dispersion|anisotropy)/;
+  function physMat(o) { // 가벼운 모드에서는 광택(클리어코트·시언) 계산을 빼고 표준 재질로
+    var T3 = window.THREE;
+    if (!LITE) return new T3.MeshPhysicalMaterial(o);
+    var s = {};
+    for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k) && !LITE_DROP.test(k)) s[k] = o[k];
+    return new T3.MeshStandardMaterial(s);
+  }
   var FS = null; // 전체 화면 모듈 (맨 아래에서 연결)
   var K = {s: 'dokdoMem.settings.v1', r: 'dokdoMem.records.v2', q: 'dokdoMem.pending.v1'};
   var DEF = {pairs: 12, peek: 5, sound: true, pin: '0000', mode: 'same', bgmVol: 50, bgmOn: true, season: '2026 독도의 날'}; // mode: same = 같은 그림, qa = 그림↔독도 문제
@@ -4883,7 +4907,7 @@ window.NoanFullscreen = (function () {
       glanceAt: 4, glanceEl: null, glanceUntil: 0, chest: '?', chestKey: '', faceKey: '', snapped: false, happyK: 0};
     var cur = null, rigC = {x: 0, y: 0, s: 1, vis: 0}, rigT = {x: 0, y: 0, s: 1, vis: 0};
     var pointer = {x: 0, y: 0, t: -1e9};
-    var FIT_H = 3.7, FIT_W = 2.9, CF_N = 200, DUST_N = 220;
+    var FIT_H = 3.7, FIT_W = 2.9, CF_N = LITE ? 90 : 200, DUST_N = LITE ? 100 : 220;
     var CF = [], tv1, tv2, tv3, dummy, zeroM;
     var COL = {mint: 0x3fd98f, gold: 0xffc93c, coral: 0xff6b6b, sky: 0x4dabf7, pink: 0xf783ac, violet: 0x845ef7};
     var bonusK = 0, bonusOn = false;
@@ -4908,7 +4932,7 @@ window.NoanFullscreen = (function () {
       return new T.MeshBasicMaterial({color: color, map: map || glowTex, transparent: true, opacity: opacity, blending: T.AdditiveBlending, depthWrite: false, toneMapped: false});
     }
     function phys(color, o) {
-      return new T.MeshPhysicalMaterial(Object.assign({color: color, roughness: 0.34, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.08}, o || {}));
+      return physMat(Object.assign({color: color, roughness: 0.34, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.08}, o || {}));
     }
 
     /* --- 배경: 그라데이션 + 무대 조명 줄기 (화면 전체 셰이더 한 장) --- */
@@ -5519,14 +5543,14 @@ window.NoanFullscreen = (function () {
 
     /* --- 렌더 루프 (탭이 숨겨지거나 관리 화면이면 멈춤) · 느리면 해상도를 자동으로 낮춤 --- */
     function resize() {
-      W = innerWidth; H = innerHeight; baseDpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      W = innerWidth; H = innerHeight; baseDpr = Math.min(window.devicePixelRatio || 1, LITE ? 1 : 1.5);
       R.setPixelRatio(baseDpr * quality); R.setSize(W, H, false);
       cam.aspect = W / H; cam.updateProjectionMatrix(); cam.updateMatrixWorld();
     }
     function adapt(dt) {
       if (locked) return;
       acc += dt; accN++; if (acc < 2 || accN < 6) return; // 2초마다 평균 프레임 시간을 본다
-      var avg = acc / accN; acc = 0; accN = 0;
+      var avg = acc / accN / (LITE ? 2 : 1); // 가벼운 모드는 초당 30장이 기준 acc = 0; accN = 0;
       if (avg > 1 / 12 && quality > 0.35) { quality = 0.35; good = 0; resize(); } // 아주 느린 기기: 바로 최저 해상도로
       else if (avg > 1 / 40 && quality > 0.5) { quality = Math.max(0.5, quality - 0.15); good = 0; resize(); }
       else if (avg < 1 / 56 && quality < 1 && ++good >= 4) { quality = Math.min(1, quality + 0.1); good = 0; resize(); }
@@ -5536,6 +5560,7 @@ window.NoanFullscreen = (function () {
     function frame(now) {
       if (!wantRun()) { running = false; return; }
       requestAnimationFrame(frame);
+      if (LITE && now - last < 30) return; // 초당 30장
       var dt = Math.min(0.1, Math.max(0.001, (now - last) / 1000)); last = now; t += dt;
       try {
         if (innerWidth !== W || innerHeight !== H) resize();
@@ -5555,7 +5580,7 @@ window.NoanFullscreen = (function () {
       if (!supported()) return false;
       try {
         canvas = $('stage3d');
-        R = new T.WebGLRenderer({canvas: canvas, antialias: true, alpha: !!opts.transparent, powerPreference: 'high-performance', stencil: false});
+        R = new T.WebGLRenderer({canvas: canvas, antialias: !LITE, alpha: !!opts.transparent, powerPreference: 'high-performance', stencil: false});
         R.outputColorSpace = T.SRGBColorSpace; R.toneMapping = T.NeutralToneMapping; R.toneMappingExposure = 1.0; R.setClearColor(0x1a0f4a, 1);
         scene = new T.Scene(); scene.fog = new T.Fog(0x2a1a6e, 22, 56);
         cam = new T.PerspectiveCamera(30, 1, 0.1, 120); cam.position.set(0, 1.4, 13); cam.lookAt(0, 0.5, 0);
@@ -5566,7 +5591,7 @@ window.NoanFullscreen = (function () {
         var key = new T.DirectionalLight(0xffe2c2, 2.6); key.position.set(4, 7, 8); scene.add(key);
         var fillL = new T.DirectionalLight(0x9cc8ff, 0.9); fillL.position.set(-6, 2, 6); scene.add(fillL);
         var rimM = new T.DirectionalLight(0xff8fd0, 3.0); rimM.position.set(-6, 4, -5); scene.add(rimM);
-        var rimG = new T.DirectionalLight(0x9d7bff, 2.6); rimG.position.set(6, 3, -6); scene.add(rimG);
+        var rimG = new T.DirectionalLight(0x9d7bff, 2.6); rimG.position.set(6, 3, -6); if (!LITE) scene.add(rimG);
         glowTex = radialTex([[0, 'rgba(255,255,255,1)'], [0.22, 'rgba(255,255,255,.55)'], [0.55, 'rgba(255,255,255,.12)'], [1, 'rgba(255,255,255,0)']]);
         tv1 = new T.Vector3(); tv2 = new T.Vector3(); tv3 = new T.Vector3(); dummy = new T.Object3D();
         BONUS_TOP = new T.Color(0xd9480f); BONUS_BOT = new T.Color(0x3d0f00); BONUS_GLOW = new T.Color(0xffd43b);
