@@ -689,7 +689,7 @@ body[data-screen="attract"] .fs-btn,body[data-screen="board"] .fs-btn{display:fl
 <div class="part-label">소속을 골라 주세요</div><div class="part-orgs" id="partOrgs" role="group" aria-label="소속 선택">
 <button type="button" data-org="노안초">노안초</button><button type="button" data-org="노안남초">노안남초</button><button type="button" data-org="노안중">노안중</button></div>
 <label for="partName">이름 또는 별명</label><input id="partName" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="예) 김노안">
-<p>입력한 소속과 이름은 이 게임의 랭킹에 표시돼요.</p><div id="partMsg" role="alert"></div>
+<p>소속·이름·점수는 공통 랭킹을 위해 인터넷 서버에 저장돼요. 오프라인이면 기기에 보관했다가 연결되면 전송해요.</p><div id="partMsg" role="alert"></div>
 <div class="part-actions"><button type="button" class="part-soft" id="partNick">🎲 별명 만들기</button><button type="button" class="part-soft" id="partBack">처음으로</button></div>
 <button type="button" class="clay-btn" id="partGo"><span>퀴즈 시작!</span></button></div></section>
 <!-- 카운트다운 -->
@@ -10534,7 +10534,7 @@ window.NoanFullscreen = (function () {
   var PTS = {base: 100, speed: 50, streak: 20, streakMax: 60, bonusMul: 2, golden: 300}; // golden: 1등 도전 골든 퀴즈 점수
   var DEFAULT_SETTINGS = {count: 6, bonusEvery: 3, pass: 4, timer: 15, sub: '6문제 중 4개 맞히면 선물!', passMsg: '선생님께 이 화면을 보여 주고 선물 받아 가세요!',
     failMsg: '아깝다! 참여 선물 받아 가세요.', idle: 30, sound: true, pin: '0000', bgmVol: 50, bgmOn: true};
-  var K = {recent: 'noanQuiz.recent.v1', q: 'noanQuiz.questions.v6', s: 'noanQuiz.settings.v3', st: 'noanQuiz.stats.v1', lb: 'noanQuiz.board.v1'};
+  var K = {recent: 'noanQuiz.recent.v1', q: 'noanQuiz.questions.v6', s: 'noanQuiz.settings.v3', st: 'noanQuiz.stats.v1', lb: 'noanQuiz.board.v1', pend: 'noanQuiz.pending.v1'};
   var FEEDBACK_AUTO_MS = 5000, RESULT_RETURN_S = 15, LOCK_MS = 700, MAX_IMG = 1280, STAMP_MS = 1150, WARN_S = 5;
 
   /* ===== 저장소 ===== */
@@ -11938,7 +11938,7 @@ window.NoanFullscreen = (function () {
   /* ===== 대기 화면 ===== */
   var bubbleI = 0;
   function bubbleLines() {
-    var n = stats().played;
+    var n = Board.remote() ? Board.data().count : stats().played;
     var lines = ['안녕! 나는 나주 배 배돌이야', '노안중 문제는 점수 2배!', settings.sub, '빨리 맞힐수록 점수 UP!', '터치하면 바로 시작!'];
     var top = Board.data().top; if (top.length) lines.push('지금 1등은 ' + (+top[0].pts).toLocaleString() + '점!');
     if (n > 0) lines.push('오늘 ' + n + '명이 도전했어!');
@@ -11952,7 +11952,7 @@ window.NoanFullscreen = (function () {
   setInterval(cycleBubble, 2800);
   function refreshAttract() {
     $('aSub').textContent = settings.sub;
-    var n = stats().played;
+    var n = Board.remote() ? Board.data().count : stats().played;
     $('aToday').innerHTML = '<i class="live"></i>' + (n > 0 ? '<span>오늘 <b>' + n + '</b>명 도전!</span>' : '<span>오늘 첫 번째 도전자가 되어 보세요!</span>');
     var live = {};
     questions.forEach(function (q) { if (!q.off && valid(q)) live[q.cat] = true; });
@@ -12306,7 +12306,7 @@ window.NoanFullscreen = (function () {
     $('resName').textContent = S.entry.name + ' · ' + S.entry.org;
     Board.add(S.entry).then(function (r) {
       if (!r || S.phase !== 'result') return;
-      $('resRank').innerHTML = '오늘 <b>' + r.count + '</b>명 중 <em>' + r.rank + '등</em>' + (r.rank === 1 ? ' 👑' : r.rank <= 3 ? ' 🔥' : '');
+      $('resRank').innerHTML = r.pending ? '이 기기에 저장 · 연결되면 공통 랭킹에 반영돼요' : '오늘 <b>' + r.count + '</b>명 중 <em>' + r.rank + '등</em>' + (r.rank === 1 ? ' 👑' : r.rank <= 3 ? ' 🔥' : '');
       restartAnim($('resRank'), 'pop');
       if (r.rank === 1 && r.count > 1 && S.points > 0) { // 오늘의 1등 갱신!
         setTimeout(function () { if (S.phase !== 'result') return; bigText('👑 오늘의 1등!', 'crown', 1800); Sfx.play('bonus'); rain(120); $('rBubble').textContent = '새로운 1등이야!'; }, 1500);
@@ -12361,43 +12361,129 @@ window.NoanFullscreen = (function () {
   $('quitBtn').addEventListener('click', goAttract);
   $('againBtn').addEventListener('click', goAttract);
 
-  /* ===== 오늘의 랭킹 =====
-     server.js로 띄우면 여러 기기가 랭킹을 함께 쓰고, 파일로 바로 열면 이 기기 안에만 저장한다. */
+  /* ===== 공통 랭킹: Supabase에 저장하고, 연결이 끊기면 이 기기에 대기 ===== */
+  var QUIZ_CLOUD = {url: 'https://dovpodhwmredayldjrvb.supabase.co/rest/v1/quiz_scores',
+    key: 'sb_publishable_T5RxDUQ0qOjSfUqbwmqYxw_z0afNxi_'};
   var Board = (function () {
-    var remote = false, cache = {top: [], count: 0};
-    function sorted(list) { return list.slice().sort(function (a, b) { return b.pts - a.pts || a.t - b.t; }); }
-    function loadLocal() { var all = store.get(K.lb, {}); return all[todayKey()] || []; }
+    var online = false, cache = {top: [], count: 0}, currentSeason = todayKey(), lastSync = 0, syncing = null, flushing = null;
+    var seasonURL = QUIZ_CLOUD.url.replace(/\/[^/]+$/, '/dokdo_seasons');
+    function season() { return currentSeason.indexOf(todayKey()) === 0 ? currentSeason : todayKey(); }
+    function sorted(list) { return list.slice().sort(function (a, b) { return b.pts - a.pts || (a.t || 0) - (b.t || 0); }); }
+    function allLocal() { var all = store.get(K.lb, {}); return all && typeof all === 'object' ? all : {}; }
+    function loadLocal() { var all = allLocal(); return Array.isArray(all[todayKey()]) ? all[todayKey()] : []; }
     function saveLocal(list) {
-      var all = store.get(K.lb, {}); all[todayKey()] = list;
-      var keys = Object.keys(all).sort(); while (keys.length > 14) delete all[keys.shift()]; store.set(K.lb, all);
+      var all = allLocal(); all[todayKey()] = list.slice(-2000);
+      var keys = Object.keys(all).sort(); while (keys.length > 14) delete all[keys.shift()];
+      store.set(K.lb, all);
     }
-    function fromLocal() { var l = sorted(loadLocal()); return {top: l.slice(0, 10), count: l.length}; }
-    function rankIn(list, e) { return list.filter(function (x) { return x.pts > e.pts; }).length + 1; }
-    function api(path, body) {
+    function queue() { var q = store.get(K.pend, []); return Array.isArray(q) ? q : []; }
+    function saveQueue(q) { store.set(K.pend, q.slice(-2000)); }
+    function mine(list) { var sn = season(), day = todayKey(); return list.filter(function (e) { return e && (!e.day || e.day === day) && (e.season === sn || (!e.season && sn === day)); }); }
+    function fromLocal() { var l = sorted(mine(loadLocal())); return {top: l.slice(0, 10), count: l.length, local: true}; }
+    function rankIn(list, e) { return list.filter(function (x) { return +x.pts > +e.pts; }).length + 1; }
+    function req(url, opt) {
       if (!navigator.onLine) return Promise.reject(new Error('offline'));
-      var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
-      return fetch(path, Object.assign({cache: 'no-store', signal: ctl && ctl.signal}, body ? {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)} : {}))
-        .then(function (r) { clearTimeout(tm); if (!r.ok) throw new Error(r.status); return r.json(); });
+      opt = opt || {};
+      var ctl = window.AbortController ? new AbortController() : null;
+      var tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
+      return fetch(url, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal,
+        body: opt.body, headers: Object.assign({apikey: QUIZ_CLOUD.key, 'Content-Type': 'application/json'}, opt.headers || {})})
+        .then(function (r) { clearTimeout(tm); return r; }, function (e) { clearTimeout(tm); throw e; });
     }
-    function detect() {
-      if (!/^https?:$/.test(location.protocol)) return Promise.resolve(false);
-      return api('api/ping').then(function (d) { remote = !!(d && d.ok); return remote; }, function () { remote = false; return false; });
+    function syncSeason(force) {
+      if (syncing) return syncing;
+      if (!force && Date.now() - lastSync < 10000) return Promise.resolve(season());
+      lastSync = Date.now();
+      var day = todayKey();
+      syncing = req(seasonURL + '?select=season&game=eq.quiz&season=like.' + encodeURIComponent(day + '*') + '&order=id.desc&limit=1')
+        .then(function (r) { if (!r.ok) throw new Error('season-' + r.status); return r.json(); })
+        .then(function (rows) {
+          var next = rows && rows[0] && rows[0].season || day;
+          if (next !== currentSeason) { currentSeason = next; cache = {top: [], count: 0}; }
+          return season();
+        }).catch(function () { lastSync = 0; return season(); })
+        .then(function (v) { syncing = null; return v; });
+      return syncing;
+    }
+    function countOf(r, fallback) {
+      var raw = r.headers.get('content-range') || '';
+      var n = +(raw.split('/')[1] || '');
+      return isFinite(n) && raw.indexOf('/') >= 0 ? n : fallback;
+    }
+    function row(e) { return {client_id: e.id, season: e.season, day: e.day, name: e.name, org: e.org,
+      points: e.pts, correct: e.ok, total: e.total}; }
+    function push(e) {
+      return req(QUIZ_CLOUD.url, {method: 'POST', body: JSON.stringify(row(e)), headers: {Prefer: 'return=minimal'}})
+        .then(function (r) {
+          if (r.ok || r.status === 409) return 'done';
+          if (r.status === 400 || r.status === 422) return 'invalid';
+          return 'retry';
+        }, function () { return 'retry'; });
+    }
+    function flush() {
+      if (flushing) return flushing;
+      var q = queue(); if (!q.length) return Promise.resolve();
+      flushing = q.reduce(function (p, e) {
+        return p.then(function (left) { return push(e).then(function (result) {
+          if (result !== 'done' && result !== 'invalid') left.push(e);
+          return left;
+        }); });
+      }, Promise.resolve([])).then(function (left) {
+        var ids = q.map(function (e) { return e.id; });
+        saveQueue(left.concat(queue().filter(function (e) { return ids.indexOf(e.id) < 0; })));
+        flushing = null;
+      }, function () { flushing = null; });
+      return flushing;
     }
     function refresh() {
-      if (!remote) { cache = fromLocal(); return Promise.resolve(cache); }
-      return api('api/board').then(function (d) { cache = d; return d; }, function () { cache = fromLocal(); return cache; });
+      return syncSeason().then(function () {
+        var sn = season(), url = QUIZ_CLOUD.url + '?select=client_id,name,org,points,correct,total,created_at&season=eq.' + encodeURIComponent(sn) + '&order=points.desc,created_at.asc&limit=10';
+        return req(url, {headers: {Prefer: 'count=exact'}}).then(function (r) {
+          if (!r.ok) throw new Error('scores-' + r.status);
+          return r.json().then(function (rows) {
+            var pending = mine(queue());
+            online = true;
+            var server = rows.map(function (x) { return {id: x.client_id, name: x.name, org: x.org, pts: +x.points,
+              ok: +x.correct, total: +x.total, t: Date.parse(x.created_at) || 0}; });
+            cache = {top: sorted(server.concat(pending)).slice(0, 10), count: countOf(r, rows.length) + pending.length};
+            return cache;
+          });
+        });
+      }).catch(function () { online = false; cache = fromLocal(); return cache; });
     }
     function add(e) {
-      var l = loadLocal(); l.push(e); saveLocal(l); // 서버가 있어도 이 기기에 사본을 남김
-      if (remote) return api('api/score', e).then(function (d) { cache = d; return d; }, function () { var r = fromLocal(); cache = r; return {rank: rankIn(l, e), count: l.length, top: r.top}; });
-      cache = fromLocal(); return Promise.resolve({rank: rankIn(l, e), count: l.length, top: cache.top});
+      e.day = todayKey(); e.season = season();
+      var l = loadLocal(); l.push(e); saveLocal(l);
+      var q = queue(); q.push(e); saveQueue(q);
+      cache = fromLocal();
+      return flush().then(refresh).then(function (d) {
+        var local = function () { return {rank: rankIn(mine(loadLocal()), e), count: d.count, top: d.top, pending: true}; };
+        if (!online) return local();
+        var url = QUIZ_CLOUD.url + '?select=id&season=eq.' + encodeURIComponent(e.season) + '&points=gt.' + e.pts;
+        return req(url, {headers: {Prefer: 'count=exact', Range: '0-0'}}).then(function (r) {
+          if (!r.ok) return local();
+          var ahead = countOf(r, 0) + mine(queue()).filter(function (x) { return x.id !== e.id && +x.pts > +e.pts; }).length;
+          return {rank: ahead + 1, count: d.count, top: d.top, pending: queue().some(function (x) { return x.id === e.id; })};
+        }).catch(local);
+      });
+
     }
-    function rename(id, name) {
-      var l = loadLocal(); l.forEach(function (x) { if (x.id === id) x.name = name; }); saveLocal(l);
-      if (remote) api('api/name', {id: id, name: name}).catch(function () {});
+    function clearToday() {
+      if (!navigator.onLine) return Promise.reject(new Error('offline'));
+      var d = new Date(), stamp = todayKey() + ' ' + String(d.getHours()).padStart(2, '0') + ':' +
+        String(d.getMinutes()).padStart(2, '0') + ':' + String(d.getSeconds()).padStart(2, '0');
+      return req(seasonURL, {method: 'POST', body: JSON.stringify({game: 'quiz', season: stamp}),
+        headers: {Prefer: 'return=minimal'}}).then(function (r) {
+          if (!r.ok) throw new Error('reset-' + r.status);
+          currentSeason = stamp; lastSync = 0; saveLocal([]); cache = {top: [], count: 0};
+          return refresh();
+        });
     }
-    function clearToday() { saveLocal([]); cache = {top: [], count: 0}; if (remote) return api('api/clear', {pin: settings.pin}).catch(function () {}); return Promise.resolve(); }
-    return {detect: detect, refresh: refresh, add: add, rename: rename, clearToday: clearToday, data: function () { return cache; }, remote: function () { return remote; }};
+    setInterval(function () { flush().then(refresh); }, 15000);
+    window.addEventListener('online', function () { flush().then(refresh); });
+    return {detect: function () { return flush().then(refresh).then(function () { return online; }); },
+      refresh: refresh, add: add, clearToday: clearToday, data: function () { return cache; },
+      remote: function () { return online; }, pending: function () { return queue().length; }, season: season};
   })();
   function boardRows(top, n) {
     if (!top.length) return '<li class="empty">아직 기록이 없어요. 첫 1등이 되어 보세요!</li>';
@@ -12410,7 +12496,8 @@ window.NoanFullscreen = (function () {
     if (d.top.length < 5) html = (d.top.length ? html : '') + Array.from({length: 5 - d.top.length}, function (_, k) {
       return '<li class="ghost"><span class="rk">' + (d.top.length + k + 1) + '</span><span class="nm">도전자를 기다려요</span><span class="ok"></span><b>—</b></li>'; }).join('');
     $('aBoardList').innerHTML = html;
-    $('aBoardSub').textContent = d.count ? '오늘 ' + d.count + '명 도전' : '';
+    $('aBoardSub').textContent = (d.count ? '오늘 ' + d.count + '명 도전 · ' : '') + (Board.remote() ? '공통 랭킹' : '이 기기 기록' + (Board.pending() ? ' · 전송 대기 ' + Board.pending() + '건' : ''));
+    $('aToday').innerHTML = '<i class="live"></i><span>' + (d.count ? '오늘 <b>' + d.count + '</b>명 도전!' : '오늘 첫 번째 도전자가 되어 보세요!') + '</span>';
   }
   // 큰 화면용 랭킹 보기: 주소 끝에 ?board
   var BOARD_MODE = /[?&]board\b/.test(location.search);
@@ -12576,7 +12663,7 @@ window.NoanFullscreen = (function () {
     $('stTable').innerHTML = rows.length ? rows.map(function (r) { return '<tr><td>' + esc(r.t) + '</td><td>' + r.n + '</td><td>' + r.p + '%</td></tr>'; }).join('')
       : '<tr><td colspan="3">아직 기록이 없어요.</td></tr>';
   }
-  $('stReset').addEventListener('click', function () { confirmBox('오늘 통계와 랭킹을 지울까요?', function () { var all = store.get(K.st, {}); delete all[todayKey()]; store.set(K.st, all); Board.clearToday().then(function () { drawStats(); drawAttractBoard(); drawBigBoard(); toast('오늘 통계와 랭킹을 지웠어요.'); }); }); });
+  $('stReset').addEventListener('click', function () { confirmBox('오늘 공통 랭킹을 새로 시작할까요? 이전 기록은 DB에 남아요.', function () { Board.clearToday().then(function () { var all = store.get(K.st, {}); delete all[todayKey()]; store.set(K.st, all); drawStats(); drawAttractBoard(); drawBigBoard(); toast('모든 태블릿에서 새 랭킹을 시작해요.'); }, function () { toast('DB에 연결하지 못해 랭킹을 바꾸지 않았어요.'); }); }); });
 
   $('bExport').addEventListener('click', function () {
     try {
