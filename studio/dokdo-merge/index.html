@@ -478,7 +478,7 @@ body.on-title .fs-btn{display:flex}
     <div class="orgs" id="orgs" role="group" aria-label="소속 선택"><button type="button" class="org" data-org="노안초">노안초</button><button type="button" class="org" data-org="노안남초">노안남초</button><button type="button" class="org" data-org="노안중">노안중</button></div>
     <label class="flabel" for="nameInput">이름 <small>(랭킹에 올라가요 · 8글자까지)</small></label>
     <input id="nameInput" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예) 김노안">
-    <p class="privacy" id="namePrivacy">🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요. 별명을 써도 괜찮아요.</p>
+    <p class="privacy" id="namePrivacy">🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요. 별명을 써도 괜찮아요. 입력하지 않으면 랭킹에 등록되지 않아요.</p>
     <div id="nameMsg" role="alert"></div>
     <div class="row"><button class="clay-btn" id="goBtn"><span>기록 남기기!</span></button></div>
     <div class="row"><button class="soft-btn" id="randBtn">🎲 별명으로 할래요</button></div>
@@ -524,7 +524,8 @@ body.on-title .fs-btn{display:flex}
 <div class="overlay" id="pauseOv"><div class="panel">
   <h3>잠깐 멈춤</h3><p>준비되면 계속해요!</p>
   <button class="clay-btn" id="resumeBtn"><span>계속하기</span></button>
-  <div class="row"><button class="btn" id="pauseMusic">배경음악 끄기</button><button class="btn" id="quitBtn">처음으로</button></div>
+  <div class="row"><button class="btn" id="finishBtn">지금 끝내고 기록 남기기</button></div>
+  <div class="row"><button class="btn" id="pauseMusic">배경음악 끄기</button><button class="btn" id="quitBtn">기록 없이 처음으로</button></div>
 </div></div>
 <div class="overlay" id="pinOv"><div class="panel"><h3>관리 화면</h3><div id="pinDots"><i></i><i></i><i></i><i></i></div><div id="pinPad"></div><div id="pinMsg"></div></div></div>
 <div class="overlay" id="adminOv"><div class="panel">
@@ -6241,7 +6242,7 @@ window.NoanFullscreen = (function () {
       ms: clamp(G.playMs || 1000, 1000, MS_MAX), cloud: (G.playMs || 0) <= MS_MAX && G.score <= SCORE_MAX, t: Date.now()};
     G.prevBest = Board.best();
     $('nameScore').textContent = G.score + '점!';
-    $('namePrivacy').textContent = G.entry.cloud ? '🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요. 별명을 써도 괜찮아요.' : '🔒 이 기록은 서버 허용 범위를 넘어 이 기기에만 저장돼요. 별명을 써도 괜찮아요.';
+    $('namePrivacy').textContent = (G.entry.cloud ? '🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요.' : '🔒 이 기록은 서버 허용 범위를 넘어 이 기기에만 저장돼요.') + ' 별명을 써도 괜찮아요. 입력하지 않으면 랭킹에 등록되지 않아요.';
     pickOrg(''); $('nameInput').value = ''; $('nameMsg').textContent = '';
     show('name'); bumpIdle();
   }
@@ -6253,8 +6254,9 @@ window.NoanFullscreen = (function () {
   }
   function restart(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
   function saveEntry(name, org, showResult) {
-    var e = G.entry; if (!e || e.saved) return;
-    e.saved = true; e.name = name; e.org = org || ''; G.recId = e.id;
+    var e = G.entry; name = cleanName(name);
+    if (!e || e.saved || !name || ORGS.indexOf(org) < 0) return;
+    e.saved = true; e.name = name; e.org = org; G.recId = e.id;
     var p = Board.add(e);
     if (!showResult) return;
     G.phase = 'result';
@@ -6299,6 +6301,11 @@ window.NoanFullscreen = (function () {
   function drawPauseMusic() { $('pauseMusic').textContent = settings.music ? '배경음악 끄기' : '배경음악 켜기'; }
   $('pauseBtn').addEventListener('click', function (e) { e.stopPropagation(); Snd.play('click'); pause(); });
   $('resumeBtn').addEventListener('click', function () { Snd.play('click'); resume(); });
+  $('finishBtn').addEventListener('click', function () {
+    if (G.phase !== 'paused') return;
+    G.playMs = Math.round(G.t * 1000); G.endReason = 'manual';
+    $('pauseOv').classList.remove('on'); finishRound();
+  });
   $('quitBtn').addEventListener('click', function () { goTitle(); });
   $('pauseMusic').addEventListener('click', function () { settings.music = !settings.music; saveSettings(); Snd.apply(); drawPauseMusic(); drawBgm(); });
   document.addEventListener('visibilitychange', function () { if (document.hidden) { pause(); } else last = performance.now(); });
@@ -6692,8 +6699,8 @@ window.NoanFullscreen = (function () {
   function bumpIdle() {
     clearTimeout(idleT); clearInterval(retI); $('retCount').textContent = '';
     if (G.phase === 'title' || $('adminOv').classList.contains('on') || $('pinOv').classList.contains('on')) return;
-    var sec = G.phase === 'result' || G.phase === 'name' ? IDLE.result : IDLE.play;
-    idleT = setTimeout(function () { if (G.phase === 'name') saveEntry(nick(), '', false); goTitle(); }, sec * 1000);
+    var sec = G.phase === 'name' ? 90 : G.phase === 'result' ? IDLE.result : IDLE.play;
+    idleT = setTimeout(function () { goTitle(); }, sec * 1000);
     if (G.phase === 'result') { var left = sec; retI = setInterval(function () { left--; if (left <= 10 && left > 0) $('retCount').textContent = left + '초 뒤 처음 화면으로'; }, 1000); }
   }
   document.addEventListener('pointerdown', bumpIdle, true);
@@ -6772,7 +6779,7 @@ window.NoanFullscreen = (function () {
     drop: function (x) { if (G.phase !== 'play') return false; G.cool = 0; return doDrop(x); },
     setLevel: function (lv) { G.held = clamp(lv | 0, 1, MAXL); },
     spawn: function (lv, x, y, o) { return World.add(clamp(lv | 0, 1, MAXL), x, y, o); },
-    start: startRound, end: endRound, title: goTitle, submit: function (name, org) { if (G.phase === 'name') saveEntry(cleanName(name) || nick(), ORGS.indexOf(org) >= 0 ? org : '', true); }, pause: pause, resume: resume,
+    start: startRound, end: endRound, title: goTitle, submit: function (name, org) { if (G.phase === 'name') saveEntry(name, org, true); }, pause: pause, resume: resume,
     step: function (n) { for (var i = 0; i < (n || 1); i++) tick(); render(1, STEP); },
     timeWarp: function (sec) { G.timeLeft = Math.max(0.05, G.timeLeft - sec); },
     sheet: function (px) { var s = px || 100, c = document.createElement('canvas'); c.width = s * 2.3 * 6; c.height = s * 2.3 * 2; var x = c.getContext('2d'); x.fillStyle = '#7cc8f0'; x.fillRect(0, 0, c.width, c.height); for (var lv = 1; lv <= MAXL; lv++) { var sp = makeSprite(lv, s); x.drawImage(sp.cv, ((lv - 1) % 6) * s * 2.3 + s * 1.15 - sp.half, Math.floor((lv - 1) / 6) * s * 2.3 + s * 1.15 - sp.half); } return c.toDataURL(); },
