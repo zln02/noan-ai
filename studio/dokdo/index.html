@@ -96,6 +96,7 @@ svg{display:block}
 .board .head b{font-family:var(--disp);font-weight:400;font-size:calc(var(--u)*3.4);line-height:1.2;color:var(--sea-d)}
 .board .head small{font-weight:800;color:var(--muted);font-size:calc(var(--u)*2)}
 .rank{list-style:none;display:flex;flex-direction:column;gap:calc(var(--u)*1)}
+#homeRank{min-height:0;max-height:45vh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding-right:4px}
 .rank li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:calc(var(--u)*1.2);background:#eaf4ff;border-radius:calc(var(--u)*2);padding:calc(var(--u)*1) calc(var(--u)*1.6);
   font-size:calc(var(--u)*2.6);font-weight:800;animation:rowIn .5s var(--d,0ms) cubic-bezier(.2,1.4,.4,1) both}
 @keyframes rowIn{from{transform:translateX(calc(var(--u)*6));opacity:0}}
@@ -314,7 +315,7 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
   #home .wrap{display:flex;flex-direction:column;justify-content:space-between;gap:calc(var(--u)*2)}
   #home .wrap > *{flex-shrink:0}
   .mascot .bubble{display:none} .mascot .bot{max-width:22vh}
-  .board{min-height:0;width:100%} .board .rank li:nth-child(n+4){display:none}
+  .board{min-height:0;width:100%} #homeRank{max-height:28vh}
   .logo .l2{font-size:calc(var(--u)*12)}
   .side{display:none}
   .hud{flex-wrap:wrap;justify-content:center} .hud .sp{display:none}
@@ -406,7 +407,7 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
       <div class="rules" id="rules"></div>
       <button id="startBtn" class="clay-btn"><span>터치해서 시작!</span></button>
     </div>
-    <aside class="board card3d"><div class="head"><b id="homeTitle">🏆 랭킹</b><small id="homeCount"></small></div><ol class="rank" id="homeRank"></ol><div class="net" id="netState"></div><button type="button" class="rank-admin-btn">랭킹 관리</button></aside>
+    <aside class="board card3d"><div class="head"><b id="homeTitle">🏆 랭킹</b><small id="homeCount"></small></div><ol class="rank" id="homeRank" tabindex="0" aria-label="기억력 게임 상위 10명 랭킹"></ol><div class="net" id="netState"></div><button type="button" class="rank-admin-btn">랭킹 관리</button></aside>
   </div>
 </section>
 
@@ -6171,9 +6172,9 @@ window.NoanFullscreen = (function () {
   function setHtml(el, html) { if (el._html !== html) { el._html = html; el.innerHTML = html; } }
   function drawHome() {
     var d = Board.data(), cards = settings.pairs * 2;
-    setHtml($('homeRank'), rankRows(d.top, 5, true));
+    setHtml($('homeRank'), rankRows(d.top, 10, true));
     $('homeTitle').textContent = '🏆 ' + Board.season() + ' 랭킹';
-    $('homeCount').textContent = d.count ? d.count + '명 도전' : '카드 ' + cards + '장 기준';
+    $('homeCount').textContent = (d.count ? d.count + '명 도전 · ' : '카드 ' + cards + '장 기준 · ') + '상위 10명 · 목록을 내려 보세요';
     $('rules').innerHTML = '<div class="rule"><i>1</i><b>카드 ' + cards + '장</b><small>같은 그림 짝 찾기</small></div>' +
       '<div class="rule"><i>2</i><b>' + settings.peek + '초 기억</b><small>먼저 그림 보기</small></div>' +
       '<div class="rule"><i>3</i><b>가장 빠르게!</b><small>0.01초까지 기록</small></div>';
