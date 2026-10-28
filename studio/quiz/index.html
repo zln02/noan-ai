@@ -637,6 +637,22 @@ body[data-screen="attract"] .fs-btn,body[data-screen="board"] .fs-btn{display:fl
 .fs-btn[hidden]{display:none!important}
 .fs-btn:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
 .fs-btn{top:58px;background:rgba(20,0,60,.4)} /* 왼쪽 위 「안정 모드」 버튼 아래 */
+#participant{overflow:auto;background:radial-gradient(ellipse at 50% 20%,#5b3fd1,#2e1c86 55%,#150a3d);z-index:2}
+.part-card{width:min(92vw,600px);max-height:92vh;overflow:auto;padding:clamp(22px,4vmin,36px);display:flex;flex-direction:column;gap:clamp(14px,2.5vmin,22px);text-align:center}
+.part-card h2{font-family:var(--disp);font-size:clamp(30px,5vmin,44px)}
+.part-card p{font-size:clamp(15px,2.4vmin,19px);color:var(--muted);line-height:1.45}
+.part-card label,.part-label{text-align:left;font-weight:900;font-size:clamp(18px,2.7vmin,22px)}
+.part-orgs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.part-orgs button{min-height:58px;border:2px solid #d9ccff;border-radius:18px;background:#f6f1ff;font-weight:900;font-size:clamp(16px,2.6vmin,22px)}
+.part-orgs button.on{border-color:#5b3fd1;background:#e6ddff;box-shadow:inset 0 0 0 2px #5b3fd1}
+#partName{width:100%;min-height:58px;border:2px solid #d9ccff;border-radius:18px;background:#fff;padding:0 18px;color:var(--ink);font:inherit;font-size:clamp(18px,2.8vmin,23px);-webkit-user-select:text;user-select:text}
+#partName:focus{outline:3px solid #ffc93c;outline-offset:2px}
+.part-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+#partGo{min-height:58px;padding:0 40px;font-size:clamp(22px,3.2vmin,29px)}
+.part-soft{padding:10px 16px;border:2px solid #d9ccff;border-radius:14px;background:#fff;font-weight:800}
+#partMsg{min-height:1.4em;color:#bd2727;font-weight:800}
+.rank .org-tag{display:block;font-size:.74em;color:var(--muted);font-weight:700}
+@media(max-width:500px){.part-orgs{gap:6px}.part-orgs button{min-height:52px;font-size:15px}.part-card{max-height:96vh}}
 </style>
 </head>
 <body data-screen="attract">
@@ -668,6 +684,14 @@ body[data-screen="attract"] .fs-btn,body[data-screen="board"] .fs-btn{display:fl
   </div>
 </section>
 
+<section id="participant" class="screen" aria-label="참가자 정보"><div class="part-card card3d">
+<h2>누가 도전할까요?</h2><p>소속과 이름을 적으면 퀴즈가 시작돼요. 이름 대신 별명을 써도 돼요.</p>
+<div class="part-label">소속을 골라 주세요</div><div class="part-orgs" id="partOrgs" role="group" aria-label="소속 선택">
+<button type="button" data-org="노안초">노안초</button><button type="button" data-org="노안남초">노안남초</button><button type="button" data-org="노안중">노안중</button></div>
+<label for="partName">이름 또는 별명</label><input id="partName" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="예) 김노안">
+<p>입력한 소속과 이름은 이 게임의 랭킹에 표시돼요.</p><div id="partMsg" role="alert"></div>
+<div class="part-actions"><button type="button" class="part-soft" id="partNick">🎲 별명 만들기</button><button type="button" class="part-soft" id="partBack">처음으로</button></div>
+<button type="button" class="clay-btn" id="partGo"><span>퀴즈 시작!</span></button></div></section>
 <!-- 카운트다운 -->
 <div id="countdown" aria-live="assertive"><i class="cd-ring"></i><div id="cdBot" aria-hidden="true"></div><div id="cdScene" aria-hidden="true"><div class="cd-flight"><img src="assets/pear-idle.png" alt=""></div><div class="cd-gift"><div class="cd-lid"></div></div></div><div class="cd-ready">준비~</div><div id="cdNum">3</div></div>
 
@@ -731,7 +755,7 @@ body[data-screen="attract"] .fs-btn,body[data-screen="board"] .fs-btn{display:fl
       <div id="resScore"><b id="resNum">0</b><small>점</small></div>
       <div class="r-line"><span id="resOk"></span><span id="resRank"></span></div>
       <div id="resStars"></div>
-      <div class="r-name">랭킹 이름 <b id="resName"></b><button id="nameBtn" class="mini-btn">🎲 이름 바꾸기</button></div>
+      <div class="r-name">참가자 <b id="resName"></b></div>
       <div id="resTicket"><b id="resTicketTitle"></b><span id="resTicketNo"></span></div>
       <div id="resMsg"></div>
       <button id="againBtn" class="clay-btn"><span>처음으로</span></button>
@@ -10666,7 +10690,7 @@ window.NoanFullscreen = (function () {
 
   var $ = function (id) { return document.getElementById(id); };
   function show(id) {
-    ['attract', 'quiz', 'result', 'admin', 'board'].forEach(function (s) { $(s).classList.toggle('on', s === id); });
+    ['attract', 'participant', 'quiz', 'result', 'admin', 'board'].forEach(function (s) { $(s).classList.toggle('on', s === id); });
     document.body.setAttribute('data-screen', id || 'none');
     Stage.kick();
   }
@@ -11906,7 +11930,7 @@ window.NoanFullscreen = (function () {
   function bumpIdle() {
     clearTimeout(idleT);
     if (BOARD_MODE || $('attract').classList.contains('on') || $('admin').classList.contains('on')) return;
-    idleT = setTimeout(goAttract, Math.max(10, +settings.idle || 30) * 1000);
+    idleT = setTimeout(goAttract, (S.phase === 'participant' ? 90 : Math.max(10, +settings.idle || 30)) * 1000);
   }
   document.addEventListener('pointerdown', bumpIdle, true);
   document.addEventListener('contextmenu', function (e) { if (!$('admin').classList.contains('on')) e.preventDefault(); });
@@ -11952,7 +11976,7 @@ window.NoanFullscreen = (function () {
   }
 
   /* ===== 퀴즈 진행 ===== */
-  var S = {set: [], i: 0, score: 0, marks: [], streak: 0, phase: 'attract'};
+  var S = {set: [], i: 0, score: 0, marks: [], streak: 0, phase: 'attract', name: '', org: ''};
   var fbT = 0, resT = 0, cdT = 0, countT = 0;
 
   function buildItem(q, fixed) {
@@ -12259,6 +12283,7 @@ window.NoanFullscreen = (function () {
   function tierOf(ratio, passed) { return ratio >= 1 ? 'gold' : passed ? 'silver' : 'bronze'; }
   function tierTitle(ratio, passed) { return ratio >= 1 ? '퍼펙트!' : passed ? '선물 획득!' : '도전 완료!'; }
   function finish() {
+    if (!S.name || QUIZ_ORGS.indexOf(S.org) < 0) { goAttract(); return; }
     S.phase = 'result';
     var total = S.set.filter(function (it) { return !it.golden; }).length, pass = Math.min(+settings.pass || 0, total), passed = S.score >= pass, ratio = total ? S.score / total : 0;
     var st = stats(); st.played++; if (passed) st.passed++; st.sum += S.score; saveStats(st);
@@ -12277,8 +12302,8 @@ window.NoanFullscreen = (function () {
     setBot($('rBot'), ratio >= 0.6 ? 'happy' : 'idle');
     $('rBubble').textContent = ratio >= 1 ? '완벽해! 최고야!' : passed ? '와, 대단해!' : '도전해 줘서 고마워!';
     $('resRank').innerHTML = '&nbsp;';
-    S.entry = {id: 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: nickname(), pts: S.points, ok: S.score, total: total, t: Date.now()};
-    $('resName').textContent = S.entry.name;
+    S.entry = {id: 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: S.name, org: S.org, pts: S.points, ok: S.score, total: total, t: Date.now()};
+    $('resName').textContent = S.entry.name + ' · ' + S.entry.org;
     Board.add(S.entry).then(function (r) {
       if (!r || S.phase !== 'result') return;
       $('resRank').innerHTML = '오늘 <b>' + r.count + '</b>명 중 <em>' + r.rank + '등</em>' + (r.rank === 1 ? ' 👑' : r.rank <= 3 ? ' 🔥' : '');
@@ -12303,11 +12328,23 @@ window.NoanFullscreen = (function () {
   var NICK_A = ['번개', '천재', '용감한', '반짝이는', '슈퍼', '무적의', '졸린', '배고픈', '행복한', '전설의', '날쌘', '엉뚱한', '똑똑한', '우주', '황금', '불꽃', '수줍은', '씩씩한'];
   var NICK_B = ['고등어', '알파고', '펭귄', '나주배', '판다', '다람쥐', '공룡', '로봇', '고양이', '수달', '부엉이', '햄스터', '돌고래', '여우', '거북이', '장미', '백합나무', '튜링'];
   function nickname() { return NICK_A[Math.floor(Math.random() * NICK_A.length)] + ' ' + NICK_B[Math.floor(Math.random() * NICK_B.length)]; }
-  $('nameBtn').addEventListener('click', function (e) {
-    e.stopPropagation(); if (!S.entry) return;
-    S.entry.name = nickname(); $('resName').textContent = S.entry.name; restartAnim($('resName'), 'pop'); Sfx.play('pop');
-    Board.rename(S.entry.id, S.entry.name);
-  });
+  var QUIZ_ORGS = ['노안초', '노안남초', '노안중'], partOrg = '';
+  function cleanPlayerName(v) { return String(v || '').replace(/[<>\u0000-\u001f\u007f-\u009f]/g, '').replace(/\s+/g, ' ').trim().slice(0, 8).trim(); }
+  function choosePartOrg(v) { partOrg = QUIZ_ORGS.indexOf(v) >= 0 ? v : ''; [].forEach.call($('partOrgs').children, function (b) { var on = b.dataset.org === partOrg; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
+  $('partOrgs').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; choosePartOrg(b.dataset.org); $('partMsg').textContent = ''; Sfx.play('pop'); });
+  $('partNick').addEventListener('click', function () { $('partName').value = cleanPlayerName(nickname()); $('partMsg').textContent = ''; Sfx.play('pop'); });
+  $('partBack').addEventListener('click', goAttract);
+  $('partName').addEventListener('input', function () { $('partMsg').textContent = ''; });
+  $('partName').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submitParticipant(); } });
+  $('partGo').addEventListener('click', submitParticipant);
+  function submitParticipant() {
+    if (S.phase !== 'participant') return;
+    var name = cleanPlayerName($('partName').value);
+    if (!partOrg) { $('partMsg').textContent = '소속을 하나 골라 주세요'; restartAnim($('partOrgs'), 'shake'); return; }
+    if (!name) { $('partMsg').textContent = '이름이나 별명을 적어 주세요'; restartAnim($('partName'), 'shake'); return; }
+    S.org = partOrg; S.name = name; $('partName').blur(); start();
+  }
+  function askParticipant() { S.phase = 'participant'; S.name = ''; S.org = ''; choosePartOrg(''); $('partName').value = ''; $('partMsg').textContent = ''; show('participant'); bumpIdle(); }
   function countUp(to) {
     var el = $('resNum'), cur = 0; el.textContent = '0'; $('resScore').dataset.done = to ? '' : '1';
     clearInterval(countT); if (!to) return;
@@ -12319,7 +12356,7 @@ window.NoanFullscreen = (function () {
     }, 40);
   }
 
-  $('startBtn').addEventListener('click', function () { flash('start'); start(); });
+  $('startBtn').addEventListener('click', function () { flash('start'); askParticipant(); });
   $('nextBtn').addEventListener('click', next);
   $('quitBtn').addEventListener('click', goAttract);
   $('againBtn').addEventListener('click', goAttract);
@@ -12366,7 +12403,7 @@ window.NoanFullscreen = (function () {
     if (!top.length) return '<li class="empty">아직 기록이 없어요. 첫 1등이 되어 보세요!</li>';
     return top.slice(0, n).map(function (e, k) {
       return '<li class="r' + (k + 1) + '" style="--d:' + (k * 70) + 'ms"><span class="rk">' + (k + 1) + '</span><span class="nm">' + esc(e.name) +
-        '</span><span class="ok">' + e.ok + '/' + e.total + '</span><b>' + (+e.pts || 0).toLocaleString() + '</b></li>'; }).join('');
+        (e.org ? '<small class="org-tag">🏫 ' + esc(e.org) + '</small>' : '') + '</span><span class="ok">' + e.ok + '/' + e.total + '</span><b>' + (+e.pts || 0).toLocaleString() + '</b></li>'; }).join('');
   }
   function drawAttractBoard() {
     var d = Board.data(), html = boardRows(d.top, 5);

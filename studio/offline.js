@@ -14,7 +14,7 @@
   }
   var workerURL = new URL('sw.js', source);
   var scopeURL = new URL('./', workerURL);
-  var expectedVersion = 'noan-studio-v18';
+  var expectedVersion = 'noan-studio-v19';
   var registration = navigator.serviceWorker.register(workerURL.href, {scope: scopeURL.href});
   registration.catch(function () {
     show('오프라인 저장 준비에 실패했어요. 인터넷 연결을 확인한 뒤 다시 열어 주세요.');
