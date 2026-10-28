@@ -148,6 +148,45 @@ svg{display:block}
 .qno{font-family:var(--disp);font-size:calc(var(--u)*3);line-height:1.2;color:#fff;background:var(--sea);padding:calc(var(--u)*.4) calc(var(--u)*2);border-radius:999px;box-shadow:0 calc(var(--u)*.45) 0 var(--sea-d)}
 .qtag{font-weight:800;font-size:calc(var(--u)*2.3);color:var(--sea-d);background:#d0ebff;padding:calc(var(--u)*.4) calc(var(--u)*1.6);border-radius:999px}
 .qtag.history{background:#fff3bf;color:#8a4b00} .qtag.nature{background:#d3f9d8;color:var(--green-d)} .qtag.noan{background:#ffe3e3;color:#c92a2a}
+/* ---------- v5 이름 입력 · 랭킹 ---------- */
+#name .box{gap:calc(var(--u)*1.3);max-height:96vh;overflow:auto}
+#name .org{min-height:max(76px,calc(var(--u)*12))}
+.flabel{align-self:flex-start;font-family:var(--disp);font-size:max(17px,calc(var(--u)*3));color:var(--sea-d);margin-top:calc(var(--u)*.6)}
+.flabel small{font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;font-size:.68em;color:var(--muted);font-weight:700}
+#nameInput{width:100%;font-family:var(--disp);font-size:max(24px,calc(var(--u)*5));text-align:center;padding:calc(var(--u)*1.6);border:0;border-radius:calc(var(--u)*2.5);background:#eaf4ff;color:var(--ink);
+  box-shadow:inset 0 calc(var(--u)*.5) calc(var(--u)*1) rgba(5,30,80,.15);outline:none;-webkit-user-select:text;user-select:text}
+#nameInput:focus{box-shadow:inset 0 calc(var(--u)*.5) calc(var(--u)*1) rgba(5,30,80,.15),0 0 0 calc(var(--u)*.6) var(--sky)}
+#name p.privacy{font-size:max(13px,calc(var(--u)*2))}
+#nameMsg{min-height:1.4em;color:#e03131;font-weight:800;font-size:max(14px,calc(var(--u)*2.4))}
+#goBtn{font-size:max(24px,calc(var(--u)*5));padding:0 calc(var(--u)*8)}
+#goBtn:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
+.gtabs{display:flex;gap:6px;flex-wrap:wrap}
+.gtabs button{min-height:40px;padding:4px 14px;border-radius:999px;background:#eaf4ff;color:var(--sea-d);font-weight:900;font-size:max(14px,calc(var(--u)*1.9));box-shadow:0 3px 0 #a5d0f5}
+.gtabs button.on{background:var(--sea);color:#fff;box-shadow:0 3px 0 var(--sea-d)}
+.gtabs button[hidden]{display:none}
+.gtabs button:focus-visible{outline:4px solid var(--sun);outline-offset:2px}
+.rank{list-style:none;display:flex;flex-direction:column;gap:calc(var(--u)*1)}
+.rank[hidden],.steps[hidden]{display:none}
+.rank li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:calc(var(--u)*1.2);background:#eaf4ff;border-radius:calc(var(--u)*2);padding:calc(var(--u)*1) calc(var(--u)*1.6);
+  font-size:max(15px,calc(var(--u)*2.5));font-weight:800;animation:rowIn .5s var(--d,0ms) cubic-bezier(.2,1.4,.4,1) both}
+.rank .rk{width:calc(var(--u)*4.4);height:calc(var(--u)*4.4);min-width:28px;min-height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--disp);background:#cfe6ff;color:var(--sea-d)}
+.rank .r1{background:linear-gradient(90deg,#fff3bf,#fff9db)} .rank .r1 .rk{background:linear-gradient(180deg,#ffe066,#f59f00);color:#5c3600}
+.rank .r2 .rk{background:linear-gradient(180deg,#f1f3f5,#adb5bd);color:#343a40} .rank .r3 .rk{background:linear-gradient(180deg,#ffd8a8,#e8590c);color:#fff}
+.rank .nm{min-width:0;display:flex;flex-direction:column;line-height:1.2}
+.rank .nm span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank .nm small{font-size:.7em;color:var(--muted);font-weight:800}
+.rank b{display:flex;flex-direction:column;align-items:flex-end;font-family:var(--disp);font-weight:400;color:var(--sea-d);font-size:1.15em;line-height:1.1;white-space:nowrap}
+.rank b small{font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;font-size:.62em;font-weight:800;color:var(--muted)}
+.rank .ghost{background:#f4f9ff;color:#a9c2de} .rank .ghost .rk{background:#e3f0ff;color:#a9c2de} .rank .ghost b{color:#c5d7ec}
+.net{font-size:max(12px,calc(var(--u)*1.8));font-weight:800;color:#5b7398}
+.net:empty{display:none}
+.net::before{content:"";display:inline-block;width:.7em;height:.7em;border-radius:50%;margin-right:.4em;vertical-align:.05em;background:#adb5bd}
+.net.on::before{background:#2fb36b;box-shadow:0 0 0 3px rgba(47,179,107,.2)} .net.off::before{background:#f08c00}
+#clearRank:empty{display:none}
+#clearRank em{font-style:normal;font-family:var(--disp);font-size:1.3em;color:#e8590c}
+#adminOv .rank-tools{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;margin-top:4px}
+#adminOv #netAdmin{margin-top:8px;font-size:13px;color:#315b7d;font-weight:700}
+@media(max-width:620px){#adminOv .rank-tools{grid-template-columns:1fr}#adminOv #clearRankBtn{width:100%}}
 .qhint{display:none;align-items:flex-start;gap:calc(var(--u)*1);margin:0 auto;max-width:100%;padding:calc(var(--u)*.9) calc(var(--u)*1.6);border-radius:calc(var(--u)*1.6);background:#fff9db;box-shadow:inset 0 0 0 2px #ffe066;color:#5c4400;font-weight:800;font-size:calc(var(--u)*2.8);line-height:1.4;text-align:left}
 .qhint.on{display:flex;animation:hintIn .45s cubic-bezier(.2,1.4,.4,1) both}
 .qhint b{flex:none;color:#e67700}
@@ -453,23 +492,28 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
       <div class="rules" id="rules"></div>
       <button id="startBtn" class="clay-btn"><span>터치해서 시작!</span></button>
     </div>
-    <aside class="guide card3d" aria-labelledby="guideTitle"><div class="head"><b id="guideTitle">📋 독도 OX 퀴즈 이렇게 해요</b><small id="homeCount"></small></div><ol class="steps" id="homeSteps"></ol><button type="button" class="admin-btn" id="adminBtn">⚙️ 선생님 설정</button></aside>
+    <aside class="guide card3d" aria-labelledby="guideTitle"><div class="head"><b id="guideTitle">📋 독도 OX 퀴즈 이렇게 해요</b><small id="homeCount"></small></div><div class="gtabs" id="gTabs" role="group" aria-label="안내·랭킹 고르기"><button type="button" data-p="steps" class="on">📋 안내</button><button type="button" data-p="elem">🏆 초등</button><button type="button" data-p="mid">🏆 중학생</button></div><ol class="steps" id="homeSteps"></ol><ol class="rank" id="homeRank" hidden></ol><div class="net" id="netState"></div><button type="button" class="admin-btn" id="adminBtn">⚙️ 선생님 설정</button></aside>
   </div>
 </section>
 
-<!-- 학교 고르기 (이름은 받지 않고, 학교를 누르면 바로 시작) -->
+<!-- 학교 고르기 + 이름 (랭킹에 올라감) -->
 <section id="name" class="screen">
   <div class="box card3d">
-    <h2>어느 학교 친구인가요?</h2>
-    <p>우리 학교를 누르면 바로 시작해요!</p>
+    <h2>학교와 이름을 알려 줘!</h2>
+    <div class="flabel">학교 <small>(하나를 골라 주세요)</small></div>
     <div class="orgs" id="orgs" role="group" aria-label="학교 고르기"><button type="button" class="org" data-org="노안초"><b>노안초</b><small></small></button><button type="button" class="org" data-org="노안남초"><b>노안남초</b><small></small></button><button type="button" class="org" data-org="노안중"><b>노안중</b><small></small></button></div>
-    <div class="row"><button type="button" class="soft-btn" id="nameBack">처음으로</button></div>
+    <label class="flabel" for="nameInput">이름 <small>(랭킹에 올라가요 · 8글자까지)</small></label>
+    <input id="nameInput" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="예) 김노안">
+    <p class="privacy">🔒 이름·학교는 랭킹을 위해 인터넷 서버에 저장돼요. 별명을 써도 괜찮아요.</p>
+    <div id="nameMsg" role="alert"></div>
+    <div class="row"><button type="button" class="clay-btn" id="goBtn"><span>시작!</span></button></div>
+    <div class="row"><button type="button" class="soft-btn" id="randBtn">🎲 별명으로 할래요</button><button type="button" class="soft-btn" id="nameBack">처음으로</button></div>
   </div>
 </section>
 <!-- 퀴즈 -->
 <section id="play" class="screen">
   <div class="hud">
-    <div class="pill" id="playName">🏫 <b id="hudName"></b></div>
+    <div class="pill" id="playName">👤 <b id="hudName"></b></div>
     <div class="mapbox"><svg id="miniMap" viewBox="0 0 220 100" role="img" aria-label="독도 탐험 지도"></svg><span class="mapn" id="mapN">1 / 10</span></div>
     <div class="pill">✅ <b id="hudScore">0</b>개</div>
     <button class="ghost-btn" id="quitBtn">그만하기</button>
@@ -511,7 +555,7 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
       <div class="res-sum">
         <div id="clearTitle">독도 지킴이! 대단해요</div>
         <div id="clearScore">10문제 중 <b>0</b>개!</div>
-        <div class="line"><span id="clearName"></span><span id="clearSec"></span></div>
+        <div class="line"><span id="clearName"></span><span id="clearSec"></span><span id="clearRank" aria-live="polite"></span></div>
         <div class="dots" id="resDots" aria-hidden="true"></div>
         <div id="clearMsg">독도는 우리 땅! 가족과 친구에게도 알려 줘 🇰🇷</div>
       </div>
@@ -533,7 +577,7 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
 
 <div class="overlay" id="pinOv"><div class="panel"><h3>관리 화면</h3><div id="pinDots"><i></i><i></i><i></i><i></i></div><div id="pinPad"></div><div id="pinMsg"></div></div></div>
 <div class="overlay" id="adminOv"><div class="panel">
-  <div class="admin-head"><h3>독도 OX 퀴즈 관리</h3><p>문제 수·제한 시간·중학생 판·소리·문제 목록을 관리합니다.</p></div>
+  <div class="admin-head"><h3>독도 OX 퀴즈 관리</h3><p>문제 수·제한 시간·중학생 판·소리·랭킹·문제 목록을 관리합니다.</p></div>
   <div class="admin-body">
     <fieldset><legend>게임 설정</legend><div class="admin-grid">
       <div><label for="setCount">문제 수</label><select id="setCount"><option value="5">5문제</option><option value="10">10문제</option><option value="15">15문제</option></select></div>
@@ -545,6 +589,10 @@ html.gl .mascot .bot,html.gl .side .bot{animation:none}
       <div><label for="setBgmVol">배경음악 크기 <output id="setBgmOut"></output></label><input type="range" id="setBgmVol" min="0" max="100" step="5"></div>
     </div>
       <div class="pin-note"><span>퀴즈쇼와 공통 관리자 번호</span><input id="setPin" value="0000" readonly aria-label="관리자 번호" aria-readonly="true"></div>
+    </fieldset>
+    <fieldset><legend>랭킹</legend>
+      <div class="rank-tools"><div><label for="setSeason">현재 랭킹 이름</label><input id="setSeason" maxlength="30"></div><button type="button" class="btn dan" id="clearRankBtn">새 랭킹 시작</button></div>
+      <p id="netAdmin"></p>
     </fieldset>
     <fieldset><legend>문제 목록 <small id="qOnCount"></small></legend>
       <div class="qtools"><button type="button" class="btn" id="qAllOn">모두 켜기</button></div>
@@ -4928,8 +4976,9 @@ window.NoanFullscreen = (function () {
   }
   var FS = null; // 전체 화면 모듈 (맨 아래에서 연결)
   // 예전 랭킹이 쓰던 dokdoOx.records.v1 · dokdoOx.pending.v1 은 더 읽거나 쓰지 않고 지우지도 않음
-  var K = {s: 'dokdoOx.settings.v1', recent: 'dokdoOx.recent.v1'};
-  var DEF = {count: 10, sec: 20, hint: 6, midMode: 'auto', sound: true, pin: '0000', bgmVol: 50, bgmOn: true, off: []};
+  var K = {s: 'dokdoOx.settings.v1', recent: 'dokdoOx.recent.v1', r: 'dokdoOx.records.v2', q: 'dokdoOx.pending.v2'};
+  try { localStorage.removeItem('dokdoOx.records.v1'); localStorage.removeItem('dokdoOx.pending.v1'); } catch (e) { /* 예전(10/24 이전) 랭킹 사본 정리 */ }
+  var DEF = {count: 10, sec: 20, hint: 6, midMode: 'auto', sound: true, pin: '0000', bgmVol: 50, bgmOn: true, rankName: '2026 독도의 날 OX', off: []};
   var IDLE_S = 40, CLEAR_RETURN_S = 40, WARN_S = 5, LOCK_MS = 600, FEEDBACK_AUTO_MS = 6000, COUNTS = [5, 10, 15];
   var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
   var store = {
@@ -4945,6 +4994,8 @@ window.NoanFullscreen = (function () {
     if (!Array.isArray(settings.off)) settings.off = [];
     if (['auto', 'elem', 'mid'].indexOf(settings.midMode) < 0) settings.midMode = 'auto';
     if ([-1, 0, 6, 10].indexOf(+settings.hint) < 0) settings.hint = DEF.hint; else settings.hint = +settings.hint;
+    settings.rankName = String(settings.rankName || DEF.rankName).replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 30) || DEF.rankName;
+    delete settings.season; // 10/24 이전 랭킹 이름은 쓰지 않음
   }
   normalize();
   store.set(K.s, settings);
@@ -6987,15 +7038,118 @@ window.NoanFullscreen = (function () {
   window.Bgm3 = Bgm;
   function buzz(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) { /* 무시 */ } }
 
-  /* ===== 첫 화면 안내 카드 =====
-     온라인 랭킹은 없앴다: 기록·이름을 어디에도 보내거나 모으지 않는다. */
+  /* ===== 랭킹: 온라인 DB(Supabase dokdo_ox_scores)에 영구 저장 =====
+     - 페이지 키(publishable)로는 「추가」와 「조회」만 된다. 수정·삭제는 DB 규칙이 막는다(대시보드에서만 가능).
+     - 인터넷이 끊기면 이 기기에 먼저 저장하고(대기열), 연결되면 자동으로 올린다.
+     - 같은 「랭킹 이름」 · 같은 판(초등 / 중학생) · 같은 문제 수끼리 「맞힌 개수 많은 순 → 걸린 시간 짧은 순」. */
+  var CLOUD = {url: 'https://dovpodhwmredayldjrvb.supabase.co/rest/v1/dokdo_ox_scores', key: 'sb_publishable_T5RxDUQ0qOjSfUqbwmqYxw_z0afNxi_'};
+  var Board = (function () {
+    var online = false, cache = {elem: {top: [], count: 0}, mid: {top: [], count: 0}};
+    function season() { return settings.rankName || DEF.rankName; }
+    function same(e, lv) { return e && e.season === season() && (e.level || 'elem') === lv && +e.total === settings.count; }
+    function better(a, b) { return (b.correct - a.correct) || (a.ms - b.ms) || ((a.t || 0) - (b.t || 0)); }
+    function records() { var l = store.get(K.r, []); return Array.isArray(l) ? l : []; }
+    function pending() { var q = store.get(K.q, []); return Array.isArray(q) ? q : []; }
+    function fromLocal(lv) { var l = records().filter(function (e) { return same(e, lv); }).sort(better); return {top: l.slice(0, 10), count: l.length, local: true}; }
+    function req(qs, opt) {
+      if (navigator.onLine === false) return Promise.reject(new Error('offline'));
+      var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
+      opt = opt || {};
+      return fetch(CLOUD.url + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
+        headers: Object.assign({apikey: CLOUD.key, 'Content-Type': 'application/json'}, opt.headers || {})})
+        .then(function (r) { clearTimeout(tm); return r; }, function (e) { clearTimeout(tm); throw e; });
+    }
+    function filt(lv) { return 'season=eq.' + encodeURIComponent(season()) + '&level=eq.' + lv + '&total=eq.' + settings.count; }
+    function total(r) { var cr = r.headers.get('content-range') || ''; var n = +(cr.split('/')[1] || 0); return isNaN(n) ? 0 : n; }
+    function row(e) { return {client_id: e.id, season: e.season, name: e.name, org: e.org || '', level: e.level, correct: e.correct, total: e.total, ms: e.ms}; }
+    // 결과: 'done' = 올라감(또는 이미 있음) · 'drop' = DB가 거부한 잘못된 기록 · 'held' = 나중에 다시
+    function push(e) {
+      return req('', {method: 'POST', body: JSON.stringify(row(e)), headers: {Prefer: 'return=minimal'}})
+        .then(function (r) {
+          if (r.ok || r.status === 409) return 'done';
+          if (r.status === 400 || r.status === 422) return 'drop';
+          return 'held';
+        }, function () { return 'held'; });
+    }
+    var flushing = null;
+    function flush() { // 대기열 올리기 (한 번에 하나씩)
+      if (flushing) return flushing;
+      var q = pending(); if (!q.length) { drawStatus(); return Promise.resolve(); }
+      flushing = q.reduce(function (p, e) { return p.then(function (acc) { return push(e).then(function (s) { if (s === 'held') acc.left.push(e); else acc.sent++; return acc; }); }); }, Promise.resolve({left: [], sent: 0}))
+        .then(function (acc) {
+          var ids = {}; q.forEach(function (e) { ids[e.id] = 1; });
+          var added = pending().filter(function (e) { return !ids[e.id]; }); // 올리는 동안 새로 쌓인 기록은 지키기
+          store.set(K.q, acc.left.concat(added)); if (acc.sent) online = true; drawStatus(); flushing = null;
+        }, function () { flushing = null; });
+      return flushing;
+    }
+    function refresh(lv) {
+      return req('?select=name,org,correct,total,ms,created_at&' + filt(lv) + '&order=correct.desc,ms.asc,created_at.asc&limit=10', {headers: {Prefer: 'count=exact'}})
+        .then(function (r) { if (!r.ok) throw new Error(r.status); var n = total(r); return r.json().then(function (rows) {
+          online = true; cache[lv] = {top: rows.map(function (x) { return {name: x.name, org: x.org, correct: +x.correct, total: +x.total, ms: +x.ms}; }), count: n}; drawStatus(); return cache[lv]; }); })
+        .catch(function () { online = false; cache[lv] = fromLocal(lv); drawStatus(); return cache[lv]; });
+    }
+    function add(e) {
+      e.season = season();
+      var l = records(); l.push(e); store.set(K.r, l.slice(-2000)); // 이 기기에도 사본 보관
+      var localRank = function () { var m = records().filter(function (x) { return same(x, e.level); }); return {rank: m.filter(function (x) { return x.id !== e.id && better(x, e) < 0; }).length + 1, count: m.length, local: true}; };
+      return push(e).then(function (s) {
+        if (s === 'held') { var q = pending(); q.push(e); store.set(K.q, q); online = false; cache[e.level] = fromLocal(e.level); drawStatus(); return localRank(); }
+        if (s === 'drop') return localRank();
+        online = true;
+        var ahead = '(correct.gt.' + e.correct + ',and(correct.eq.' + e.correct + ',ms.lt.' + e.ms + '))';
+        return Promise.all([
+          req('?select=id&' + filt(e.level) + '&or=' + encodeURIComponent(ahead), {headers: {Prefer: 'count=exact', Range: '0-0'}}).then(function (r) { if (!r.ok) throw new Error(r.status); return total(r); }),
+          refresh(e.level)
+        ]).then(function (v) { return {rank: v[0] + 1, count: Math.max(cache[e.level].count, v[0] + 1)}; }, localRank);
+      });
+    }
+    function statusText() {
+      var q = pending().length;
+      return online ? (q ? '온라인 랭킹 · ' + q + '건 올리는 중' : '온라인 랭킹') : '인터넷 연결 안 됨 · 이 기기에 저장 중' + (q ? ' (' + q + '건 대기)' : '');
+    }
+    function drawStatus() {
+      var el = $('netState'); if (el) { el.className = 'net ' + (online ? 'on' : 'off'); el.textContent = HP.page === 'steps' ? '' : statusText(); }
+      var a = $('netAdmin'); if (a) a.textContent = statusText();
+    }
+    setInterval(flush, 15000); window.addEventListener('online', function () { flush(); });
+    return {
+      refresh: refresh, add: add, flush: flush, season: season, drawStatus: drawStatus,
+      newSeason: function (name) { settings.rankName = name; store.set(K.s, settings); cache = {elem: {top: [], count: 0}, mid: {top: [], count: 0}}; return Promise.all([refresh('elem'), refresh('mid')]); },
+      pending: function () { return pending().length; }, online: function () { return online; },
+      data: function (lv) { return cache[lv] || {top: [], count: 0}; }
+    };
+  })();
+  function rankRows(top, n) {
+    var html = top.slice(0, n).map(function (e, k) {
+      return '<li class="r' + (k + 1) + '" style="--d:' + (k * 70) + 'ms"><span class="rk">' + (k + 1) + '</span><span class="nm"><span>' + esc(e.name) + '</span>' + (e.org ? '<small>🏫 ' + esc(e.org) + '</small>' : '') + '</span><b>' + (+e.correct || 0) + '개<small>' + fmt1(e.ms) + '초</small></b></li>'; }).join('');
+    for (var k = top.length; k < n; k++) html += '<li class="ghost" style="--d:' + (k * 70) + 'ms"><span class="rk">' + (k + 1) + '</span><span class="nm"><span>도전자를 기다려요</span></span><b>—</b></li>';
+    return html;
+  }
+  function setHtml(el, html) { if (el.innerHTML !== html) el.innerHTML = html; } // 같은 내용이면 다시 그리지 않음 (줄이 다시 미끄러져 들어오지 않게)
+
+  /* ===== 첫 화면 안내 카드: 「이렇게 해요」 → 초등 랭킹 → 중학생 랭킹 을 번갈아 보여 줌 ===== */
+  var HP = {page: 'steps', hold: 0};
+  function pages() { var m = settings.midMode; return ['steps'].concat(m === 'mid' ? ['mid'] : m === 'elem' ? ['elem'] : ['elem', 'mid']); }
   function midNote() {
     var m = settings.midMode;
     return m === 'mid' ? '오늘은 모두 중학생 문제예요' : m === 'elem' ? '오늘은 모두 초등 문제예요' : '노안중은 중학생 문제가 나와요';
   }
   function drawHome() {
-    $('homeCount').textContent = settings.count + '문제 · 문제당 ' + settings.sec + '초';
-    var steps = [['우리 학교를 골라요', midNote()], [settings.sec + '초 안에 O·X!', '독이와 독도 10곳을 한 바퀴 돌아요'], ['다 풀면 다시 보기', '내 답·정답·해설을 확인해요']];
+    var ps = pages(); if (ps.indexOf(HP.page) < 0) HP.page = 'steps';
+    [].forEach.call($('gTabs').children, function (b) { b.hidden = ps.indexOf(b.dataset.p) < 0; var on = b.dataset.p === HP.page; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+    var rk = HP.page !== 'steps'; $('homeSteps').hidden = rk; $('homeRank').hidden = !rk;
+    if (rk) {
+      var d = Board.data(HP.page);
+      $('guideTitle').textContent = '🏆 ' + (HP.page === 'mid' ? '중학생' : '초등') + ' 문제 랭킹';
+      $('homeCount').textContent = Board.season() + ' · ' + settings.count + '문제' + (d.count ? ' · ' + d.count + '명 도전' : '') + ' · 맞힌 개수 → 시간 순';
+      setHtml($('homeRank'), rankRows(d.top, 5));
+    } else {
+      $('guideTitle').textContent = '📋 독도 OX 퀴즈 이렇게 해요';
+      $('homeCount').textContent = settings.count + '문제 · 문제당 ' + settings.sec + '초';
+    }
+    Board.drawStatus();
+    var steps = [['학교와 이름을 정해요', midNote() + ' · 별명도 돼요'], [settings.sec + '초 안에 O·X!', '독이와 독도 10곳을 한 바퀴 돌아요'], ['랭킹에 올라가요!', '맞힌 개수 → 걸린 시간 순 · 해설도 다시 봐요']];
     $('homeSteps').innerHTML = steps.map(function (s, k) {
       return '<li style="--d:' + (k * 70) + 'ms"><span class="no">' + (k + 1) + '</span><span><b>' + esc(s[0]) + '</b><small>' + esc(s[1]) + '</small></span></li>'; }).join('');
     $('rules').innerHTML = '<div class="rule"><i>1</i><b>독도 10곳 탐험</b><small>독이와 한 바퀴 · ' + settings.count + '문제</small></div>' +
@@ -7003,24 +7157,50 @@ window.NoanFullscreen = (function () {
       '<div class="rule"><i>3</i><b>해설로 복습!</b><small>틀린 문제도 다시 보기</small></div>';
   }
 
+
+  function homePage(p) { HP.page = p; drawHome(); if (p !== 'steps') Board.refresh(p).then(function () { if (HP.page === p) drawHome(); }); }
+  $('gTabs').addEventListener('click', function (e) { var b = e.target.closest('button[data-p]'); if (!b) return; Sfx.play('flip'); HP.hold = Date.now() + 20000; homePage(b.dataset.p); });
+  // 7초마다 다음 장 · 랭킹 장에서는 그사이 새 기록도 받아 옴 (첫 화면이 보일 때만 → 게임 중에는 요청 없음)
+  var homeTick = 0;
+  setInterval(function () {
+    if (!$('home').classList.contains('on') || document.hidden || document.querySelector('.overlay.on')) return;
+    homeTick++;
+    if (Date.now() >= HP.hold && homeTick % 7 === 0) { var ps = pages(); homePage(ps[(ps.indexOf(HP.page) + 1) % ps.length]); }
+    else if (HP.page !== 'steps' && homeTick % 7 === 3) Board.refresh(HP.page).then(function () { drawHome(); });
+  }, 1000);
+
   /* ===== 대기 · 이름 ===== */
   function bubbleLines() { return ['안녕! 나는 독도 강치 독이야. 옛날 독도 바다에 살던 친구야!', '독도는 우리 땅! 증거로 말해 볼까?', 'O일까? X일까? ' + settings.count + '문제 도전!', '노안초·노안남초·노안중 친구들, 같이 풀어 봐!', '터치하면 바로 시작!']; }
   var bi = 0; setInterval(function () { if (!$('home').classList.contains('on')) return; var l = bubbleLines(); bi = (bi + 1) % l.length; $('homeBubble').textContent = l[bi]; restart($('homeBubble'), 'pop'); }, 3000);
   function goHome() {
-    clearAll(); show('home'); Stage.set('idle'); Bgm.setMode('idle'); drawHome();
+    clearAll(); show('home'); Stage.set('idle'); Bgm.setMode('idle'); HP.page = 'steps'; HP.hold = 0; homeTick = 0; drawHome(); Board.flush();
   }
   function pickOrg(v) { [].forEach.call($('orgs').children, function (b) { var on = b.dataset.org === v; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
   // 학교 버튼 아래 작은 글씨: 이번 설정에서 그 학교가 받을 문제 (중학생 / 초등)
   function drawOrgs() {
     [].forEach.call($('orgs').children, function (b) { var sm = b.querySelector('small'); if (sm) sm.textContent = levelFor(b.dataset.org) === 'mid' ? '중학생 문제' : '초등 문제'; });
   }
-  // 학교를 누르면 바로 시작 (이름은 받지 않음 — 랭킹이 없어져 쓸 곳이 없음)
+  // 학교 고르기 → 이름(또는 별명) → 시작
   $('orgs').addEventListener('click', function (e) {
-    var b = e.target.closest('.org'); if (!b || !$('name').classList.contains('on') || S.phase !== 'idle') return;
-    Sfx.play('flip'); S.org = b.dataset.org; pickOrg(S.org); startRound();
+    var b = e.target.closest('.org'); if (!b || !$('name').classList.contains('on')) return;
+    Sfx.play('flip'); S.org = b.dataset.org; pickOrg(S.org); $('nameMsg').textContent = ''; bumpIdle();
   });
-  $('startBtn').addEventListener('click', function () { Sfx.play('go'); flash('start'); S.org = ''; pickOrg(''); drawOrgs(); show('name'); bumpIdle(); });
+  $('startBtn').addEventListener('click', function () { Sfx.play('go'); flash('start'); S.org = ''; pickOrg(''); drawOrgs(); $('nameInput').value = ''; $('nameMsg').textContent = ''; show('name'); bumpIdle(); });
   $('nameBack').addEventListener('click', goHome);
+  var NA = ['번개', '천재', '용감한', '반짝이는', '슈퍼', '날쌘', '똑똑한', '씩씩한', '황금'], NB = ['강치', '갈매기', '등대지기', '독도지킴이', '나주배', '고래', '돌고래', '거북이'];
+  function nick() { return NA[Math.floor(Math.random() * NA.length)] + ' ' + NB[Math.floor(Math.random() * NB.length)]; }
+  function cleanName(v) { return String(v || '').replace(/[<>\u0000-\u001f\u007f]/g, '').replace(/\s+/g, ' ').trim().slice(0, 8).trim(); }
+  $('randBtn').addEventListener('click', function () { $('nameInput').value = nick(); Sfx.play('flip'); $('nameMsg').textContent = ''; bumpIdle(); });
+  $('nameInput').addEventListener('input', function () { $('nameMsg').textContent = ''; bumpIdle(); });
+  $('nameInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') submitName(); });
+  $('goBtn').addEventListener('click', submitName);
+  function submitName() {
+    if (!$('name').classList.contains('on') || S.phase !== 'idle') return;
+    var v = cleanName($('nameInput').value);
+    if (!S.org) { $('nameMsg').textContent = '노안초·노안남초·노안중 중 하나를 골라 주세요'; restart($('orgs'), 'shake'); return; }
+    if (!v) { $('nameMsg').textContent = '이름을 쓰거나 「별명으로 할래요」를 눌러 주세요'; restart($('nameInput'), 'shake'); return; }
+    $('nameInput').blur(); S.name = v; Sfx.play('go'); startRound();
+  }
 
   /* ===== 문제 고르기 =====
      - 첫 문제는 쉬운 기초 문제, 정답 O·X가 고루 (각각 40% 이상)
@@ -7156,7 +7336,7 @@ window.NoanFullscreen = (function () {
     S.level = levelFor(S.org); S.set = pickSet(S.level); S.i = 0; S.correct = 0; S.ms = 0; S.combo = 0; S.best = 0; S.marks = []; S.picks = []; S.times = []; S.phase = 'intro';
     S.stops = S.set.map(function (_, i) { return stopOf(i, S.set.length); });
     store.set(K.recent, {ids: S.set.map(function (q) { return q.id; }), t: Date.now()});
-    $('hudName').textContent = S.org || '독도 탐험'; $('hudScore').textContent = '0';
+    $('hudName').textContent = (S.name || '독도 탐험') + (S.org ? ' · ' + S.org : ''); $('hudScore').textContent = '0';
     drawMap(); resetChoices(); $('feedback').className = ''; $('tBar').classList.remove('warn');
     $('tFill').style.transform = 'scaleX(1)'; $('tSec').textContent = settings.sec;
     $('play').classList.remove('fbon'); setPlay('intro'); $('qInner').textContent = '';
@@ -7267,12 +7447,16 @@ window.NoanFullscreen = (function () {
   function finish() {
     S.phase = 'done'; stopTimer();
     var n = S.set.length, ms = Math.min(3600000, Math.max(1000, Math.round(S.ms)));
+    var entry = {id: 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7), name: S.name || '독도 탐험', org: S.org || '', level: S.level === 'mid' ? 'mid' : 'elem',
+      correct: Math.max(0, Math.min(n, S.correct)), total: n, ms: ms, t: Date.now()};
+    var ranked = n === settings.count && n >= 5 && n <= 15; // 문제가 모자라 덜 나온 판은 랭킹에 넣지 않음
     later(function () {
       show('clear'); var ratio = n ? S.correct / n : 0, perfect = S.correct >= n;
       Sfx.play('fanfare'); if (!RM) confettiRain(ratio >= 0.8 ? 160 : 70); Stage.result(ratio, ratio >= 0.5); Bgm.outro(ratio); flash('ok');
       $('clearTitle').textContent = tierMsg(S.correct, n);
       $('clearScore').innerHTML = n + '문제 중 <b>' + S.correct + '</b>개!';
-      $('clearName').textContent = '🏫 ' + (S.org || '독도 탐험') + ' · ' + levelName(S.level);
+      $('clearName').textContent = '👤 ' + entry.name + (S.org ? ' · ' + S.org : '') + ' · ' + levelName(S.level);
+      $('clearRank').innerHTML = ranked ? '순위 계산 중…' : '';
       $('clearSec').textContent = '⏱ 걸린 시간 ' + fmt1(ms) + '초';
       $('resDots').innerHTML = S.set.map(function (_, k) { return '<span class="dot ' + (S.marks[k] ? 'ok' : 'ng') + '">' + (S.marks[k] ? '✓' : '✕') + '</span>'; }).join('');
       $('clearBot').innerHTML = botSvg(perfect ? 'star' : ratio >= 0.5 ? 'happy' : 'idle');
@@ -7280,6 +7464,11 @@ window.NoanFullscreen = (function () {
       $('clearMsg').textContent = '독도는 우리 땅! 가족과 친구에게도 알려 줘 🇰🇷';
       drawReview();
       startClearCountdown();
+      if (ranked) Board.add(entry).then(function (r) {
+        if (!r || !$('clear').classList.contains('on')) return;
+        $('clearRank').innerHTML = (entry.level === 'mid' ? '중학생' : '초등') + ' 랭킹 <em>' + r.rank + '등</em>' + (r.rank === 1 ? ' 👑' : r.rank <= 3 ? ' 🔥' : '') + (r.local ? ' (이 기기)' : '');
+        if (r.rank === 1 && r.count > 1) later(function () { var c = $('combo'); c.textContent = '👑 지금 1등!'; restart(c, 'on'); Sfx.play('combo'); if (!RM) confettiRain(120); later(function () { c.classList.remove('on'); }, 1100); }, 1400);
+      });
     }, 900);
   }
   /* ===== 결과 화면: 내가 푼 문제 다시 보기 =====
@@ -7475,6 +7664,7 @@ window.NoanFullscreen = (function () {
     var sel = $('setSec'); if (!sel.querySelector('option[value="' + settings.sec + '"]')) sel.insertAdjacentHTML('beforeend', '<option value="' + settings.sec + '">' + settings.sec + '초</option>');
     sel.value = String(settings.sec); $('setSound').value = settings.sound ? '1' : '0'; $('setFs').value = !FS || FS.auto() ? '1' : '0';
     $('setBgmVol').value = settings.bgmVol; $('setBgmOut').textContent = settings.bgmVol;
+    $('setSeason').value = Board.season(); Board.drawStatus();
     drawQList(settings.off || []);
     $('adminOv').classList.add('on');
   }
@@ -7493,9 +7683,16 @@ window.NoanFullscreen = (function () {
   $('adminSave').addEventListener('click', function () {
     var off = qOff(), cnt = +$('setCount').value;
     if (DEFAULT_QUESTIONS.length - off.length < 5) { toast('문제를 5개 이상 켜 주세요'); return; }
-    settings = Object.assign({}, settings, {count: cnt, sec: +$('setSec').value, sound: $('setSound').value === '1', bgmVol: +$('setBgmVol').value, off: off, midMode: $('setMid').value, hint: +$('setHint').value, pin: DEF.pin});
+    var sn = $('setSeason').value.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 30) || Board.season();
+    settings = Object.assign({}, settings, {rankName: sn, count: cnt, sec: +$('setSec').value, sound: $('setSound').value === '1', bgmVol: +$('setBgmVol').value, off: off, midMode: $('setMid').value, hint: +$('setHint').value, pin: DEF.pin});
     normalize(); store.set(K.s, settings); if (FS) FS.setAuto($('setFs').value === '1');
     Bgm.applyVolume(); $('adminOv').classList.remove('on'); toast('저장했어요'); goHome();
+  });
+  $('clearRankBtn').addEventListener('click', function () {
+    var d = new Date(), p2 = function (x) { return String(x).padStart(2, '0'); };
+    var name = '독도 OX ' + d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes());
+    if (!confirm('랭킹을 새로 시작할까요? 예전 기록은 DB에 그대로 남고, 첫 화면에는 새 기록만 보여요.')) return;
+    Board.newSeason(name).then(function () { $('setSeason').value = name; $('adminOv').classList.remove('on'); toast('새 랭킹을 시작했어요'); goHome(); });
   });
 
   var NOTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><g class="on"><path d="M9 18V5.5l11-2.2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/></g><g class="off"><path d="M9 18V5.5l11-2.2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/><path d="M3 3l18 18" stroke-width="2.8"/></g></svg>';
@@ -7514,14 +7711,14 @@ window.NoanFullscreen = (function () {
   Stage.set('idle'); Stage.kick(); Bgm.setMode('idle');
   drawHome();
   show('home'); // 예전 큰 화면 랭킹 주소(?board)로 열어도 평소 첫 화면
-  function start(org) { S.org = org || '노안중'; startRound(); }
+  function start(org, name) { S.org = org || '노안중'; S.name = cleanName(name) || '테스트'; startRound(); }
   /* ===== 전체 화면: 첫 화면에서는 아무 데나 터치, 게임 중에는 O·X·다음 버튼에서만 다시 켬 ===== */
   FS = window.NoanFullscreen || null;
   if (FS) FS.init({game: 'dokdo-ox',
     idle: function () { return $('home').classList.contains('on') && !document.querySelector('.overlay.on'); },
     gameTap: function (el) { return !!(el && el.closest && el.closest('#choices .choice, #nextBtn')); },
     layout: function () { Stage.kick(); if (window.Stage3) Stage3.kick(); }});
-  window.__dokdoOx = {S: S, stops: STOPS, world: W3, snd: function () { return Snd.level(); }, skip: function () { if (S.skip) S.skip(); }, start: start, answer: pick, next: next, settings: function () { return settings; }, questions: DEFAULT_QUESTIONS, pickSet: pickSet, bgm: Bgm.info, stage: Stage.info};
+  window.__dokdoOx = {S: S, stops: STOPS, world: W3, snd: function () { return Snd.level(); }, skip: function () { if (S.skip) S.skip(); }, start: start, answer: pick, next: next, settings: function () { return settings; }, questions: DEFAULT_QUESTIONS, pickSet: pickSet, board: Board, bgm: Bgm.info, stage: Stage.info};
 })();
 </script>
 <script src="../offline.js"></script>
