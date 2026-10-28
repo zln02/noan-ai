@@ -14,7 +14,7 @@
   }
   var workerURL = new URL('sw.js', source);
   var scopeURL = new URL('./', workerURL);
-  var expectedVersion = 'noan-studio-v20';
+  var expectedVersion = 'noan-studio-v21';
   var registration = navigator.serviceWorker.register(workerURL.href, {scope: scopeURL.href});
   registration.catch(function () {
     show('오프라인 저장 준비에 실패했어요. 인터넷 연결을 확인한 뒤 다시 열어 주세요.');
@@ -41,6 +41,30 @@
         .then(function () { return prepareCurrent(reg, attempt + 1); });
     });
   }
+  /* 새 버전은 대기 화면에서만 다시 읽는다. 진행 중인 판과 입력 내용을 보호한다. */
+  var refreshPending = false;
+  function safeToRefresh() {
+    if (button && button.disabled) return false;
+    if (document.querySelector('#attract.on, #home.on, #title.on, #board.on')) return true;
+    return !!(button && document.getElementById('offlineDownload'));
+  }
+  function refreshWhenSafe() {
+    if (!refreshPending || !safeToRefresh()) return;
+    refreshPending = false;
+    location.reload();
+  }
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+    refreshPending = true;
+    refreshWhenSafe();
+  });
+  document.addEventListener('pointerdown', function () { if (refreshPending) setTimeout(refreshWhenSafe, 100); }, true);
+  document.addEventListener('keydown', function () { if (refreshPending) setTimeout(refreshWhenSafe, 100); }, true);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) refreshWhenSafe(); });
+  setInterval(refreshWhenSafe, 2000);
+  registration.then(function (reg) {
+    if (navigator.onLine && reg.update) reg.update().catch(function () {});
+  });
+
   if (!button) return;
   button.addEventListener('click', function () {
     button.disabled = true;
