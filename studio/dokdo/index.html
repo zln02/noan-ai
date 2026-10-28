@@ -6051,6 +6051,33 @@ window.NoanFullscreen = (function () {
   var Board = (function () {
     var online = false, held = 0, cache = {top: [], count: 0}; // held: queued records the server refuses for now
     function season() { return settings.season || DEF.season; }
+    var SEASON_URL = CLOUD.url.replace(/\/[^/]+$/, '/dokdo_seasons');
+    var seasonRev = 0, syncingSeason = null;
+    function applySeason(name) {
+      settings.season = name; store.set(K.s, settings);
+      cache = {top: [], count: 0};
+      return refresh().then(function () { if (BIG) drawBig(); else if ($('home').classList.contains('on')) drawHome(); });
+    }
+    function syncSeason() {
+      if (syncingSeason) return syncingSeason;
+      var rev = seasonRev;
+      syncingSeason = req('?select=season&game=eq.memory&order=id.desc&limit=1', {url: SEASON_URL})
+        .then(function (r) { if (!r.ok) throw new Error('season-read-' + r.status); return r.json(); })
+        .then(function (rows) {
+          if (rev !== seasonRev) return;
+          var name = rows && rows[0] && String(rows[0].season || '').trim();
+          if (name && name !== season()) return applySeason(name);
+        }).catch(function () { return null; })
+        .then(function (result) { syncingSeason = null; return result; });
+      return syncingSeason;
+    }
+    function newSeason(name) {
+      name = String(name || '').trim().slice(0, 30);
+      if (!name) return Promise.reject(new Error('empty-season'));
+      seasonRev++;
+      return req('', {url: SEASON_URL, method: 'POST', body: JSON.stringify({game: 'memory', season: name}), headers: {Prefer: 'return=minimal'}})
+        .then(function (r) { if (!r.ok) throw new Error('season-write-' + r.status); seasonRev++; return applySeason(name); });
+    }
     function mine(l, c) { c = c || boardCfg(); return l.filter(function (e) { return e.season === season() && +e.pairs === +c.pairs && (e.mode || 'same') === (c.mode || 'same'); }); }
     function sorted(l) { return l.slice().sort(function (a, b) { return a.ms - b.ms || (a.t || 0) - (b.t || 0); }); }
     function records() { return store.get(K.r, []); }
@@ -6060,7 +6087,7 @@ window.NoanFullscreen = (function () {
       if (!navigator.onLine) return Promise.reject(new Error('offline'));
       var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
       opt = opt || {};
-      return fetch(CLOUD.url + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
+      return fetch((opt.url || CLOUD.url) + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
         headers: Object.assign({apikey: CLOUD.key, 'Content-Type': 'application/json'}, opt.headers || {})})
         .then(function (r) { clearTimeout(tm); return r; });
     }
@@ -6125,11 +6152,11 @@ window.NoanFullscreen = (function () {
       el.textContent = online ? (q ? (held ? '온라인 랭킹 · 기록 ' + q + '건은 이 기기에 보관 중 (서버 준비 중)' : '온라인 · ' + q + '건 올리는 중') : '온라인 랭킹')
         : '인터넷 연결 안 됨 · 이 기기에 저장 중' + (q ? ' (' + q + '건 대기)' : '');
     }
-    setInterval(flush, 15000); window.addEventListener('online', function () { flush().then(refresh); });
+    setInterval(flush, 15000); setInterval(syncSeason, 15000); window.addEventListener('online', function () { flush().then(syncSeason).then(refresh); });
     return {
       detect: function () { return flush(); },
       refresh: refresh, add: add, flush: flush,
-      newSeason: function (name) { settings.season = name; store.set(K.s, settings); cache = {top: [], count: 0}; return refresh(); },
+      newSeason: newSeason, syncSeason: syncSeason,
       season: season, pending: function () { return queue().length; }, held: function () { return held; }, online: function () { return online; },
       data: function () { return cache; }
     };
@@ -6350,13 +6377,15 @@ window.NoanFullscreen = (function () {
   $('adminSave').addEventListener('click', function () {
     var p = '0000';
     var sn = $('setSeason').value.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 30) || Board.season();
-    settings = sanitizeSettings(Object.assign({}, settings, {season: sn, pairs: +$('setPairs').value, peek: +$('setPeek').value, sound: $('setSound').value === '1', pin: p}), {v: SETTINGS_V});
+    var oldSeason = Board.season();
+    settings = sanitizeSettings(Object.assign({}, settings, {season: oldSeason, pairs: +$('setPairs').value, peek: +$('setPeek').value, sound: $('setSound').value === '1', pin: p}), {v: SETTINGS_V});
     store.set(K.s, settings); if (FS) FS.setAuto($('setFs').value === '1');
-    $('adminOv').classList.remove('on'); toast('저장했어요'); goHome();
+    if (sn !== oldSeason) Board.newSeason(sn).then(function () { $('adminOv').classList.remove('on'); toast('저장했어요'); goHome(); }, function () { toast('서버에 연결하지 못했어요. 랭킹 이름은 바뀌지 않았어요.'); });
+    else { $('adminOv').classList.remove('on'); toast('저장했어요'); goHome(); }
   });
   $('clearRankBtn').addEventListener('click', function () {
-    var d = new Date(), name = '독도 랭킹 ' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
-    if (confirm('현재 랭킹을 리셋할까요? 예전 기록은 DB에 안전하게 남습니다.')) Board.newSeason(name).then(function () { $('setSeason').value = name; $('adminOv').classList.remove('on'); toast('새 랭킹을 시작했어요'); goHome(); });
+    var d = new Date(), name = '독도 랭킹 ' + d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') + ':' + String(d.getSeconds()).padStart(2, '0');
+    if (confirm('현재 랭킹을 리셋할까요? 예전 기록은 DB에 안전하게 남습니다.')) Board.newSeason(name).then(function () { $('setSeason').value = name; $('adminOv').classList.remove('on'); toast('새 랭킹을 시작했어요'); goHome(); }, function () { toast('서버에 연결하지 못했어요. 다시 시도해 주세요.'); });
   });
 
   var NOTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><g class="on"><path d="M9 18V5.5l11-2.2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/></g><g class="off"><path d="M9 18V5.5l11-2.2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/><path d="M3 3l18 18" stroke-width="2.8"/></g></svg>';
@@ -6376,7 +6405,7 @@ window.NoanFullscreen = (function () {
   Stage.set('idle'); Stage.kick(); Bgm.setMode('idle');
   drawHome();
   if (BIG) show('bigboard');
-  Board.detect().then(function () { return Board.refresh(); }).then(function () { if (BIG) drawBig(); else drawHome(); });
+  Board.detect().then(Board.syncSeason).then(function () { return Board.refresh(); }).then(function () { if (BIG) drawBig(); else drawHome(); });
   /* ===== 전체 화면: 첫 화면·큰 화면 랭킹에서는 아무 데나 터치, 게임 중에는 카드 터치에서만 다시 켬 ===== */
   FS = window.NoanFullscreen || null;
   if (FS) FS.init({game: 'dokdo',

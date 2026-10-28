@@ -7046,6 +7046,33 @@ window.NoanFullscreen = (function () {
   var Board = (function () {
     var online = false, cache = {elem: {top: [], count: 0}, mid: {top: [], count: 0}};
     function season() { return settings.rankName || DEF.rankName; }
+    var SEASON_URL = CLOUD.url.replace(/\/[^/]+$/, '/dokdo_seasons');
+    var seasonRev = 0, syncingSeason = null;
+    function applySeason(name) {
+      settings.rankName = name; store.set(K.s, settings);
+      cache = {elem: {top: [], count: 0}, mid: {top: [], count: 0}};
+      return Promise.all([refresh('elem'), refresh('mid')]).then(function () { if (HP.page !== 'steps') drawHome(); });
+    }
+    function syncSeason() {
+      if (syncingSeason) return syncingSeason;
+      var rev = seasonRev;
+      syncingSeason = req('?select=season&game=eq.ox&order=id.desc&limit=1', {url: SEASON_URL})
+        .then(function (r) { if (!r.ok) throw new Error('season-read-' + r.status); return r.json(); })
+        .then(function (rows) {
+          if (rev !== seasonRev) return;
+          var name = rows && rows[0] && String(rows[0].season || '').trim();
+          if (name && name !== season()) return applySeason(name);
+        }).catch(function () { return null; })
+        .then(function (result) { syncingSeason = null; return result; });
+      return syncingSeason;
+    }
+    function newSeason(name) {
+      name = String(name || '').trim().slice(0, 30);
+      if (!name) return Promise.reject(new Error('empty-season'));
+      seasonRev++;
+      return req('', {url: SEASON_URL, method: 'POST', body: JSON.stringify({game: 'ox', season: name}), headers: {Prefer: 'return=minimal'}})
+        .then(function (r) { if (!r.ok) throw new Error('season-write-' + r.status); seasonRev++; return applySeason(name); });
+    }
     function same(e, lv) { return e && e.season === season() && (e.level || 'elem') === lv && +e.total === settings.count; }
     function better(a, b) { return (b.correct - a.correct) || (a.ms - b.ms) || ((a.t || 0) - (b.t || 0)); }
     function records() { var l = store.get(K.r, []); return Array.isArray(l) ? l : []; }
@@ -7055,7 +7082,7 @@ window.NoanFullscreen = (function () {
       if (navigator.onLine === false) return Promise.reject(new Error('offline'));
       var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
       opt = opt || {};
-      return fetch(CLOUD.url + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
+      return fetch((opt.url || CLOUD.url) + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
         headers: Object.assign({apikey: CLOUD.key, 'Content-Type': 'application/json'}, opt.headers || {})})
         .then(function (r) { clearTimeout(tm); return r; }, function (e) { clearTimeout(tm); throw e; });
     }
@@ -7112,10 +7139,10 @@ window.NoanFullscreen = (function () {
       var el = $('netState'); if (el) { el.className = 'net ' + (online ? 'on' : 'off'); el.textContent = HP.page === 'steps' ? '' : statusText(); }
       var a = $('netAdmin'); if (a) a.textContent = statusText();
     }
-    setInterval(flush, 15000); window.addEventListener('online', function () { flush(); });
+    setInterval(flush, 15000); setInterval(syncSeason, 15000); window.addEventListener('online', function () { flush().then(syncSeason); });
     return {
       refresh: refresh, add: add, flush: flush, season: season, drawStatus: drawStatus,
-      newSeason: function (name) { settings.rankName = name; store.set(K.s, settings); cache = {elem: {top: [], count: 0}, mid: {top: [], count: 0}}; return Promise.all([refresh('elem'), refresh('mid')]); },
+      newSeason: newSeason, syncSeason: syncSeason,
       pending: function () { return pending().length; }, online: function () { return online; },
       data: function (lv) { return cache[lv] || {top: [], count: 0}; }
     };
@@ -7684,15 +7711,18 @@ window.NoanFullscreen = (function () {
     var off = qOff(), cnt = +$('setCount').value;
     if (DEFAULT_QUESTIONS.length - off.length < 5) { toast('문제를 5개 이상 켜 주세요'); return; }
     var sn = $('setSeason').value.replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, 30) || Board.season();
-    settings = Object.assign({}, settings, {rankName: sn, count: cnt, sec: +$('setSec').value, sound: $('setSound').value === '1', bgmVol: +$('setBgmVol').value, off: off, midMode: $('setMid').value, hint: +$('setHint').value, pin: DEF.pin});
+    var oldSeason = Board.season();
+    settings = Object.assign({}, settings, {rankName: oldSeason, count: cnt, sec: +$('setSec').value, sound: $('setSound').value === '1', bgmVol: +$('setBgmVol').value, off: off, midMode: $('setMid').value, hint: +$('setHint').value, pin: DEF.pin});
     normalize(); store.set(K.s, settings); if (FS) FS.setAuto($('setFs').value === '1');
-    Bgm.applyVolume(); $('adminOv').classList.remove('on'); toast('저장했어요'); goHome();
+    Bgm.applyVolume();
+    if (sn !== oldSeason) Board.newSeason(sn).then(function () { $('adminOv').classList.remove('on'); toast('저장했어요'); goHome(); }, function () { toast('서버에 연결하지 못했어요. 랭킹 이름은 바뀌지 않았어요.'); });
+    else { $('adminOv').classList.remove('on'); toast('저장했어요'); goHome(); }
   });
   $('clearRankBtn').addEventListener('click', function () {
     var d = new Date(), p2 = function (x) { return String(x).padStart(2, '0'); };
-    var name = '독도 OX ' + d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes());
+    var name = '독도 OX ' + d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds());
     if (!confirm('랭킹을 새로 시작할까요? 예전 기록은 DB에 그대로 남고, 첫 화면에는 새 기록만 보여요.')) return;
-    Board.newSeason(name).then(function () { $('setSeason').value = name; $('adminOv').classList.remove('on'); toast('새 랭킹을 시작했어요'); goHome(); });
+    Board.newSeason(name).then(function () { $('setSeason').value = name; $('adminOv').classList.remove('on'); toast('새 랭킹을 시작했어요'); goHome(); }, function () { toast('서버에 연결하지 못했어요. 다시 시도해 주세요.'); });
   });
 
   var NOTE = '<svg viewBox="0 0 24 24" aria-hidden="true"><g class="on"><path d="M9 18V5.5l11-2.2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/></g><g class="off"><path d="M9 18V5.5l11-2.2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/><path d="M3 3l18 18" stroke-width="2.8"/></g></svg>';
@@ -7710,6 +7740,7 @@ window.NoanFullscreen = (function () {
   if (Stage.world) { Stage.world.setReduced(RM); Stage.world.onEvent(function (ev) { if (ev === 'hop' || ev === 'lift') Snd.play(ev); }); }
   Stage.set('idle'); Stage.kick(); Bgm.setMode('idle');
   drawHome();
+  Board.syncSeason().then(function () { if (HP.page !== 'steps') drawHome(); });
   show('home'); // 예전 큰 화면 랭킹 주소(?board)로 열어도 평소 첫 화면
   function start(org, name) { S.org = org || '노안중'; S.name = cleanName(name) || '테스트'; startRound(); }
   /* ===== 전체 화면: 첫 화면에서는 아무 데나 터치, 게임 중에는 O·X·다음 버튼에서만 다시 켬 ===== */

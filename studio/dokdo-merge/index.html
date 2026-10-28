@@ -6030,10 +6030,37 @@ window.NoanFullscreen = (function () {
      - offline: save on this device first (pending queue) and upload when the connection is back.
      - records with the same season name are ranked together; admin 「랭킹 리셋」 starts a new season. */
   var CLOUD = {url: 'https://dovpodhwmredayldjrvb.supabase.co/rest/v1/dokdo_merge_scores', key: 'sb_publishable_T5RxDUQ0qOjSfUqbwmqYxw_z0afNxi_'};
-  var MS_MAX = 450000, SCORE_MAX = 130000; // must match the check constraints in the migration
+  var MS_MAX = 3600000, SCORE_MAX = 1000000; // server check constraints
   var Board = (function () {
     var online = false, held = 0, cache = {top: [], count: 0, local: true}; // held: queued records the server refuses for now
     function season() { return settings.season || DEF.season; }
+    var SEASON_URL = CLOUD.url.replace(/\/[^/]+$/, '/dokdo_seasons');
+    var seasonRev = 0, syncingSeason = null;
+    function applySeason(name) {
+      settings.season = name; saveSettings();
+      cache = {top: [], count: 0, local: true};
+      return refresh().then(function () { if (G.phase === 'title') drawTitle(); });
+    }
+    function syncSeason() {
+      if (syncingSeason) return syncingSeason;
+      var rev = seasonRev;
+      syncingSeason = req('?select=season&game=eq.merge&order=id.desc&limit=1', {url: SEASON_URL})
+        .then(function (r) { if (!r.ok) throw new Error('season-read-' + r.status); return r.json(); })
+        .then(function (rows) {
+          if (rev !== seasonRev) return;
+          var name = rows && rows[0] && String(rows[0].season || '').trim();
+          if (name && name !== season()) return applySeason(name);
+        }).catch(function () { return null; })
+        .then(function (result) { syncingSeason = null; return result; });
+      return syncingSeason;
+    }
+    function newSeason(name) {
+      name = String(name || '').trim().slice(0, 30);
+      if (!name) return Promise.reject(new Error('empty-season'));
+      seasonRev++;
+      return req('', {url: SEASON_URL, method: 'POST', body: JSON.stringify({game: 'merge', season: name}), headers: {Prefer: 'return=minimal'}})
+        .then(function (r) { if (!r.ok) throw new Error('season-write-' + r.status); seasonRev++; return applySeason(name); });
+    }
     function list(k) { var a = store.get(k, []); return Array.isArray(a) ? a.filter(function (e) { return e && typeof e.id === 'string' && isFinite(+e.score); }) : []; }
     function records() { return list(K.r); }
     function queue() { return list(K.q); }
@@ -6045,7 +6072,7 @@ window.NoanFullscreen = (function () {
       if (!navigator.onLine) return Promise.reject(new Error('offline'));
       var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
       opt = opt || {};
-      return fetch(CLOUD.url + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
+      return fetch((opt.url || CLOUD.url) + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
         headers: Object.assign({apikey: CLOUD.key, 'Content-Type': 'application/json'}, opt.headers || {})})
         .then(function (r) { clearTimeout(tm); return r; }, function (e) { clearTimeout(tm); throw e; });
     }
@@ -6122,11 +6149,11 @@ window.NoanFullscreen = (function () {
           : '인터넷 연결 안 됨 · 이 기기에 저장 중' + (q ? ' (' + q + '건 대기)' : '');
       });
     }
-    setInterval(flush, 15000); window.addEventListener('online', function () { flush().then(refresh); });
+    setInterval(flush, 15000); setInterval(syncSeason, 15000); window.addEventListener('online', function () { flush().then(syncSeason).then(refresh); });
     return {
       detect: function () { return flush(); },
       refresh: refresh, add: add, flush: flush,
-      newSeason: function (name) { settings.season = name; saveSettings(); cache = {top: [], count: 0, local: true}; return refresh(); },
+      newSeason: newSeason, syncSeason: syncSeason,
       season: season, pending: function () { return queue().length; }, held: function () { return held; }, online: function () { return online; },
       data: function () { return cache; }, local: function () { return records(); },
       best: function () { var a = cache.top[0] ? cache.top[0].score : 0, b = sorted(mine(records()))[0]; return Math.max(a, b ? +b.score : 0); },
@@ -6211,10 +6238,10 @@ window.NoanFullscreen = (function () {
     G.phase = 'name';
     var top = Math.max(1, G.top);
     G.entry = {id: 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: '', org: '', score: G.score, top: top, merges: G.merges,
-      ms: clamp(G.playMs || 1000, 1000, 600000), cloud: settings.limit && (G.playMs || 0) <= MS_MAX && G.score <= SCORE_MAX, t: Date.now()};
+      ms: clamp(G.playMs || 1000, 1000, MS_MAX), cloud: (G.playMs || 0) <= MS_MAX && G.score <= SCORE_MAX, t: Date.now()};
     G.prevBest = Board.best();
     $('nameScore').textContent = G.score + '점!';
-    $('namePrivacy').textContent = G.entry.cloud ? '🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요. 별명을 써도 괜찮아요.' : '🔒 시간 제한 없이 한 판은 이 기기에만 저장돼요. 별명을 써도 괜찮아요.';
+    $('namePrivacy').textContent = G.entry.cloud ? '🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요. 별명을 써도 괜찮아요.' : '🔒 이 기록은 서버 허용 범위를 넘어 이 기기에만 저장돼요. 별명을 써도 괜찮아요.';
     pickOrg(''); $('nameInput').value = ''; $('nameMsg').textContent = '';
     show('name'); bumpIdle();
   }
@@ -6698,8 +6725,9 @@ window.NoanFullscreen = (function () {
   $('adminSave').addEventListener('click', function () {
     settings.demo = $('setDemo').value === '1'; settings.limit = $('setLimit').value === '1'; settings.minutes = +$('setMin').value; settings.sound = $('setSound').value === '1'; settings.music = $('setMusic').value === '1';
     var sn = cleanSeason($('setSeason').value) || Board.season(), changed = sn !== Board.season();
-    normalize(); saveSettings(); if (FS) FS.setAuto($('setFs').value === '1'); Snd.apply(); drawBgm(); $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('저장했어요');
-    if (changed) Board.newSeason(sn); goTitle();
+    normalize(); saveSettings(); if (FS) FS.setAuto($('setFs').value === '1'); Snd.apply(); drawBgm();
+    if (changed) Board.newSeason(sn).then(function () { $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('저장했어요'); goTitle(); }, function () { toast('서버에 연결하지 못했어요. 랭킹 이름은 바뀌지 않았어요.'); });
+    else { $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('저장했어요'); goTitle(); }
   });
   $('resetBtn').addEventListener('click', function () { $('confirmRow').classList.add('on'); });
   $('resetNo').addEventListener('click', function () { $('confirmRow').classList.remove('on'); });
@@ -6708,9 +6736,9 @@ window.NoanFullscreen = (function () {
   $('seasonNo').addEventListener('click', function () { $('seasonRow').classList.remove('on'); });
   $('seasonYes').addEventListener('click', function () {
     var d = new Date(), p2 = function (n) { return String(n).padStart(2, '0'); };
-    var name = '합치기 랭킹 ' + d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes());
+    var name = '합치기 랭킹 ' + d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds());
     $('seasonRow').classList.remove('on');
-    Board.newSeason(name).then(function () { $('setSeason').value = name; $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('새 랭킹을 시작했어요'); goTitle(); });
+    Board.newSeason(name).then(function () { $('setSeason').value = name; $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('새 랭킹을 시작했어요'); goTitle(); }, function () { toast('서버에 연결하지 못했어요. 다시 시도해 주세요.'); });
   });
 
   /* ===== music toggle ===== */
@@ -6729,7 +6757,7 @@ window.NoanFullscreen = (function () {
     onReady: function () { Mascot.active(false); }, onFail: function () { Mascot.active(G.phase !== 'play' && G.phase !== 'ending' && G.phase !== 'paused'); }});
   Mascot.active(!Gull3D.ready); Gull3D.attach(document.querySelector('#title .gull-slot'));
   drawTitle();
-  Board.detect().then(function () { return Board.refresh(); }).then(drawTitle);
+  Board.detect().then(Board.syncSeason).then(function () { return Board.refresh(); }).then(drawTitle);
   requestAnimationFrame(frame);
 
   /* ===== test hooks ===== */
