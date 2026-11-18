@@ -1,0 +1,1473 @@
+{
+ "index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 200x32",
+    "연수 26x21",
+    "활용 사례 57x21",
+    "자료실 39x21"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 16
+   }
+  ],
+  "nreq": 15
+ },
+ "training/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x29",
+    "활용 사례 61x23",
+    "자료실 42x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 19
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 10
+ },
+ "training/s1.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 10,
+   "smallEx": [
+    "BUTTON 16x16",
+    "BUTTON 16x16",
+    "BUTTON 16x16",
+    "BUTTON 16x16"
+   ],
+   "noAlt": 0,
+   "h1": 0,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 2
+   }
+  ],
+  "nreq": 100
+ },
+ "training/s2.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "← 연수 목록 114x27",
+    "교육부의 교과 연계 AI 연수 방향 220x20",
+    "UNESCO 교원 AI 역량 틀 169x20"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [],
+  "nreq": 4
+ },
+ "library/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 20,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x28"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 12
+ },
+ "library/approval.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x28"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   },
+   {
+    "id": "scrollable-region-focusable",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 11
+ },
+ "library/rules.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x28"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 9
+ },
+ "contest/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 12
+ },
+ "request/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x23",
+    "활용 사례 61x23",
+    "자료실 42x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 13
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   },
+   {
+    "id": "link-in-text-block",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 11
+ },
+ "about/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 9
+ },
+ "class/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 9
+ },
+ "showcase/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x28",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 11
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 14
+ },
+ "studio/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 16,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x23",
+    "활용 사례 61x23",
+    "자료실 42x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 20
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 10
+ },
+ "studio/compat.html|phone": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [],
+  "nreq": 1
+ },
+ "guide/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 200x32",
+    "연수 26x21",
+    "활용 사례 57x21",
+    "자료실 39x21"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 16
+   }
+  ],
+  "nreq": 17
+ },
+ "iamodu/index.html|phone": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "ai/index.html|phone": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "terms/index.html|phone": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "how-ai-answers/index.html|phone": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "start/index.html|phone": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "ops/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "전체 기록 보기 → 128x21",
+    "선생님 사이트로 147x27"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [],
+  "nreq": 11
+ },
+ "ops/log/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 2,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "선생님 사이트로 147x27"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [],
+  "nreq": 7
+ },
+ "ops/sessions/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 2,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "선생님 사이트로 147x27"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "heading-order",
+    "impact": "moderate",
+    "n": 1
+   }
+  ],
+  "nreq": 7
+ },
+ "ops/handover/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 11,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "about/index.html 155x27",
+    "library/index.html 159x27",
+    "사이트 첫 화면 107x21"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "scrollable-region-focusable",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 5
+ },
+ "404.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 9
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 8
+ },
+ "index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 251x39",
+    "연수 30x24",
+    "활용 사례 65x24",
+    "자료실 45x24"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 15
+   }
+  ],
+  "nreq": 15
+ },
+ "training/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 251x39",
+    "연수 30x30",
+    "활용 사례 65x24",
+    "자료실 45x24"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 18
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 10
+ },
+ "training/s1.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 0,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 2
+   }
+  ],
+  "nreq": 100
+ },
+ "training/s2.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "← 연수 목록 114x27",
+    "교육부의 교과 연계 AI 연수 방향 220x20",
+    "UNESCO 교원 AI 역량 틀 169x20"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [],
+  "nreq": 4
+ },
+ "library/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 29,
+   "smallEx": [
+    "AI교육 포털 251x38",
+    "연수 30x23",
+    "활용 사례 65x23",
+    "자료실 45x29"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 12
+ },
+ "library/approval.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 251x38",
+    "연수 30x23",
+    "활용 사례 65x23",
+    "자료실 45x29"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 11
+ },
+ "library/rules.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 251x38",
+    "연수 30x23",
+    "활용 사례 65x23",
+    "자료실 45x29"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 9
+ },
+ "contest/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 251x38",
+    "연수 30x23",
+    "활용 사례 65x23",
+    "자료실 45x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 12
+ },
+ "request/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 251x39",
+    "연수 30x24",
+    "활용 사례 65x24",
+    "자료실 45x24"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 13
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   },
+   {
+    "id": "link-in-text-block",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 11
+ },
+ "about/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 251x38",
+    "연수 30x23",
+    "활용 사례 65x23",
+    "자료실 45x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 9
+ },
+ "class/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 251x38",
+    "연수 30x23",
+    "활용 사례 65x23",
+    "자료실 45x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 10
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 9
+ },
+ "showcase/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 251x38",
+    "연수 30x23",
+    "활용 사례 65x29",
+    "자료실 45x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 11
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 14
+ },
+ "studio/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 16,
+   "smallEx": [
+    "AI교육 포털 251x39",
+    "연수 30x24",
+    "활용 사례 65x24",
+    "자료실 45x24"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 19
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 15
+ },
+ "studio/compat.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [],
+  "nreq": 1
+ },
+ "guide/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 251x39",
+    "연수 30x24",
+    "활용 사례 65x24",
+    "자료실 45x24"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 15
+   }
+  ],
+  "nreq": 17
+ },
+ "iamodu/index.html|desk": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "ai/index.html|desk": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "terms/index.html|desk": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "how-ai-answers/index.html|desk": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "start/index.html|desk": {
+  "err": [
+   "Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": [
+   {
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "n": 1
+   },
+   {
+    "id": "region",
+    "impact": "moderate",
+    "n": 4
+   }
+  ],
+  "nreq": 1
+ },
+ "ops/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 6,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "홈 21x41",
+    "기록 38x41",
+    "회차 38x41"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [],
+  "nreq": 11
+ },
+ "ops/log/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 5,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "홈 21x41",
+    "기록 38x41",
+    "회차 38x41"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [],
+  "nreq": 7
+ },
+ "ops/sessions/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 5,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "홈 21x41",
+    "기록 38x41",
+    "회차 38x41"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "heading-order",
+    "impact": "moderate",
+    "n": 1
+   }
+  ],
+  "nreq": 7
+ },
+ "ops/handover/index.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 14,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "홈 21x41",
+    "기록 38x41",
+    "회차 38x41"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [],
+  "nreq": 5
+ },
+ "404.html|desk": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 251x38",
+    "연수 30x23",
+    "활용 사례 65x23",
+    "자료실 45x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 9
+   },
+   {
+    "id": "label-content-name-mismatch",
+    "impact": "serious",
+    "n": 1
+   }
+  ],
+  "nreq": 8
+ }
+}

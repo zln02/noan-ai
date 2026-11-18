@@ -1,0 +1,507 @@
+{
+ "index.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/tasks.json?v=20261021' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED",
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/quicktasks.json?v=20261021' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED",
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/guides.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app."
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/tasks.json?v=20261021",
+   "file:///C:/Users/User/Downloads/noan-ai/data/quicktasks.json?v=20261021",
+   "file:///C:/Users/User/Downloads/noan-ai/data/guides.json"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 200x32",
+    "연수 26x21",
+    "활용 사례 57x21",
+    "자료실 39x21"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 15
+ },
+ "training/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x29",
+    "활용 사례 61x23",
+    "자료실 42x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 10
+ },
+ "training/s1.html|phone": {
+  "err": [
+   "Access to image at 'file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s01-arm-mask.png' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED"
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s01-arm-mask.png",
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s10-scene01.mp4",
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s11-scene02.mp4",
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s12-scene03.mp4",
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s13-scene04.mp4"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 10,
+   "smallEx": [
+    "BUTTON 16x16",
+    "BUTTON 16x16",
+    "BUTTON 16x16",
+    "BUTTON 16x16"
+   ],
+   "noAlt": 0,
+   "h1": 0,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": null,
+  "nreq": 104
+ },
+ "training/s2.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "← 연수 목록 114x27",
+    "교육부의 교과 연계 AI 연수 방향 220x20",
+    "UNESCO 교원 AI 역량 틀 169x20"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 4
+ },
+ "library/index.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/guides.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED"
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/guides.json"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 20,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x28"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 12
+ },
+ "library/approval.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/approval.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED"
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/approval.json"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x28"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 11
+ },
+ "library/rules.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x28"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 9
+ },
+ "contest/index.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/contest.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED"
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/contest.json"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 12
+ },
+ "request/index.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/requests.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED"
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/requests.json"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x23",
+    "활용 사례 61x23",
+    "자료실 42x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 11
+ },
+ "about/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 9
+ },
+ "class/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 9
+ },
+ "showcase/index.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/showcase.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED"
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/showcase.json"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x28",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 14
+ },
+ "studio/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 16,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x23",
+    "활용 사례 61x23",
+    "자료실 42x23"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 10
+ },
+ "studio/compat.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": null,
+  "nreq": 1
+ },
+ "guide/index.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/tasks.json?v=20261021' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED",
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/quicktasks.json?v=20261021' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED",
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/guides.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app."
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/tasks.json?v=20261021",
+   "file:///C:/Users/User/Downloads/noan-ai/data/quicktasks.json?v=20261021",
+   "file:///C:/Users/User/Downloads/noan-ai/data/guides.json"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 13,
+   "smallEx": [
+    "AI교육 포털 200x32",
+    "연수 26x21",
+    "활용 사례 57x21",
+    "자료실 39x21"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 17
+ },
+ "ops/index.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/schedule.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED",
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/log.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED",
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/log.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app."
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/schedule.json",
+   "file:///C:/Users/User/Downloads/noan-ai/data/log.json",
+   "file:///C:/Users/User/Downloads/noan-ai/data/log.json",
+   "file:///C:/Users/User/Downloads/noan-ai/docs/handover.md"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 4,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "전체 기록 보기 → 128x21",
+    "docs/handover.md 열기 214x27",
+    "선생님 사이트로 147x27"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 11
+ },
+ "ops/log/index.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/log.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED"
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/log.json"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 2,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "선생님 사이트로 147x27"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 7
+ },
+ "ops/sessions/index.html|phone": {
+  "err": [
+   "Access to fetch at 'file:///C:/Users/User/Downloads/noan-ai/data/sessions.json' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED"
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/data/sessions.json"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 2,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "선생님 사이트로 147x27"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 7
+ },
+ "ops/handover/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 11,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "about/index.html 155x27",
+    "library/index.html 159x27",
+    "사이트 첫 화면 107x21"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 5
+ },
+ "404.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 12,
+   "smallEx": [
+    "AI교육 포털 211x32",
+    "연수 28x22",
+    "활용 사례 61x22",
+    "자료실 42x22"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 8
+ }
+}
