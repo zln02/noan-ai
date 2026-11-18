@@ -6,12 +6,12 @@
 :root {
   --g-navy: #16233A;
   --g-navy2: #12203A;
-  --g-blue: #1877E6;
+  --g-blue: #1d4ed8;
   --g-blue-dark: #0B5FC0;
-  --g-blue-soft: #2A7DE1;
+  --g-blue-soft: #1d4ed8;
   --g-sky: #E9F2FF;
-  --g-muted: #5D6C80;
-  --g-muted2: #78889C;
+  --g-muted: #4a5b6e;
+  --g-muted2: #5b6b7e;
   --g-border: #E6ECF3;
   --g-border2: #E8EDF4;
   --g-shadow: 0 1px 3px rgba(20, 50, 90, .06);
@@ -1402,7 +1402,7 @@ a {
   padding-top: 16px;
   padding-bottom: 16px;
   font-size: 13px;
-  color: #8494A8;
+  color: #5b6b7e;
 }
 
 .g-footer-brand img {
@@ -1981,7 +1981,7 @@ a {
 
 .g-when-lab {
   flex: none;
-  color: #1A6FD0;
+  color: #1d4ed8;
   font-size: 16px;
   font-weight: 800;
 }
@@ -2312,7 +2312,7 @@ a {
 }
 
 .g-footer-links a {
-  color: #8494A8;
+  color: #5b6b7e;
 }
 
 .g-footer-links a:hover {
