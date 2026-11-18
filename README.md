@@ -25,6 +25,12 @@
 학교 네트워크가 죽어도 연수가 진행된다. 이건 취향이 아니라 요구사항이었다 —
 강당 와이파이를 믿고 슬라이드를 짤 수 없다.
 
+> **「외부 요청 0건」의 유일한 예외 — 선택 기능.** 핵심(안내서 카드 · 지시서 복사 · 연수 자료 · 오프라인 설치)은 지금도 앞으로도
+> 외부 요청 없이 돈다. 「이 지시서 도움 됐어요」 같은 **선택 기능**만 Supabase 를 쓸 수 있고,
+> `shared/config.js` 가 비어 있으면(기본값) 꺼져 있어 요청이 0건이다. 켜더라도 anon(공개) 키만 쓰고,
+> 서비스 키는 저장소에 넣지 않으며, 이름·사진·성적은 보내지 않는다. 막히면 한 줄 안내만 보이고 안내서는 그대로 쓴다.
+> 정책(RLS)은 `supabase/feedback.sql`, 정리는 `docs/ux/ia.md`.
+
 **빌드 도구 없음.** npm run 이 없다. 후임자가 IDE 없이 메모장으로 글자를 고치고 저장하면 반영된다.
 넘겨받을 사람이 개발자가 아니다.
 
@@ -50,6 +56,8 @@ noan-ai/
 ├── guide/                      안내서 인쇄본 PDF · 옛 주소(/guide/)를 첫 화면으로 넘기는 쪽
 ├── training/                   연수 덱 24장
 ├── library/  contest/  request/  about/  class/  showcase/
+├── iamodu/  ai/  terms/  how-ai-answers/  start/   (뼈대 — 내용은 채워 가는 중)
+├── sw.js  manifest.webmanifest  offline.html   「홈 화면에 추가」 + 오프라인
 ├── ops/                        운영 층 — 홈 · 기록 · 회차 · 인수인계
 ├── data/                       ★ 모든 데이터가 여기 한 곳
 │   ├── tasks.json      안내서 25장의 원본 (인쇄본과 같은 원천)
@@ -59,7 +67,7 @@ noan-ai/
 │   ├── sessions.json   회차별 기록
 │   ├── approval.json   도구 승인 현황
 │   └── contest.json  showcase.json
-├── shared/   tokens.css  site.css  deck.css  icons.js  deck.js  site.js
+├── shared/   tokens.css  site.css  app.css(앱 화면 층)  app.js(탭바·오프라인)  config.js  feedback.js  deck.css  icons.js  deck.js  site.js
 ├── assets/   guide/(캡처)  qr-*.svg  thumbs
 ├── tools/    sync-data.js  sync-notion.js  check-copy.js  guide-build.py  CONTRACT.md
 ├── docs/     decisions.md  handover.md  requests.md  cli/  manual-findings.md  shots/
@@ -114,6 +122,11 @@ node tools/sync-data.js --check
 - 업무별 안내서 25장 (인쇄본 A4 가로 28쪽)
 - 도구별 공식 안내 판정 12건
 - 활동 기록 __건
+
+## 화면을 고칠 때
+
+[`docs/ux/`](docs/ux/) 에 진단·고객 여정·정보 구조·전후 비교가 있다. 페이지를 추가하면 `sw.js` 의 `CORE` 목록에 넣고 `CACHE_VERSION` 숫자를 올린다.
+점검: `python tools/ux-audit.py docs/ux/after http` (콘솔 오류·외부 요청·axe), `python tools/ux-offline-check.py`.
 
 ## 인수인계
 

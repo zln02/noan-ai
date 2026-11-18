@@ -1,0 +1,518 @@
+{
+ "index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 14
+ },
+ "training/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 12
+ },
+ "training/s1.html|phone": {
+  "err": [
+   "Access to image at 'file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s01-arm-mask.png' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: chrome, chrome-experimental-site-token-provider, chrome-extension, chrome-untrusted, data, http, https, isolated-app.",
+   "Failed to load resource: net::ERR_FAILED"
+  ],
+  "ext": [],
+  "failed": [
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s01-arm-mask.png",
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s12-scene03.mp4",
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s13-scene04.mp4",
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s11-scene02.mp4",
+   "file:///C:/Users/User/Downloads/noan-ai/training/assets/s1/s10-scene01.mp4"
+  ],
+  "m": {
+   "overflow": 0,
+   "small": 10,
+   "smallEx": [
+    "BUTTON 16x16",
+    "BUTTON 16x16",
+    "BUTTON 16x16",
+    "BUTTON 16x16"
+   ],
+   "noAlt": 0,
+   "h1": 0,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": null,
+  "nreq": 104
+ },
+ "training/s2.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "← 연수 목록 114x27",
+    "교육부의 교과 연계 AI 연수 방향 220x20",
+    "UNESCO 교원 AI 역량 틀 169x20"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 4
+ },
+ "library/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 11,
+   "smallEx": [
+    "업무별 안내서 보기 → 200x27",
+    "공식 안내 보기 107x21",
+    "공식 안내 보기 107x21",
+    "공식 안내 보기 107x21"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 13
+ },
+ "library/approval.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 12
+ },
+ "library/rules.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 4,
+   "smallEx": [
+    "요청하기 80x27",
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 11
+ },
+ "contest/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 4,
+   "smallEx": [
+    "안전 규칙 87x27",
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 13
+ },
+ "request/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 12
+ },
+ "about/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 11
+ },
+ "class/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 11
+ },
+ "showcase/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 4,
+   "smallEx": [
+    "안전 규칙 한 장 보기 188x27",
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 15
+ },
+ "studio/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 8,
+   "smallEx": [
+    "태블릿 호환성 확인 322x39",
+    "간편 도형 만들기 156x28",
+    "내 그림 살리기 136x28",
+    "노안중 도전! 퀴즈쇼 183x28"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 12
+ },
+ "studio/compat.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "normal",
+   "brokenImg": [],
+   "bodyFont": "16px"
+  },
+  "axe": null,
+  "nreq": 2
+ },
+ "guide/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 18
+ },
+ "iamodu/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 8
+ },
+ "ai/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 10
+ },
+ "terms/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 10
+ },
+ "how-ai-answers/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 8
+ },
+ "start/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 0,
+   "smallEx": [],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "17px"
+  },
+  "axe": null,
+  "nreq": 8
+ },
+ "ops/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 4,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "전체 기록 보기 → 128x21",
+    "docs/handover.md 열기 214x27",
+    "선생님 사이트로 147x27"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 8
+ },
+ "ops/log/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 2,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "선생님 사이트로 147x27"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 7
+ },
+ "ops/sessions/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 2,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "선생님 사이트로 147x27"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 7
+ },
+ "ops/handover/index.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 11,
+   "smallEx": [
+    "AI교육 운영 107x31",
+    "about/index.html 155x27",
+    "library/index.html 159x27",
+    "사이트 첫 화면 107x21"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 6
+ },
+ "404.html|phone": {
+  "err": [],
+  "ext": [],
+  "failed": [],
+  "m": {
+   "overflow": 0,
+   "small": 3,
+   "smallEx": [
+    "수업 26x44",
+    "대회 26x44",
+    "소개 26x44"
+   ],
+   "noAlt": 0,
+   "h1": 1,
+   "kw": "keep-all",
+   "brokenImg": [],
+   "bodyFont": "20px"
+  },
+  "axe": null,
+  "nreq": 10
+ }
+}
