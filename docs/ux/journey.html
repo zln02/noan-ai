@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고객 여정 지도 · 노안중 AI 안내서</title><meta name="robots" content="noindex">
+<style>
+:root{--bg:#f4f6fa;--s:#fff;--t:#0f2338;--t2:#4a5b6e;--b:#dbe3ee;--br:#1d4ed8;--soft:#eef4ff;--warn:#fff6e5;--ok:#e8f6ee}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.65 system-ui,"Malgun Gothic",sans-serif;word-break:keep-all}
+main{width:min(1120px,100% - 32px);margin:0 auto;padding:32px 0 64px}
+h1{font-size:28px;margin:0 0 8px}h2{font-size:20px;margin:32px 0 12px}p{margin:0 0 8px}.lede{color:var(--t2)}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0}
+.flow span{background:var(--br);color:#fff;padding:8px 14px;border-radius:999px;font-weight:700;font-size:15px}.flow i{color:var(--t2);font-style:normal}
+.personas{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--s);border:1px solid var(--b);border-radius:14px;padding:16px}.card h3{margin:0 0 6px;font-size:17px}.card small{color:var(--t2);display:block}
+.stages{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.stage{background:var(--s);border:1px solid var(--b);border-radius:14px;overflow:hidden}
+.stage>header{background:var(--br);color:#fff;padding:12px 16px}.stage>header b{font-size:18px}.stage>header small{display:block;opacity:.9}
+.stage dl{margin:0;padding:12px 16px}.stage dt{font-weight:800;font-size:13px;color:var(--br);margin-top:10px}.stage dd{margin:2px 0 0;font-size:15px}
+.stage .pain{background:var(--warn);margin:10px -16px 0;padding:8px 16px}.stage .opp{background:var(--ok);margin:10px -16px -12px;padding:8px 16px 12px}
+.mood{display:flex;gap:8px;margin-top:12px;font-weight:700;flex-wrap:wrap}.mood span{background:var(--soft);padding:6px 12px;border-radius:999px;color:#1e3a8a}
+</style></head><body><main>
+<h1>고객 여정 지도</h1>
+<p class="lede">연수에서 배운 건 잊어도, 이 사이트에서 보고 하면 된다. 선생님은 아이모두에서 일하고, 이 사이트는 어디를 누를지와 지시서를 기억해 준다.</p>
+<div class="flow" aria-label="핵심 흐름"><span>업무 찾기</span><i>→</i><span>안내서 카드</span><i>→</i><span>아이모두에서 누를 곳</span><i>→</i><span>지시서 복사</span><i>→</i><span>주의사항</span></div>
+
+<h2>사람들</h2>
+<div class="personas">
+<div class="card"><h3>AI 처음인 담임</h3><p>연수에서 들었지만 혼자 하면 막막하다. 폰으로 QR을 찍어 들어온다.</p><small>목표: 가정통신문·회의록을 덜 헤매고 · 두려움: 잘못 누를까, 개인정보</small></div>
+<div class="card"><h3>바쁜 교과 교사</h3><p>쉬는 10분에 PC로 연다. 설명이 길면 안 읽는다.</p><small>목표: 문항·활동지·지도안 초안 · 기대: 복사 → 붙여넣기</small></div>
+<div class="card"><h3>정보부장 · 관리자</h3><p>교사 12명이 쓰게 만들어야 한다.</p><small>목표: 허용 도구·막힌 곳 파악 · 기대: 근거가 있는 한 장</small></div>
+</div>
+
+<h2>세 순간</h2>
+<div class="stages">
+<section class="stage"><header><b>1. 연수 전</b><small>QR로 들어와 준비한다</small></header><dl>
+<dt>행동</dt><dd>QR 스캔 → 홈 → 인증(카드 00) → 아이모두 열기 → 홈 화면에 추가</dd>
+<dt>고민</dt><dd class="pain">인증서·간편인증을 하나만 등록해 막힘 · QR이 PC 화면으로 열림</dd>
+<dt>기회</dt><dd class="opp">홈에 「처음 한 번 — 인증」 바로가기 · 앱처럼 열림 · 설치하면 오프라인</dd></dl></section>
+<section class="stage"><header><b>2. 연수 중</b><small>화면을 보며 따라 한다</small></header><dl>
+<dt>행동</dt><dd>강사가 「04 회의록」 → 검색 → 단계 1~5 → 지시서 복사 → 붙여넣기</dd>
+<dt>고민</dt><dd class="pain">강당 와이파이 · 폰 화면이 작아 단계와 지시서가 멀다 · 이어 갈 곳을 잃음</dd>
+<dt>기회</dt><dd class="opp">외부 요청 0건 · 단계 안에 지시서 · 이전/다음 카드 · 연수 자료도 같은 순서</dd></dl></section>
+<section class="stage"><header><b>3. 연수 후</b><small>일하다 필요할 때 찾는다</small></header><dl>
+<dt>행동</dt><dd>홈 화면 아이콘 → 「공문」 검색 → 카드 → 지시서 복사 → 아이모두</dd>
+<dt>고민</dt><dd class="pain">검색어를 모름 · 빈칸을 안 바꾸고 붙임 · 찾는 카드가 없음</dd>
+<dt>기회</dt><dd class="opp">동의어 검색 · [빈칸] 노랗게 표시 · 없으면 요청하기 · 「도움 됐어요」(선택)</dd></dl></section>
+</div>
+<div class="mood" aria-label="감정"><span>연수 전: 불안</span><span>연수 중: 따라가는 중</span><span>연수 후: 급함</span></div>
+<p class="lede" style="margin-top:12px">그래서 홈 첫 화면은 설명이 아니라 검색창과 바로가기다.</p>
+</main></body></html>
