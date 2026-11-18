@@ -5,9 +5,16 @@ import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# 쪽 머리 일러스트(움직이는 인라인 SVG). 쪽 이름 → 그림
+ART_A = '<svg class="slot-art" viewBox="0 0 190 150" aria-hidden="true" focusable="false"><g class="sa-float"><rect x="30" y="22" width="130" height="96" rx="14" fill="#fff" stroke="#B9D5F8" stroke-width="3"/><rect x="30" y="22" width="130" height="22" rx="14" fill="#E0ECFF"/><circle cx="46" cy="33" r="3.5" fill="#F6B3C8"/><circle cx="58" cy="33" r="3.5" fill="#F5DA9B"/><circle cx="70" cy="33" r="3.5" fill="#A9DCC0"/><rect x="46" y="56" width="28" height="22" rx="7" fill="#FFE9D2"/><rect x="81" y="56" width="28" height="22" rx="7" fill="#D8F2E2"/><rect x="116" y="56" width="28" height="22" rx="7" fill="#E9E0FF"/><rect x="46" y="86" width="28" height="22" rx="7" fill="#FFD9E3"/><rect x="81" y="86" width="28" height="22" rx="7" fill="#E0ECFF"/><rect x="116" y="86" width="28" height="22" rx="7" fill="#FFEEC2"/></g><g class="sa-float2"><circle cx="164" cy="30" r="9" fill="#FFE58A"/><circle cx="26" cy="118" r="6" fill="#C9B6F8"/></g></svg>'
+ART_B = '<svg class="slot-art" viewBox="0 0 190 150" aria-hidden="true" focusable="false"><g class="sa-float"><line x1="95" y1="30" x2="95" y2="42" stroke="#3B82F6" stroke-width="4" stroke-linecap="round"/><circle cx="95" cy="26" r="6" fill="#F6B3C8"/><rect x="52" y="42" width="86" height="68" rx="22" fill="#fff" stroke="#B9D5F8" stroke-width="3"/><rect x="62" y="54" width="66" height="40" rx="14" fill="#E0ECFF"/><g class="sa-blink"><circle cx="80" cy="73" r="6.5" fill="#1568D2"/><circle cx="110" cy="73" r="6.5" fill="#1568D2"/></g><path d="M86 86q9 7 18 0" fill="none" stroke="#1568D2" stroke-width="3.2" stroke-linecap="round"/></g><g class="sa-float2"><rect x="128" y="14" width="54" height="30" rx="12" fill="#F7F4FF" stroke="#C9B6F8" stroke-width="2.5"/><circle class="sa-dot" cx="143" cy="29" r="3.2" fill="#6D3ED6"/><circle class="sa-dot" cx="155" cy="29" r="3.2" fill="#6D3ED6"/><circle class="sa-dot" cx="167" cy="29" r="3.2" fill="#6D3ED6"/></g></svg>'
+ART_C = '<svg class="slot-art" viewBox="0 0 190 150" aria-hidden="true" focusable="false"><g class="sa-float"><rect x="24" y="30" width="142" height="80" rx="14" fill="#16233A"/><rect x="24" y="30" width="142" height="80" rx="14" fill="none" stroke="#B9D5F8" stroke-width="3"/><circle cx="95" cy="70" r="20" fill="#fff"/><path d="M89 60l18 10-18 10z" fill="#1568D2"/></g><g class="sa-float2"><circle cx="30" cy="26" r="7" fill="#F6B3C8"/><circle cx="166" cy="124" r="9" fill="#A9DCC0"/></g><g class="sa-spin"><path d="M160 24l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#FFE58A"/></g></svg>'
+ART = {'iamodu': ART_A, 'start': ART_A, 'ai': ART_B, 'terms': ART_C, 'how-ai-answers': ART_C}
+
 
 def page(path, title, desc, body, scripts=""):
     full = os.path.join(ROOT, path)
+    body = body.replace('<section class="page-hero">', '<section class="page-hero">' + ART.get(path.split('/')[0], ''), 1)
     os.makedirs(os.path.dirname(full), exist_ok=True)
     html = f'''<!DOCTYPE html>
 <html lang="ko">
@@ -20,7 +27,7 @@ def page(path, title, desc, body, scripts=""):
 <link rel="icon" href="../assets/noan-ai-icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/noan-ai-touch-180.png">
 <link rel="manifest" href="../manifest.webmanifest">
-<meta name="theme-color" content="#1d4ed8">
+<meta name="theme-color" content="#1568D2">
 <link rel="stylesheet" href="../shared/tokens.css">
 <link rel="stylesheet" href="../shared/site.css">
 <link rel="stylesheet" href="../shared/portal.css">
