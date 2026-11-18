@@ -7,12 +7,12 @@
 :root {
   --p-navy: #16233A;
   --p-navy2: #12203A;
-  --p-blue: #1d4ed8;
+  --p-blue: #1568D2;
   --p-blue-dark: #0B5FC0;
-  --p-blue-soft: #1d4ed8;
+  --p-blue-soft: #1A6BD8;
   --p-sky: #EEF5FF;
-  --p-muted: #4a5b6e;
-  --p-muted2: #5b6b7e;
+  --p-muted: #5D6C80;
+  --p-muted2: #5F6F83;
   --p-border: #E6ECF3;
   --p-border2: #E8EDF4;
   --p-shadow: 0 1px 3px rgba(20, 50, 90, .06);
@@ -265,7 +265,7 @@ body.portal {
   flex: none;
   width: 21px;
   height: 21px;
-  color: #5b6b7e;
+  color: #5F6F83;
 }
 
 .p-find input {
@@ -329,7 +329,7 @@ body.portal {
 
 .p-row[aria-selected="true"] .p-row-no {
   background: #DCEBFF;
-  color: #1d4ed8;
+  color: #0B5FC0;
 }
 
 .p-row-copy {
@@ -349,14 +349,14 @@ body.portal {
   display: block;
   font-size: 14px;
   line-height: 1.5;
-  color: #4a5b6e;
+  color: #5D6C80;
   margin-top: 3px;
 }
 
 .p-row-date {
   flex: none;
   font-size: 14px;
-  color: #5b6b7e;
+  color: #5F6F83;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -384,7 +384,7 @@ body.portal {
   align-items: center;
   justify-content: center;
   gap: 9px;
-  color: #5b6b7e;
+  color: #5F6F83;
   font-size: 15px;
   font-weight: 600;
   text-align: center;
@@ -402,7 +402,7 @@ body.portal {
 
 .p-chip {
   background: #E3EFFF;
-  color: #1d4ed8;
+  color: #1568D2;
   font-size: 15px;
   font-weight: 800;
   padding: 8px 18px;
@@ -411,7 +411,7 @@ body.portal {
 
 .p-detail-date {
   font-size: 15px;
-  color: #5b6b7e;
+  color: #5F6F83;
   font-weight: 600;
 }
 
@@ -487,7 +487,7 @@ body.portal {
 .p-res-copy span {
   display: block;
   font-size: 14px;
-  color: #4a5b6e;
+  color: #5D6C80;
   margin-top: 3px;
 }
 
@@ -620,7 +620,7 @@ body.portal {
   padding-top: 16px;
   padding-bottom: 16px;
   font-size: 13px;
-  color: #5b6b7e;
+  color: #5F6F83;
 }
 
 .p-footer-grid img {
@@ -629,7 +629,7 @@ body.portal {
 }
 
 .p-footer-grid a {
-  color: #5b6b7e;
+  color: #5F6F83;
 }
 
 .p-footer-grid a:hover {
@@ -787,7 +787,7 @@ body.portal {
 }
 
 .r-eyebrow {
-  color: #1d4ed8;
+  color: #1A6BD8;
   font-size: 15px;
   font-weight: 700;
 }
@@ -832,7 +832,7 @@ body.portal {
 
 .r-stat b {
   display: block;
-  color: var(--g-blue, #1d4ed8);
+  color: var(--g-blue, #1568D2);
   font-size: 30px;
   font-weight: 800;
   letter-spacing: -.03em;
@@ -845,7 +845,7 @@ body.portal {
 .r-stat span {
   display: block;
   margin-top: 2px;
-  color: #4a5b6e;
+  color: #5D6C80;
   font-size: 13.5px;
   font-weight: 600;
 }
@@ -879,8 +879,8 @@ body.portal {
 }
 
 .r-filters button[aria-pressed="true"] {
-  border-color: #1d4ed8;
-  background: #1d4ed8;
+  border-color: #1568D2;
+  background: #1568D2;
   color: #FFFFFF;
 }
 
@@ -893,7 +893,7 @@ body.portal {
   padding: 13px 22px;
   border: 0;
   border-radius: 12px;
-  background: #1d4ed8;
+  background: #1568D2;
   color: #FFFFFF;
   font: inherit;
   font-size: 16px;
@@ -918,7 +918,7 @@ body.portal {
   gap: 16px;
   margin-bottom: 16px;
   padding: 22px 24px;
-  border: 2px solid #1d4ed8;
+  border: 2px solid #1568D2;
   border-radius: 18px;
   background: #FFFFFF;
   box-shadow: 0 8px 28px rgba(24, 119, 230, .14);
@@ -944,7 +944,7 @@ body.portal {
   padding: 4px;
   border: 0;
   background: none;
-  color: #5b6b7e;
+  color: #5F6F83;
   cursor: pointer;
 }
 
@@ -976,7 +976,7 @@ body.portal {
 
 .r-field input:focus,
 .r-field textarea:focus {
-  border-color: #1d4ed8;
+  border-color: #1568D2;
   outline: 0;
   box-shadow: 0 0 0 3px rgba(24, 119, 230, .14);
 }
@@ -1001,9 +1001,9 @@ body.portal {
 }
 
 .r-tagpick button[aria-pressed="true"] {
-  border-color: #1d4ed8;
+  border-color: #1568D2;
   background: #EEF5FF;
-  color: #1d4ed8;
+  color: #1568D2;
   font-weight: 700;
 }
 
@@ -1019,7 +1019,7 @@ body.portal {
   padding: 13px 26px;
   border: 0;
   border-radius: 12px;
-  background: #1d4ed8;
+  background: #1568D2;
   color: #FFFFFF;
   font: inherit;
   font-size: 16px;
@@ -1038,7 +1038,7 @@ body.portal {
   border: 1px solid #DFE8F3;
   border-radius: 12px;
   background: #FFFFFF;
-  color: #4a5b6e;
+  color: #5D6C80;
   font: inherit;
   font-size: 16px;
   font-weight: 600;
@@ -1046,7 +1046,7 @@ body.portal {
 }
 
 .r-hint {
-  color: #5b6b7e;
+  color: #5F6F83;
   font-size: 14px;
 }
 
@@ -1114,7 +1114,7 @@ body.portal {
 
 .r-tag {
   background: #F2F6FB;
-  color: #4a5b6e;
+  color: #5D6C80;
   font-weight: 600;
 }
 
@@ -1125,7 +1125,7 @@ body.portal {
 
 .r-status-준비 {
   background: #E7F0FF;
-  color: #1d4ed8;
+  color: #1568D2;
 }
 
 .r-status-해결 {
@@ -1143,7 +1143,7 @@ body.portal {
 }
 
 .r-body {
-  color: #4a5b6e;
+  color: #5D6C80;
   font-size: 15.5px;
   line-height: 1.6;
   text-wrap: pretty;
@@ -1151,7 +1151,7 @@ body.portal {
 
 .r-meta {
   margin-top: 10px;
-  color: #5b6b7e;
+  color: #5F6F83;
   font-size: 13.5px;
 }
 
@@ -1172,7 +1172,7 @@ body.portal {
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: #1d4ed8;
+  background: #1568D2;
   color: #FFFFFF;
   font-size: 12px;
   font-weight: 800;
@@ -1191,7 +1191,7 @@ body.portal {
   border: 1px dashed #DFE8F3;
   border-radius: 16px;
   background: #FFFFFF;
-  color: #4a5b6e;
+  color: #5D6C80;
   font-size: 16px;
   line-height: 1.7;
   text-align: center;
