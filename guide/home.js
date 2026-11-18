@@ -3,7 +3,7 @@
 
 var listView = document.getElementById('gListView');
 var detailView = document.getElementById('gDetailView');
-var listEl = document.getElementById('gList');
+var listEl = document.getElementById('gQuickCards');
 var countEl = document.getElementById('gCount');
 var filterBox = document.getElementById('gFilters');
 var searchForm = document.getElementById('gSearchForm');
@@ -48,7 +48,7 @@ function mountStaticIcons() {
   for (var i = 0; i < nodes.length; i++) {
     nodes[i].innerHTML = icon(
       nodes[i].getAttribute('data-static-icon'),
-      nodes[i].classList.contains('g-support-icon') ? 40 : 24
+      nodes[i].classList.contains('g-support-icon') ? 40 : (nodes[i].classList.contains('g-card-icon') ? 30 : 24)
     );
     if (!nodes[i].innerHTML) nodes[i].remove();
   }
@@ -96,22 +96,32 @@ function matches(task, term) {
   return true;
 }
 
-function taskCardHtml(task) {
+function iconFor(task) {
+  var t = (task.title || '') + ' ' + (task.tool || '');
+  var map = [
+    [/가정통신문|알림|홈페이지/, 'letter'], [/회의|녹음|발언/, 'mic'],
+    [/공문|지침|요강|계획서/, 'doc-long'], [/활동지|문항|퀴즈|형성평가|질문/, 'book'],
+    [/설문|동의|인증|계정|안전/, 'shield'], [/발표|팜플렛|포스터|PPT|슬라이드/, 'slides'],
+    [/수업|과학|캐릭터|배우/, 'school'], [/검토|비교|찾기|체크|지시서|운영/, 'search-doc']
+  ];
+  for (var i = 0; i < map.length; i++) if (map[i][0].test(t)) return map[i][1];
+  return 'doc-long';
+}
+
+function taskCardHtml(task, index) {
   var group = GROUPS[task.group] || {};
   var time = minutesOf(task);
-  return '<a class="card-task" href="#' + esc(task.no) + '" data-group="' + esc(task.group) + '">' +
-    '<span class="card-task-top">' +
-      '<span class="card-task-no">' + esc(task.no) + '</span>' +
-      '<span class="card-task-group">' + esc(group.label || '') + '</span>' +
-      (task.prompt ? '<span class="chip chip-prompt">지시서</span>' : '') +
-    '</span>' +
-    '<strong class="card-task-title">' + esc(task.title) + '</strong>' +
-    '<span class="card-task-when">' + esc(task.when) + '</span>' +
-    '<span class="card-task-meta">' +
-      '<span class="chip chip-tool">' + esc(task.tool) + '</span>' +
-      (time ? '<span class="chip">' + esc(time) + '</span>' : '') +
-      '<span class="card-task-go" aria-hidden="true">열기 ›</span>' +
-    '</span>' +
+  return '<a class="g-quick-card g-pastel-' + ((index % 6) + 1) + '" href="#' + esc(task.no) + '" data-group="' + esc(task.group) + '">' +
+    '<span class="g-card-icon" aria-hidden="true">' + icon(iconFor(task), 30) + '</span>' +
+    '<h3>' + esc(task.title) + '</h3>' +
+    '<p class="g-card-desc">' + esc(task.when) + '</p>' +
+    '<div class="g-card-bottom">' +
+      '<span class="g-tool-label">추천 도구</span>' +
+      '<span class="g-tool-pill">' + esc(task.tool) + '</span>' +
+      (time ? '<span class="g-card-time">' + esc(time) + '</span>' : '') +
+      (task.prompt ? '<span class="g-card-prompt">지시서</span>' : '') +
+    '</div>' +
+    '<span class="g-card-arrow" aria-hidden="true">→</span>' +
   '</a>';
 }
 
@@ -122,11 +132,12 @@ function renderList() {
   if (items.length) {
     listEl.innerHTML = items.map(taskCardHtml).join('');
   } else {
-    listEl.innerHTML = '<div class="empty"><p><b>찾으시는 안내서가 아직 없습니다.</b></p>' +
+    listEl.innerHTML = '<div class="g-empty"><p><b>찾으시는 안내서가 아직 없습니다.</b></p>' +
       '<p>다른 낱말로 찾아보시거나, 필요한 일을 알려 주세요.</p>' +
-      '<a class="btn btn-primary" href="request/index.html">요청하기</a></div>';
+      '<a class="g-support-cta" href="request/index.html">요청하기</a></div>';
   }
   if (countEl) countEl.textContent = items.length + '장';
+  if (window.NoanMotion) window.NoanMotion.reveal(listEl);
 }
 
 function renderFilters() {
@@ -135,7 +146,7 @@ function renderFilters() {
   DATA.tasks.forEach(function (t) { n[t.group]++; if (t.prompt) n.prompt++; });
   var defs = [['all', '전체'], ['work', '업무'], ['class', '수업'], ['prompt', '지시서 있음']];
   filterBox.innerHTML = defs.map(function (d) {
-    return '<button type="button" class="chip-btn" data-f="' + d[0] + '" aria-pressed="' + (filterKey === d[0]) + '">' +
+    return '<button type="button" data-f="' + d[0] + '" aria-pressed="' + (filterKey === d[0]) + '">' +
       d[1] + ' <small>' + n[d[0]] + '</small></button>';
   }).join('');
 }
@@ -459,6 +470,7 @@ function renderDetail(task, index) {
   bindShotFallback();
   bindPrintButton();
   bindLogoFallback();
+  if (window.NoanMotion) window.NoanMotion.detail(detailView);
 }
 
 function bindLogoFallback() {
@@ -541,8 +553,9 @@ function bindCopyButtons() {
       var originalLabel = button.textContent;
 
       function success() {
-        button.textContent = '복사됨 ✓';
+        button.textContent = '✓ 복사됐어요';
         button.classList.add('is-done');
+        if (window.NoanMotion) window.NoanMotion.copied(button, pre);
         if (hint) { hint.hidden = false; hint.textContent = '복사했습니다. 이제 아이모두 입력창에 붙여넣기(길게 누르기 → 붙여넣기)'; }
         if (window.NoanFeedback) window.NoanFeedback.copied(button.closest('.g-prompt'), pre.id);
 
@@ -629,7 +642,9 @@ function boot(data) {
     GROUPS[DATA.groups[i].id] = DATA.groups[i];
   }
 
-  window.addEventListener('hashchange', route);
+  window.addEventListener('hashchange', function () {
+    if (window.NoanMotion) window.NoanMotion.transition(route); else route();
+  });
   route();
 }
 

@@ -1,12 +1,12 @@
 /* 노안중 AI 안내서 — 오프라인용 서비스 워커.
    화면 글과 데이터는 미리 담아 두고(precache), 그림은 본 만큼 담는다(runtime).
    안내서 문장이나 파일 목록을 바꿨다면 CACHE_VERSION 숫자를 하나 올린다. 이 파일 하나만 고치면 된다. */
-var CACHE_VERSION = 'noan-guide-v1';
+var CACHE_VERSION = 'noan-guide-v3';
 var CACHE_PREFIX = 'noan-guide-';
 var CORE = [
   'index.html', 'manifest.webmanifest', 'offline.html',
   'shared/tokens.css', 'shared/site.css', 'shared/portal.css', 'shared/portal-pages.css', 'shared/app.css',
-  'shared/app.js', 'shared/icons.js', 'shared/site.js', 'shared/feedback.js', 'shared/config.js',
+  'shared/app.js', 'shared/motion.js', 'shared/icons.js', 'shared/site.js', 'shared/feedback.js', 'shared/config.js',
   'guide/guide.css', 'guide/home.js',
   'data/tasks.js', 'data/tasks.json', 'data/guides.js', 'data/guides.json',
   'data/ai-models.js', 'data/ai-models.json', 'data/terms.js', 'data/terms.json',
@@ -14,7 +14,7 @@ var CORE = [
   'training/index.html', 'library/index.html', 'library/rules.html', 'library/approval.html', 'data/approval.js',
   'showcase/index.html', 'data/showcase.js', 'request/index.html', 'data/requests.js', 'about/index.html',
   'assets/logo.png', 'assets/noan-ai-icon-32.png', 'assets/noan-ai-touch-180.png',
-  'assets/icon-192.png', 'assets/icon-512.png', 'assets/guide-hero-sm.jpg'
+  'assets/icon-192.png', 'assets/icon-512.png', 'assets/guide-hero-sm.jpg', 'assets/guide-hero.jpg'
 ];
 var scopeURL = self.registration.scope;
 function abs(p) { return new URL(p, scopeURL).href; }

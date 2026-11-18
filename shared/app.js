@@ -17,6 +17,14 @@
     };
   }
 
+  /* 움직임: 줄이기 설정이면 켜지 않는다. 켜진 경우에만 .has-motion 이 붙어 카드가 떠오른다 */
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!REDUCED && !/\/ops\//.test(location.pathname)) {
+    document.documentElement.classList.add('has-motion');
+    /* 첫 화면 깜빡임이 없게 head 에서 바로 읽는다 (운영 쪽은 제외) */
+    if (document.readyState === 'loading') document.write('<script src="' + ROOT + 'shared/motion.js"><\/script>');
+  }
+
   var ICON = {
     home: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
     iamodu: '<rect x="4" y="3.5" width="16" height="17" rx="2.5"/><path d="M8 8h8M8 12h8M8 16h5"/>',
@@ -53,8 +61,27 @@
     nav.innerHTML = TABS.map(function (t) {
       return '<a href="' + ROOT + t.href + '"' + (t.key === key ? ' aria-current="page"' : '') + '>' + svg(t.ico) + '<span>' + t.label + '</span></a>';
     }).join('');
+    var idx = 0;
+    for (var i = 0; i < TABS.length; i++) if (TABS[i].key === key) idx = i;
+    var ind = document.createElement('span');
+    ind.className = 'tabbar-ind';
+    ind.setAttribute('aria-hidden', 'true');
+    ind.style.setProperty('--i', key ? idx : -2);
+    nav.appendChild(ind);
     document.body.appendChild(nav);
     document.body.classList.add('has-tabbar');
+    /* 이전 페이지에서 눌렀던 칸에서 미끄러져 온다 */
+    try {
+      var from = sessionStorage.getItem('noan-tab');
+      if (from !== null && !REDUCED && from !== String(idx)) {
+        ind.style.setProperty('--i', from);
+        requestAnimationFrame(function () { requestAnimationFrame(function () {
+          ind.style.transition = 'transform .35s cubic-bezier(.3,1.2,.4,1)';
+          ind.style.setProperty('--i', key ? idx : -2);
+        }); });
+      }
+      sessionStorage.setItem('noan-tab', String(key ? idx : -2));
+    } catch (e) { /* 저장이 막혀 있어도 괜찮다 */ }
   }
 
   /* 위쪽 메뉴를 한 벌로 맞춘다. 아이모두 바로가기(CTA)는 그대로 둔다. */
@@ -108,7 +135,7 @@
   }
 
   function init() {
-    if (/\/ops\//.test(location.pathname)) { a11y(); return; }   /* 운영 쪽은 껍데기 없이 보호 코드만 */
+    if (/\/ops\//.test(location.pathname)) { a11y(); return; }
     a11y();
     var key = currentKey();
     unifyTopNav(key);
