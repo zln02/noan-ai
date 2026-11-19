@@ -134,6 +134,47 @@
     for (var j = 0; j < tw.length; j++) if (!tw[j].hasAttribute('tabindex')) tw[j].setAttribute('tabindex', '0');
   }
 
+
+  /* 가벼운 알림(토스트) — 움직임 설정과 상관없이 쓴다. 복사됐다는 것을 화면 아래에 잠깐 알린다 */
+  var toastEl = null, toastTimer = 0;
+  function toast(text) {
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.className = 'toast';
+      toastEl.setAttribute('role', 'status');
+      toastEl.setAttribute('aria-live', 'polite');
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = text;
+    void toastEl.offsetWidth;
+    toastEl.classList.add('is-on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('is-on'); }, 2200);
+  }
+  window.NoanApp = { toast: toast, reduced: REDUCED };
+
+  /* 새 하위 페이지의 끈끈이 목차: 붙으면 배경이 서서히 나타나고, 보고 있는 구역이 켜진다 */
+  function secNav() {
+    var nav = document.querySelector('.sec-nav');
+    if (!nav || !('IntersectionObserver' in window)) return;
+    var sent = document.createElement('div');
+    sent.style.cssText = 'height:1px;margin-top:-1px;pointer-events:none';
+    sent.setAttribute('aria-hidden', 'true');
+    nav.parentNode.insertBefore(sent, nav);
+    new IntersectionObserver(function (es) { nav.classList.toggle('is-stuck', !es[0].isIntersecting && es[0].boundingClientRect.top < 0); }).observe(sent);
+    var links = nav.querySelectorAll('a[href^="#"]');
+    var map = {};
+    Array.prototype.forEach.call(links, function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var vis = {};
+    var so = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { vis[e.target.id] = e.isIntersecting; });
+      var first = null;
+      Object.keys(map).forEach(function (id) { map[id].classList.remove('is-on'); if (!first && vis[id]) first = id; });
+      if (first) map[first].classList.add('is-on');
+    }, { rootMargin: '-20% 0px -55% 0px' });
+    Object.keys(map).forEach(function (id) { var sec = document.getElementById(id); if (sec) so.observe(sec); });
+  }
+
   function init() {
     if (/\/ops\//.test(location.pathname)) { a11y(); return; }
     a11y();
@@ -141,6 +182,7 @@
     unifyTopNav(key);
     buildTabbar(key);
     offlineNotice();
+    secNav();
     registerWorker();
     window.addEventListener('load', function () { setTimeout(a11y, 600); });
   }

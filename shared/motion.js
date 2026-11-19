@@ -4,6 +4,7 @@
    · 홈 로봇: 마우스·스크롤에 살짝 따라옴
    · 지시서 복사 성공: 작은 색종이와 [빈칸] 깜빡임
    · 쪽 이동: View Transitions API 가 되는 브라우저에서만 부드럽게
+   · 움직임 2: 글자 다이빙(쪽 제목) · 초점 맞추기(첫 화면) · 종이 찢김 선 · 단계 카드 펼침 · 복사 번쩍
    「동작 줄이기」 설정이면 app.js 가 이 파일을 아예 읽지 않는다. 소리는 쓰지 않는다. */
 (function () {
   'use strict';
@@ -57,8 +58,86 @@
   /* 안내서 상세: 밑줄·떠오름·숫자 세기 */
   M.detail = function (view) {
     scan(view);
+    fan(view);
     Array.prototype.forEach.call(view.querySelectorAll('.g-mins b'), countUp);
   };
+
+
+  /* 겹쳐 있던 단계 카드가 부채처럼 펼쳐진다(Layer explode). 처음 볼 때 한 번. 위치는 transform 으로만 옮긴다 */
+  function fan(view) {
+    var steps = view.querySelectorAll('.g-steps > .g-step');
+    if (steps.length < 2 || !('IntersectionObserver' in window)) return;
+    var list = steps[0].parentNode;
+    if (list.getAttribute('data-fan')) return;
+    list.setAttribute('data-fan', '1');
+    var rots = [-2.2, 1.8, -1.4, 2.1, -1.1, 1.5];
+    Array.prototype.forEach.call(steps, function (st, i) { st.classList.add('m-fan'); st.style.setProperty('--rot', rots[i % rots.length] + 'deg'); });
+    var o = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return;
+      o.disconnect();
+      var top0 = steps[0].offsetTop;
+      Array.prototype.forEach.call(steps, function (st, i) {
+        st.style.setProperty('--fy', Math.round(top0 - st.offsetTop) + 'px');
+        st.style.setProperty('--k', Math.min(i, 6));
+      });
+      void list.offsetWidth;
+      Array.prototype.forEach.call(steps, function (st) {
+        st.classList.add('is-in');
+        setTimeout(function () { st.classList.add('is-done'); }, 1400);
+      });
+    }, { threshold: 0.12 });
+    o.observe(list);
+    /* 안전장치: 3초 안에 안 열리면 그냥 보이게 */
+    setTimeout(function () { Array.prototype.forEach.call(steps, function (st) { st.classList.add('is-in', 'is-done'); }); }, 6000);
+  }
+
+  /* 쪽 제목 글자 다이빙 — 낱말은 줄바꿈 없이 묶고, 글자마다 시간차로 내려앉는다. 읽는 소리는 원래 제목 그대로 */
+  function dive() {
+    var hs = document.querySelectorAll('.page-hero h1');
+    Array.prototype.forEach.call(hs, function (h) {
+      if (h.getAttribute('data-dive') || h.children.length) return;
+      var text = h.textContent;
+      if (!text || text.length > 40) return;
+      h.setAttribute('data-dive', '1');
+      h.setAttribute('aria-label', text);
+      var n = 0;
+      h.innerHTML = text.split(/(\s+)/).map(function (w) {
+        if (/^\s+$/.test(w)) return ' ';
+        return '<span class="ld-w" aria-hidden="true">' + w.split('').map(function (c) {
+          return '<span class="ld-c" style="--i:' + (n++) + '">' + c.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>';
+        }).join('') + '</span>';
+      }).join('');
+    });
+  }
+
+  /* 첫 화면 초점 맞추기(Rack focus): 처음엔 배경이 살짝 흐렸다가 또렷해지고, 검색창을 누르면 배경이 다시 부드러워져 검색이 앞으로 나온다 */
+  function rack() {
+    var vis = document.querySelector('.g-hero-visual');
+    var input = document.getElementById('gSearch');
+    if (!vis) return;
+    var r = document.createElement('span');
+    r.className = 'm-rack is-slow is-on';
+    r.setAttribute('aria-hidden', 'true');
+    vis.appendChild(r);
+    setTimeout(function () { r.classList.remove('is-on'); setTimeout(function () { r.classList.remove('is-slow'); }, 1300); }, 260);
+    if (input) {
+      input.addEventListener('focus', function () { r.classList.add('is-on'); });
+      input.addEventListener('blur', function () { r.classList.remove('is-on'); });
+    }
+  }
+
+  /* 큰 구역 사이 찢어진 종이 선 */
+  function tears() {
+    var targets = document.querySelectorAll('.g-more-section, .g-support-section, [data-tear]');
+    Array.prototype.forEach.call(targets, function (t) {
+      if (t.previousElementSibling && t.previousElementSibling.classList.contains('m-tear')) return;
+      var d = document.createElement('div');
+      d.className = 'm-tear';
+      d.setAttribute('aria-hidden', 'true');
+      t.parentNode.insertBefore(d, t);
+      if (io) { d.classList.add('m-reveal-tear'); io.observe(d); }
+    });
+  }
 
   function countUp(b) {
     var m = /^(\d+)(.*)$/.exec(b.textContent.trim());
@@ -86,6 +165,20 @@
 
   /* 복사 성공: 색종이 + 빈칸 깜빡임 */
   M.copied = function (btn, pre) {
+    /* 번쩍(Impact frame): 지시서 상자가 한 번 환해지고 고리가 퍼진다. 반복 없음 */
+    var box = btn.closest ? btn.closest('.g-prompt') : null;
+    if (box) {
+      var fl = document.createElement('span');
+      fl.className = 'm-impact';
+      fl.setAttribute('aria-hidden', 'true');
+      box.appendChild(fl);
+      setTimeout(function () { fl.remove(); }, 400);
+    }
+    var rg = document.createElement('span');
+    rg.className = 'm-ring';
+    rg.setAttribute('aria-hidden', 'true');
+    btn.appendChild(rg);
+    setTimeout(function () { rg.remove(); }, 700);
     var colors = ['#FFE58A', '#F6B3C8', '#A9DCC0', '#B9D5F8', '#C9B6F8', '#F6CFA4'];
     for (var i = 0; i < 14; i++) {
       var c = document.createElement('span');
@@ -150,6 +243,9 @@
     }
     scan(document);
     hero();
+    dive();
+    rack();
+    tears();
     /* 만일을 위해: 3초 뒤에도 안 열린 것은 그냥 보이게 한다 */
     setTimeout(function () {
       Array.prototype.forEach.call(document.querySelectorAll('.m-reveal:not(.is-in)'), function (el) {

@@ -556,6 +556,7 @@ function bindCopyButtons() {
         button.textContent = '✓ 복사됐어요';
         button.classList.add('is-done');
         if (window.NoanMotion) window.NoanMotion.copied(button, pre);
+        if (window.NoanApp) window.NoanApp.toast('복사됐어요 — 입력창에 붙여넣으세요');
         if (hint) { hint.hidden = false; hint.textContent = '복사했습니다. 이제 아이모두 입력창에 붙여넣기(길게 누르기 → 붙여넣기)'; }
         if (window.NoanFeedback) window.NoanFeedback.copied(button.closest('.g-prompt'), pre.id);
 
