@@ -1,0 +1,56 @@
+/* ai/ai.css — AI 활용 안내 마감 (premium.css 뒤) */
+#models { margin: var(--pm-s5) 0 var(--pm-s6); }
+.ai-grid { display: grid; gap: var(--pm-s4); grid-template-columns: 1fr; }
+@media (min-width: 760px) { .ai-grid { grid-template-columns: repeat(2, 1fr); } }
+.ai-card {
+  --pm-tone: var(--pm-sky-ink);
+  position: relative; overflow: hidden; display: grid; gap: 14px; align-content: start;
+  padding: 24px 22px 20px; border-radius: var(--pm-r-lg); background: var(--pm-surface);
+  border: 1px solid var(--pm-border); box-shadow: var(--pm-sh-2);
+  transition: box-shadow var(--pm-mid) var(--pm-ease), transform var(--pm-mid) var(--pm-ease);
+}
+.ai-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--pm-tone); }
+.ai-card:hover { box-shadow: var(--pm-sh-hover); transform: translateY(-2px); }
+.ai-card.is-kr { --pm-tone: var(--pm-mint-ink); }
+.ai-card.is-global { --pm-tone: var(--pm-lilac-ink); }
+.ai-card.is-todo { --pm-tone: var(--pm-butter-ink); }
+.ai-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ai-card h2 { margin: 0; font-size: var(--pm-fs-xl); line-height: 1.25; color: var(--pm-ink); }
+.ai-maker { margin: -8px 0 0; font-size: var(--pm-fs-sm); color: var(--pm-ink-3); font-weight: 700; }
+.ai-sum { margin: 0; font-size: var(--pm-fs-md); line-height: 1.65; color: var(--pm-ink-2); }
+.ai-sec { display: grid; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--pm-border-2); }
+.ai-sec h3 { margin: 0; font-size: var(--pm-fs-xs); color: var(--pm-ink-3); font-weight: 800; letter-spacing: .02em; }
+.ai-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ai-tags li { padding: 5px 11px; border-radius: 999px; background: var(--pm-sunken); border: 1px solid var(--pm-border); color: var(--pm-ink); font-size: var(--pm-fs-sm); font-weight: 700; line-height: 1.3; }
+.ai-note { margin: 0; font-size: var(--pm-fs-xs); color: var(--pm-ink-3); line-height: 1.6; }
+.ai-in { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; margin: 0; }
+.ai-in span:last-child:not(.pm-chip) { font-size: var(--pm-fs-sm); color: var(--pm-ink-2); line-height: 1.55; flex: 1 1 200px; min-width: 0; }
+.ai-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-top: 14px; border-top: 1px solid var(--pm-border); }
+.ai-foot .pm-chip { white-space: normal; height: auto; padding: 6px 10px; line-height: 1.3; }
+.ai-missing { margin: 0; padding: 12px 14px; border-radius: var(--pm-r-sm); background: var(--pm-butter); border: 1px dashed var(--pm-butter-line); color: #5E4300; font-size: var(--pm-fs-sm); line-height: 1.6; }
+.ai-missing .need { background: #fff; }
+
+/* 아래 안내 카드 */
+.ai-more { margin: var(--pm-s6) 0 var(--pm-s5); }
+.ai-more-grid { display: grid; gap: var(--pm-s4); grid-template-columns: 1fr; }
+@media (min-width: 760px) { .ai-more-grid { grid-template-columns: repeat(2, 1fr); } }
+.ai-go { grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 4px 16px; min-height: 96px; }
+.ai-go .pm-ico { grid-row: 1 / span 2; width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--pm-sky); color: var(--pm-sky-ink); }
+.ai-go .pm-ico.is-lilac { background: var(--pm-lilac); color: var(--pm-lilac-ink); }
+.ai-go .pm-ico.is-peach { background: var(--pm-peach); color: var(--pm-peach-ink); }
+.ai-go .pm-ico svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.ai-go h3 { margin: 0; grid-column: 2; }
+.ai-go p { grid-column: 2; }
+.ai-go .ai-arrow { grid-row: 1 / span 2; grid-column: 3; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--pm-sunken); color: var(--brand-ink); transition: transform var(--pm-mid) var(--pm-ease), background-color var(--pm-quick) ease; }
+.ai-go .ai-arrow svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.ai-go:hover .ai-arrow { transform: translateX(3px); background: var(--pm-sky); }
+@media (max-width: 420px) {
+  .ai-card { padding: 22px 18px 18px; }
+  .ai-go { grid-template-columns: 48px minmax(0, 1fr); }
+  .ai-go .pm-ico { width: 48px; height: 48px; }
+  .ai-go .ai-arrow { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-card, .ai-go .ai-arrow { transition: none; }
+  .ai-card:hover, .ai-go:hover .ai-arrow { transform: none; }
+}

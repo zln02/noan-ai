@@ -1,0 +1,68 @@
+/* iamodu/iamodu.css — 아이모두 완전 정복 마감 (premium.css 뒤) */
+.panel[id^="sec-"] { scroll-margin-top: 70px; margin-bottom: var(--pm-s5); }
+.pm-hero-meta span { min-height: 34px; }
+
+.pm-steps > li > span { color: var(--pm-ink-2); font-size: var(--pm-fs-sm); }
+.pm-steps > li > b { font-size: var(--pm-fs-md); color: var(--pm-ink); }
+
+/* 2. 도구 카드 */
+.im-tools { display: grid; gap: var(--pm-s3); grid-template-columns: 1fr; margin: var(--pm-s4) 0; }
+@media (min-width: 760px) { .im-tools { grid-template-columns: repeat(2, 1fr); } }
+.im-tool {
+  display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; align-items: start;
+  padding: 18px; border-radius: var(--pm-r); background: var(--pm-surface);
+  border: 1px solid var(--pm-border); box-shadow: var(--pm-sh-1);
+  transition: transform var(--pm-mid) var(--pm-ease), box-shadow var(--pm-mid) var(--pm-ease);
+}
+.im-tool:hover { transform: translateY(-2px); box-shadow: var(--pm-sh-hover); }
+.im-tool .pm-ico { width: 48px; height: 48px; border-radius: 14px; }
+.im-tool h3 { font-size: var(--pm-fs-lg); color: var(--pm-ink); margin: 0 0 4px; line-height: 1.35; }
+.im-tool p { margin: 0 0 10px; font-size: var(--pm-fs-sm); line-height: 1.65; color: var(--pm-ink-2); }
+.im-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.im-meta .pm-chip { white-space: normal; line-height: 1.35; padding: 5px 10px; height: auto; }
+
+/* 확인하지 못한 것 */
+.im-unknown { grid-template-columns: 28px minmax(0, 1fr); }
+.im-unknown .im-list { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: var(--pm-fs-sm); color: inherit; }
+.im-unknown .im-list li { position: relative; padding-left: 16px; }
+.im-unknown .im-list li::before { content: ""; position: absolute; left: 0; top: .7em; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .6; }
+.im-unknown .need { background: #fff; border: 1px solid var(--pm-butter-line); }
+
+/* 3. 도구별 카드 */
+.im-tasks { align-items: start; display: grid; gap: var(--pm-s4); grid-template-columns: 1fr; margin: var(--pm-s4) 0; }
+@media (min-width: 900px) { .im-tasks { grid-template-columns: repeat(2, 1fr); } }
+.im-tcard {
+  display: grid; gap: 12px; align-content: start; padding: 20px; border-radius: var(--pm-r-lg);
+  background: var(--pm-surface); border: 1px solid var(--pm-border); box-shadow: var(--pm-sh-2);
+  border-top: 4px solid var(--tone, var(--pm-sky-ink));
+}
+.im-thead { display: flex; align-items: center; gap: 12px; }
+.im-thead .pm-ico { width: 44px; height: 44px; flex: none; }
+.im-thead h3 { margin: 0; font-size: var(--pm-fs-lg); color: var(--pm-ink); line-height: 1.3; }
+.im-thead small { display: block; font-size: var(--pm-fs-xs); color: var(--pm-ink-3); font-weight: 700; }
+.im-tcard .pm-path { margin: 0; }
+.im-tlinks { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.im-tlinks a {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; min-height: 44px; padding: 8px 12px;
+  border-radius: 12px; background: var(--pm-sunken); border: 1px solid transparent; color: var(--pm-ink);
+  text-decoration: none; font-size: var(--pm-fs-sm); font-weight: 700; line-height: 1.45;
+  transition: background-color var(--pm-quick) ease, border-color var(--pm-quick) ease;
+}
+.im-tlinks a:hover { background: var(--pm-sky); border-color: var(--pm-sky-line); }
+.im-tlinks .pm-chip { min-width: 36px; justify-content: center; }
+.im-tcard .need { justify-self: start; }
+
+/* 4. FAQ */
+.im-faq { margin: var(--pm-s4) 0; }
+.im-faq-a { margin: 0; }
+.im-faq-link { margin: 4px 0 0; }
+.im-faq-link a { color: var(--brand-ink); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; display: inline-block; padding: 10px 0; }
+.im-sub { margin: var(--pm-s5) 0 var(--pm-s3); font-size: var(--pm-fs-lg); color: var(--pm-ink); }
+.pm-iconrow a { color: var(--brand-ink); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.pm-iconrow .need { display: inline-block; margin-top: 2px; }
+
+@media (max-width: 420px) {
+  .im-tool { grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding: 16px; }
+  .im-tool .pm-ico { width: 40px; height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) { .im-tool, .im-tlinks a { transition: none; } .im-tool:hover { transform: none; } }
