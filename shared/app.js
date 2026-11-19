@@ -25,6 +25,32 @@
     if (document.readyState === 'loading') document.write('<script src="' + ROOT + 'shared/motion.js"><\/script>');
   }
 
+  /* Web Awesome 부품(탭·펼침·복사·말풍선·진행 막대·대화 상자): 쓰는 쪽에서만, 받쳐 주는 브라우저에서만 불러온다.
+     평범한 <script>(즉시 실행 함수)라 file:// 에서도 돈다. 안 불러와지면 premium.css 의 대체 모양이 남는다. */
+  function needWA() {
+    return document.querySelector('[data-wa],wa-tab-group,wa-details,wa-copy-button,wa-tooltip,wa-progress-bar,wa-dialog');
+  }
+  function canWA() {
+    try {
+      return !!(window.customElements && window.CSS && CSS.supports &&
+        CSS.supports('color', 'oklch(50% 0.1 100)') && CSS.supports('selector(:has(*))'));
+    } catch (e) { return false; }
+  }
+  function loadWA() {
+    if (window.NOAN_WA_LOADING || !needWA() || !canWA()) return;
+    window.NOAN_WA_LOADING = true;
+    var l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = ROOT + 'shared/vendor/webawesome/webawesome.css';
+    document.head.appendChild(l);
+    var s = document.createElement('script');
+    s.src = ROOT + 'shared/vendor/webawesome/webawesome.js';
+    document.head.appendChild(s);
+  }
+  /* 쪽 스크립트가 부품을 나중에 그려 넣었으면 이걸 한 번 더 부른다 */
+  window.NOAN_LOAD_WA = loadWA;
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadWA);
+  else loadWA();
+
   var ICON = {
     home: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
     iamodu: '<rect x="4" y="3.5" width="16" height="17" rx="2.5"/><path d="M8 8h8M8 12h8M8 16h5"/>',
