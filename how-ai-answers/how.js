@@ -134,6 +134,25 @@
   }
 
   /* ---------- 걸음 바꾸기 ---------- */
+  /* ---------- 휴대폰 4걸음: 관계 카드 ----------
+     좁은 화면에서는 3D·2D 그림의 숫자가 너무 작아 읽히지 않는다.
+     그래서 4걸음(관계 보기)일 때만 그림을 흐리게 깔고, 그 위에 「추천」이 많이 보는 조각을
+     큰 글자 카드로 위에서부터 쌓는다. PC 는 how.css 에서 이 카드를 숨겨 예전 그대로다. */
+  function buildAtt() {
+    var box = document.getElementById('howAtt');
+    if (!box) return;
+    var rows = [];
+    for (var i = 0; i < WORDS.length; i++) if (ATT[i] > 0) rows.push(i);
+    rows.sort(function (a, b) { return ATT[b] - ATT[a]; });
+    box.innerHTML = '<p class="how-att-h"><span class="how-att-me">' + WORDS[3] + '</span>이 많이 보는 조각 <small>(숫자는 예시)</small></p>' +
+      '<ol class="how-att-list">' + rows.map(function (k, n) {
+        var pct = Math.round(ATT[k] * 100);
+        return '<li style="--w:' + (ATT[k] / ATT[rows[0]]).toFixed(3) + ';--n:' + n + '"><span class="how-att-w" style="background:' + TOK[k][0] + ';border-color:' + TOK[k][1] + '">' + WORDS[k] + '</span>' +
+          '<span class="how-att-bar" aria-hidden="true"><i></i></span><b>' + pct + '%</b></li>';
+      }).join('') + '</ol>';
+  }
+  buildAtt();
+
   function set(i) {
     i = Math.max(0, Math.min(STEPS.length - 1, i));
     cur = i;

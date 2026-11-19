@@ -155,8 +155,43 @@
   .how-loading-t { font-size: 13px; padding: 7px 12px; }
 }
 
+/* ---------- 휴대폰 4걸음: 관계 카드 (PC 는 숨김 — 그림 그대로) ---------- */
+.how-att { display: none; }
+@media (max-width: 700px) {
+  .how-att {
+    display: flex; flex-direction: column; justify-content: center; gap: 8px;
+    position: absolute; inset: 0; z-index: 3; padding: 12px 16px;
+    background: rgba(255, 248, 236, .94);
+    opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s;
+  }
+  .how-stage[data-step="3"] .how-att { opacity: 1; visibility: visible; transition: opacity .35s ease; }
+  .how-att-h { margin: 0 0 2px; font-size: 15px; font-weight: 800; color: #3A2E24; line-height: 1.35; }
+  .how-att-h small { font-size: 12px; font-weight: 700; color: #6B5A45; }
+  /* 뒤 그림은 반투명 크림 막 아래로 흐리게 비친다 — 「같은 장면」이라는 느낌만 남긴다 */
+  .how-att-me { display: inline-block; padding: 2px 10px; border-radius: 10px; background: #E6DDFF; border: 2px solid #BFAFF2; color: #3B2A7A; }
+  .how-att-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .how-att-list li {
+    display: grid; grid-template-columns: 64px minmax(0, 1fr) 48px; align-items: center; gap: 12px;
+    min-height: 44px; padding: 4px 12px 4px 4px; border-radius: 14px;
+    background: rgba(255, 255, 255, .94); box-shadow: 0 1px 2px rgba(22, 35, 58, .08), 0 6px 14px -8px rgba(120, 80, 20, .3);
+  }
+  .how-att-w { display: grid; place-items: center; height: 36px; border-radius: 10px; border: 2px solid; font-size: 17px; font-weight: 800; color: #2A2118; }
+  .how-att-bar { height: 12px; border-radius: 6px; background: #EEF3FA; overflow: hidden; }
+  .how-att-bar i { display: block; height: 100%; border-radius: 6px; background: #1568D2; transform-origin: left; transform: scaleX(var(--w)); }
+  .how-att-list b { font-size: 17px; font-weight: 800; color: #0B4FA8; text-align: right; font-variant-numeric: tabular-nums; }
+  .how-stage[data-step="3"] .how-att-list li { animation: how-rise .45s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--n) * 70ms); }
+  .how-stage[data-step="3"] .how-att-bar i { animation: how-grow .6s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--n) * 70ms + 120ms); }
+}
+@keyframes how-grow { from { transform: scaleX(0); } to { transform: scaleX(var(--w)); } }
+@media (max-width: 360px) {
+  .how-att { padding: 8px 12px; gap: 6px; }
+  .how-att-list { gap: 6px; }
+  .how-att-list li { grid-template-columns: 56px minmax(0, 1fr) 44px; gap: 8px; min-height: 40px; }
+}
+
 /* 동작 줄이기: 움직임 없이 바로 바뀐다 */
 @media (prefers-reduced-motion: reduce) {
-  .how-stage svg, .how-g, .how-cap-n, .how-cap-t, .how-sk::after, .how-spin { animation: none !important; }
+  .how-stage svg, .how-g, .how-cap-n, .how-cap-t, .how-sk::after, .how-spin, .how-att-list li, .how-att-bar i { animation: none !important; }
+  .how-att { transition: none !important; }
   .how-stage canvas, .how-rail i, .how-dot::before, .how-flow li { transition: none !important; }
 }
