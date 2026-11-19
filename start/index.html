@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>설치·시작 가이드 · 노안중 AI교육</title>
-<meta name="description" content="교사 스튜디오를 처음 설치하고 시작하는 방법 (준비 중)">
+<meta name="description" content="ChatGPT·Claude에 교사 스튜디오(하네스)를 세 걸음으로 설치하고 첫 자료를 만드는 방법">
 <meta name="robots" content="noindex">
 <link rel="icon" href="../assets/noan-ai-icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/noan-ai-touch-180.png">
@@ -17,6 +17,25 @@
 <link rel="stylesheet" href="../shared/vendor/open-props/open-props.subset.css">
 <link rel="stylesheet" href="../shared/premium.css">
 <script src="../shared/app.js"></script>
+<style>
+.st-flow { margin-top: 16px; }
+.st-flow p { margin: 6px 0 0; }
+.st-list { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 6px; list-style: disc; }
+.flow .st-list li { display: list-item; padding: 0; border: 0; border-radius: 0; background: none; }
+.st-copy { background: #F2F7FF; border: 1px dashed #B9D5F8; border-radius: 12px; padding: 12px 16px; font-weight: 700; color: #12203A; overflow-wrap: anywhere; -webkit-user-select: all; user-select: all; }
+.st-b { color: #5E4300; background: #FFF4DA; border-radius: 10px; padding: 8px 12px; font-size: 15px; }
+.st-head { margin-top: 32px; }
+.st-try { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.st-try li { background: #fff; border: 1px solid #E6ECF3; border-radius: 18px; padding: 8px 16px; max-width: 100%; font-weight: 700; color: #22324D; }
+.st-tips { margin-top: 24px; padding: 20px; background: #fff; border: 1px solid #E6ECF3; border-radius: 16px; }
+.st-tips h2 { font-size: 20px; margin: 0 0 8px; }
+.st-tips ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+.st-tips li b { display: block; color: #0B4FA8; }
+.st-last { margin: 12px 0 0; font-weight: 800; color: #12203A; }
+.st-btns { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+.st-btns .btn { white-space: normal; max-width: 100%; text-align: center; }
+.st-flow li > div { min-width: 0; }
+</style>
 </head>
 <body class="portal">
 <a class="skip" href="#main">본문으로</a>
@@ -34,9 +53,33 @@
 <main id="main" class="wrap">
 
 <section class="page-hero"><svg class="slot-art" viewBox="0 0 190 150" aria-hidden="true" focusable="false"><g class="sa-float"><rect x="30" y="22" width="130" height="96" rx="14" fill="#fff" stroke="#B9D5F8" stroke-width="3"/><rect x="30" y="22" width="130" height="22" rx="14" fill="#E0ECFF"/><circle cx="46" cy="33" r="3.5" fill="#F6B3C8"/><circle cx="58" cy="33" r="3.5" fill="#F5DA9B"/><circle cx="70" cy="33" r="3.5" fill="#A9DCC0"/><rect x="46" y="56" width="28" height="22" rx="7" fill="#FFE9D2"/><rect x="81" y="56" width="28" height="22" rx="7" fill="#D8F2E2"/><rect x="116" y="56" width="28" height="22" rx="7" fill="#E9E0FF"/><rect x="46" y="86" width="28" height="22" rx="7" fill="#FFD9E3"/><rect x="81" y="86" width="28" height="22" rx="7" fill="#E0ECFF"/><rect x="116" y="86" width="28" height="22" rx="7" fill="#FFEEC2"/></g><g class="sa-float2"><circle cx="164" cy="30" r="9" fill="#FFE58A"/><circle cx="26" cy="118" r="6" fill="#C9B6F8"/></g></svg><h1>설치·시작 가이드</h1>
-<p>교사 스튜디오(하네스)를 내 컴퓨터에 설치하고 첫 수업 자료를 만들 때까지의 안내가 들어올 자리입니다.</p><span class="soon">내용 준비 중</span></section>
-<ol class="how-steps" style="grid-template-columns:1fr"><li><b>1</b><span>준비물 확인</span></li><li><b>2</b><span>설치</span></li><li><b>3</b><span>첫 자료 만들어 보기</span></li></ol>
-<p style="margin-top:16px"><a class="btn" href="../index.html">업무별 안내서로</a></p>
+<p>2회차 연수에서 해 본 그대로예요. ChatGPT·Claude에 「교사 스튜디오」를 챙겨 주는 세 걸음입니다. 교사 스튜디오는 선생님 업무에 맞춘 하네스, 곧 AI에게 주는 도구와 레시피 묶음이에요. 코딩은 몰라도 됩니다.</p><div class="pm-hero-meta"><span>세 걸음 · 5분쯤</span><span>무료 공개</span><span>컴퓨터용 앱에서</span></div></section>
+
+<p class="im-note" role="note"><b>앱의 단추 이름은 자주 바뀝니다.</b> 아래 이름은 연수 발표자료 기준이에요. 화면이 다르면 비슷한 이름을 찾아보세요(확인 필요). 학교 컴퓨터에 앱 설치가 막혀 있으면 정보 담당 선생님께 먼저 여쭤보세요.</p>
+
+<ol class="flow st-flow">
+<li id="s1"><span class="flow-n">1</span><div><h2>쓰시는 AI를 하나 고르기</h2><p>Claude도 되고 ChatGPT도 됩니다. 폰이 아니라 <b>컴퓨터용 앱</b>에서 해요.</p></div></li>
+<li id="s2"><span class="flow-n">2</span><div><h2>컴퓨터를 쓰는 모드로 열기</h2><p>AI가 내 컴퓨터에 파일을 직접 만들 수 있는 모드여야 합니다.</p><ul class="st-list"><li><b>Claude 데스크톱 앱</b> 「Cowork」 또는 「Code」 탭을 골라요. 일반 채팅에서는 링크로 설치가 안 돼요. Cowork는 유료 요금제에서 씁니다.</li><li><b>ChatGPT</b> 개인 계정은 「Codex」 앱으로 열어요.</li></ul></div></li>
+<li id="s3"><span class="flow-n">3</span><div><h2>링크를 붙여 넣고 한 줄</h2><p>아래 두 줄을 그대로 붙여 넣으세요.</p><p class="st-copy" tabindex="0" aria-label="붙여 넣을 글">https://github.com/zln02/teacher-studio<br>내가 준 링크에 하네스 세팅해 줘</p><p><b>「무엇을 만들까요?」</b> 준비 카드가 뜨면 성공입니다.</p><p class="st-b">안 되면: Claude 앱의 Customize → Skills에서 zip 파일을 올리는 방법이 있어요. zip은 위 주소에서 받습니다.</p></div></li>
+</ol>
+
+<div class="pm-head st-head"><span class="pm-eyebrow">설치가 끝났다면</span><h2>첫 자료 만들어 보기</h2><p>평소 말하듯 한 줄이면 됩니다. 연수에서는 이런 부탁을 넣어 봤어요.</p></div>
+<ul class="st-try">
+<li>「중2 과학 빛 복습 게임」</li>
+<li>「학부모 총회 발표자료」</li>
+<li>「가정통신문에 이 그림 써도 돼?」</li>
+</ul>
+
+<div class="panel st-tips" aria-labelledby="h-tips"><h2 id="h-tips">가져갈 꿀팁 3줄</h2>
+<ol>
+<li><b>그냥 시키지 않기</b> 도구와 레시피가 있는 하네스를 켜고 시작해요.</li>
+<li><b>한 번 제대로 말하기</b> 누구에게 · 어디에 · 어떤 느낌 · 어떤 재료.</li>
+<li><b>끝나면 확인</b> 사실·숫자·출처는 원문으로. 학생 이름·성적 같은 정보는 넣지 않아요.</li>
+</ol>
+<p class="st-last">AI가 만들어도, 마지막 책임은 선생님께 있어요.</p></div>
+
+<p class="st-btns"><a class="btn btn-primary" href="../training/s2-deck-v2.html">2회차 발표자료 열기</a> <a class="btn" href="../terms/index.html#t-harness">하네스 20초 그림</a> <a class="btn" href="../index.html">업무별 안내서로</a></p>
+<p class="checked">발표자료 기준으로 적은 날 2026-11-20 · 앱 화면은 직접 확인하지 못했어요(확인 필요)</p>
 
 </main>
 
