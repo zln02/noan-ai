@@ -195,3 +195,8 @@
   .how-att { transition: none !important; }
   .how-stage canvas, .how-rail i, .how-dot::before, .how-flow li { transition: none !important; }
 }
+/* content v2: 진짜 · 활용 줄 */
+.how-flow .flow-real, .how-flow .flow-use { margin: 6px 0 0; line-height: 1.6; word-break: keep-all; }
+.how-flow .flow-real b, .how-flow .flow-use b { display: inline-block; margin-right: 6px; padding: 0 8px; border-radius: 999px; font-size: 13px; line-height: 22px; }
+.how-flow .flow-real b { background: #EAF3FF; color: #0B5FC0; }
+.how-flow .flow-use b { background: #EAF7EF; color: #17623A; }
