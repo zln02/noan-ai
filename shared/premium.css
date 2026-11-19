@@ -352,3 +352,32 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
   wa-tab-group > wa-tab { display: none; }
   wa-tab-panel { display: block !important; }
 }
+
+/* 손글씨 밑줄이 붙는 제목은 늘 제 자리를 기준으로 (어떤 제목은 static 이라 밑줄이 엉뚱한 카드 위에 그려졌다) */
+.m-draw { position: relative; }
+
+/* 안내서 상세 — 지시서 상자·단계·결과 예시를 같은 카드 결로 */
+.g-prompt {
+  border-radius: 18px;
+  background: linear-gradient(160deg, #1B2C4A 0%, #14223A 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06), 0 14px 30px -14px rgba(16, 42, 67, .55);
+}
+.g-prompt-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 12px; }
+.g-prompt-lab {
+  display: inline-flex; align-items: center; gap: 8px; padding: 0; background: none;
+  color: #CFE0F5; font-size: 14px; font-weight: 800; letter-spacing: .01em;
+}
+.g-prompt-lab::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #FFD66B; box-shadow: 0 0 0 4px rgba(255, 214, 107, .18); }
+.g-prompt-head .g-copybtn { margin-top: 0; padding: 0 18px 0 14px; gap: 8px; box-shadow: 0 6px 14px -6px rgba(0, 0, 0, .5); }
+.g-prompt-head .g-copybtn::before {
+  content: ""; width: 16px; height: 16px; flex: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23102A43' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='8' y='8' width='12' height='12' rx='2.5'/%3E%3Cpath d='M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.g-prompt pre { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .1); }
+.g-step { border: 1px solid var(--pm-border); box-shadow: var(--pm-sh-2); border-radius: var(--pm-r-lg); }
+.g-result-section { background: transparent; }
+.g-result-preview { position: relative; border-radius: var(--pm-r); box-shadow: var(--pm-sh-1); padding-left: 22px; overflow: hidden; }
+.g-result-preview::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: linear-gradient(#34C17B, #8FDDB3); }
+.g-section h2 { letter-spacing: -0.02em; }
+.g-evidence { border-radius: var(--pm-r); box-shadow: var(--pm-sh-1); }
+.g-detail-head { box-shadow: var(--pm-sh-2); }
