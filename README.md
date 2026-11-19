@@ -56,7 +56,7 @@ noan-ai/
 ├── guide/                      첫 화면 목록(home-alpine.js·찾기·찜) · 상세(home.js) · 인쇄본 PDF · 옛 주소 넘김
 ├── training/                   연수 덱 24장
 ├── library/  contest/  request/  about/  class/  showcase/
-├── iamodu/  ai/  terms/  how-ai-answers/  start/   (내용 채움 — 용어 애니메이션 6편, 3D 풀이)
+├── iamodu/  ai/  terms/  how-ai-answers/  start/   (내용 채움 — AI 알기 16편 쇼츠 애니메이션, 3D 풀이)
 ├── sw.js  manifest.webmanifest  offline.html   「홈 화면에 추가」 + 오프라인
 ├── ops/                        운영 층 — 홈 · 기록 · 회차 · 인수인계
 ├── data/                       ★ 모든 데이터가 여기 한 곳
@@ -69,7 +69,7 @@ noan-ai/
 │   └── contest.json  showcase.json
 ├── shared/   vendor/alpine(목록, MIT)  vendor/three(3D, MIT)  dial.js  tokens.css  site.css  app.css(앱 화면 층)  app.js(탭바·오프라인)  config.js  feedback.js  deck.css  icons.js  deck.js  site.js
 ├── assets/   guide/(캡처)  qr-*.svg  thumbs
-├── tools/    gen-terms.js(용어 애니메이션 생성)  sync-data.js  sync-notion.js  check-copy.js  guide-build.py  CONTRACT.md
+├── tools/    gen-terms.js(AI 알기 애니메이션 생성, 글은 data/terms.json)  shoot-terms.py(썸네일)  sync-data.js  sync-notion.js  check-copy.js  guide-build.py  CONTRACT.md
 ├── docs/     decisions.md  handover.md  requests.md  cli/  manual-findings.md  shots/
 ├── private/  (gitignore) 학교 실물 자료
 └── README.md  LICENSE
