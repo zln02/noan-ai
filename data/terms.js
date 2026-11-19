@@ -4,7 +4,7 @@
 window.TERMS_DATA = {
  "meta": {
   "title": "AI 용어, 그림으로 보기",
-  "note": "가로(16:9) 움직이는 그림. 길과 흐름을 따라가며 이해합니다. 만들기는 교사 스튜디오 모션·3D 도구로 별도 진행합니다.",
+  "note": "가로(16:9) 움직이는 그림. 눌러야 재생되고 소리는 없으며 자막은 항상 나옵니다. 아주 단순하게 줄인 비유이니, 정확한 기술 설명이 아니라 감을 잡는 용도입니다.",
   "schema": {
    "id": "영문 소문자",
    "term": "용어",
@@ -21,36 +21,101 @@ window.TERMS_DATA = {
  },
  "items": [
   {
+   "id": "model",
+   "term": "모델",
+   "analogy": "음식을 만드는 요리사",
+   "meaning": "많은 글을 보고 배워서 답을 만들어 내는 AI의 중심",
+   "file": "terms/anim/model.html",
+   "poster": null,
+   "aspect": "16:9",
+   "duration_sec": 20,
+   "captions": [
+    "모델은 요리사예요",
+    "많은 요리법(글)을 보고 솜씨를 익혔어요",
+    "하지만 주문이 와야 움직여요"
+   ],
+   "checked": null,
+   "status": "ready"
+  },
+  {
    "id": "prompt",
    "term": "프롬프트",
    "analogy": "식당에 넣는 주문서",
    "meaning": "AI에게 무엇을 해 달라고 적어 보내는 글",
-   "file": null,
+   "file": "terms/anim/prompt.html",
    "poster": null,
    "aspect": "16:9",
-   "duration_sec": 25,
+   "duration_sec": 20,
    "captions": [
-    "주문서에 적은 대로 요리가 나옵니다",
-    "주문이 구체적일수록 원하는 음식에 가깝습니다"
+    "주문서에 적은 대로 요리가 나와요",
+    "구체적으로 적을수록 원하는 음식에 가까워요"
    ],
    "checked": null,
-   "status": "soon"
+   "status": "ready"
   },
   {
    "id": "harness",
    "term": "하네스",
-   "analogy": "주방의 동선과 조리 규칙",
-   "meaning": "AI가 일할 길과 규칙을 미리 깔아 두는 틀",
-   "file": null,
+   "analogy": "주방 한 벌 (레시피·재료·도구·시식)",
+   "meaning": "AI가 일할 길과 규칙, 확인 장치를 미리 갖춰 주는 틀",
+   "file": "terms/anim/harness.html",
    "poster": null,
    "aspect": "16:9",
-   "duration_sec": 30,
+   "duration_sec": 25,
    "captions": [
-    "주문이 들어오면 정해진 길로 재료와 도구가 움직입니다",
-    "틀이 있어서 누가 시켜도 같은 품질이 나옵니다"
+    "레시피, 손질한 재료, 도구, 시식까지 한 벌",
+    "옷·선글라스·오토바이·내비도 같은 뜻이에요"
    ],
    "checked": null,
-   "status": "soon"
+   "status": "ready"
+  },
+  {
+   "id": "skill",
+   "term": "스킬",
+   "analogy": "레시피 카드",
+   "meaning": "자주 하는 일의 순서를 한 장에 정리해 둔 것",
+   "file": "terms/anim/skill.html",
+   "poster": null,
+   "aspect": "16:9",
+   "duration_sec": 18,
+   "captions": [
+    "한 번 적어 두면 다음에도 같은 순서",
+    "누가 시켜도 비슷한 결과가 나와요"
+   ],
+   "checked": null,
+   "status": "ready"
+  },
+  {
+   "id": "tool",
+   "term": "도구",
+   "analogy": "주방 기구",
+   "meaning": "AI가 말만 하지 않고 직접 불러 쓰는 기능(검색·계산·파일 읽기)",
+   "file": "terms/anim/tool.html",
+   "poster": null,
+   "aspect": "16:9",
+   "duration_sec": 18,
+   "captions": [
+    "요리사 혼자는 못 하는 일이 있어요",
+    "칼·저울·불처럼 알맞은 도구를 불러 써요"
+   ],
+   "checked": null,
+   "status": "ready"
+  },
+  {
+   "id": "hallucination",
+   "term": "환각",
+   "analogy": "그럴듯한 가짜 메뉴",
+   "meaning": "없는 내용을 사실처럼 자신 있게 말하는 것",
+   "file": "terms/anim/hallucination.html",
+   "poster": null,
+   "aspect": "16:9",
+   "duration_sec": 22,
+   "captions": [
+    "모르는데도 그럴듯하게 말할 때가 있어요",
+    "중요한 건 공식 자료로 꼭 확인하세요"
+   ],
+   "checked": null,
+   "status": "ready"
   }
  ]
 };
