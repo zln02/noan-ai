@@ -79,4 +79,7 @@ if (stamped !== page) {
   console.log('그대로  index.html 최종 수정');
 }
 
+/* 첫 화면의 「자바스크립트 없이도 보이는 목록」도 tasks.json 에서 다시 만든다 */
+if (require('./gen-home-static.js').run(check)) drift++;
+
 if (check && drift) process.exit(1);

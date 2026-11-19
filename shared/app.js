@@ -51,6 +51,32 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadWA);
   else loadWA();
 
+  /* Alpine.js(shared/vendor/alpine, MIT): 찾기·분류·찜·최근 본 카드처럼 「앱 같은」 움직임을 맡는다.
+     받쳐 주는 브라우저(크롬 80 이상)에서만 <html class="alpine-ok"> 를 붙이고, x-data 가 있는 쪽에서만 불러온다.
+     못 받치거나, 불러오지 못하거나, 5초 안에 켜지지 않으면 class 를 떼어 「자바스크립트 없이도 보이는 목록」으로 돌아간다. */
+  function canAlpine() {
+    try {
+      return !!(window.Proxy && window.queueMicrotask && Array.prototype.flatMap &&
+        new Function('var o={a:{b:1}};return o?.a?.b ?? 0')() === 1);
+    } catch (e) { return false; }
+  }
+  var root = document.documentElement;
+  if (canAlpine()) root.classList.add('alpine-ok');
+  function alpineFail() { root.classList.remove('alpine-ok'); root.classList.add('alpine-off'); }
+  function loadAlpine() {
+    if (!root.classList.contains('alpine-ok')) return;
+    if (!document.querySelector('[x-data]')) return;
+    var on = false;
+    document.addEventListener('alpine:initialized', function () { on = true; });
+    var s = document.createElement('script');
+    s.src = ROOT + 'shared/vendor/alpine/alpine.min.js';
+    s.onerror = alpineFail;
+    document.head.appendChild(s);
+    setTimeout(function () { if (!on) alpineFail(); }, 5000);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadAlpine);
+  else loadAlpine();
+
   var ICON = {
     home: '<path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
     iamodu: '<rect x="4" y="3.5" width="16" height="17" rx="2.5"/><path d="M8 8h8M8 12h8M8 16h5"/>',
