@@ -26,7 +26,7 @@ window.TERMS_DATA = {
    "analogy": "음식을 만드는 요리사",
    "meaning": "많은 글을 보고 배워서 답을 만들어 내는 AI의 중심",
    "file": "terms/anim/model.html",
-   "poster": null,
+   "poster": "assets/terms/model.webp",
    "aspect": "16:9",
    "duration_sec": 20,
    "captions": [
@@ -43,7 +43,7 @@ window.TERMS_DATA = {
    "analogy": "식당에 넣는 주문서",
    "meaning": "AI에게 무엇을 해 달라고 적어 보내는 글",
    "file": "terms/anim/prompt.html",
-   "poster": null,
+   "poster": "assets/terms/prompt.webp",
    "aspect": "16:9",
    "duration_sec": 20,
    "captions": [
@@ -59,7 +59,7 @@ window.TERMS_DATA = {
    "analogy": "주방 한 벌 (레시피·재료·도구·시식)",
    "meaning": "AI가 일할 길과 규칙, 확인 장치를 미리 갖춰 주는 틀",
    "file": "terms/anim/harness.html",
-   "poster": null,
+   "poster": "assets/terms/harness.webp",
    "aspect": "16:9",
    "duration_sec": 25,
    "captions": [
@@ -75,7 +75,7 @@ window.TERMS_DATA = {
    "analogy": "레시피 카드",
    "meaning": "자주 하는 일의 순서를 한 장에 정리해 둔 것",
    "file": "terms/anim/skill.html",
-   "poster": null,
+   "poster": "assets/terms/skill.webp",
    "aspect": "16:9",
    "duration_sec": 18,
    "captions": [
@@ -91,7 +91,7 @@ window.TERMS_DATA = {
    "analogy": "주방 기구",
    "meaning": "AI가 말만 하지 않고 직접 불러 쓰는 기능(검색·계산·파일 읽기)",
    "file": "terms/anim/tool.html",
-   "poster": null,
+   "poster": "assets/terms/tool.webp",
    "aspect": "16:9",
    "duration_sec": 18,
    "captions": [
@@ -107,7 +107,7 @@ window.TERMS_DATA = {
    "analogy": "그럴듯한 가짜 메뉴",
    "meaning": "없는 내용을 사실처럼 자신 있게 말하는 것",
    "file": "terms/anim/hallucination.html",
-   "poster": null,
+   "poster": "assets/terms/hallucination.webp",
    "aspect": "16:9",
    "duration_sec": 22,
    "captions": [
