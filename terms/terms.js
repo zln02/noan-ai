@@ -12,7 +12,7 @@
   function thumb(t, ready) {
     var art = t.poster
       ? '<img src="../' + esc(t.poster) + '" alt="" width="960" height="540" loading="lazy" decoding="async">'
-      : '<span class="tcard-fallback"><b>' + esc(t.term) + '</b><span>' + esc(t.analogy) + '</span></span>';
+      : '<span class="tcard-fallback"><b>' + esc(t.term) + '</b><span>' + esc(t.analogy || t.en || '') + '</span></span>';
     var dur = (ready && t.duration_sec) ? '<span class="tcard-dur">' + PLAY + mmss(t.duration_sec) + '</span>' : '';
     var soon = ready ? '' : '<span class="tcard-soon pm-chip is-butter">준비 중</span>';
     if (!ready) return '<div class="tcard-frame">' + art + soon + '</div>';
@@ -34,11 +34,11 @@
     return '<article class="tcard" id="t-' + esc(t.id) + '"><div class="tcard-media">' + thumb(t, ready) + '</div>' +
       '<div class="tcard-body"><h3 class="tcard-title">' + esc(t.term) + (t.en ? ' <span class="tcard-en">' + esc(t.en) + '</span>' : '') + '</h3>' +
       (t.summary ? '<p class="tcard-sum">' + esc(t.summary.join(' ')) + '</p>' : '') +
-      row('bi', '비유', t.analogy_line || t.analogy) +
+      ((t.analogy_line || t.analogy) ? row('bi', '비유', t.analogy_line || t.analogy) : '') +
       row('real', '진짜', t.real || t.meaning) +
       row('use', '활용', t.use || '') +
-      '<details class="tcard-caps"><summary>비유와 다른 점 · 자막 글로 읽기</summary>' +
-        (t.gap ? '<p class="tc-gap"><b>비유와 다른 점</b> ' + esc(t.gap) + '</p>' : '') +
+      '<details class="tcard-caps"><summary>' + esc(t.gap_label || '비유와 다른 점') + ' · 자막 글로 읽기</summary>' +
+        (t.gap ? '<p class="tc-gap"><b>' + esc(t.gap_label || '비유와 다른 점') + '</b> ' + esc(t.gap) + '</p>' : '') +
         (caps ? '<ol>' + caps + '</ol>' : '') +
         '<p class="tc-chk">' + (t.checked ? '내용 확인 ' + esc(t.checked) : '사람이 아직 내용을 확인하지 않았어요 (확인 필요)') + '</p>' +
       '</details></div></article>';

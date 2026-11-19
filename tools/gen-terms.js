@@ -28,7 +28,7 @@ const T = (txt, x, y, size, fill, w) => '<text x="' + x + '" y="' + y + '" text-
 const shadow = (x, y, rx) => '<ellipse cx="' + x + '" cy="' + y + '" rx="' + rx + '" ry="' + Math.round(rx * .13) + '" fill="#8A5A1E" opacity=".2"/>';
 
 /* ---------- 부품 (원점 기준, 위쪽이 -y) ---------- */
-/* 요리사 로봇: 여섯 편 모두 같은 얼굴 */
+/* 요리 로봇: 모든 편이 같은 얼굴 (2회차 연수의 김치볶음밥 로봇과 같은 역할) */
 const bot = () => '<g data-bob="1">' +
   R(-64, -94, 20, 52, 10, '#BFD9FA') + R(44, -94, 20, 52, 10, '#BFD9FA') + C(-54, -40, 12, '#FFC9A3') + C(54, -40, 12, '#FFC9A3') +
   R(-48, -104, 96, 124, 30, '#BFD9FA') + R(-32, -94, 64, 112, 18, '#FFFDF7') + R(-18, -36, 36, 26, 9, '#FFE3CC') +
@@ -117,7 +117,7 @@ const ART = {};
 ART.model = {
   B: () => { let s = chefB() + G(books, [[B0 + .2, 170, 346, .8, 0], [B0 + .7, 170, 336, 1, 1]]);
     for (let i = 0; i < 5; i++) { const t = B0 + .6 + i * .55; s += G(card('요리법', 1), [[t, 170, 280, .5, 0], [t + .4, 250 + i * 70, 150 + (i % 2) * 50, .75, 1], [t + 1.2, 820, 180, .2, 0]]); }
-    return s + G(bubble('손맛 익힘!', 170, 'r'), [[B0 + 3.6, 640, 130, .6, 0], [B0 + 4, 640, 116, 1, 1]]) + tagAt('모델 = 손맛 익힌 요리사', 400, B0 + 3.9); },
+    return s + G(bubble('손맛 익힘!', 170, 'r'), [[B0 + 3.6, 640, 130, .6, 0], [B0 + 4, 640, 116, 1, 1]]) + tagAt('많이 맛보고 익힌 손맛', 400, B0 + 3.9); },
   C: () => { let s = pop(chip('오늘 급식은', 'peach', 24), C0 + .3, 160, 245) + arrow(282, 245, C0 + .7);
     const cols = ['#BFD9FA', '#A9C9F5', '#93B9EF', '#7EA9E8'];
     s += explode(cols.map(c => box(220, 40, c) + dots(9, 1, 22, '#fff')), 480, 245, [158, 214, 270, 326], C0 + 1.6);
@@ -139,7 +139,7 @@ ART.token = {
     parts.forEach((p, i) => { const cx = Math.round(x + ws[i] / 2); x += ws[i] + gap;
       s += G(chip(p[0], p[1], 30), [[C0 + 1.9 + i * .2, cx, 180, .7, 0], [C0 + 2.5 + i * .2, cx, 268, 1, 1]]);
       s += pop(TX(p[2], 0, 0, 24, '#1568D2', 900), C0 + 3.3 + i * .2, cx, 330); });
-    return s + pop(chip('번호는 예시 · 자르는 법은 모델마다 달라요', 'sky', 17), C0 + 4.4, 480, 388); }
+    return s + pop(chip('번호는 예시 · 자르는 법은 AI마다 달라요', 'sky', 17), C0 + 4.4, 480, 388); }
 };
 ART.context = {
   B: () => { let s = chefB() + pop('<rect x="-245" y="-55" width="490" height="110" rx="18" fill="rgba(255,255,255,.55)" stroke="#8A5A1E" stroke-width="4" stroke-dasharray="12 9"/>' + TX('조리대', 0, -70, 22, '#8A4B14'), B0 + .2, 370, 255);
@@ -209,7 +209,7 @@ ART.prompt = {
   C: () => { const L = [['서비스 지시 (시스템 프롬프트)', '#EDE6FF'], ['이전 대화', '#FFF1B8'], ['붙인 자료', '#D6F3E2'], ['내 질문', '#FFE3CC']];
     let s = explode(L.map(l => box(430, 50, l[1], l[0], 22)), 400, 250, [128, 192, 256, 320], C0 + 1.4);
     s += G('<path d="M0 -112q22 0 22 22v68l14 22-14 22v68q0 22-22 22" fill="none" stroke="#1568D2" stroke-width="5" stroke-linecap="round"/>', [[C0 + 2.8, 640, 224, 1, 0], [C0 + 3.2, 640, 224, 1, 1]]);
-    return s + pop(TX('모두 = 프롬프트', 0, 0, 24, '#0B4FA8', 900), C0 + 3.2, 780, 200) + arrow(700, 250, C0 + 3.6, 40) + pop(chip('모델', 'navy', 24), C0 + 3.8, 810, 252); }
+    return s + pop(TX('모두 = 프롬프트', 0, 0, 24, '#0B4FA8', 900), C0 + 3.2, 780, 200) + arrow(700, 250, C0 + 3.6, 40) + pop(chip('AI', 'navy', 24), C0 + 3.8, 810, 252); }
 };
 ART.order = {
   B: () => { const rows = [['누', '누가 먹나요', '#FFE3CC'], ['어', '어떤 요리', '#DCEBFF'], ['느', '어떤 맛·모양', '#EDE6FF'], ['재', '무슨 재료', '#D6F3E2']];
@@ -243,8 +243,8 @@ ART.multimodal = {
     s += pop(R(-70, -54, 140, 108, 10, '#fff') + '<rect x="-58" y="-42" width="116" height="70" rx="6" fill="#FFF4E2"/><g transform="translate(0 12) scale(.55)">' + rice + '</g>' + TX('사진', 0, 46, 16, INK, 800), B0 + .4, 290, 220);
     s += G(bubble('이거 만들어 주세요!', 230, 'l'), [[B0 + 1.2, 300, 118, .6, 0], [B0 + 1.6, 300, 104, 1, 1]]) + G('<path d="M0 -14q10 14 0 28M12 -24q18 24 0 48" fill="none" stroke="#1568D2" stroke-width="4" stroke-linecap="round"/>', [[B0 + 1.5, 430, 104, .6, 0], [B0 + 1.9, 430, 104, 1, 1]]);
     s += G(bubble('알겠어요!', 150, 'r'), [[B0 + 2.5, 680, 124, .6, 0], [B0 + 2.9, 680, 110, 1, 1]]) + pop(plate(rice), B0 + 3, 540, 330);
-    return s + tagAt('멀티모달 = 사진 주문', 400, B0 + 3.8); },
-  C: () => { let s = pop(box(190, 100, '#16233A', '모델', 30, '#fff'), C0 + .2, 480, 240);
+    return s + tagAt('사진·말로도 부탁할 수 있어요', 400, B0 + 3.8); },
+  C: () => { let s = pop(box(190, 100, '#16233A', 'AI', 30, '#fff'), C0 + .2, 480, 240);
     const ic = [R(-30, -24, 60, 48, 8, '#FFE3CC') + '<circle cx="-8" cy="-6" r="7" fill="#F4857A"/><path d="M-24 18l16-16 12 10 10-8 14 14z" fill="#7FD1A0"/>', R(-12, -28, 24, 40, 12, '#DCEBFF') + '<path d="M-20 4q0 20 20 20t20-20M0 24v10" fill="none"' + LN + '/>', R(-28, -28, 56, 56, 12, '#EDE6FF') + TX('가', 0, 12, 32, '#5B3DB8', 900)];
     const lab = ['사진', '소리', '글'];
     ic.forEach((g, i) => { s += orbit(g + TX(lab[i], 0, 52, 17, INK, 900), 480, 240, 300, 125, C0 + .3, C0 + 3.2, i * 120 - 90, 1, [[C0 + 3.8, 480, 240, .3, 0]]); });
@@ -257,7 +257,7 @@ ART.tool = {
     s += pop(C(0, 0, 44, '#fff') + '<path d="M0 0v-30M0 0l18 10" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/>' + R(-8, -60, 16, 12, 4, '#F4857A') + TX('3:00', 0, 74, 22, INK, 900), B0 + 1.8, 500, 270);
     s += G(bubble('눈대중 말고 정확히!', 236, 'r'), [[B0 + 2.6, 640, 124, .6, 0], [B0 + 3, 640, 110, 1, 1]]);
     return s + tagAt('도구 = 저울과 타이머', 380, B0 + 3.8); },
-  C: () => { let s = pop(box(170, 100, '#16233A', '모델', 30, '#fff'), C0 + .2, 190, 220) + pop(TX('요청은 모델', 0, 0, 20, '#0B4FA8', 900), C0 + .5, 190, 300);
+  C: () => { let s = pop(box(170, 100, '#16233A', 'AI', 30, '#fff'), C0 + .2, 190, 220) + pop(TX('요청은 AI', 0, 0, 20, '#0B4FA8', 900), C0 + .5, 190, 300);
     s += pop(box(210, 100, '#FFF1B8', '계산기 프로그램', 22), C0 + .3, 770, 220) + pop(TX('실행은 프로그램', 0, 0, 20, '#6B4E00', 900), C0 + .6, 770, 300);
     s += G(chip('계산기(37×12)', 'sky', 22), [[C0 + .8, 190, 140, .7, 0], [C0 + 1.1, 190, 140, 1, 1], [C0 + 2.1, 770, 140, 1, 1], [C0 + 2.4, 770, 190, .6, 0]]);
     s += G('<rect x="-105" y="-50" width="210" height="100" rx="16" fill="none" stroke="#F2B84B" stroke-width="8"/>', [[C0 + 2.3, 770, 220, 1, 0], [C0 + 2.5, 770, 220, 1.1, 1], [C0 + 2.9, 770, 220, 1.2, 0]]);
@@ -290,15 +290,15 @@ ART.skill = {
     return s + pop(TX('필요한 것만 꺼내 읽어요', 0, 0, 20, '#0B4FA8', 900), C0 + 3.6, 650, 394); }
 };
 ART.harness = {
-  B: () => { const set = [[150, 300, '레시피', card('', 1)], [330, 320, '손질한 재료', E(0, -14, 44, 15, '#fff') + C(-14, -28, 10, '#F4857A') + R(4, -40, 24, 12, 6, '#FFB866')], [520, 320, '도구', R(-34, -34, 48, 13, 5, '#C5CEDB') + R(12, -38, 30, 22, 7, '#C98F52')], [650, 200, '시식', okBadge(24)]];
+  B: () => { const set = [[150, 300, '레시피', card('', 1)], [330, 320, '손질한 재료', E(0, -14, 44, 15, '#fff') + C(-14, -28, 10, '#F4857A') + R(4, -40, 24, 12, 6, '#FFB866')], [520, 320, '도구', R(-34, -34, 48, 13, 5, '#C5CEDB') + R(12, -38, 30, 22, 7, '#C98F52')], [650, 200, '확인', okBadge(24)]];
     let s = chefB(); set.forEach((p, i) => { s += pop(p[3] + TX(p[2], 0, 44, 18, INK, 900), B0 + .3 + i * .55, p[0], p[1]); });
-    s += G('<rect x="-420" y="-150" width="840" height="300" rx="30" fill="none" stroke="#F2B84B" stroke-width="5" stroke-dasharray="16 12"/>' + TX('주방 한 벌', 300, -162, 22, '#8A4B14', 900), [[B0 + 2.8, 500, 250, 1.06, 0], [B0 + 3.3, 500, 250, 1, 1]]);
-    return s + tagAt('하네스 = 주방 한 벌', 480, B0 + 3.9); },
+    s += G('<rect x="-420" y="-150" width="840" height="300" rx="30" fill="none" stroke="#F2B84B" stroke-width="5" stroke-dasharray="16 12"/>' + TX('도구와 레시피 한 벌', 40, -162, 22, '#8A4B14', 900), [[B0 + 2.8, 500, 250, 1.06, 0], [B0 + 3.3, 500, 250, 1, 1]]);
+    return s + tagAt('하네스 = 도구와 레시피', 480, B0 + 3.9); },
   C: () => { const L = [['확인 규칙', '#FFE0E6'], ['스킬', '#D6F3E2'], ['도구', '#FFF1B8'], ['지시 (시스템 프롬프트)', '#EDE6FF']];
     let s = explode(L.map((l, i) => box(500 - i * 30, 46, l[1], l[0], 22)), 500, 250, [338, 282, 226, 170], C0 + 1.2);
-    s += G(box(200, 52, '#16233A', '모델', 26, '#fff'), [[C0 + 1.6, 500, 250, .8, 0], [C0 + 2.4, 500, 110, 1, 1]]);
+    s += G(box(200, 52, '#16233A', 'AI', 26, '#fff'), [[C0 + 1.6, 500, 250, .8, 0], [C0 + 2.4, 500, 110, 1, 1]]);
     s += G('<path d="M22 -120q-22 0-22 22v196q0 22 22 22" fill="none" stroke="#1568D2" stroke-width="5" stroke-linecap="round"/>' + TX('하네스', -56, 8, 26, '#0B4FA8', 900), [[C0 + 3, 205, 266, 1, 0], [C0 + 3.4, 205, 266, 1, 1]]);
-    return s + pop(chip('같은 모델 + 다른 틀 = 다른 답', 'butter', 18), C0 + 4.2, 500, 402); }
+    return s + pop(chip('같은 AI + 다른 하네스 = 다른 답', 'butter', 18), C0 + 4.2, 500, 402); }
 };
 ART.privacy = {
   B: () => { let s = chefB() + pop(shadow(0, 4, 90) + P('M-80 0v-120h160v120z', '#DCE6F4') + P('M-96 -120l96-50 96 50z', '#93B9EF') + '<path d="M-50 -90h24M-10 -90h24M30 -90h24M-50 -50h24M30 -50h24" stroke="#fff" stroke-width="12"/>' + R(-18, -40, 36, 40, 4, '#FFFDF7') + TX('본사(서버)', 0, 30, 20, INK, 900), B0 + .2, 160, 330);
@@ -319,7 +319,7 @@ ART.students = {
     ['① 개인정보 넣지 않기', '② 답은 직접 확인', '③ AI 쓴 곳 표시'].forEach((r, i) => { s += pop(TX(r, 0, 0, 20, '#E8F3EA', 800), B0 + .7 + i * .5, 330, 154 + i * 30); });
     s += G(shadow(0, 2, 60) + person('#A9DCC0'), [[B0 + .3, 590, 350, .9, 0], [B0 + .8, 590, 344, 1, 1]]);
     s += pop(okBadge(26) + TX('확인!', 0, -38, 20, '#17623A', 900), B0 + 2.8, 670, 190);
-    return s + tagAt('학생 지도 = 실습 수업', 330, B0 + 3.9); },
+    return s + tagAt('규칙 먼저, 확인은 직접', 330, B0 + 3.9); },
   C: () => { const items = ['이용 연령 확인 (서비스마다 다름)', '보호자 동의서 (학생 개인정보)', '학교가 승인한 도구', 'AI 쓴 부분 표시', '답 검증 습관'];
     let s = pop(R(-330, -152, 660, 304, 20, '#fff'), C0 + .2, 480, 245);
     items.forEach((it, i) => { const y = 135 + i * 55, t = C0 + .6 + i * .75; s += pop(R(-14, -14, 28, 28, 7, '#F3F8FF') + TX(it, 30, 8, 24, INK, 800, 'start'), t, 220, y); s += G(check, [[t + .4, 220, y, .3, 0], [t + .7, 220, y, 1, 1]]); });
@@ -360,9 +360,9 @@ function shorts(d) {
   const ts = Math.min(104, Math.floor(800 / W(d.term, 1))), tw = W(d.term, ts);
   s += scene(0, B0, G(chip('AI 알기', 'sky', 20), [[0, 480, 96, 1, 1]]) + letterDive(d.term, 480, 222, ts, .15) + G(TX(d.en, 0, 0, 30, '#1568D2', 800), [[.9, 480, 292, 1, 0], [1.3, 480, 282, 1, 1]]) +
     underline(480 - tw / 2, 244, tw, 1.1, '#FFC94D') + G(shadow(0, 2, 50) + '<g transform="scale(.62)">' + bot() + '</g>', [[.4, 870, 380, .9, 0], [.9, 870, 352, 1, 1]]));
-  s += scene(B0, C0, art.B() + label('비유 · ' + d.analogy, 'bi'));
-  s += scene(C0, D0, panel + art.C(C0) + label('진짜 · ' + d.term + ' ' + d.en.split(' · ')[0], 'real'));
-  const dc = bigCard('gap', d.card_gap); s += scene(D0, E0, rackFocus(dc.svg(cardLines(d.card_gap, dc, INK)), 480, CY, D0 + .1) + label('비유와 다른 점', 'gap'));
+  s += scene(B0, C0, art.B() + label(d.scene_label || '비유 · ' + d.analogy, 'bi'));
+  s += scene(C0, D0, panel + art.C(C0) + label(d.real_label || '진짜 · ' + d.term + ' ' + d.en.split(' · ')[0], 'real'));
+  const dc = bigCard('gap', d.card_gap); s += scene(D0, E0, rackFocus(dc.svg(cardLines(d.card_gap, dc, INK)), 480, CY, D0 + .1) + label(d.gap_label || '비유와 다른 점', 'gap'));
   const ec = bigCard('use', d.card_use), last = d.card_use[d.card_use.length - 1], uw = Math.min(ec.w - 120, W(last, ec.sz));
   s += scene(E0, F0, G(ec.svg(cardLines(d.card_use, ec, '#17623A')), [[E0, 480, CY + 16, .86, 0], [E0 + .5, 480, CY, 1, 1]]) +
     underline(480 - uw / 2, CY + ec.top + (d.card_use.length - 1) * ec.sz * 1.3 + ec.sz * .66, uw, E0 + .9, '#7FD1A0') + label('이렇게 써요', 'use'));
@@ -371,8 +371,8 @@ function shorts(d) {
 }
 function mini(d) {
   const art = ART[d.id], c0 = 4.6, f0 = 10, caps = d.captions; let s = '';
-  s += scene(0, c0, art.B() + label('비유 · ' + d.analogy, 'bi'));
-  s += scene(c0, f0, panel + art.C(c0) + label('진짜 · ' + d.term + ' ' + d.en, 'real'));
+  s += scene(0, c0, art.B() + label(d.scene_label || '비유 · ' + d.analogy, 'bi'));
+  s += scene(c0, f0, panel + art.C(c0) + label(d.real_label || '진짜 · ' + d.term + ' ' + d.en, 'real'));
   s += finale(d, f0);
   return { body: s, caps: [[.2, caps[0]], [2.4, caps[1]], [c0 + .1, caps[2]], [c0 + 3.7, caps[3]], [f0 + .1, caps[4]]], dur: 13, poster: 4.2 };
 }
