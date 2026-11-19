@@ -144,9 +144,14 @@
       title: 'AI로 20초 수업 영상 만들기',
       date: '',
       dateLong: '날짜 미정',
-      desc: '60분 실습 · AI로 장면을 만들고 편집해 수업 도입 영상 한 편을 완성합니다.',
+      desc: '60분 실습 · AI로 장면을 만들고 편집해 수업 도입 영상 한 편을 완성합니다. 발표자료(수업 도구 무기고 · AI 시험 부정행위 예방)도 함께 있습니다.',
       deck: 's2.html',
-      pptx: 'assets/s2/노안중_2회차_AI영상_60분실습.pptx'
+      pptx: 'assets/s2/노안중_2회차_AI영상_60분실습.pptx',
+      extra: {
+        title: '발표자료 · 수업 도구 무기고와 AI 시험 부정행위',
+        desc: '도구 아홉 가지를 한 줄씩 보고, 시험 부정행위를 지키는 쪽에서 살펴봅니다. 23장, N 키로 발표자 노트.',
+        href: 's2-deck.html'
+      }
     },
     {
       round: '3회차',
@@ -230,6 +235,7 @@
           (session.pptx ? '안내 보기' : '덱 열기') +
         '</a>' +
       '</div>' +
+      (session.extra ? '<div class="p-res-item"><span class="p-res-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v11H3z"></path><path d="M12 15v5"></path><path d="M8 21l4-3 4 3"></path></svg></span><span class="p-res-copy"><b>' + esc(session.extra.title) + '</b><span>' + esc(session.extra.desc) + '</span></span><a class="p-res-open" href="' + esc(session.extra.href) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>덱 열기</a></div>' : '') +
       (session.pptx ? '<div class="p-res-item"><span class="p-res-icon" aria-hidden="true">↓</span><span class="p-res-copy"><b>2회차 PPTX</b><span>10장 발표자료를 내려받아 연수에 사용할 수 있습니다.</span></span><a class="p-res-open" href="' + esc(session.pptx) + '" download>PPTX 받기</a></div>' : '') +
     '</div>';
   }
