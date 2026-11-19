@@ -38,6 +38,8 @@
 }
 .im-thead { display: flex; align-items: center; gap: 12px; }
 .im-thead .pm-ico { width: 44px; height: 44px; flex: none; }
+/* 도구 아이콘은 위·아래 구역 모두 같은 크기·같은 선 굵기 */
+.im-tool .pm-ico svg, .im-thead .pm-ico svg { width: 24px; height: 24px; stroke-width: 1.9; }
 .im-thead h3 { margin: 0; font-size: var(--pm-fs-lg); color: var(--pm-ink); line-height: 1.3; }
 .im-thead small { display: block; font-size: var(--pm-fs-xs); color: var(--pm-ink-3); font-weight: 700; }
 .im-tcard .pm-path { margin: 0; }
