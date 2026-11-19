@@ -55,3 +55,21 @@
   fetch('../data/tasks.json').then(function (r) { return r.json(); })
     .catch(function () { return window.GUIDE_TASKS; }).then(draw);
 })();
+
+/* 아이모두 한눈에 — 13초 그림. 눌러야 재생(자동재생 없음), 소리 없음, 자막 항상. 같은 사이트의 한 장짜리 HTML 을 sandbox iframe 으로 연다. */
+(function () {
+  'use strict';
+  var box = document.querySelector('[data-mini]');
+  if (!box) return;
+  var btn = box.querySelector('.im-mini-play');
+  btn.addEventListener('click', function () {
+    var fr = document.createElement('iframe');
+    fr.src = box.getAttribute('data-mini') + '?autoplay=1';
+    fr.title = '아이모두 13초 그림';
+    fr.setAttribute('sandbox', 'allow-scripts');
+    box.innerHTML = '';
+    box.appendChild(fr);
+    box.className += ' is-playing';
+    try { fr.focus(); } catch (e) { }
+  });
+})();
