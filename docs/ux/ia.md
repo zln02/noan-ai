@@ -96,3 +96,10 @@ guide/                  옛 주소 → 홈으로 넘김 (유지)
 - **AI 용어, 그림으로 보기**: `terms/anim/*.html` 여섯 편(한 장짜리, 소리 없음, 자막 항상). `tools/gen-terms.js` 가 만든다. 「내용 확인한 날」은 사람이 확인한 뒤 `data/terms.json` 의 `checked` 에 적는다(지금은 비어 있어 「확인 필요」).
 - **AI는 어떻게 답을 만들까**: `how-ai-answers/` — 3D 는 `shared/vendor/three/`(three.js r128, MIT, LICENSE 포함, `?.`/`??` 문법 없음)로, 컴퓨터가 약하거나 동작 줄이기·WebGL 없음이면 2D SVG. 주소 뒤에 `?view=2d` / `?view=3d` 로 고정할 수 있다.
 - **AI 활용 안내**: `data/ai-models.json` — 공식 소개 쪽에서 확인한 항목만 문장을 적었고(Gemini, Claude), 확인 못 한 것(ChatGPT 소개, 아이모두 포함 여부)은 「확인 필요」.
+
+## 마감 층 (polish/premium)
+
+- **토큰**: `shared/vendor/open-props/open-props.subset.css`(Open Props 1.7.23, MIT — sizes·shadows.light·easings·borders·durations 원본 그대로). `shared/premium.css` 가 그림자·둥근 정도·이징·간격을 여기에 맞추고 색은 원래 파스텔을 쓴다.
+- **부품**: `shared/vendor/webawesome/`(Web Awesome 3.15.0 무료판, MIT) — 탭·펼침·말풍선·복사·진행 막대·대화 상자 8개만. ESM 을 `tools/vendor-webawesome.js`(node 만, 외부 패키지 없음)로 평범한 `<script>` 하나로 묶어 `file://` 에서도 돈다. Font Awesome CDN 아이콘은 끄고 내장 SVG 몇 개만 남겼다(Font Awesome Free, CC BY 4.0 — SVG 주석에 출처). `shared/app.js` 가 부품을 쓰는 쪽에서만, oklch·`:has()` 를 받쳐 주는 브라우저에서만 불러온다. 못 불러오면 `premium.css` 의 대체 모양.
+- **안내 부품**(premium.css 5번): `.pm-head`(구역 머리) · `.pm-steps`(번호 단계) · `.pm-callout`(알림 상자) · `.pm-iconrow` · `.pm-compare`(비교 카드) · `.pm-chip` · `.pm-path`(경로 알약) · `.pm-empty`.
+- **쪽별 CSS**: `iamodu/iamodu.css` · `ai/ai.css` · `terms/terms.css` · `how-ai-answers/how.css`. 용어 썸네일 `assets/terms/*.webp` 는 `terms/anim/<id>.html?poster=1` 화면을 찍은 것.
