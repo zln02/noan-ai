@@ -20,19 +20,28 @@
       esc(t.term) + ' 애니메이션 재생' + (t.duration_sec ? ' ' + mmss(t.duration_sec) + ' (' + secText(t.duration_sec) + ')' : '') + '">' + art + '<span class="tcard-play">' + PLAY + '</span>' + dur + '</button>';
   }
 
+  var ICO = {
+    bi: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h13a3 3 0 0 1 0 6H6a2 2 0 0 1-2-2z"/><path d="M17 13h3"/></svg>',
+    real: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg>',
+    use: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
+  };
+  function row(kind, lab, text) {
+    return '<div class="tc-row is-' + kind + '"><span class="tc-lab">' + ICO[kind] + lab + '</span><p>' + esc(text) + '</p></div>';
+  }
   function card(t) {
     var ready = t.status === 'ready' && t.file;
     var caps = (t.captions || []).map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('');
-    var chk = t.checked
-      ? '<span class="pm-chip is-mint" title="사람이 내용을 확인한 날">내용 확인 ' + esc(t.checked) + '</span>'
-      : '<span class="pm-chip is-butter" title="아직 사람이 내용을 확인하지 않았어요">내용 확인 필요</span>';
-    return '<article class="tcard"><div class="tcard-media">' + thumb(t, ready) + '</div>' +
-      '<div class="tcard-body"><h3 class="tcard-title">' + esc(t.term) + '</h3>' +
-      '<p class="tcard-analogy">' + esc(t.analogy) + '</p>' +
-      '<p class="tcard-meaning">' + esc(t.meaning) + '</p>' +
-      '<div class="tcard-meta">' + chk + '</div>' +
-      (caps ? '<details class="tcard-caps"><summary>자막 글로 읽기</summary><ol>' + caps + '</ol></details>' : '') +
-      '</div></article>';
+    return '<article class="tcard" id="t-' + esc(t.id) + '"><div class="tcard-media">' + thumb(t, ready) + '</div>' +
+      '<div class="tcard-body"><h3 class="tcard-title">' + esc(t.term) + (t.en ? ' <span class="tcard-en">' + esc(t.en) + '</span>' : '') + '</h3>' +
+      (t.summary ? '<p class="tcard-sum">' + esc(t.summary.join(' ')) + '</p>' : '') +
+      row('bi', '비유', t.analogy_line || t.analogy) +
+      row('real', '진짜', t.real || t.meaning) +
+      row('use', '활용', t.use || '') +
+      '<details class="tcard-caps"><summary>비유와 다른 점 · 자막 글로 읽기</summary>' +
+        (t.gap ? '<p class="tc-gap"><b>비유와 다른 점</b> ' + esc(t.gap) + '</p>' : '') +
+        (caps ? '<ol>' + caps + '</ol>' : '') +
+        '<p class="tc-chk">' + (t.checked ? '내용 확인 ' + esc(t.checked) : '사람이 아직 내용을 확인하지 않았어요 (확인 필요)') + '</p>' +
+      '</details></div></article>';
   }
 
   function play(btn) {
@@ -68,7 +77,15 @@
   function draw(data) {
     var box = document.getElementById('terms');
     if (!data || !data.items) { box.textContent = '자료를 불러오지 못했습니다.'; return; }
-    box.innerHTML = data.items.map(card).join('');
+    var groups = (data.meta && data.meta.groups) || {};
+    var order = Object.keys(groups);
+    var html = order.length ? order.map(function (g, gi) {
+      var list = data.items.filter(function (t) { return t.group === g; });
+      if (!list.length) return '';
+      return '<section class="t-group" aria-labelledby="tg-' + g + '"><h2 class="t-group-h" id="tg-' + g + '"><span>' + (gi + 1) + '</span>' + esc(groups[g]) + ' <small>' + list.length + '편</small></h2>' +
+        '<div class="term-grid">' + list.map(card).join('') + '</div></section>';
+    }).join('') : '<div class="term-grid">' + data.items.map(card).join('') + '</div>';
+    box.innerHTML = html;
     box.addEventListener('click', function (e) { var b = e.target.closest('button[data-file]'); if (b) play(b); });
   }
   fetch('../data/terms.json').then(function (r) { return r.json(); })
