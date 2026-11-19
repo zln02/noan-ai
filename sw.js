@@ -1,7 +1,7 @@
 /* 노안중 AI 안내서 — 오프라인용 서비스 워커.
    화면 글과 데이터는 미리 담아 두고(precache), 그림은 본 만큼 담는다(runtime).
    안내서 문장이나 파일 목록을 바꿨다면 CACHE_VERSION 숫자를 하나 올린다. 이 파일 하나만 고치면 된다. */
-var CACHE_VERSION = 'noan-guide-v4';
+var CACHE_VERSION = 'noan-guide-v5';
 var CACHE_PREFIX = 'noan-guide-';
 var CORE = [
   'index.html', 'manifest.webmanifest', 'offline.html',
@@ -12,7 +12,10 @@ var CORE = [
   'data/ai-models.js', 'data/ai-models.json', 'data/terms.js', 'data/terms.json',
   'iamodu/index.html', 'ai/index.html', 'ai/ai.js', 'terms/index.html', 'terms/terms.js', 'how-ai-answers/index.html', 'how-ai-answers/how.js', 'how-ai-answers/scene3d.js', 'iamodu/iamodu.js',
   'terms/anim/model.html', 'terms/anim/prompt.html', 'terms/anim/harness.html', 'terms/anim/skill.html', 'terms/anim/tool.html', 'terms/anim/hallucination.html',
-  'shared/vendor/three/three.min.js', 'start/index.html',
+  'shared/vendor/three/three.min.js', 'shared/premium.css', 'shared/vendor/open-props/open-props.subset.css', 'shared/vendor/webawesome/webawesome.js', 'shared/vendor/webawesome/webawesome.css',
+  'iamodu/iamodu.css', 'ai/ai.css', 'terms/terms.css', 'how-ai-answers/how.css',
+  'assets/terms/model.webp', 'assets/terms/prompt.webp', 'assets/terms/harness.webp', 'assets/terms/skill.webp', 'assets/terms/tool.webp', 'assets/terms/hallucination.webp',
+  'start/index.html',
   'training/index.html', 'library/index.html', 'library/rules.html', 'library/approval.html', 'data/approval.js',
   'showcase/index.html', 'data/showcase.js', 'request/index.html', 'data/requests.js', 'about/index.html',
   'assets/logo.png', 'assets/noan-ai-icon-32.png', 'assets/noan-ai-touch-180.png',
