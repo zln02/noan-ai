@@ -15,7 +15,7 @@
     return '<article class="term">' + frame +
       '<div class="term-cap"><b>' + esc(t.term) + (ready ? '' : ' <span class="chip">준비 중</span>') + '</b>' +
       '<span>' + esc(t.meaning) + '</span>' +
-      '<small>' + (t.duration_sec ? t.duration_sec + '초 · ' : '') + '확인한 날: ' + (t.checked ? esc(t.checked) : '확인 전') + '</small></div>' +
+      '<small>' + (t.duration_sec ? t.duration_sec + '초 · ' : '') + '내용 확인한 날: ' + (t.checked ? esc(t.checked) : '확인 필요') + '</small></div>' +
       (caps ? '<p class="term-captions">' + caps + '</p>' : '') + '</article>';
   }
   function play(btn) {
@@ -24,7 +24,7 @@
       btn.innerHTML = '<video src="../' + f + '" controls playsinline preload="none"></video>';
       btn.querySelector('video').play();
     } else {
-      btn.innerHTML = '<iframe src="../' + f + '" title="애니메이션" sandbox="allow-scripts"></iframe>';
+      btn.innerHTML = '<iframe src="../' + f + '?autoplay=1" title="' + esc(btn.getAttribute('aria-label') || '애니메이션') + '" sandbox="allow-scripts" allow=""></iframe>';
     }
   }
   function draw(data) {

@@ -298,6 +298,25 @@ main .g-detail-actions a.g-request:not(#x) { color: #fff; }
 .g-evidence small { color: #566B7D; }
 .g-mark span { background: #C62B30; }
 
+/* 아이모두·용어·AI 안내 쪽 공통 부품 */
+.im-steps { margin: 8px 0; padding-left: 22px; display: grid; gap: 6px; }
+.im-note { background: #FFF4DA; border-radius: 12px; padding: 10px 14px; color: #5E4300; font-size: 15px; margin: 10px 0; }
+.im-grid { display: grid; gap: 12px; grid-template-columns: 1fr; margin: 12px 0; }
+@media (min-width: 760px) { .im-grid { grid-template-columns: repeat(2, 1fr); } }
+.im-card { background: #F7FAFF; border: 1px solid #E1EAF6; border-radius: 14px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
+.im-card h3 { font-size: 17px; color: #12203A; }
+.im-card p { margin: 0; font-size: 15px; color: #3C4F66; }
+.im-card a { font-weight: 700; color: var(--brand-ink); }
+.im-sub { margin: 16px 0 6px; font-size: 17px; color: #12203A; }
+.im-list { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: 15px; color: #3C4F66; }
+.need { display: inline-block; padding: 1px 8px; border-radius: 999px; background: #FFEEC2; color: #6B4E00; font-weight: 800; font-size: 12px; white-space: nowrap; }
+.tw { overflow-x: auto; }
+.im-table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px; }
+.im-table th, .im-table td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid #E6ECF3; }
+.im-table thead th { color: #3C4F66; font-size: 13px; }
+.im-table tbody th { white-space: nowrap; color: #12203A; }
+.im-table td a { color: var(--brand-ink); text-decoration: underline; text-underline-offset: 3px; }
+
 /* ==========================================================================
    10. 움직임 2 — 목적이 있는 움직임. transform·opacity 만 쓴다. 줄이기 설정이면 전부 꺼진다.
        한 번에 큰 연출은 하나만(첫 화면). 영원히 도는 것은 아주 느린 둥둥뿐이다.
