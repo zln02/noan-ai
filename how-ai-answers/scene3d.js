@@ -33,7 +33,7 @@
     var dl = new T.DirectionalLight(0xffffff, 0.45); dl.position.set(4, 8, 6); scene.add(dl);
 
     var floor = new T.Mesh(new T.PlaneGeometry(60, 60), new T.MeshBasicMaterial({ color: 0xEBD2AA }));
-    floor.rotation.x = -Math.PI / 2; floor.position.y = -2.4; scene.add(floor);
+    floor.rotation.x = -Math.PI / 2; floor.position.y = -4.6; scene.add(floor);
     /* 멀리 있는 배경 동그라미들 — 돌리 줌에서 배경이 늘어나 보이게 한다 */
     var bg = new T.Group(); scene.add(bg);
     for (var b = 0; b < 14; b++) {
@@ -88,6 +88,22 @@
     var ansG = new T.Group(); ansG.add(new T.Mesh(new T.PlaneGeometry(5.4, 1.12), ansM));
     var ans = mk(ansG, [ansM]);
 
+
+    /* 의미 공간 설명: 비슷한 뜻끼리 묶인 둥근 자리와 이름표 */
+    function disc(col, r, lbl, pos, lp) {
+      var g = new T.Group();
+      var dm = new T.MeshBasicMaterial({ color: col, transparent: true });
+      var d = new T.Mesh(new T.CircleGeometry(r, 40), dm); g.add(d);
+      var tm = new T.MeshBasicMaterial({ map: canvasTex(lbl, 512, 112, null, '#6B5A45', 58), transparent: true });
+      var tp = new T.Mesh(new T.PlaneGeometry(3.6, .8), tm); tp.position.set(0, -r - .5, .05); g.add(tp);
+      var o = mk(g, [dm, tm]); o.max = 0.5; o.pos = pos; return o;
+    }
+    var discA = disc(0xA9DCC0, 2.0, '음식 이야기', [2.0, 0.4, 0.2]);
+    var discB = disc(0xC9B6F8, 1.7, '부탁하는 말', [-1.35, -1.05, -0.9]);
+    var hintM = new T.MeshBasicMaterial({ map: canvasTex('뜻이 비슷하면 가까이 놓여요', 896, 120, '#FFFDF7', '#5B4A36', 58), transparent: true });
+    var hintG = new T.Group(); hintG.add(new T.Mesh(new T.PlaneGeometry(7, .94), hintM));
+    var hint = mk(hintG, [hintM]);
+
     var step = 0, camT = { x: 0, y: .6, z: 9.5 }, camC = { x: 0, y: .6, z: 9.5 }, look = { x: 0, y: 0, z: 0 };
     var running = false, raf = 0, last = 0, clock = 0, dolly = -1, picked = 0;
 
@@ -102,8 +118,9 @@
         toks.forEach(function (o, i) { setT(o, ROW(i), 1, 1); });
         camT = { x: 0, y: .9, z: 12 };
       } else if (n === 2) {
-        toks.forEach(function (o, i) { setT(o, SPACE[i], .8, 1); });
-        camT = { x: 4.2, y: 2.2, z: 8.6 };
+        toks.forEach(function (o, i) { setT(o, SPACE[i], 1.15, 1); });
+        setT(discA, discA.pos, 1, .45); setT(discB, discB.pos, 1, .45); setT(hint, [0, -3.6, 1], 1, 1);
+        camT = { x: 0.3, y: -0.3, z: 12 };
       } else if (n === 3) {
         toks.forEach(function (o, i) { setT(o, SPACE[i], .8, i === 3 ? 1 : .55); });
         links.forEach(function (l) { if (l.w > 0) setT(l.o, SPACE[3], 1, .35 + l.w); });
