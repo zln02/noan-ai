@@ -31,7 +31,7 @@
 /* 3. 도구별 카드 */
 .im-tasks { align-items: start; display: grid; gap: var(--pm-s4); grid-template-columns: 1fr; margin: var(--pm-s4) 0; }
 @media (min-width: 900px) { .im-tasks { grid-template-columns: repeat(2, 1fr); } }
-.im-tcard {
+.im-tcard { min-width: 0;
   display: grid; gap: 12px; align-content: start; padding: 20px; border-radius: var(--pm-r-lg);
   background: var(--pm-surface); border: 1px solid var(--pm-border); box-shadow: var(--pm-sh-2);
   border-top: 4px solid var(--tone, var(--pm-sky-ink));
@@ -66,3 +66,12 @@
   .im-tool .pm-ico { width: 40px; height: 40px; }
 }
 @media (prefers-reduced-motion: reduce) { .im-tool, .im-tlinks a { transition: none; } .im-tool:hover { transform: none; } }
+
+/* 카드가 많은 도구(JNE GPT)는 한 줄을 다 쓰고 목록을 두 칸으로 — 옆 칸이 텅 비지 않게 */
+@supports selector(:has(*)) {
+  @media (min-width: 900px) {
+    .im-tasks { grid-auto-flow: row dense; }
+    .im-tcard:has(.im-tlinks > li:nth-child(6)) { grid-column: 1 / -1; }
+    .im-tcard:has(.im-tlinks > li:nth-child(6)) .im-tlinks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+}

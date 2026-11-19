@@ -236,7 +236,7 @@ a.panel:hover, .g-quick-card:hover, .pm-card[href]:hover { box-shadow: var(--pm-
   content: ""; width: 14px; height: 14px; margin: 0 4px; opacity: .55;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2312203A' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 6 6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
 }
-.pm-path span { padding: 2px 9px; border-radius: 7px; background: var(--pm-sunken); border: 1px solid var(--pm-border); color: var(--pm-ink); font-weight: 700; white-space: nowrap; }
+.pm-path span { padding: 2px 9px; border-radius: 7px; background: var(--pm-sunken); border: 1px solid var(--pm-border); color: var(--pm-ink); font-weight: 700; overflow-wrap: anywhere; }
 .pm-path li:last-child span { background: var(--pm-sky); border-color: var(--pm-sky-line); color: var(--pm-sky-ink); }
 
 /* 5-7 빈 화면·불러오는 중 */
