@@ -5,6 +5,8 @@
  * 장면을 새로 짜고 싶을 때만 이 스크립트를 고치고 `node tools/gen-terms.js` 를 돌린다.
  * 움직임은 요소마다 data-k="시간:x,y,배율,투명도" 키프레임으로 적는다(transform·opacity 만 바뀜).
  * 보기 모드: ?autoplay=1 바로 재생 · ?poster=1 대표 한 장(자막 막대 없이, 갤러리 썸네일용) · #t=초 그 시각에 멈춘 장면.
+ * 썸네일 구도: 장면마다 thumb(잘라 볼 viewBox)·tagAt(「용어 = 비유」 꼬리표 x y 배율)을 적는다. 서랍은 숨기고 꼬리표를 크게 — 그림과 용어가 함께 크게 읽힌다.
+ * 썸네일 다시 찍기: ?poster=1 을 960×540 으로 찍어 assets/terms/<id>.webp 로 저장.
  * 같은 그림체: 요리사 로봇 한 명 · 남색 잉크 선 3 · 크림/복숭아/민트/연보라/하늘/버터 팔레트. */
 'use strict';
 const fs = require('fs');
@@ -54,7 +56,7 @@ const card = (title, n) => '<g>' + R(-66, -46, 132, 92, 13, '#FFFDF7') + T(title
 const plate = (food) => '<g>' + shadow(0, 20, 74) + E(0, 8, 76, 19, '#fff') + E(0, 3, 54, 11, '#F5EBD8', false) + food + '</g>';
 const rice = P('M-44 -2q4-46 44-46t44 46z', '#FFD27A') + C(-15, -28, 6, '#F4857A') + C(13, -20, 5, '#7FD1A0') + C(2, -39, 7, '#fff');
 const oddDish = P('M-42 -2q-6-36 20-32t22-12q24 6 20 46z', '#C9CED8') + T('?', 0, -8, 34, '#fff', 900);
-const tag = (txt, fill, color) => { const w = Math.round(txt.length * 19 + 44); return '<g><rect x="' + (-w / 2) + '" y="-19" width="' + w + '" height="38" rx="19" fill="' + (fill || '#FFEEC2') + '"' + LN + '/>' + T(txt, 0, 7, 20, color || '#5B3E00', 800) + '</g>'; };
+const tag = (txt, fill, color) => { const w = Math.round(txt.length * 19 + 44); return '<g class="tg"><rect x="' + (-w / 2) + '" y="-19" width="' + w + '" height="38" rx="19" fill="' + (fill || '#FFEEC2') + '"' + LN + '/>' + T(txt, 0, 7, 20, color || '#5B3E00', 800) + '</g>'; };
 /* 말풍선: side 'l'/'r' 꼬리 방향 */
 const bubble = (txt, w, side) => { const x = side === 'l' ? -w / 2 + 22 : w / 2 - 22; const d = side === 'l' ? -1 : 1; return '<g>' + R(-w / 2, -30, w, 54, 22, '#fff') + '<path d="M' + (x - d * 10) + ' 22l' + (d * 20) + ' 22l' + (d * 6) + ' -22z" fill="#fff"' + LN + '/><rect x="' + (x - 11) + '" y="20" width="26" height="7" fill="#fff"/>' + T(txt, 0, 5, 21, '#5B3DB8', 800) + '</g>'; };
 const magnifier = '<g><circle r="32" fill="rgba(185,213,248,.4)" stroke="' + INK + '" stroke-width="3"/><circle r="26" fill="none" stroke="#1568D2" stroke-width="5"/><path d="M24 24l34 34" stroke="' + INK + '" stroke-width="12" stroke-linecap="round"/><path d="M24 24l34 34" stroke="#F4857A" stroke-width="6" stroke-linecap="round"/></g>';
@@ -67,21 +69,21 @@ const lamp = (x) => '<g transform="translate(' + x + ' 0)"><path d="M0 0v40" str
 const wall = '<rect x="-40" y="-60" width="1040" height="640" fill="#FFF4E2"/><circle cx="480" cy="190" r="330" fill="#FFFAF0"/><rect y="262" width="960" height="76" fill="#FCE9CB"/><path d="M0 262h960" stroke="#F2D6AC" stroke-width="3"/>' +
   '<circle cx="64" cy="64" r="34" fill="#FFE9B5" opacity=".8"/><circle cx="880" cy="190" r="22" fill="#FFD9E4" opacity=".7"/>' + lamp(86) + lamp(874);
 const counter = '<rect y="336" width="960" height="204" fill="#E7B27A"/><rect y="336" width="960" height="20" fill="#F7D7A8"/><path d="M0 356h960" stroke="' + INK + '" stroke-width="3" opacity=".45"/>' +
-  [60, 270, 480, 690].map(x => '<rect x="' + x + '" y="384" width="190" height="150" rx="14" fill="#DDA466" stroke="#C98F52" stroke-width="3"/><rect x="' + (x + 76) + '" y="396" width="38" height="8" rx="4" fill="#F7D7A8"/>').join('');
+  [60, 270, 480, 690].map(x => '<g class="dr"><rect x="' + x + '" y="384" width="190" height="150" rx="14" fill="#DDA466" stroke="#C98F52" stroke-width="3"/><rect x="' + (x + 76) + '" y="396" width="38" height="8" rx="4" fill="#F7D7A8"/></g>').join('');
 
 /* ---------- 여섯 장면 ---------- */
 const S = {};
 const chefG = (x, extra) => G(bot(), [[0, x, 366, .92, 0], [.9, x, 344, 1, 1]].concat(extra || []));
 
 S.model = {
-  term: '모델', dur: 20, poster: 11,
+  term: '모델', dur: 20, poster: 11, thumb: '60 21 720 405', tagAt: '420 397 1.5',
   caps: [[0.3, '모델은 요리사예요'], [4, '수많은 요리법(글)을 보고 솜씨를 익혔어요'], [10, '하지만 어떤 요리를 할지는 주문이 와야 알아요'], [15, '그래서 AI에게 일을 시키려면 주문서가 필요해요']],
   body: () => {
     let s = chefG(630) + counter + shadow(630, 346, 84);
     s += G(books, [[3, 180, 346, .8, 0], [3.7, 180, 336, 1, 1]]);
     const xs = [[300, 130], [430, 200], [250, 220], [390, 110], [330, 280]];
     xs.forEach((p, i) => { const t = 4.2 + i * 1.1; s += G(card('요리법', 1), [[t, 180, 280, .6, 0], [t + .6, p[0], p[1], 1, 1], [t + 1.2, p[0], p[1], 1, 1], [t + 2.0, 630, 170, .3, .9], [t + 2.4, 630, 170, .2, 0]]); });
-    s += G(tag('모델 = 요리사', '#FFEEC2'), [[1.2, 630, 398, .8, 0], [1.9, 630, 394, 1, 1]]);
+    s += G(tag('모델 = 요리사', '#FFEEC2'), [[1.2, 630, 398, .8, 0], [1.9, 630, 394, 1, 1]], ' data-tag=\"1\"');
     s += G(bubble('어떤 요리?', 176, 'r'), [[10.2, 500, 120, .6, 0], [10.9, 500, 110, 1, 1]]);
     s += G(ticket(['주문서']), [[15, 100, 280, .7, 0], [16.1, 310, 290, 1, 1]]);
     s += G(T('→', 0, 0, 44, '#1568D2', 900), [[16.7, 450, 304, .6, 0], [17.3, 450, 304, 1, 1]]);
@@ -90,7 +92,7 @@ S.model = {
 };
 
 S.prompt = {
-  term: '프롬프트', dur: 20, poster: 16.8,
+  term: '프롬프트', dur: 20, poster: 16.8, thumb: '60 -46.5 840 472.5', tagAt: '480 397 1.5',
   caps: [[0.3, '손님이 주문서를 내요'], [3.8, '“맛있는 거”라고만 쓰면…'], [6.5, '요리사도 뭘 만들지 몰라 엉뚱한 음식이 나와요'], [10, '이번엔 구체적으로 적어 볼게요'], [15, '원하는 음식에 훨씬 가까워요'], [18, '프롬프트 = 주문서. 구체적일수록 좋아요']],
   body: () => {
     let s = G(person(), [[0, 130, 350, .92, 0], [.8, 130, 344, 1, 1]]) + chefG(820) + counter + shadow(130, 346, 62) + shadow(820, 346, 84);
@@ -100,14 +102,14 @@ S.prompt = {
     s += G(ticket(['김치볶음밥', '계란 추가', '안 맵게']), [[10, 160, 150, .8, 0], [10.6, 160, 150, 1, 1], [12, 400, 170, 1, 1], [12.8, 650, 205, .85, 1], [14.5, 650, 205, .85, 1], [15, 660, 235, .3, 0]]);
     s += G(plate(rice), [[14.8, 480, 360, .7, 0], [15.6, 480, 340, 1.1, 1]]);
     s += G(spark, [[15.8, 560, 260, .3, 0], [16.4, 560, 250, 1.5, 1], [17.4, 560, 240, 1, 0]]) + G(spark, [[16.2, 400, 270, .3, 0], [16.8, 400, 262, 1.2, 1], [17.8, 400, 252, 1, 0]]);
-    s += G(tag('프롬프트 = 주문서', '#FFEEC2'), [[18, 480, 398, .8, 0], [18.7, 480, 394, 1, 1]]);
+    s += G(tag('프롬프트 = 주문서', '#FFEEC2'), [[18, 480, 398, .8, 0], [18.7, 480, 394, 1, 1]], ' data-tag=\"1\"');
     return s;
   }
 };
 
 const rider = (title, sub, icon) => '<g>' + R(-95, -72, 190, 160, 22, '#fff') + '<circle cy="-20" r="46" fill="#FFF4E2"/>' + icon + T(title, 0, 56, 23, INK) + T(sub, 0, 80, 17, '#5A4A36', 700) + '</g>';
 S.harness = {
-  term: '하네스', dur: 25, poster: 24.4,
+  term: '하네스', dur: 25, poster: 16, thumb: '70 -35 820 461.25', tagAt: '480 397 1.4',
   caps: [[0.3, '주문이 들어오면'], [3, '레시피를 꺼내고'], [6.5, '손질한 재료를 준비하고'], [10, '알맞은 도구를 놓고'], [13, '마지막에 시식으로 확인해요'], [16.5, '이 한 벌이 “하네스”예요'], [18.5, '옷·선글라스·오토바이·내비로도 비유해요'], [22.5, 'AI가 일하는 방식을 정해 주는 틀이에요']],
   body: () => {
     let s = chefG(480, [[18.2, 480, 344, 1, 1], [18.9, 480, 366, .92, 0]]) + counter + G(shadow(480, 346, 84), [[0, 0, 0, 1, 1], [18.2, 0, 0, 1, 1], [18.9, 0, 0, 1, 0]]);
@@ -117,7 +119,7 @@ S.harness = {
       [10, 650, '도구', R(-34, -34, 48, 13, 5, '#C5CEDB') + R(12, -38, 30, 22, 7, '#C98F52') + P('M-36 -6l66-5-6 15z', '#AEB9C9')],
       [13, 810, '시식', C(0, -20, 24, '#fff') + '<path d="M-11 -20l8 9 16-18" fill="none" stroke="#2E9B5C" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>']];
     set.forEach(p => { s += G('<g transform="translate(0,-8)">' + p[3] + '</g>' + (p[2] === '레시피' ? '' : T(p[2], 0, 40, 18, INK)), [[p[0], p[1], 280, .7, 0], [p[0] + .6, p[1], 322, 1, 1], [16, p[1], 322, 1, 1], [16.8, p[1], 322, .9, 0]]); });
-    s += G(tag('하네스 = 주방 한 벌', '#FFEEC2'), [[16.6, 480, 398, .8, 0], [17.3, 480, 394, 1, 1]]);
+    s += G(tag('하네스 = 주방 한 벌', '#FFEEC2'), [[16.6, 480, 398, .8, 0], [17.3, 480, 394, 1, 1]], ' data-tag=\"1\"');
     /* 비유 모음 */
     const icons = [
       [18.8, 120, '옷', '역할을 입혀요', '<path d="M-34 -42l-22 14 10 20 14-8v40h64v-40l14 8 10-20-22-14q-8 14-34 14t-34-14z" fill="#8FB6EA"' + LN + '/>'],
@@ -131,7 +133,7 @@ S.harness = {
 };
 
 S.skill = {
-  term: '스킬', dur: 18, poster: 11,
+  term: '스킬', dur: 18, poster: 11, thumb: '40 -35 820 461.25', tagAt: '480 397 1.5',
   caps: [[0.3, '자주 하는 요리는 레시피 카드로 정리해 둬요'], [4, '주문이 오면 카드를 꺼내서'], [7, '1, 2, 3 순서대로 따라 해요'], [11, '다음 손님에게도 같은 순서로'], [14.5, '그래서 결과가 비슷해요']],
   body: () => {
     let s = chefG(760) + counter + shadow(760, 346, 84);
@@ -143,13 +145,13 @@ S.skill = {
     [[7, 0], [8.3, 1], [9.6, 2]].forEach(p => { s += G(check, [[p[0], 520, 190 + p[1] * 36, .3, 0], [p[0] + .5, 520, 190 + p[1] * 36, 1, 1], [14.6, 520, 190 + p[1] * 36, 1, 1], [15.1, 520, 190 + p[1] * 36, 1, 0]]); });
     s += G(plate(rice), [[10, 600, 380, .6, 0], [10.9, 600, 340, 1, 1], [11.2, 600, 340, 1, 1], [11.9, 600, 340, 1, 0]]);
     s += G(plate(rice), [[13.8, 600, 380, .6, 0], [14.6, 600, 340, 1, 1]]);
-    s += G(tag('스킬 = 레시피 카드', '#FFEEC2'), [[15.2, 480, 398, .8, 0], [15.9, 480, 394, 1, 1]]);
+    s += G(tag('스킬 = 레시피 카드', '#FFEEC2'), [[15.2, 480, 398, .8, 0], [15.9, 480, 394, 1, 1]], ' data-tag=\"1\"');
     return s;
   }
 };
 
 S.tool = {
-  term: '도구', dur: 18, poster: 16,
+  term: '도구', dur: 18, poster: 16, thumb: '70 -1.5 760 427.5', tagAt: '480 397 1.4',
   caps: [[0.3, '요리사는 말(글)로만 일하지 않아요'], [3.5, '정확히 재야 할 땐 저울(계산)'], [7, '새 재료가 필요하면 냉장고를 열어 봐요(검색)'], [10.5, '서류 묶음은 직접 펼쳐 읽어요(파일 읽기)'], [14, '알맞은 도구를 불러 쓰는 게 AI의 도구예요']],
   body: () => {
     let s = chefG(700) + counter + shadow(700, 346, 84);
@@ -162,13 +164,13 @@ S.tool = {
       s += G('<g transform="translate(0,-10)">' + t[4] + '</g>' + T(t[2] + ' (' + t[3] + ')', 0, 34, 18, INK), [[t[0] - 2.4, t[1], 300, .7, 0], [t[0] - 1.7, t[1], 326, 1, 1], [t[0], t[1], 326, 1.18, 1], [t[0] + 2.8, t[1], 326, 1, 1]]);
       s += G(bubble(t[5], t[6], 'l'), [[t[0] + .6, t[1], 222, .6, 0], [t[0] + 1.3, t[1], 214, 1, 1], [t[0] + 3, t[1], 214, 1, 0]]);
     });
-    s += G(tag('도구 = 주방 기구', '#FFEEC2'), [[14.2, 480, 398, .8, 0], [14.9, 480, 394, 1, 1]]);
+    s += G(tag('도구 = 주방 기구', '#FFEEC2'), [[14.2, 480, 398, .8, 0], [14.9, 480, 394, 1, 1]], ' data-tag=\"1\"');
     return s;
   }
 };
 
 S.hallucination = {
-  term: '환각', dur: 22, poster: 7,
+  term: '환각', dur: 22, poster: 7, thumb: '50 -46.5 840 472.5', tagAt: '480 397 1.35',
   caps: [[0.3, 'AI는 자신 있게 말해요'], [4, '하지만 없는 메뉴를 지어낼 때가 있어요(환각)'], [8.5, '그럴듯해서 속기 쉬워요'], [11.5, '그래서 돋보기로 진짜 메뉴판과 대조해요'], [16, '맞지 않으면 “확인 필요”'], [19, '중요한 내용은 공식 자료로 꼭 확인하세요']],
   body: () => {
     let s = G(person(), [[0, 120, 350, .92, 0], [.8, 120, 344, 1, 1]]) + chefG(800) + counter + shadow(120, 346, 62) + shadow(800, 346, 84);
@@ -184,7 +186,7 @@ S.hallucination = {
     s += G('<g transform="rotate(-8)">' + R(-86, -28, 172, 56, 12, '#FFF0EE').replace(LN, ' stroke="#C0392B" stroke-width="6" stroke-linejoin="round"') + T('확인 필요', 0, 11, 31, '#B3261E', 900) + '</g>', [[15.8, 480, 272, 1.8, 0], [16.4, 480, 272, 1, 1], [19, 480, 272, 1, 1], [19.5, 480, 272, 1, 0]]);
     s += G(plate(rice), [[17, 480, 366, .7, 0], [17.8, 480, 340, 1, 1]]);
     s += G('<circle r="23" fill="#2E9B5C"' + LN + '/><path d="M-10 0l7 8 14-16" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>', [[18.2, 570, 290, .4, 0], [18.8, 570, 290, 1, 1]]);
-    s += G(tag('환각 = 그럴듯한 가짜 메뉴', '#FFEEC2'), [[19, 480, 398, .8, 0], [19.7, 480, 394, 1, 1]]);
+    s += G(tag('환각 = 그럴듯한 가짜 메뉴', '#FFEEC2'), [[19, 480, 398, .8, 0], [19.7, 480, 394, 1, 1]], ' data-tag=\"1\"');
     return s;
   }
 };
@@ -200,9 +202,11 @@ const CSS = 'html,body{margin:0;height:100%;overflow:hidden;background:#16233A;f
   '#pg i{position:absolute;left:0;top:0;width:100%;height:4px;background:#FFE58A;transform-origin:left;transform:scaleX(0)}' +
   '#big{position:absolute;left:50%;top:40%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(22,35,58,.28);display:grid;place-items:center;color:#1568D2;pointer-events:none;transition:opacity .25s,transform .3s cubic-bezier(.22,1,.36,1)}#big svg{position:static;width:32px;height:32px}#big.off{opacity:0;transform:scale(.8)}' +
   '.poster #bar,.poster #big{display:none}.poster #st{cursor:default}' +
+  /* 썸네일(?poster=1): 조리대 서랍은 숨기고, 「용어 = 비유」 꼬리표를 크게 띄워 그림과 용어가 함께 크게 읽히게 한다 */
+  '.poster .dr{display:none}' +
   '@media (prefers-reduced-motion:reduce){#cap.n{animation:none}#pp,#big{transition:none}}' +
   '@media (min-width:700px){#cap{font-size:22px}}';
-const ENGINE = '(function(){var DUR=__DUR__,CAPS=__CAPS__,POSTER=__POSTER__;var R=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;' +
+const ENGINE = '(function(){var DUR=__DUR__,CAPS=__CAPS__,POSTER=__POSTER__,THUMB="__THUMB__",TAGAT="__TAGAT__";var R=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;' +
   'var els=[].slice.call(document.querySelectorAll("[data-k]")).map(function(e){return{e:e,k:e.getAttribute("data-k").split(";").map(function(s){var p=s.split(":"),v=p[1].split(",").map(Number);return{t:+p[0],x:v[0],y:v[1],s:v[2],o:v[3]}})}});' +
   'var bobs=[].slice.call(document.querySelectorAll("[data-bob]"));' +
   'function ez(p){return 1-Math.pow(1-p,3)}function at(k,t){if(t<=k[0].t)return k[0];var n=k.length-1;if(t>=k[n].t)return k[n];for(var i=0;i<n;i++){if(t<k[i+1].t){var a=k[i],b=k[i+1],p=ez((t-a.t)/(b.t-a.t));return{x:a.x+(b.x-a.x)*p,y:a.y+(b.y-a.y)*p,s:a.s+(b.s-a.s)*p,o:a.o+(b.o-a.o)*p}}}return k[n]}' +
@@ -219,10 +223,10 @@ const ENGINE = '(function(){var DUR=__DUR__,CAPS=__CAPS__,POSTER=__POSTER__;var 
   'document.getElementById("pg").onclick=function(e){e.stopPropagation();idle=false;var r=this.getBoundingClientRect();t=Math.max(0,Math.min(DUR,(e.clientX-r.left)/r.width*DUR));draw();ui()};' +
   'document.addEventListener("keydown",function(e){if(e.key===" "&&e.target===document.body){e.preventDefault();tog()}});' +
   'var mh=/[#&]t=([0-9.]+)/.exec(location.hash),po=/poster=1/.test(location.search),au=/autoplay=1/.test(location.search);' +
-  'if(po){document.documentElement.className="poster";document.querySelector("svg").setAttribute("viewBox","20 -22 920 517.5")}' +
+  'if(po){document.documentElement.className="poster";document.querySelector("svg").setAttribute("viewBox",THUMB)}' +
   'if(mh){t=Math.min(DUR,parseFloat(mh[1]))}else if(po||R||!au){t=POSTER;idle=!po&&!R}' +
   'window.addEventListener("hashchange",function(){var m=/[#&]t=([0-9.]+)/.exec(location.hash);if(m){playing=false;idle=false;t=Math.min(DUR,parseFloat(m[1]));draw();ui();big.className="off"}});' +
-  'draw();ui();if(au&&!po&&!mh)play();})();';
+  'draw();ui();if(po&&TAGAT){var tg=document.querySelector("[data-tag]"),a=TAGAT.split(" ");if(tg){tg.setAttribute("transform","translate("+a[0]+" "+a[1]+") scale("+a[2]+")");tg.setAttribute("opacity","1")}}if(au&&!po&&!mh)play();})();';
 
 function page(id, sc) {
   const caps = JSON.stringify(sc.caps);
@@ -231,7 +235,7 @@ function page(id, sc) {
     '<!-- 자동 생성: tools/gen-terms.js · 외부 요청 0건 · 소리 없음 · 자막 항상 켜짐 · 자동재생 없음 (?poster=1 대표 한 장 · #t=초 멈춘 장면) -->\n' +
     '<div id="st"><svg viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" role="img" aria-label="' + sc.term + ' 설명 그림. 아래 자막으로 같은 내용을 읽을 수 있어요.">' + wall + sc.body() + '</svg><div id="big" aria-hidden="true"></div></div>\n' +
     '<div id="bar"><button id="pp" type="button" aria-label="재생"></button><div id="cap" role="status" aria-live="off">' + sc.caps[0][1] + '</div><div id="pg" aria-hidden="true"><i></i></div></div>\n' +
-    '<script>' + ENGINE.replace('__DUR__', sc.dur).replace('__CAPS__', caps).replace('__POSTER__', sc.poster) + '</script></body></html>\n';
+    '<script>' + ENGINE.replace('__DUR__', sc.dur).replace('__CAPS__', caps).replace('__POSTER__', sc.poster).replace('__THUMB__', sc.thumb || '20 -22 920 517.5').replace('__TAGAT__', sc.tagAt || '') + '</script></body></html>\n';
 }
 
 Object.keys(S).forEach(id => {
