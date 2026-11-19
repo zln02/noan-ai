@@ -103,3 +103,4 @@
 .im-p.is-use { background: #EFFAF3; } .im-p.is-use b { color: #17623A; }
 @media (max-width: 420px) { .im-p { grid-template-columns: 1fr; gap: 2px; } }
 @media (prefers-reduced-motion: reduce) { .im-mini-btn { transition: none; } }
+.im-mini-face { padding-bottom: 22%; box-sizing: border-box; } .im-mini-btn { bottom: 10%; }
