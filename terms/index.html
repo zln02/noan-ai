@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="../shared/app.css">
 <link rel="stylesheet" href="../shared/vendor/open-props/open-props.subset.css">
 <link rel="stylesheet" href="../shared/premium.css">
+<link rel="stylesheet" href="terms.css">
 <script src="../shared/app.js"></script>
 </head>
 <body class="portal">
@@ -35,8 +36,24 @@
 
 <section class="page-hero"><svg class="slot-art" viewBox="0 0 190 150" aria-hidden="true" focusable="false"><g class="sa-float"><rect x="24" y="30" width="142" height="80" rx="14" fill="#16233A"/><rect x="24" y="30" width="142" height="80" rx="14" fill="none" stroke="#B9D5F8" stroke-width="3"/><circle cx="95" cy="70" r="20" fill="#fff"/><path d="M89 60l18 10-18 10z" fill="#1568D2"/></g><g class="sa-float2"><circle cx="30" cy="26" r="7" fill="#F6B3C8"/><circle cx="166" cy="124" r="9" fill="#A9DCC0"/></g><g class="sa-spin"><path d="M160 24l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#FFE58A"/></g></svg><h1>AI 용어, 그림으로 보기</h1>
 <p>글로만 어려운 말을 움직이는 그림으로 봅니다. 눌러야 재생되고, 소리는 기본으로 꺼져 있으며, 자막은 항상 나옵니다.</p></section>
-<div id="terms" class="term-grid" aria-live="polite"><div class="skel-grid" aria-hidden="true"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><p class="sr-only">불러오는 중…</p></div>
-<p style="margin-top:24px"><a class="btn" href="../how-ai-answers/index.html">AI는 어떻게 답을 만들까 보러 가기</a></p>
+<ul class="t-hints" aria-label="보는 방법">
+  <li><span class="ic is-sky" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><b>카드를 눌러야 재생돼요</b><span class="d">저절로 시작하지 않아요. 다시 누르면 멈춰요.</span></li>
+  <li><span class="ic is-mint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6m0-6-5 6"/></svg></span><b>소리는 꺼져 있어요</b><span class="d">교실에서 틀어도 조용해요.</span></li>
+  <li><span class="ic is-lilac" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 11h3m3 0h4M7 15h6"/></svg></span><b>자막이 항상 나와요</b><span class="d">아래 막대를 눌러 보고 싶은 곳으로 건너뛸 수 있어요.</span></li>
+</ul>
+
+<div class="pm-head t-head">
+  <span class="pm-eyebrow">움직이는 그림</span>
+  <h2>요리사 로봇과 함께 보는 AI 말</h2>
+  <p>어려운 AI 용어를 식당 주방에 빗대어 20초 안팎으로 보여 드려요. 아주 단순하게 줄인 비유라서 감을 잡는 용도로 보세요.</p>
+</div>
+<div id="terms" class="term-grid" aria-live="polite"><div class="t-skel-grid" aria-hidden="true"><div class="t-skel"><i></i><p><b></b><b></b></p></div><div class="t-skel"><i></i><p><b></b><b></b></p></div><div class="t-skel"><i></i><p><b></b><b></b></p></div></div><p class="sr-only">불러오는 중…</p></div>
+
+<a class="pm-card t-next" href="../how-ai-answers/index.html">
+  <svg class="art" viewBox="0 0 96 72" aria-hidden="true" focusable="false"><rect x="4" y="12" width="88" height="48" rx="14" fill="#fff" stroke="#22324D" stroke-width="3"/><circle cx="22" cy="36" r="7" fill="#FFC9A3" stroke="#22324D" stroke-width="3"/><circle cx="48" cy="36" r="7" fill="#A9DCC0" stroke="#22324D" stroke-width="3"/><circle cx="74" cy="36" r="7" fill="#CDBDF7" stroke="#22324D" stroke-width="3"/><path d="M30 36h10M56 36h10" stroke="#22324D" stroke-width="3" stroke-linecap="round"/><path d="M82 8l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#FFE58A"/></svg>
+  <div class="nx"><span class="pm-chip is-lilac">이어서 보기</span><h3>AI는 어떻게 답을 만들까</h3><p>입력이 답이 되기까지 여섯 걸음을 음식 만들기에 빗대어 따라가 봐요.</p></div>
+  <span class="go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+</a>
 
 </main>
 <script src="../data/terms.js"></script>
