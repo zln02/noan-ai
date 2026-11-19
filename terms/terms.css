@@ -156,7 +156,7 @@ div.tcard-frame { cursor: default; }
 /* ---- content v2: 비유 → 진짜 → 활용 세 줄 + 묶음 ---- */
 #terms.term-grid { display: block; }
 .t-group + .t-group { margin-top: var(--pm-s6, 40px); }
-.t-group-h { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font-size: var(--pm-fs-lg, 20px); color: var(--pm-ink); }
+.t-group-h { scroll-margin-top: 76px; display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font-size: var(--pm-fs-lg, 20px); color: var(--pm-ink); }
 .t-group-h span { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--pm-sky); color: var(--pm-sky-ink); font-size: 16px; }
 .t-group-h small { font-size: var(--pm-fs-sm); color: var(--pm-ink-3); font-weight: 700; }
 .tcard-en { display: inline-block; font-size: var(--pm-fs-sm); font-weight: 700; color: var(--pm-sky-ink); letter-spacing: 0; }
