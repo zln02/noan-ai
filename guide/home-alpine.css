@@ -137,7 +137,7 @@ html.alpine-ok .g-noenh { display: none !important; }
 .g-fav[aria-pressed="true"] svg { fill: #FFC93D; stroke: #C98A00; }
 
 .g-card-copy {
-  display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 0 12px 0 8px;
+  display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 0 12px 0 8px;
   border: 1px solid #A9DCC0; border-radius: 999px; background: #D8F2E2; color: #17623A;
   font: inherit; font-size: 13px; font-weight: 800; line-height: 1; cursor: pointer;
   transition: background-color .2s ease, transform .15s ease;
@@ -233,3 +233,6 @@ html.alpine-ok .g-noenh { display: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .g-controls, .g-controls.is-open, .g-card-toast, .g-tabs button, .g-fav, .g-card-copy { transition: none !important; }
 }
+
+/* 많이 찾는 업무 칩과 아래 안내 글 사이 숨 쉴 틈 */
+.g-popular-scroll + .g-hero-tagline { margin-top: 16px; }
