@@ -17,7 +17,7 @@
     var soon = ready ? '' : '<span class="tcard-soon pm-chip is-butter">준비 중</span>';
     if (!ready) return '<div class="tcard-frame">' + art + soon + '</div>';
     return '<button type="button" class="tcard-frame" data-file="' + esc(t.file) + '" data-x="' + esc(t.term) + '" aria-label="' +
-      esc(t.term) + ' 애니메이션 재생' + (t.duration_sec ? ', ' + secText(t.duration_sec) : '') + '">' + art + '<span class="tcard-play">' + PLAY + '</span>' + dur + '</button>';
+      esc(t.term) + ' 애니메이션 재생' + (t.duration_sec ? ' ' + mmss(t.duration_sec) + ' (' + secText(t.duration_sec) + ')' : '') + '">' + art + '<span class="tcard-play">' + PLAY + '</span>' + dur + '</button>';
   }
 
   function card(t) {
