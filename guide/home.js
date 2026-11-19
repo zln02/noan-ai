@@ -99,14 +99,9 @@ function shotHtml(task) {
 }
 
 function resultHtml(task) {
-  var lines = task.result_example || [];
-  if (!lines.length) return '';
+  if (!task.result_shot) return '';
   return '<section class="g-section g-result-section">' +
-    '<h2>이런 결과가 나와요</h2>' +
-    '<p class="g-result-note">' + esc(task.result_note || '가상 정보로 만든 결과 구성 예시') + '</p>' +
-    '<div class="g-result-preview">' + lines.map(function (line) {
-      return '<p>' + esc(line) + '</p>';
-    }).join('') + '</div>' +
+    '<h2>결과 화면</h2>' +
     (task.result_shot ? '<figure class="g-result-shot"><img src="assets/guide/' + esc(task.result_shot) + '" alt="' + esc(task.title) + ' 결과 화면"><figcaption>가상 학교·행사 정보로 생성한 실제 화면</figcaption></figure>' : '') +
   '</section>';
 }
@@ -164,7 +159,7 @@ function stepsHtml(task) {
         '<span class="g-step-no">' + (i + 1) + '</span>' +
         '<div class="g-step-main">' +
           '<h3>' + esc(step) + '</h3>' +
-          (here ? promptHtml(task) + noteHtml(task) : '') +
+          (here ? '<p class="g-step-pointer">↑ 위 「지시서」 칸에서 복사해 붙여넣습니다.</p>' : '') +
           (file ?
             '<div class="g-shot-wrap g-step-shot">' +
               '<img class="g-shot-img" src="assets/guide/' + esc(file) +
@@ -299,6 +294,26 @@ function pagerBottomHtml(index) {
   '</nav>';
 }
 
+/* 한눈에 카드 — 쇼츠처럼 필요한 것만: 무엇을 · 어디서 · 지시서 · 결과 예시 · 주의 */
+function glanceHtml(task) {
+  var path = (task.path || []).map(function (p, i, all) {
+    return '<li' + (i === all.length - 1 ? ' class="is-last"' : '') + '><span>' + esc(p) + '</span></li>';
+  }).join('');
+  var lines = (task.result_example || []).slice(0, 3);
+  var order = task.prompt ? promptHtml(task) + noteHtml(task) :
+    '<p class="g-gl-noprompt">' + esc(task.prompt_note || '지시서 없이 화면 순서대로 하면 됩니다.') + '</p>';
+  var full = task.caution && task.caution_one && task.caution !== task.caution_one;
+  return '<section class="g-glance" aria-label="한눈에">' +
+    '<div class="g-gl-row is-what"><span class="g-gl-lab">무엇을</span><p class="g-gl-what">' + esc(task.what || task.when) + '</p></div>' +
+    (path ? '<div class="g-gl-row is-where"><span class="g-gl-lab">어디서</span><ol class="g-pills" aria-label="여는 길">' + path + '</ol></div>' : '') +
+    '<div class="g-gl-row is-order"><span class="g-gl-lab">지시서</span><div class="g-gl-body">' + order + '</div></div>' +
+    (lines.length ? '<div class="g-gl-row is-result"><span class="g-gl-lab">결과 예시</span><div class="g-gl-body"><ul class="g-gl-result">' +
+      lines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul><small>' + esc(task.result_note || '가상 정보로 만든 결과 구성 예시') + '</small></div></div>' : '') +
+    (task.caution ? '<div class="g-gl-row is-caution"><span class="g-gl-lab">주의</span><div class="g-gl-body"><p class="g-gl-caution">' + esc(task.caution_one || task.caution) + '</p>' +
+      (full ? '<details class="g-gl-more"><summary>자세히</summary><p>' + esc(task.caution) + '</p></details>' : '') + '</div></div>' : '') +
+  '</section>';
+}
+
 function renderDetail(task, index) {
   var group = GROUPS[task.group];
 
@@ -326,16 +341,13 @@ function renderDetail(task, index) {
     '</header>' +
 
     '<div class="g-detail-body">' +
-      '<div class="g-when-strip">' +
-        '<span class="g-when-lab">이럴 때 씁니다</span>' +
-        '<span class="g-when-text">' + esc(task.when) + '</span>' +
-      '</div>' +
+      '<p class="g-when-line"><b>이럴 때</b> ' + esc(task.when) + '</p>' +
+      glanceHtml(task) +
       minsHtml(task) +
 
       '<section class="g-section">' +
-        '<h2>추천 도구</h2>' +
+        '<h2>도구와 근거</h2>' +
         '<p class="g-tool-line">도구: ' + esc(task.tool) + '</p>' +
-        pathHtml(task) +
         evidenceHtml(task) +
       '</section>' +
 
@@ -344,24 +356,8 @@ function renderDetail(task, index) {
         stepsHtml(task) +
       '</section>' +
 
-      (task.prompt && !task.prompt_step ?
-        '<section class="g-section">' +
-          '<h2>복사할 프롬프트</h2>' +
-          promptHtml(task) +
-          noteHtml(task) +
-        '</section>' : '') +
-
       shotHtml(task) +
       resultHtml(task) +
-
-      (task.caution ?
-        '<div class="g-caution g-caution-box">' +
-          '<span class="g-caution-mark" aria-hidden="true">!</span>' +
-          '<div class="g-caution-main">' +
-            '<div class="g-caution-lab">꼭 확인할 것</div>' +
-            '<p class="g-caution-text">' + esc(task.caution) + '</p>' +
-          '</div>' +
-        '</div>' : '') +
 
       manualsHtml(task) +
       pagerBottomHtml(index) +

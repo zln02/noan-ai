@@ -2318,3 +2318,38 @@ a {
 .g-footer-links a:hover {
   color: var(--g-blue);
 }
+
+/* ---- content v2: 한눈에 카드 (무엇을 · 어디서 · 지시서 · 결과 예시 · 주의) ---- */
+.g-when-line { margin: 0 0 12px; font-size: 15px; line-height: 1.6; color: #4A5A73; word-break: keep-all; }
+.g-when-line b { color: #1568D2; margin-right: 6px; }
+.g-glance { display: grid; gap: 0; margin: 0 0 20px; background: #fff; border: 1px solid #D9E6F7; border-radius: 20px; box-shadow: 0 10px 28px -18px rgba(21, 70, 140, .35); overflow: hidden; }
+.g-gl-row { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 18px; border-top: 1px solid #EDF2FA; }
+.g-gl-row:first-child { border-top: 0; }
+.g-gl-lab { display: inline-flex; align-items: center; justify-content: center; min-height: 30px; padding: 0 10px; border-radius: 999px; font-size: 13px; font-weight: 900; white-space: nowrap; }
+.is-what .g-gl-lab { background: #EAF3FF; color: #0B5FC0; }
+.is-where .g-gl-lab { background: #F3EFFF; color: #5B3DB8; }
+.is-order .g-gl-lab { background: #FFF1C9; color: #7A5600; }
+.is-result .g-gl-lab { background: #EAF7EF; color: #17623A; }
+.is-caution .g-gl-lab { background: #FFECEA; color: #A3243B; }
+.g-gl-what { margin: 0; font-size: 19px; font-weight: 900; line-height: 1.45; color: #16233A; word-break: keep-all; }
+.g-gl-body { min-width: 0; }
+.g-gl-body .g-prompt { margin: 0; }
+.g-gl-body .g-note { margin-top: 8px; }
+.g-gl-noprompt { margin: 0; line-height: 1.6; color: #33445F; word-break: keep-all; }
+.g-pills { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px; }
+.g-pills li { display: inline-flex; align-items: center; gap: 4px; }
+.g-pills li span { display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px; border-radius: 999px; background: #F3F6FB; border: 1px solid #DCE4F0; font-size: 14px; font-weight: 800; color: #33445F; }
+.g-pills li.is-last span { background: #1568D2; border-color: #1568D2; color: #fff; }
+.g-pills li + li::before { content: "›"; color: #8A9AB3; font-weight: 900; margin-right: 2px; }
+.g-gl-result { list-style: none; margin: 0; padding: 10px 14px; display: grid; gap: 6px; background: #F6FBF8; border-left: 4px solid #7FD1A0; border-radius: 10px; font-size: 15px; line-height: 1.5; color: #22324D; word-break: keep-all; }
+.g-gl-body small { display: block; margin-top: 6px; font-size: 12px; color: #6B7A90; }
+.g-gl-caution { margin: 0; font-weight: 800; line-height: 1.55; color: #7A1F2E; word-break: keep-all; }
+.g-gl-more { margin-top: 6px; font-size: 14px; color: #4A5A73; }
+.g-gl-more summary { cursor: pointer; font-weight: 800; color: #A3243B; min-height: 32px; display: inline-flex; align-items: center; }
+.g-gl-more p { margin: 4px 0 0; line-height: 1.6; word-break: keep-all; }
+.g-step-pointer { margin: 8px 0 0; font-size: 14px; font-weight: 800; color: #7A5600; }
+@media (max-width: 560px) {
+  .g-gl-row { grid-template-columns: 1fr; gap: 8px; padding: 12px 14px; }
+  .g-gl-lab { justify-self: start; }
+  .g-gl-what { font-size: 17px; }
+}
