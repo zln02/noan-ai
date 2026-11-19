@@ -3,33 +3,13 @@
 
 var listView = document.getElementById('gListView');
 var detailView = document.getElementById('gDetailView');
-var listEl = document.getElementById('gQuickCards');
-var countEl = document.getElementById('gCount');
-var filterBox = document.getElementById('gFilters');
-var searchForm = document.getElementById('gSearchForm');
-var searchInput = document.getElementById('gSearch');
 var tipBox = document.getElementById('gTip');
+/* 목록(찾기·분류·찜·최근 본)은 guide/home-alpine.js 가 맡는다. 이 파일은 상세 쪽(#02 같은 주소)과 지시서 복사를 맡는다. */
+var Store = window.NoanGuideStore || null;
 
 var DATA = null;
 var GROUPS = {};
 var GUIDES = [];
-var searchTerm = '';
-var filterKey = 'all';
-
-var ICON_MAP = {
-  '가정통신문': 'letter',
-  '회의록': 'mic',
-  '긴 공문': 'doc-long',
-  '활동지 · 문항': 'book',
-  '활동지·문항': 'book',
-  '설문': 'shield',
-  '발표자료': 'slides',
-  '수업자료': 'school',
-  '자료 여러 개 비교': 'search-doc',
-  '자료 비교': 'search-doc',
-  '문서 검토': 'search-doc'
-};
-
 function esc(value) {
   return String(value == null ? '' : value)
     .replace(/&/g, '&amp;')
@@ -75,84 +55,6 @@ function findTask(key) {
   }
 
   return -1;
-}
-
-function minutesOf(task) {
-  var m = task.min && task.min[1];
-  return m ? m + '분' : '';
-}
-
-function matches(task, term) {
-  if (filterKey === 'work' && task.group !== 'work') return false;
-  if (filterKey === 'class' && task.group !== 'class') return false;
-  if (filterKey === 'prompt' && !task.prompt) return false;
-  if (!term) return true;
-  var haystack = [task.no, task.title, task.when, task.tool]
-    .concat(task.keywords || []).join(' ').toLowerCase();
-  var words = term.split(/\s+/);
-  for (var i = 0; i < words.length; i++) {
-    if (words[i] && haystack.indexOf(words[i]) === -1) return false;
-  }
-  return true;
-}
-
-function iconFor(task) {
-  var t = (task.title || '') + ' ' + (task.tool || '');
-  var map = [
-    [/가정통신문|알림|홈페이지/, 'letter'], [/회의|녹음|발언/, 'mic'],
-    [/공문|지침|요강|계획서/, 'doc-long'], [/활동지|문항|퀴즈|형성평가|질문/, 'book'],
-    [/설문|동의|인증|계정|안전/, 'shield'], [/발표|팜플렛|포스터|PPT|슬라이드/, 'slides'],
-    [/수업|과학|캐릭터|배우/, 'school'], [/검토|비교|찾기|체크|지시서|운영/, 'search-doc']
-  ];
-  for (var i = 0; i < map.length; i++) if (map[i][0].test(t)) return map[i][1];
-  return 'doc-long';
-}
-
-function taskCardHtml(task, index) {
-  var group = GROUPS[task.group] || {};
-  var time = minutesOf(task);
-  return '<a class="g-quick-card g-pastel-' + ((index % 6) + 1) + '" href="#' + esc(task.no) + '" data-group="' + esc(task.group) + '">' +
-    '<span class="g-card-icon" aria-hidden="true">' + icon(iconFor(task), 30) + '</span>' +
-    '<h3>' + esc(task.title) + '</h3>' +
-    '<p class="g-card-desc">' + esc(task.when) + '</p>' +
-    '<div class="g-card-bottom">' +
-      '<span class="g-tool-label">추천 도구</span>' +
-      '<span class="g-tool-pill">' + esc(task.tool) + '</span>' +
-      (time ? '<span class="g-card-time">' + esc(time) + '</span>' : '') +
-      (task.prompt ? '<span class="g-card-prompt">지시서</span>' : '') +
-    '</div>' +
-    '<span class="g-card-arrow" aria-hidden="true">→</span>' +
-  '</a>';
-}
-
-function renderList() {
-  if (!DATA || !listEl) return;
-  var term = searchTerm.trim().toLowerCase();
-  var items = DATA.tasks.filter(function (t) { return matches(t, term); });
-  if (items.length) {
-    listEl.innerHTML = items.map(taskCardHtml).join('');
-  } else {
-    listEl.innerHTML = '<div class="g-empty"><p><b>찾으시는 안내서가 아직 없습니다.</b></p>' +
-      '<p>다른 낱말로 찾아보시거나, 필요한 일을 알려 주세요.</p>' +
-      '<a class="g-support-cta" href="request/index.html">요청하기</a></div>';
-  }
-  if (countEl) countEl.textContent = items.length + '장';
-  if (window.NoanMotion) window.NoanMotion.reveal(listEl);
-}
-
-function renderFilters() {
-  if (!filterBox) return;
-  var n = {all: DATA.tasks.length, work: 0, 'class': 0, prompt: 0};
-  DATA.tasks.forEach(function (t) { n[t.group]++; if (t.prompt) n.prompt++; });
-  var defs = [['all', '전체'], ['work', '업무'], ['class', '수업'], ['prompt', '지시서 있음']];
-  filterBox.innerHTML = defs.map(function (d) {
-    return '<button type="button" data-f="' + d[0] + '" aria-pressed="' + (filterKey === d[0]) + '">' +
-      d[1] + ' <small>' + n[d[0]] + '</small></button>';
-  }).join('');
-}
-
-function openTask(no) {
-  if (no) location.hash = '#' + no;
 }
 
 function markHtml(mark) {
@@ -417,7 +319,10 @@ function renderDetail(task, index) {
         '<span class="g-group-tag">' + esc(group.label) + '</span>' +
         timePillHtml(task) +
       '</div>' +
-      '<button type="button" class="g-printcard">이 카드만 인쇄 · PDF</button>' +
+      '<div class="g-head-actions">' +
+        (Store ? '<button type="button" class="g-fav-detail" aria-pressed="' + Store.isFav(task.no) + '">' + FAV_SVG + '<span>' + (Store.isFav(task.no) ? '찜했어요' : '찜하기') + '</span></button>' : '') +
+        '<button type="button" class="g-printcard">이 카드만 인쇄 · PDF</button>' +
+      '</div>' +
     '</header>' +
 
     '<div class="g-detail-body">' +
@@ -467,10 +372,26 @@ function renderDetail(task, index) {
   detailView.hidden = false;
 
   bindCopyButtons();
+  bindFavButton(task);
+  if (Store) Store.pushRecent(task.no);
   bindShotFallback();
   bindPrintButton();
   bindLogoFallback();
   if (window.NoanMotion) window.NoanMotion.detail(detailView);
+}
+
+var FAV_SVG = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>';
+
+/* 상세 쪽의 「찜하기」. 첫 화면 「찜」 탭과 같은 저장소를 쓴다(카드 번호만 남는다). */
+function bindFavButton(task) {
+  var b = detailView.querySelector('.g-fav-detail');
+  if (!b || !Store) return;
+  b.addEventListener('click', function () {
+    var on = Store.toggleFav(task.no);
+    b.setAttribute('aria-pressed', String(on));
+    b.querySelector('span').textContent = on ? '찜했어요' : '찜하기';
+    if (window.NoanApp) window.NoanApp.toast(on ? '찜했어요 — 첫 화면 「찜」 탭에 모여요' : '찜을 풀었어요');
+  });
 }
 
 function bindLogoFallback() {
@@ -623,16 +544,13 @@ function route() {
   detailView.hidden = true;
   detailView.innerHTML = '';
   listView.hidden = false;
-  renderFilters();
-  renderList();
   renderTip();
   if (location.hash === '' ) document.title = '노안중 AI 안내서 — 무엇을 하시려고요?';
 }
 
 function fail() {
-  listEl.innerHTML =
-    '<p class="g-muted">안내서를 불러오지 못했습니다. ' +
-    '<a href="data/tasks.json">tasks.json</a> 을 직접 여세요.</p>';
+  /* 데이터를 못 읽으면 Alpine 목록 대신 「자바스크립트 없이도 보이는 목록」을 보여 준다 */
+  document.documentElement.classList.remove('alpine-ok');
 }
 
 function boot(data) {
@@ -664,44 +582,15 @@ function loadJson(path, fallbackName) {
     });
 }
 
-function applySearch(value) {
-  searchTerm = value;
-  renderList();
-}
-
-searchInput.addEventListener('input', function () { applySearch(searchInput.value); });
-searchForm.addEventListener('submit', function (event) {
-  event.preventDefault();
-  applySearch(searchInput.value);
-  var top = document.getElementById('gGuideTitle');
-  if (top) top.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
-filterBox.addEventListener('click', function (event) {
-  var b = event.target.closest('button[data-f]');
-  if (!b) return;
-  filterKey = b.getAttribute('data-f');
-  renderFilters();
-  renderList();
-});
-
-/* 자주 찾는 업무: 누르면 검색어로 들어가 목록이 바로 좁혀진다 */
-Array.prototype.forEach.call(document.querySelectorAll('[data-q]'), function (btn) {
-  btn.addEventListener('click', function () {
-    searchInput.value = btn.getAttribute('data-q');
-    filterKey = 'all';
-    renderFilters();
-    applySearch(searchInput.value);
-    document.getElementById('gGuideTitle').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
 mountStaticIcons();
 
-Promise.all([
+/* 목록(home-alpine.js)도 이 약속을 기다렸다가 같은 데이터를 쓴다 */
+var ready = Promise.all([
   loadJson('data/tasks.json?v=20261021', 'GUIDE_TASKS'),
   loadJson('data/guides.json', 'GUIDES_DATA')
-]).then(function (loaded) {
+]);
+window.NoanGuideReady = ready.then(function (loaded) { return loaded[0]; });
+ready.then(function (loaded) {
   GUIDES = loaded[1] || [];
   if (!loaded[0]) { fail(); return; }
   boot(loaded[0]);

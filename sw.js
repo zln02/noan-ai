@@ -1,13 +1,13 @@
 /* 노안중 AI 안내서 — 오프라인용 서비스 워커.
    화면 글과 데이터는 미리 담아 두고(precache), 그림은 본 만큼 담는다(runtime).
    안내서 문장이나 파일 목록을 바꿨다면 CACHE_VERSION 숫자를 하나 올린다. 이 파일 하나만 고치면 된다. */
-var CACHE_VERSION = 'noan-guide-v5';
+var CACHE_VERSION = 'noan-guide-v6';
 var CACHE_PREFIX = 'noan-guide-';
 var CORE = [
   'index.html', 'manifest.webmanifest', 'offline.html',
   'shared/tokens.css', 'shared/site.css', 'shared/portal.css', 'shared/portal-pages.css', 'shared/app.css',
   'shared/app.js', 'shared/motion.js', 'shared/dial.js', 'data/schedule.js', 'shared/icons.js', 'shared/site.js', 'shared/feedback.js', 'shared/config.js',
-  'guide/guide.css', 'guide/home.js',
+  'guide/guide.css', 'guide/home.js', 'guide/home-alpine.js', 'guide/home-alpine.css', 'shared/vendor/alpine/alpine.min.js',
   'data/tasks.js', 'data/tasks.json', 'data/guides.js', 'data/guides.json',
   'data/ai-models.js', 'data/ai-models.json', 'data/terms.js', 'data/terms.json',
   'iamodu/index.html', 'ai/index.html', 'ai/ai.js', 'terms/index.html', 'terms/terms.js', 'how-ai-answers/index.html', 'how-ai-answers/how.js', 'how-ai-answers/scene3d.js', 'iamodu/iamodu.js',

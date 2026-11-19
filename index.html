@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="shared/app.css">
 <link rel="stylesheet" href="shared/vendor/open-props/open-props.subset.css">
 <link rel="stylesheet" href="shared/premium.css">
+<link rel="stylesheet" href="guide/home-alpine.css">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1568D2">
 <script src="shared/app.js"></script>
@@ -52,7 +53,7 @@
     </div>
   </div>
 
-  <div id="gListView">
+  <div id="gListView" x-data="guideHome">
     <section class="g-hero g-wrap" aria-labelledby="gHeroTitle">
       <div class="g-hero-inner">
         <figure class="g-hero-visual">
@@ -72,7 +73,7 @@
           <h1 id="gHeroTitle">무엇을 하시려고요?</h1>
           <p>업무에 맞는 AI 활용 방법을 빠르게 찾아드립니다.</p>
 
-          <form id="gSearchForm" class="g-search-form" role="search">
+          <form id="gSearchForm" class="g-search-form g-enh" role="search" @submit.prevent="toList()">
             <span class="g-search-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
             </span>
@@ -80,23 +81,26 @@
             <input
               id="gSearch"
               type="search"
+              x-model.debounce.120ms="q"
+              @keydown.escape="clearSearch()"
               autocomplete="off"
               placeholder="예) 가정통신문, 회의록, 긴 공문, 활동지, 설문, 발표자료">
             <button type="submit">검색</button>
           </form>
 
-          <div class="g-popular-scroll" role="group" aria-label="많이 찾는 업무">
-            <button type="button" data-q="가정통신문">가정통신문</button>
-            <button type="button" data-q="지시서">업무 지시서</button>
-            <button type="button" data-q="회의록">회의록</button>
-            <button type="button" data-q="공문">긴 공문</button>
-            <button type="button" data-q="문항">활동지·문항</button>
-            <button type="button" data-q="설문">설문</button>
-            <button type="button" data-q="발표">발표자료</button>
-            <button type="button" data-q="수업">수업자료</button>
+          <div class="g-popular-scroll g-enh" role="group" aria-label="많이 찾는 업무">
+            <button type="button" data-q="가정통신문" @click="pick($el.dataset.q)">가정통신문</button>
+            <button type="button" data-q="지시서" @click="pick($el.dataset.q)">업무 지시서</button>
+            <button type="button" data-q="회의록" @click="pick($el.dataset.q)">회의록</button>
+            <button type="button" data-q="공문" @click="pick($el.dataset.q)">긴 공문</button>
+            <button type="button" data-q="문항" @click="pick($el.dataset.q)">활동지·문항</button>
+            <button type="button" data-q="설문" @click="pick($el.dataset.q)">설문</button>
+            <button type="button" data-q="발표" @click="pick($el.dataset.q)">발표자료</button>
+            <button type="button" data-q="수업" @click="pick($el.dataset.q)">수업자료</button>
           </div>
 
-          <p class="g-hero-tagline">외우실 필요 없습니다. 하시려는 일을 한 줄 치시면 됩니다.</p>
+          <p class="g-hero-tagline g-enh">외우실 필요 없습니다. 하시려는 일을 한 줄 치시면 됩니다.</p>
+          <p class="g-hero-tagline g-noenh"><a href="#gStatic">아래 목록에서 하시려는 일을 눌러 펼치세요 ↓</a></p>
         </div>
       </div>
     </section>
@@ -105,13 +109,209 @@
       <div class="g-wrap">
         <div class="g-panel">
           <div class="g-section-heading">
-            <h2 id="gGuideTitle">업무별 안내서 <span id="gCount" class="g-count" aria-live="polite"></span></h2>
+            <h2 id="gGuideTitle">업무별 안내서 <span id="gCount" class="g-count g-enh" aria-live="polite" x-text="countText"></span></h2>
             <p>원하는 업무를 선택하면, 추천 도구와 사용 방법을 바로 확인할 수 있어요.</p>
           </div>
-          <div id="gFilters" class="g-filters" role="group" aria-label="분류"></div>
 
-          <div id="gQuickCards" class="g-quick-grid" aria-live="polite">
-            <div class="skel-grid" aria-hidden="true"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><p class="sr-only">불러오는 중…</p>
+          <!-- ▼ 앱처럼 쓰는 목록 (Alpine — guide/home-alpine.js). 자바스크립트가 안 되면 아래 「정적 목록」이 대신 보인다 -->
+          <div class="g-enh">
+            <div class="g-toolbar" x-cloak>
+              <div class="g-tabs" role="tablist" aria-label="보기" @keydown="tabKey($event)">
+                <button type="button" role="tab" id="gTab-all" data-tab="all" aria-controls="gPanel" :aria-selected="(tab === 'all').toString()" :tabindex="tab === 'all' ? 0 : -1" @click="tab = 'all'">전체 <small x-text="tasks.length"></small></button>
+                <button type="button" role="tab" id="gTab-fav" data-tab="fav" aria-controls="gPanel" :aria-selected="(tab === 'fav').toString()" :tabindex="tab === 'fav' ? 0 : -1" @click="tab = 'fav'"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>찜 <small x-text="favTasks.length"></small></button>
+                <button type="button" role="tab" id="gTab-recent" data-tab="recent" aria-controls="gPanel" :aria-selected="(tab === 'recent').toString()" :tabindex="tab === 'recent' ? 0 : -1" @click="tab = 'recent'">최근<span class="g-tab-long"> 본</span> <small x-text="recentTasks.length"></small></button>
+              </div>
+              <button type="button" class="g-filter-open" x-ref="opener" @click="openDrawer()" aria-label="필터·정렬" :aria-expanded="drawer.toString()" aria-controls="gControls">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span class="g-filter-t">필터·정렬</span><span class="g-filter-n" x-show="activeCount" x-text="activeCount"></span>
+              </button>
+            </div>
+
+            <!-- 분류 칩 + 정렬: PC 에서는 이 자리에 그대로, 폰에서는 아래에서 올라오는 서랍이 된다 -->
+            <div class="g-drawer-backdrop" x-show="drawer" x-cloak x-transition.opacity @click="closeDrawer()"></div>
+            <div id="gControls" class="g-controls" x-ref="controls" x-cloak :class="{ 'is-open': drawer }"
+                 :role="phone ? 'dialog' : null" :aria-modal="phone ? 'true' : null" :aria-labelledby="phone ? 'gControlsTitle' : null"
+                 @keydown.escape="closeDrawer()" @keydown="trap($event)">
+              <div class="g-drawer-head">
+                <h3 id="gControlsTitle">필터·정렬</h3>
+                <button type="button" class="g-drawer-x" @click="closeDrawer()" aria-label="닫기"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+              </div>
+              <div id="gFilters" class="g-filters" role="group" aria-label="분류">
+                <template x-for="f in filters" :key="f.key">
+                  <button type="button" :aria-pressed="(filter === f.key).toString()" @click="filter = f.key"><span x-text="f.label"></span> <small x-text="count(f.key)"></small></button>
+                </template>
+              </div>
+              <label class="g-sort"><span>정렬</span>
+                <select x-model="sort">
+                  <option value="no">번호순</option>
+                  <option value="fast">빨리 끝나는 순</option>
+                  <option value="name">가나다순</option>
+                </select>
+              </label>
+              <div class="g-drawer-foot">
+                <button type="button" class="g-drawer-reset" @click="reset()" :disabled="!activeCount">처음대로</button>
+                <button type="button" class="g-drawer-go" @click="closeDrawer()"><span x-text="visible.length"></span>장 보기</button>
+              </div>
+            </div>
+
+            <!-- 찾는 말이 있을 때: 무엇으로 찾았는지 + 지우기 -->
+            <div class="g-searchnote" x-show="words.length" x-cloak>
+              <span>「<b x-text="q.trim()"></b>」 찾은 결과 <b x-text="visible.length"></b>장</span>
+              <button type="button" @click="clearSearch()">찾는 말 지우기</button>
+            </div>
+
+            <!-- 최근 본 카드 (전체 보기에서, 찾는 말이 없을 때만) -->
+            <div class="g-recent" x-show="ready &amp;&amp; tab === 'all' &amp;&amp; !words.length &amp;&amp; recentTasks.length" x-cloak>
+              <h3 class="g-recent-h">최근 본 카드</h3>
+              <ul class="g-recent-row">
+                <template x-for="t in recentTasks.slice(0, 6)" :key="'r' + t.no">
+                  <li><a :href="'#' + t.no"><b x-text="t.no"></b><span x-text="t.title"></span></a></li>
+                </template>
+              </ul>
+            </div>
+
+            <div class="skel-grid" x-show="!ready" aria-hidden="true"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+
+            <div id="gPanel" class="g-quick-grid" x-ref="grid" x-show="ready" x-cloak role="tabpanel" :aria-labelledby="'gTab-' + tab">
+              <template x-for="t in visible" :key="t.no">
+                <article class="g-quick-card g-card" :class="tone(t)">
+                  <span class="g-card-icon" aria-hidden="true" x-html="icon(t)"></span>
+                  <h3><a class="g-card-link" :href="'#' + t.no" x-text="t.title"></a></h3>
+                  <p class="g-card-desc" x-text="t.when"></p>
+                  <div class="g-card-bottom">
+                    <span class="g-tool-label">추천 도구</span>
+                    <span class="g-tool-pill" x-text="t.tool"></span>
+                    <span class="g-card-time" x-show="minsText(t)" x-text="minsText(t)"></span>
+                    <button type="button" class="g-card-copy" x-show="t.prompt" :class="{ 'is-done': copied === t.no }" @click="copy(t, $event)">
+                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+                      <span x-text="copied === t.no ? '복사됐어요' : '지시서 복사'"></span><span class="sr-only" x-text="' — ' + t.title"></span>
+                    </button>
+                  </div>
+                  <button type="button" class="g-fav" :aria-pressed="isFav(t).toString()" :aria-label="'찜 — ' + t.title" @click="toggleFav(t)">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>
+                  </button>
+                  <p class="g-card-toast" role="status" aria-live="polite" :class="{ 'is-on': copied === t.no || failed === t.no, 'is-fail': failed === t.no }"
+                     x-text="copied === t.no ? '복사됐어요 — 아이모두 입력창에 붙여넣으세요' : (failed === t.no ? '복사가 막혔어요. 카드를 열어 지시서를 길게 눌러 복사하세요' : '')"></p>
+                </article>
+              </template>
+
+              <div class="g-empty" x-show="ready &amp;&amp; !visible.length">
+                <template x-if="emptyKind === 'search'"><div class="g-empty-in">
+                  <p><b>「<span x-text="q.trim()"></span>」 안내서가 아직 없습니다.</b></p>
+                  <p>다른 낱말(예: 공문, 설문, 회의)로 찾아보시거나, 필요한 일을 알려 주세요.</p>
+                  <p class="g-empty-act"><button type="button" class="g-empty-btn" @click="clearSearch()">찾는 말 지우기</button> <a class="g-support-cta" href="request/index.html">요청하기</a></p>
+                </div></template>
+                <template x-if="emptyKind === 'fav'"><div class="g-empty-in">
+                  <p><b>아직 찜한 카드가 없어요.</b></p>
+                  <p>자주 쓰는 카드의 ☆ 를 누르면 여기에 모입니다. 이 컴퓨터(폰)에만 남아요.</p>
+                  <p class="g-empty-act"><button type="button" class="g-empty-btn" @click="tab = 'all'">전체 카드 보기</button></p>
+                </div></template>
+                <template x-if="emptyKind === 'recent'"><div class="g-empty-in">
+                  <p><b>아직 열어 본 카드가 없어요.</b></p>
+                  <p>카드를 열면 여기에 최근 순서로 쌓입니다.</p>
+                  <p class="g-empty-act"><button type="button" class="g-empty-btn" @click="tab = 'all'">전체 카드 보기</button></p>
+                </div></template>
+                <template x-if="emptyKind === 'filter'"><div class="g-empty-in">
+                  <p><b>이 분류에는 카드가 없어요.</b></p>
+                  <p class="g-empty-act"><button type="button" class="g-empty-btn" @click="reset()">분류 처음대로</button></p>
+                </div></template>
+              </div>
+            </div>
+          </div>
+
+          <!-- ▼ 자바스크립트 없이도 보이는 목록 (오래된 브라우저·스크립트 꺼짐). 내용은 data/tasks.json 과 같다 -->
+          <div class="g-noenh">
+<!-- 정적 목록 시작 (자동 생성: node tools/gen-home-static.js — 손으로 고치지 마세요) -->
+<div class="g-static" id="gStatic">
+<p class="g-static-note">하시려는 일을 눌러 펼치면 사용법과 지시서가 나옵니다. 종이로 보시려면 위의 인쇄용 PDF를 쓰세요.</p>
+<details class="g-static-card" id="00"><summary><span class="g-static-no">00</span><span class="g-static-t"><b>처음 한 번 — 계정 인증</b><span>로그인은 되는데 다른 메뉴로 넘어가지지 않습니다</span><small>업무 · 아이모두</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> 아이모두</p><p class="g-static-path">[ ai.jne.kr &gt; 교원(교직원) 로그인 &gt; AI 교수학습 플랫폼 사용자 로그인 ]</p><ol><li>ai.jne.kr 첫 화면에서 「교원(교직원) 로그인」을 누릅니다</li><li>통합 인증 시스템에서 「AI 교수학습 플랫폼 로그인」 아래 「사용자 로그인」을 누릅니다</li><li>학교에서 받은 아이모두 계정으로 로그인합니다. 처음 이용하면 비밀번호 인증과 본인 인증 절차를 마칩니다</li><li>안내에 따라 간편인증과 공동인증서를 모두 등록합니다. 완료되면 아이모두 메인 화면으로 돌아옵니다</li></ol><p class="g-static-caution"><b>꼭 확인할 것</b> 크롬·엣지 업데이트 뒤 인증서 로그인이 안 되면 “이 장치에서 다른 앱 및 서비스에 액세스” 창에서 반드시 [허용]을 누르십시오. 이미 [차단]을 누르셨다면 주소창 왼쪽 자물쇠 → [기기에 있는 앱] → 켜기.</p></div></details>
+<details class="g-static-card" id="01"><summary><span class="g-static-no">01</span><span class="g-static-t"><b>가정통신문 쓰기</b><span>행사 안내문을 써야 하는데 매번 처음부터 씁니다</span><small>업무 · JNE GPT · 12분</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 도구모음 &gt; JNE GPT &gt; 전남교육전용 &gt; 가정통신문 생성 도우미 ]</p><ol><li>아이모두 메인 [도구모음]에서 [JNE GPT]를 엽니다</li><li>에이전트 화면에서 [전남교육전용] 탭의 [가정통신문 생성 도우미]를 누릅니다</li><li>입력창에 행사명·확정된 일시·장소·대상·회신기한을 적고 [보내기]를 누릅니다</li><li>생성된 초안의 일정·문의처·회신 방법을 원본 계획과 대조합니다</li><li>학교 양식에 옮겨 담당자 검토와 결재를 받습니다</li></ol><p class="g-static-caution"><b>꼭 확인할 것</b> 학생 이름·학번은 넣지 마십시오. [학년] [반] 처럼 빈칸으로 두십시오. 날짜·장소·기한은 AI가 지어냅니다 — 원본과 대조하고 올리십시오.</p></div></details>
+<details class="g-static-card" id="01b"><summary><span class="g-static-no">01b</span><span class="g-static-t"><b>다 쓴 문서 검토받기</b><span>학부모에게 나가는 문서, 결재 올리는 문서 — 보내기 전에 한 번 더</span><small>업무 · JNE GPT · 3분 · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 아이모두 도구모음 &gt; JNE GPT ]</p><ol><li>아이모두 도구모음에서 JNE GPT 를 엽니다.</li><li>입력창 옆 [옵션 더보기]를 누르고 [파일 업로드]를 고릅니다.</li><li>검토받을 문서를 고르고, 아래 문장을 그대로 친 다음 보냅니다.</li><li>결과에서 고칠 부분과 근거를 확인합니다.</li><li>빠진 검토 항목이 있는지 추가로 물어보고, 중요한 수정은 원문과 대조합니다.</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>오타랑 어색한 문장, 빠진 정보 찾아줘.
+고쳐서 다시 쓰지는 말고</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 학생 이름·연락처·성적이 든 문서는 넣지 않습니다. 개인정보가 포함된 문서는 업로드하지 말고, 필요한 경우 개인정보를 삭제한 후에 이용하세요.</p></div></details>
+<details class="g-static-card" id="02"><summary><span class="g-static-no">02</span><span class="g-static-t"><b>긴 공문에서 할 일만 뽑기</b><span>20쪽짜리 공문이 왔는데 우리가 뭘 해야 하는지 모르겠습니다</span><small>업무 · NotebookLM · 6분 · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> NotebookLM</p><p class="g-static-path">[ 도구모음 &gt; NotebookLM ]</p><ol><li>새 노트북을 만들고 공문 PDF를 올립니다</li><li>아래 문장을 그대로 붙여넣습니다</li><li>기한과 서식명은 몇 쪽인지 되물어 확인합니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>이 공문에서 네 가지만 뽑아 주세요.
+1. 우리 학교가 해야 할 일
+2. 기한
+3. 담당 부서
+4. 제출 서식 이름
+각 항목이 몇 쪽에 있는지 함께 적어 주세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 개인정보가 담긴 쪽은 빼고 올리십시오. 요약본이 아니라 원문이 근거입니다 — 기한은 반드시 원문에서 다시 확인하십시오.</p></div></details>
+<details class="g-static-card" id="03"><summary><span class="g-static-no">03</span><span class="g-static-t"><b>계획서·기획서 쓰기</b><span>공문을 근거로 계획서를 만들어야 합니다</span><small>업무 · JNE GPT · 20분 · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ JNE GPT &gt; 전남교육전용 &gt; 공문기반 계획서 작성 도우미 ]</p><ol><li>아이모두 메인 [도구모음]에서 [JNE GPT]를 엽니다</li><li>[전남교육전용] 탭에서 [공문기반 계획서 작성 도우미]를 누릅니다</li><li>입력창 옆 [옵션 더보기] → [파일 업로드]에서 개인정보를 제거한 근거 공문을 올립니다</li><li>확정된 목적·일정·인원·예산만 입력하고 계획서의 목차와 문장 초안을 요청합니다</li><li>AI가 적은 숫자·근거 조항·담당자를 공문과 대조한 뒤 학교 양식에 옮겨 결재받습니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>붙임 공문을 근거로 우리 학교 계획서 초안을 써 주세요.
+목적 / 대상 / 기간 / 추진 내용 / 기대 효과 순서로 부탁드립니다.
+인원·예산·일정은 [ ] 로 비워 두세요. 제가 채우겠습니다.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 학교 고유 숫자를 AI는 모릅니다. 추측한 숫자가 공문에 들어가면 문제가 커집니다. 반드시 빈칸으로 받아 직접 채우십시오.</p></div></details>
+<details class="g-static-card" id="04"><summary><span class="g-static-no">04</span><span class="g-static-t"><b>회의록 정리하기</b><span>회의가 끝나면 기록 정리에 한참 걸립니다</span><small>업무 · JNE GPT · 15분 · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ JNE GPT &gt; 상단 메뉴 &gt; 회의록 ]</p><ol><li>회의 시작 전에 녹음 목적을 알리고 참석자의 동의를 받습니다</li><li>아이모두 [도구모음]에서 JNE GPT를 열고 상단 [회의록]을 누릅니다</li><li>[바로 녹음]을 눌러 회의를 기록하거나, 이미 동의를 받고 녹음한 파일은 [파일 업로드]로 올립니다</li><li>생성된 회의록에서 결정사항·담당·기한과 발언자 구분을 실제 회의 내용과 대조합니다</li><li>검토한 내용만 학교 양식에 옮기고 참석자에게 결정사항을 확인받습니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>이 회의 내용을 세 가지로만 정리해 주세요.
+1. 결정된 것
+2. 누가 할 것인지
+3. 언제까지인지
+의견이 갈린 부분은 “미정” 이라고 적어 주세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 동의 없는 녹음은 하지 않습니다. 인사·징계·학부모 상담 성격의 대화는 녹음 대상에서 빼십시오.</p></div></details>
+<details class="g-static-card" id="05"><summary><span class="g-static-no">05</span><span class="g-static-t"><b>팜플렛·포스터 만들기</b><span>외주에 맡기면 사흘씩 기다립니다</span><small>업무 · 미리캔버스 · 30분</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> 미리캔버스</p><p class="g-static-path">[ 도구모음 &gt; 미리캔버스 ]</p><ol><li>아이모두 [도구모음]에서 미리캔버스를 엽니다 — 교육용 Pro는 이 연동 경로로 지원됩니다</li><li>「리플릿」 또는 「3단 접지」로 템플릿을 검색하고 글자만 바꿉니다</li><li>인쇄용 PDF로 내보내 행정실에 의뢰합니다</li></ol><p class="g-static-caution"><b>꼭 확인할 것</b> 만드신 결과물은 소속 학교의 교육용으로만 쓰실 수 있습니다. 인쇄 전에 색상과 재단 여백을 확인하십시오.</p></div></details>
+<details class="g-static-card" id="05b"><summary><span class="g-static-no">05b</span><span class="g-static-t"><b>미리캔버스 Pro가 안 뜰 때</b><span>예전에 가입했는데 유료 기능이 잠겨 있습니다</span><small>업무 · 미리캔버스</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> 미리캔버스</p><p class="g-static-path">[ 아이모두 도구모음 &gt; 미리캔버스 &gt; 설정 &gt; 결제 정보 설정 ]</p><ol><li>반드시 아이모두를 거쳐 미리캔버스로 들어갑니다</li><li>연동 화면의 약관에 동의합니다. 교육용 Pro 적용에는 10~20분이 걸릴 수 있습니다</li><li>[설정 &gt; 결제 정보 설정] 에서 교육용 Pro가 붙었는지 확인합니다</li></ol><p class="g-static-caution"><b>꼭 확인할 것</b> 2026년 신규 이용자는 아이모두 연동 경로로 들어가야 교육용 Pro가 지원됩니다. 미리캔버스에서 별도 가입한 계정의 요금제를 먼저 확인하세요.</p></div></details>
+<details class="g-static-card" id="06"><summary><span class="g-static-no">06</span><span class="g-static-t"><b>발표자료 만들기</b><span>수업이나 협의회 발표자료를 만들어야 합니다</span><small>업무 · 미리캔버스 · 30분 · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> 미리캔버스</p><p class="g-static-path">[ 미리캔버스 &gt; AI 프레젠테이션 ]</p><ol><li>아이모두 [도구모음]에서 미리캔버스를 열고 첫 화면 위 [miricle AI]를 누릅니다</li><li>[AI 프레젠테이션]에서 주제를 입력합니다. 자료가 있으면 Pro 계정의 [내용 첨부하기]로 PDF·Word·PPTX 등을 추가합니다</li><li>아래 요청문의 대괄호를 수업 내용으로 바꿔 입력합니다</li><li>생성된 구성과 장별 내용을 살펴보고 학년 수준에 맞게 수정합니다</li><li>출처·수치·이미지 사용 범위를 확인하고 빠진 출처는 직접 적습니다</li><li>오른쪽 위 [다운로드]에서 PPTX 또는 PDF를 선택하고 파일을 열어 최종 확인합니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>중학교 [학년] [과목] 수업 발표자료를 만들어 주세요.
+주제: [주제]
+분량: [ ]장
+한 장에 한 가지만 담고, 글자는 짧게 써 주세요.
+마지막 장에는 학생에게 던질 질문 하나를 넣어 주세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> AI가 쓴 연도·수치·인명은 교과서와 대조하십시오. 그대로 투사하지 마십시오.</p></div></details>
+<details class="g-static-card" id="07"><summary><span class="g-static-no">07</span><span class="g-static-t"><b>설문 돌리고 모으기</b><span>회신을 종이로 걷고 손으로 세고 있습니다</span><small>업무 · 유레카(설문통계) · 10분</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> 유레카(설문통계)</p><p class="g-static-path">[ 도구모음 &gt; 유레카(설문통계) ]</p><ol><li>아이모두 [도구모음]에서 [유레카(설문통계)]를 엽니다</li><li>상단 [설문조사] → [연구용&amp;업무용]으로 들어가 [등록하기]를 누릅니다</li><li>조사명·기간·대상과 공개 여부를 정하고 개인정보를 묻는 문항이 필요한지 검토합니다</li><li>설문 문항을 입력한 뒤 미리보기에서 응답 흐름을 직접 확인합니다</li><li>설문 주소를 안내문에 넣고, 응답 종료 뒤 결과를 내려받아 확인합니다</li></ol><p class="g-static-caution"><b>꼭 확인할 것</b> 종이 회신을 완전히 대체하려면 학교 방침 확인이 먼저입니다. 스마트기기가 없는 가정을 위해 종이도 함께 두시는 편이 안전합니다.</p></div></details>
+<details class="g-static-card" id="08"><summary><span class="g-static-no">08</span><span class="g-static-t"><b>홈페이지·알림 게시물</b><span>같은 내용을 채널마다 다시 씁니다</span><small>업무 · JNE GPT · 10분 · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ JNE GPT &gt; 새 대화 ]</p><ol><li>이미 만든 통신문 내용을 붙여넣습니다</li><li>아래 문장으로 채널별 길이만 바꿔 달라고 합니다</li><li>같은 내용을 다시 쓰지 말고 재편집만 합니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>아래 가정통신문을 두 가지로 바꿔 주세요.
+1. 알림앱용 — 제목 한 줄 + 본문 두 줄
+2. 홈페이지용 — 본문은 그대로 두고 첫 문단만 요약
+학생 이름은 들어 있지 않습니다.
+
+[여기에 통신문 내용을 붙여넣으세요]</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 공개 게시물에 학생 얼굴이 식별되는 사진을 넣지 않습니다. 넣으시려면 보호자 동의를 확인하십시오.</p></div></details>
+<details class="g-static-card" id="08b"><summary><span class="g-static-no">08b</span><span class="g-static-t"><b>학생과 쓰기 전에 — 동의서</b><span>학생 계정을 만들려는데 뭐가 필요한지 모르겠습니다</span><small>수업 · 학교관리자</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> 학교관리자</p><p class="g-static-path">[ 학교관리자 &gt; 학생 등록 ]</p><ol><li>개인정보 활용 동의서 양식을 교육청 장학사에게 받습니다</li><li>보호자 동의를 받아 PDF로 만듭니다</li><li>학생 등록 시 그 PDF를 첨부합니다 — 첨부가 없으면 등록이 안 됩니다</li></ol><p class="g-static-caution"><b>꼭 확인할 것</b> 구글 클래스룸 연결은 신청 후 수 분에서 수 시간이 걸립니다(교사 매뉴얼 v4.0 p35). 수업 당일에 하시면 시간 안에 안 됩니다. 최소 하루 전에 해두십시오.</p></div></details>
+<details class="g-static-card" id="09"><summary><span class="g-static-no">09</span><span class="g-static-t"><b>우리 학교 AI 캐릭터 만들기</b><span>학생과 함께 무언가를 만들어 보고 싶습니다</span><small>수업 · 미리캔버스 AI 이미지 · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> 미리캔버스 AI 이미지</p><p class="g-static-path">[ 미리캔버스 &gt; AI 이미지 ]</p><ol><li>학생마다 캐릭터 시안을 만듭니다</li><li>반별로 투표해서 이름을 정합니다</li><li>뽑힌 캐릭터를 학교 안내물에 실제로 씁니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>중학교 마스코트 캐릭터를 그려 주세요.
+성격: [밝고 친근한 / 차분한 / 씩씩한]
+특징: [우리 학교·우리 지역의 것 하나 — 예: 배꽃, 영산강]
+스타일: 단순한 선, 밝은 색, 배경 없음
+사람 얼굴은 넣지 말아 주세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 실제 사람의 얼굴을 넣지 않습니다. AI가 만든 그림이라는 것을 작품에 밝힙니다. 만든 결과물은 학교 교육용으로만 씁니다.</p></div></details>
+<details class="g-static-card" id="10"><summary><span class="g-static-no">10</span><span class="g-static-t"><b>과학 — 태양계 설명 자료 만들기</b><span>교과서 그림만으로는 학생이 잘 안 잡힙니다</span><small>수업 · JNE GPT + 미리캔버스 · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT + 미리캔버스</p><p class="g-static-path">[ JNE GPT &gt; 이미지 ]</p><ol><li>아래 문장으로 행성별 그림을 만듭니다</li><li>미리캔버스에 얹어 활동지로 만듭니다</li><li>학생이 직접 순서를 맞추게 합니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>중학교 과학 수업용 그림을 그려 주세요.
+주제: 태양계 행성의 크기 비교
+조건: 행성 이름을 한글로 표시, 배경은 단순하게, 실제 크기 비율에 가깝게
+스타일: 교과서 삽화처럼 깔끔하게</pre><p class="g-static-caution"><b>꼭 확인할 것</b> AI는 자신 있게 틀립니다. 과학 사실은 교과서로 확인하십시오. 오히려 “무엇이 틀렸을까” 를 찾는 수업이 더 좋습니다.</p></div></details>
+<details class="g-static-card" id="11"><summary><span class="g-static-no">11</span><span class="g-static-t"><b>활동지·형성평가 문항 만들기</b><span>문항 만드는 데 한 시간씩 걸립니다</span><small>수업 · JNE GPT · 20분 · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ JNE GPT &gt; 새 대화 ]</p><ol><li>아이모두 도구모음에서 JNE GPT 를 엽니다</li><li>왼쪽 [새 대화] 을 누릅니다</li><li>성취기준과 학년·차시를 함께 줍니다</li><li>난이도 3단계로 요청합니다</li><li>정답과 해설을 따로 받아 교차 확인합니다</li><li>그래프가 필요한 문항은 축·단위·값을 명시해 요청하고, 생성된 그림을 교과서와 대조합니다</li><li>문서로 내려받았다면 그래프·수식이 깨지지 않았는지 열어 보고 필요한 부분만 인쇄합니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>중학교 [학년] [과목] 형성평가 문항을 만들어 주세요.
+성취기준: [코드 또는 내용]
+문항 수: 쉬움 2 · 보통 2 · 어려움 1
+형식: 선택형 4지선다
+정답과 해설은 따로 아래에 적어 주세요.
+수식은 특수기호 없이, 분수는 5/13 처럼 빗금으로 써 주세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> AI 문항은 정답이 틀리는 경우가 있습니다. 전 문항을 직접 풀어 보십시오. 성적 산출이 걸린 평가에는 검토 없이 쓰지 않습니다.</p></div></details>
+<details class="g-static-card" id="12"><summary><span class="g-static-no">12</span><span class="g-static-t"><b>수업 중 퀴즈로 확인하기</b><span>학생이 이해했는지 그 자리에서 알고 싶습니다</span><small>수업 · 퀴즈앤</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> 퀴즈앤</p><p class="g-static-path">[ 도구모음 &gt; 퀴즈앤 ]</p><ol><li>수업 목표에 맞는 문항과 정답을 준비하고 교과서와 대조합니다. 초안은 11번 안내서의 요청문을 활용할 수 있습니다</li><li>아이모두 [도구모음]에서 퀴즈앤을 열어 퀴즈를 만들고 문항·정답을 입력합니다</li><li>퀴즈를 시작하고 화면에 표시된 참여 PIN 또는 링크를 학생에게 안내합니다</li><li>학생은 자신의 기기에서 PIN·링크로 참여합니다. 참여에는 별도 로그인이 필요하지 않습니다</li><li>응답을 함께 보고 틀린 문항의 개념을 다시 설명합니다</li></ol><p class="g-static-caution"><b>꼭 확인할 것</b> 퀴즈앤 참여는 로그인 없이 가능하지만, 학교의 기기·개인정보 운영 방침은 먼저 확인하십시오.</p></div></details>
+<details class="g-static-card" id="13"><summary><span class="g-static-no">13</span><span class="g-static-t"><b>AI가 어떻게 배우는지 보여주기</b><span>AI 원리를 코딩 없이 체험시키고 싶습니다</span><small>수업 · 티처블머신</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> 티처블머신</p><p class="g-static-path">[ 주소창 &gt; teachablemachine.withgoogle.com ]</p><ol><li>이미지 프로젝트를 고릅니다</li><li>학생이 물건 두 가지를 카메라로 여러 장 찍습니다</li><li>학습 버튼을 누르면 그 자리에서 구분합니다</li></ol><p class="g-static-caution"><b>꼭 확인할 것</b> 학생 얼굴로 학습시키지 않습니다. 물건이나 손 모양으로 하십시오. 잘 못 맞히는 경우를 함께 보면서 “왜 틀렸을까” 를 이야기하는 게 이 수업의 핵심입니다.</p></div></details>
+<details class="g-static-card" id="14"><summary><span class="g-static-no">14</span><span class="g-static-t"><b>긴 지침에서 내 항목만 뽑기</b><span>173쪽짜리 기재요령을 받아놓고 아직 열어보지도 못했습니다</span><small>업무 · JNE GPT · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 도구모음 &gt; JNE GPT &gt; 새 대화 ]</p><ol><li>JNE GPT 를 열고 왼쪽 [새 대화] 을 누릅니다</li><li>[옵션 더보기] → [파일 업로드]로 지침 PDF를 올립니다. 업로드 가능 여부를 먼저 확인합니다</li><li>② 아래 문장에서 「」 안만 내가 맡은 항목으로 바꿔 붙여넣습니다</li><li>③ [보내기]로 전송하고, 표가 다 그려질 때까지 기다립니다</li><li>받은 워드를 열어 「몇 쪽」 열을 원문에서 한 번 확인합니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>올린 지침에서 「○○○○」 부분만 뽑아 주세요.
+1. 누가 입력하는지, 최대 몇 자인지
+2. 쓸 때 지킬 것 / 하면 안 되는 것
+3. 잘못 썼을 때 고치는 절차
+각 줄 끝에 근거 쪽을 적어 주세요.
+문서에 없으면 「문서에 없음」이라고 쓰세요.
+다 되면 워드 파일로 만들어 주세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 지침 문서에는 학생 정보가 없습니다. 학생 이름·성적이 들어간 파일은 올리지 마십시오.</p></div></details>
+<details class="g-static-card" id="15"><summary><span class="g-static-no">15</span><span class="g-static-t"><b>자료 여러 개에서 답 찾기</b><span>학부모 전화 한 통에 파일 여섯 개를 다시 열어봅니다</span><small>업무 · JNE GPT · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 도구모음 &gt; JNE GPT &gt; 새 대화 ]</p><ol><li>JNE GPT 를 열고 「새 대화」를 누릅니다</li><li>[옵션 더보기] → [파일 업로드]에서 관련 파일을 추가합니다. 용량·형식 제한이 뜨면 안내에 따릅니다</li><li>① 입력창에 아래 문장을 그대로 붙여넣고 보냅니다</li><li>AI가 적은 쪽을 원문 PDF에서 직접 열어 눈으로 대조합니다</li><li>대조가 끝나면 「이 내용으로 배부용 문서를 만들어 주세요」 라고 한 줄 더 칩니다</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>올린 자료를 바탕으로, 학부모들이 가장 궁금해할 질문 여섯 개를 뽑고 각각 답과 근거를 알려주세요.
+형식: 질문 / 답(두 줄 이내) / 근거: 파일명 ○쪽
+답이 자료에 없으면 「자료에 없음」이라고 쓰고, 추측하지 마세요.
+쪽 번호를 반드시 적고, 모르면 「쪽 모름」이라고 쓰세요.
+이미 지난 날짜를 「예정」이라고 쓰지 마세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 학교 밖으로 나갈 안내문은 반드시 원문을 열어 대조하십시오. 요약본은 근거가 아닙니다.</p></div></details>
+<details class="g-static-card" id="16"><summary><span class="g-static-no">16</span><span class="g-static-t"><b>업무 지시서·체크리스트 만들기</b><span>공동 업무를 맡았는데 누가 언제 무엇을 할지 정리해야 합니다</span><small>업무 · JNE GPT · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 도구모음 &gt; JNE GPT &gt; 새 대화 ]</p><ol><li>업무 분장표나 공문에서 목적·기한·담당 역할을 확인해 메모합니다. 미정인 칸은 비워 둡니다.</li><li>아이모두 [도구모음]에서 JNE GPT를 열고 「새 대화」를 누릅니다.</li><li>아래 요청문의 대괄호를 확정된 사실로 바꿔 입력하고 보냅니다. 학생·학부모 정보는 넣지 않습니다.</li><li>나온 표에서 「확인 필요」 항목과 담당·기한을 원문과 대조합니다.</li><li>검토한 내용만 학교 업무 문서에 옮기고 실제 담당자와 결재선을 확인합니다.</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>아래 메모만 근거로 교직원용 업무 지시서와 실행 체크리스트를 작성해 주세요.
+메모: [목적, 날짜, 장소, 담당 역할, 확정된 기한을 입력]
+출력: ① 목적 ② 역할별 할 일 ③ 마감 전 확인표(담당/기한/완료 여부) ④ 미확정 사항.
+메모에 없는 날짜·담당자·규정은 만들지 말고 「확인 필요」로 적어 주세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 학생·학부모 개인정보와 비공개 내부 문서는 입력하지 마세요. 최종 담당과 결재선은 실제 업무 분장·규정을 확인하세요.</p></div></details>
+<details class="g-static-card" id="17"><summary><span class="g-static-no">17</span><span class="g-static-t"><b>행사 운영표·역할표 만들기</b><span>체험 부스나 학교 행사를 준비하며 순서와 인력을 배치해야 합니다</span><small>업무 · JNE GPT · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 도구모음 &gt; JNE GPT &gt; 새 대화 ]</p><ol><li>행사 공지와 담당자 회의 내용에서 시간·장소·부스·인력·준비물을 확인합니다.</li><li>아이모두 [도구모음]에서 JNE GPT를 열고 「새 대화」를 누릅니다.</li><li>아래 요청문에 확정 메모를 넣어 시간대별 운영표와 역할표 초안을 받습니다.</li><li>시간이 겹치거나 담당이 비어 있는 칸을 표시해 다시 질문합니다.</li><li>안전·이동 동선·예비 인력은 현장 담당자와 대조해 최종 운영표에 반영합니다.</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>확정 메모: [행사 시간, 장소, 인력 수, 부스, 준비물]
+이 내용으로 시간대별 행사 운영표와 담당 역할표를 만들어 주세요.
+열: 시간 / 활동 / 담당 역할 / 준비물 / 확인할 위험.
+정보가 부족한 칸은 「확인 필요」로 두고, 학생 이름은 쓰지 마세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> AI 초안만으로 안전 계획을 확정하지 마세요. 공간·안전·담당 인력은 현장에서 확인하세요.</p></div></details>
+<details class="g-static-card" id="18"><summary><span class="g-static-no">18</span><span class="g-static-t"><b>수업 지도안 초안 만들기</b><span>한 차시 수업의 도입·활동·정리를 빠르게 설계하고 싶습니다</span><small>수업 · JNE GPT · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 도구모음 &gt; JNE GPT &gt; 새 대화 ]</p><ol><li>교육과정·교과서에서 학년·교과·차시·성취기준과 실제 수업 시간을 확인합니다.</li><li>아이모두 [도구모음]에서 JNE GPT를 열고 「새 대화」를 누릅니다.</li><li>아래 요청문에 원문 성취기준과 주제를 넣어 지도안 초안을 받습니다.</li><li>도입·활동·정리 시간의 합계와 학생 활동이 가능한지를 확인합니다.</li><li>교과서 내용과 난이도를 대조하고 수정한 뒤 수업 자료에 옮깁니다.</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>중학교 [학년] [교과] [차시] 수업 지도안 초안을 작성해 주세요.
+확인된 성취기준: [그대로 붙여넣기]
+수업 시간: [분], 주제: [주제]
+도입/학생 활동/정리/형성평가를 표로 쓰고, 각 활동의 시간을 적어 주세요.
+성취기준에 없는 내용은 추가하지 말고, 확인이 필요한 자료는 따로 표시해 주세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 성취기준 문구와 교재 내용은 교사가 원본에서 확인하세요. 학생 수준에 맞지 않는 활동은 수정하세요.</p></div></details>
+<details class="g-static-card" id="19"><summary><span class="g-static-no">19</span><span class="g-static-t"><b>평가 기준표 만들기</b><span>프로젝트나 발표 평가 기준을 학생에게 미리 보여주고 싶습니다</span><small>수업 · JNE GPT · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 도구모음 &gt; JNE GPT &gt; 새 대화 ]</p><ol><li>학교 평가 계획에서 평가 목표·과제·요소·허용된 배점을 먼저 확인합니다.</li><li>아이모두 [도구모음]에서 JNE GPT를 열고 「새 대화」를 누릅니다.</li><li>아래 요청문에 확정한 과제와 요소를 넣어 수준별 서술형 기준표를 받습니다.</li><li>각 수준이 실제 행동으로 관찰되는지, 학생에게 이해되는 말인지 검토합니다.</li><li>배점과 최종 문구를 학교 평가 계획에 맞춰 확정하고 동료 교사와 교차 확인합니다.</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>평가 과제: [과제 설명]
+확정한 평가 요소: [요소 목록]
+각 요소를 3수준(높음/보통/도움 필요)의 관찰 가능한 행동으로 구분해 표로 작성해 주세요.
+모호한 성격 평가나 학생 개인 특성 판단은 빼고, 점수 배점은 제안하지 마세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 학교 평가 계획과 성적 처리 지침이 우선입니다. AI 초안만으로 평가 기준을 확정하지 마세요.</p></div></details>
+<details class="g-static-card" id="20"><summary><span class="g-static-no">20</span><span class="g-static-t"><b>학부모 안내 FAQ 만들기</b><span>행사나 일정에 대해 반복해서 들어오는 질문을 한 장으로 정리합니다</span><small>업무 · JNE GPT · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 도구모음 &gt; JNE GPT &gt; 새 대화 ]</p><ol><li>결재된 안내문에서 일시·장소·대상·문의처를 확인하고 개인정보를 제거합니다.</li><li>아이모두 [도구모음]에서 JNE GPT를 열고 「새 대화」를 누릅니다.</li><li>아래 요청문에 공개 가능한 안내문 내용을 넣어 자주 묻는 질문 초안을 받습니다.</li><li>각 답의 근거 문장을 원문에서 찾고, 없는 정보는 「확인 필요」로 남깁니다.</li><li>날짜·문의처를 담당자와 확인한 뒤 FAQ를 배포합니다.</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>다음 확정 안내문만 근거로 학부모 FAQ 6문항을 만들어 주세요.
+안내문: [개인정보를 제거한 문장 붙여넣기]
+형식: 질문 / 두 문장 이내의 답 / 근거가 된 안내문 문장.
+안내문에 없는 비용·시간·참가 조건은 「확인 필요」라고 적어 주세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 문의처와 일정은 실제 공지에서 확인하세요. 공개 전 개인정보와 미확정 내용이 없는지 검토하세요.</p></div></details>
+<details class="g-static-card" id="21"><summary><span class="g-static-no">21</span><span class="g-static-t"><b>업무 인수인계 문서 만들기</b><span>다음 담당자가 반복 질문 없이 업무를 이어받도록 정리합니다</span><small>업무 · JNE GPT · 지시서 있음</small></span></summary><div class="g-static-body"><p><b>추천 도구</b> JNE GPT</p><p class="g-static-path">[ 도구모음 &gt; JNE GPT &gt; 새 대화 ]</p><ol><li>반복 업무의 목적·실행 순서·파일 위치·마감 주기를 메모합니다. 비밀번호와 학생 정보는 빼 둡니다.</li><li>아이모두 [도구모음]에서 JNE GPT를 열고 「새 대화」를 누릅니다.</li><li>아래 요청문에 메모를 넣어 한 페이지짜리 인수인계 초안을 받습니다.</li><li>파일 경로·승인 담당·마감 주기를 실제 업무 기록과 대조합니다.</li><li>확인한 문서를 후임에게 전달하고 접근 권한은 학교 절차로 별도 이관합니다.</li></ol><p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>다음 업무 메모를 바탕으로 후임자용 인수인계 안내서를 작성해 주세요.
+메모: [업무 목적, 순서, 파일 보관 위치, 반복 주기, 확인 담당을 입력]
+출력: ① 시작 전 준비 ② 순서별 체크리스트 ③ 자주 놓치는 점 ④ 아직 확인할 사항.
+메모에 없는 계정·비밀번호·연락처는 쓰지 마세요.</pre><p class="g-static-caution"><b>꼭 확인할 것</b> 계정·비밀번호·학생 정보는 AI에 입력하거나 인수인계 문서에 적지 마세요. 접근 권한은 학교 절차로 별도 전달하세요.</p></div></details>
+</div>
+<!-- 정적 목록 끝 -->
           </div>
 
           <div id="gTip"></div>
@@ -239,6 +439,7 @@
 <script src="data/tasks.js?v=20261021"></script>
 <script src="data/guides.js"></script>
 <script src="shared/icons.js"></script>
+<script src="guide/home-alpine.js"></script>
 <script src="guide/home.js"></script>
 <script src="shared/config.js"></script>
 <script src="shared/feedback.js"></script>
