@@ -87,3 +87,12 @@ guide/                  옛 주소 → 홈으로 넘김 (유지)
 | 공지 | 아직 없음 (후속) | 연수 일정 변경 알림 | 읽기 전용 |
 
 적용 방법: Supabase SQL Editor에서 `supabase/feedback.sql` 실행 → `shared/config.js`에 프로젝트 주소와 **anon 키**를 입력. **서비스 키는 저장소에 넣지 않는다.** 이 작업에서는 실제 Supabase 프로젝트를 만들거나 바꾸지 않았다.
+
+
+## 움직임 2 · 새 쪽 내용 (polish/motion-2)
+
+- **움직임 층**: `shared/app.css` 10번 구역 + `shared/motion.js`(글자 다이빙·초점 맞추기·찢어진 종이 선·단계 카드 펼침·복사 번쩍) + `shared/app.js`(토스트·끈끈이 목차). 동작 줄이기면 전부 꺼지고 토스트만 남는다. 애니메이션은 transform·opacity 만 쓴다(초점 맞추기는 흐림 막의 투명도만 바꾼다).
+- **아이모두 완전 정복**: 저장소 안의 안내서·자료실·매뉴얼 정리에 있는 사실만 썼다. 모르는 것은 「확인 필요」 배지. 「어떤 일에 어떤 도구」 표는 `data/tasks.json` 에서 만든다.
+- **AI 용어, 그림으로 보기**: `terms/anim/*.html` 여섯 편(한 장짜리, 소리 없음, 자막 항상). `tools/gen-terms.js` 가 만든다. 「내용 확인한 날」은 사람이 확인한 뒤 `data/terms.json` 의 `checked` 에 적는다(지금은 비어 있어 「확인 필요」).
+- **AI는 어떻게 답을 만들까**: `how-ai-answers/` — 3D 는 `shared/vendor/three/`(three.js r128, MIT, LICENSE 포함, `?.`/`??` 문법 없음)로, 컴퓨터가 약하거나 동작 줄이기·WebGL 없음이면 2D SVG. 주소 뒤에 `?view=2d` / `?view=3d` 로 고정할 수 있다.
+- **AI 활용 안내**: `data/ai-models.json` — 공식 소개 쪽에서 확인한 항목만 문장을 적었고(Gemini, Claude), 확인 못 한 것(ChatGPT 소개, 아이모두 포함 여부)은 「확인 필요」.

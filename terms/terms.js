@@ -7,9 +7,9 @@
   function card(t) {
     var ready = t.status === 'ready' && t.file;
     var poster = '<span class="term-poster">' + (ready ? '<span class="term-play">' + PLAY + '</span>' : '') +
-      '<b>' + esc(t.term) + '</b><span>' + esc(t.analogy) + '</span></span>';
+      '<b>' + esc(t.term) + '</b><span>' + esc(t.analogy) + '</span>' + (ready ? '<span class="sr-only"> — 재생</span>' : '') + '</span>';
     var frame = ready
-      ? '<button type="button" class="term-frame" data-file="' + esc(t.file) + '" aria-label="' + esc(t.term) + ' 재생">' + poster + '</button>'
+      ? '<button type="button" class="term-frame" data-file="' + esc(t.file) + '" data-x="' + esc(t.term) + '">' + poster + '</button>'
       : '<div class="term-frame">' + poster + '</div>';
     var caps = (t.captions || []).map(esc).join(' · ');
     return '<article class="term">' + frame +
@@ -24,7 +24,7 @@
       btn.innerHTML = '<video src="../' + f + '" controls playsinline preload="none"></video>';
       btn.querySelector('video').play();
     } else {
-      btn.innerHTML = '<iframe src="../' + f + '?autoplay=1" title="' + esc(btn.getAttribute('aria-label') || '애니메이션') + '" sandbox="allow-scripts" allow=""></iframe>';
+      btn.innerHTML = '<iframe src="../' + f + '?autoplay=1" title="' + esc(btn.getAttribute('data-x') || '애니메이션') + '" sandbox="allow-scripts" allow=""></iframe>';
     }
   }
   function draw(data) {

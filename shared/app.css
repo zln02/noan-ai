@@ -306,7 +306,7 @@ main .g-detail-actions a.g-request:not(#x) { color: #fff; }
 .im-card { background: #F7FAFF; border: 1px solid #E1EAF6; border-radius: 14px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
 .im-card h3 { font-size: 17px; color: #12203A; }
 .im-card p { margin: 0; font-size: 15px; color: #3C4F66; }
-.im-card a { font-weight: 700; color: var(--brand-ink); }
+.im-card a, .im-list a, .im-note a, .panel .checked a { font-weight: 700; color: var(--brand-ink); text-decoration: underline; text-underline-offset: 3px; }
 .im-sub { margin: 16px 0 6px; font-size: 17px; color: #12203A; }
 .im-list { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: 15px; color: #3C4F66; }
 .need { display: inline-block; padding: 1px 8px; border-radius: 999px; background: #FFEEC2; color: #6B4E00; font-weight: 800; font-size: 12px; white-space: nowrap; }
@@ -371,7 +371,7 @@ main .g-detail-actions a.g-request:not(#x) { color: #fff; }
 .sec-nav::before { content: ""; position: absolute; inset: 0 -100vw; background: rgba(245, 248, 253, .94); border-bottom: 1px solid #E6ECF3; opacity: 0; transition: opacity .25s ease; z-index: -1; }
 .sec-nav.is-stuck::before { opacity: 1; }
 .sec-nav a { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; background: #fff; border: 1px solid #D8E2F0; color: #2C4360; font-weight: 700; font-size: 14px; text-decoration: none; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
-.sec-nav a.is-on { background: var(--brand); border-color: var(--brand); color: #fff; }
+main .sec-nav a.is-on:not(#x) { background: var(--brand); border-color: var(--brand); color: #fff; }
 section[id^="sec-"] { scroll-margin-top: 64px; }
 
 /* 구역 사이 찢어진 종이 선 — 가볍게 */

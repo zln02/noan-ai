@@ -65,7 +65,7 @@
     return s;
   }
   function draw2d(n) {
-    svg.innerHTML = '<rect width="960" height="540" fill="#FFF4E2"/><rect y="440" width="960" height="100" fill="#F3DFC1"/><g class="how-g">' + scene2d(n) + '</g>';
+    svg.innerHTML = '<rect width="960" height="540" fill="#FFF4E2"/><rect y="440" width="960" height="100" fill="#F3DFC1"/><g class="how-g" transform="translate(48 -22) scale(.9)">' + scene2d(n) + '</g>';
   }
 
   /* ---------- 걸음 바꾸기 ---------- */
