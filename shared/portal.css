@@ -505,6 +505,48 @@ body.portal {
   border-radius: 10px;
 }
 
+/* 연수 자료: 대표 자료는 파란 단추, 이전 버전은 한 톤 낮춘다 */
+.p-res-item.is-main {
+  background: #EAF3FF;
+  border-color: #C9DEFA;
+}
+
+/* site.css 의 「main a:not(…)」 글자색이 더 세서 흰 글자는 !important 로 지킨다 */
+.p-res-item.is-main .p-res-open {
+  background: var(--p-blue);
+  border-color: var(--p-blue);
+  color: #FFFFFF !important;
+}
+
+.p-res-item.is-main .p-res-open:hover {
+  background: #0F56B3;
+  border-color: #0F56B3;
+}
+
+.p-res-item.is-old {
+  background: #F7F8FA;
+  border-style: dashed;
+  border-color: #D9DFE8;
+}
+
+.p-res-item.is-old .p-res-icon {
+  background: #E9EDF3;
+  color: #5D6C80;
+}
+
+.p-res-tag {
+  display: inline-block;
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 800;
+  color: #4A5B70;
+  background: #E3E8EF;
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-right: 8px;
+  vertical-align: 1px;
+}
+
 .p-res-open:hover {
   border-color: var(--p-blue);
   color: var(--p-blue);

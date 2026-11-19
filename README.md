@@ -54,7 +54,7 @@ sync 스크립트는 내보낼 필드를 **허용 목록**으로 못 박고, 본
 noan-ai/
 ├── index.html                  ★ 첫 화면 = 업무별 AI 안내서 25장
 ├── guide/                      첫 화면 목록(home-alpine.js·찾기·찜) · 상세(home.js) · 인쇄본 PDF · 옛 주소 넘김
-├── training/                   연수 덱 24장
+├── training/                   연수 자료 — 1회차 덱 24장 · 2회차 s2-deck-v2.html(한 파일 7.7MB, sw.js 미리 담기 제외) · start/ 에 설치 가이드
 ├── library/  contest/  request/  about/  class/  showcase/
 ├── iamodu/  ai/  terms/  how-ai-answers/  start/   (내용 채움 — AI 알기 16편 쇼츠 애니메이션, 3D 풀이)
 ├── sw.js  manifest.webmanifest  offline.html   「홈 화면에 추가」 + 오프라인
