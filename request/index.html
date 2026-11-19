@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>요청하기 · 노안중 AI교육</title>
+<title>도움 · 노안중 AI교육</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="필요한 연수와 자료를 요청할 문장을 만들고, 코디네이터에게 전달하는 방법을 안내합니다.">
+<meta name="description" content="처음이면 순서대로, 막히면 자주 묻는 질문, 그래도 안 되면 요청하기. 노안중 선생님을 위한 도움 안내.">
 <link rel="icon" href="../assets/noan-ai-icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="../assets/noan-ai-touch-180.png">
 <meta name="apple-mobile-web-app-title" content="노안중 AI">
@@ -18,6 +18,78 @@
 <link rel="stylesheet" href="../shared/premium.css">
 <link rel="manifest" href="../manifest.webmanifest">
 <meta name="theme-color" content="#1568D2">
+<style>
+/* 도움 쪽 전용: 순서 지도(hj-) · 자주 묻는 질문(hq-) · 바로가기(hh-). 바깥 파일·외부 요청 없음 */
+.page-request .hh-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.page-request .hh-links a{display:inline-flex;align-items:center;min-height:44px;padding:8px 18px;border-radius:999px;background:#EEF5FF;color:#0B5FC0;font-weight:700;font-size:15.5px}
+.page-request .hh-links a:first-child{background:#1568D2;color:#fff!important}
+.page-request .hh-links a:hover{filter:brightness(.96)}
+.page-request .hj,.page-request .hq,.page-request .hw{margin-top:16px;scroll-margin-top:16px}
+.page-request .hj h2,.page-request .hq h2,.page-request .hw h2{font-size:clamp(22px,2.4vw,26px)}
+.page-request .hj-sub{margin:4px 0 20px;color:#4A5A70;font-size:16px}
+.hj-list{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.hj-step{position:relative;min-width:0;padding:0 0 0 60px}
+.hj-badge{position:absolute;left:0;top:0;display:flex;width:44px;height:44px;align-items:center;justify-content:center;border-radius:50%;background:#EEF5FF;color:#1568D2;box-shadow:0 0 0 4px #fff;z-index:1}
+.hj-badge svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.hj-step::before{content:"";position:absolute;left:21px;top:44px;bottom:-14px;width:2px;background:#D5E3F7;transform-origin:top}
+.hj-step:last-child::before{display:none}
+.hj-card{padding:14px 16px;border:1px solid #E1EAF5;border-radius:14px;background:#FBFDFF}
+.hj-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-bottom:6px}
+.hj-no{color:#5D6C80;font-size:13px;font-weight:700}
+.hj-chip{padding:1px 9px;border-radius:999px;background:#E7F6EE;color:#14663A;font-size:12.5px;font-weight:700}
+.hj-chip.is-every{background:#EEF5FF;color:#0B5FC0}
+.hj-chip.is-need{background:#FFF1DC;color:#8A4B06}
+.hj-card h3{margin:0 0 6px;color:#0F1D33;font-size:18px;font-weight:800;letter-spacing:-.03em;line-height:1.3}
+.hj-card p{margin:0 0 8px;font-size:15px;line-height:1.55;color:#33445C;overflow-wrap:anywhere;word-break:keep-all}
+.hj-card p .hj-lab{display:block;color:#5D6C80;font-size:12.5px;font-weight:700}
+.hj-go{display:inline-flex;align-items:center;min-height:44px;padding:6px 14px;margin:0 0 8px;border-radius:10px;background:#1568D2;color:#fff!important;font-size:15px;font-weight:700;overflow-wrap:anywhere}
+.hj-go:hover{filter:brightness(1.07)}
+.hj-card p.hj-stuck{margin:0;padding-top:8px;border-top:1px dashed #D5E3F7;font-size:14.5px}
+.hj-stuck a,.hq a{color:#0B5FC0;text-decoration:underline;text-underline-offset:3px}
+@media (min-width:768px) and (max-width:1279px){
+  .hj-list{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px 12px}
+  .hj-step{padding:56px 0 0}
+  .hj-step::before{left:52px;right:-12px;top:21px;bottom:auto;width:auto;height:2px;transform-origin:left}
+  .hj-step:nth-child(4)::before{display:none}
+  .hj-card{height:100%}
+}
+@media (min-width:1280px){
+  .hj-list{grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
+  .hj-step{padding:56px 0 0}
+  .hj-step::before{left:52px;right:-12px;top:21px;bottom:auto;width:auto;height:2px;transform-origin:left}
+  .hj-card{height:100%;padding:12px 12px 14px}
+  .hj-card h3{font-size:17px}
+  .hj-card p{font-size:14.5px}
+  .hj-go{font-size:14px;padding:6px 10px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .hj-step{animation:hjIn .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i)*70ms)}
+  .hj-step::before{animation:hjDrawY .6s ease-out both;animation-delay:calc(var(--i)*70ms + 150ms)}
+  .hj-go{transition:transform .15s ease}
+  .hj-go:hover{transform:translateY(-2px)}
+  @media (min-width:768px){.hj-step::before{animation-name:hjDrawX}}
+}
+@keyframes hjIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes hjDrawY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes hjDrawX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.hq-list{margin-top:14px;display:grid;gap:8px}
+.hq details{border:1px solid #E1EAF5;border-radius:14px;background:#FBFDFF}
+.hq summary{display:flex;align-items:center;gap:10px;min-height:48px;padding:10px 16px;cursor:pointer;font-weight:700;font-size:16.5px;line-height:1.4;color:#0F1D33;list-style:none;overflow-wrap:anywhere;word-break:keep-all}
+.hq summary::-webkit-details-marker{display:none}
+.hq summary::after{content:"+";margin-left:auto;flex:none;color:#1568D2;font-size:22px;font-weight:700}
+.hq details[open] summary::after{content:"\2212"}
+.hq summary:focus-visible,.hj-go:focus-visible,.hh-links a:focus-visible,.hq a:focus-visible,.hj-stuck a:focus-visible{outline:3px solid #1568D2;outline-offset:2px}
+.hq .hq-a{padding:0 16px 14px;color:#33445C;font-size:15.5px;line-height:1.65}
+.hq .hq-a p{margin:0 0 6px;overflow-wrap:anywhere;word-break:keep-all}
+.hq .hq-a p:last-child{margin-bottom:0}
+.hw .hw-lede{margin:4px 0 16px;color:#4A5A70;font-size:16px}
+.hw-last{margin-top:20px;padding:14px 16px;border-radius:14px;background:#EEF5FF;font-size:15.5px;line-height:1.6;color:#16233A}
+.page-request .r-board-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:24px 0 4px}
+.page-request .r-board-head h2{margin:0;font-size:20px;font-weight:800;color:#12203A}
+.page-request .r-board-head .r-stats{margin-left:auto}
+.page-request .r-board-head .r-stat{min-width:84px;padding:8px 14px}
+.page-request .r-board-head .r-stat b{font-size:22px}
+</style>
 <script src="../shared/app.js"></script>
 </head>
 <body class="portal page-request">
@@ -35,7 +107,7 @@
       <a href="../showcase/index.html">활용 사례</a>
       <a href="../library/index.html">자료실</a>
       <a href="../studio/index.html">수업 도구</a>
-      <a class="is-here" href="../request/index.html" aria-current="page">요청하기</a>
+      <a class="is-here" href="../request/index.html" aria-current="page">도움</a>
       <a class="p-nav-cta" href="https://ai.jne.kr/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>
         아이모두 바로가기
@@ -48,18 +120,106 @@
 
   <section class="r-hero" aria-labelledby="rHeroTitle">
     <div class="r-hero-copy">
-      <div class="r-eyebrow">선생님들의 요청</div>
-      <h1 id="rHeroTitle">필요한 걸 알려주세요</h1>
-      <p class="r-lede">요청할 내용을 작성해 복사한 뒤 교무실이나 업무 메신저로 전달해 주세요. 코디네이터가 받은 요청을 이 목록에 올립니다.</p>
-      <p class="r-lede">「이거 만들어 주세요」보다 <strong>「이 일이 오래 걸려요」</strong>라고 말씀해 주시는 게 좋습니다. 그래야 제가 자동화할 지점을 찾습니다.</p>
-    </div>
-    <div class="r-stats">
-      <div class="r-stat"><b id="rCountAll">0</b><span>전체 요청</span></div>
-      <div class="r-stat r-stat-done"><b id="rCountDone">0</b><span>해결됨</span></div>
+      <div class="r-eyebrow">도움</div>
+      <h1 id="rHeroTitle">무엇을 도와드릴까요?</h1>
+      <p class="r-lede">처음이면 순서대로, 막히면 질문 목록. 그래도 안 되면 요청하세요.</p>
+      <nav class="hh-links" aria-label="도움 바로가기">
+        <a href="#journey">처음이에요</a>
+        <a href="#faq">막혔어요</a>
+        <a href="#write">요청할래요</a>
+      </nav>
     </div>
   </section>
 
-  <div class="r-bar">
+  <section class="p-panel hj" id="journey" aria-labelledby="hjTitle">
+    <h2 id="hjTitle">처음이라면 이 순서대로</h2>
+    <p class="hj-sub">위에서 아래로, 한 단계씩. 막히면 그 칸의 「막히면」을 보세요.</p>
+    <ol class="hj-list" aria-label="도움 받는 순서 7단계">
+<li class="hj-step" style="--i:0"><span class="hj-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span><div class="hj-card">
+<div class="hj-top"><span class="hj-no">1단계</span><span class="hj-chip ">처음 한 번</span></div>
+<h3>처음이에요</h3>
+<p><span class="hj-lab">하는 일</span>이 안내서를 폰 홈 화면에 붙여 두고, 아이모두를 엽니다.</p>
+<a class="hj-go" href="https://ai.jne.kr/" target="_blank" rel="noopener">아이모두 열기 (새 창)</a>
+<p class="hj-stuck"><span class="hj-lab">막히면</span>주소가 기억 안 나면 이 화면 위쪽 「아이모두 바로가기」를 누르세요.</p>
+</div></li>
+<li class="hj-step" style="--i:1"><span class="hj-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><div class="hj-card">
+<div class="hj-top"><span class="hj-no">2단계</span><span class="hj-chip ">처음 한 번</span></div>
+<h3>로그인·인증</h3>
+<p><span class="hj-lab">하는 일</span>「교원 로그인」 다음 「사용자 로그인」. 간편인증과 공동인증서를 둘 다 등록합니다.</p>
+<a class="hj-go" href="../index.html#00">카드 00 보기</a>
+<p class="hj-stuck"><span class="hj-lab">막히면</span>메뉴가 안 넘어가면 <a href="#q-auth">질문 1</a>을 보세요.</p>
+</div></li>
+<li class="hj-step" style="--i:2"><span class="hj-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.2-4.2"/></svg></span><div class="hj-card">
+<div class="hj-top"><span class="hj-no">3단계</span><span class="hj-chip is-every">할 때마다</span></div>
+<h3>할 일 찾기</h3>
+<p><span class="hj-lab">하는 일</span>홈 검색창에 하려는 일을 씁니다. 예: 회의록, 공문.</p>
+<a class="hj-go" href="../index.html">업무별 안내서</a>
+<p class="hj-stuck"><span class="hj-lab">막히면</span>찾는 일이 없으면 <a href="#write">7단계</a>로 가세요.</p>
+</div></li>
+<li class="hj-step" style="--i:3"><span class="hj-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="11" height="12" rx="2"/><path d="M5 16V6a2 2 0 0 1 2-2h8"/></svg></span><div class="hj-card">
+<div class="hj-top"><span class="hj-no">4단계</span><span class="hj-chip is-every">할 때마다</span></div>
+<h3>지시서 복사</h3>
+<p><span class="hj-lab">하는 일</span>카드의 「지시서 복사」를 누르고, 아이모두 입력창에 붙여넣습니다.</p>
+<a class="hj-go" href="../index.html#04">예: 회의록 카드</a>
+<p class="hj-stuck"><span class="hj-lab">막히면</span>결과가 이상하면 <a href="#q-odd">질문 5</a>를 보세요.</p>
+</div></li>
+<li class="hj-step" style="--i:4"><span class="hj-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5 10 17.5 19 7"/></svg></span><div class="hj-card">
+<div class="hj-top"><span class="hj-no">5단계</span><span class="hj-chip is-every">할 때마다</span></div>
+<h3>결과 확인</h3>
+<p><span class="hj-lab">하는 일</span>나온 글은 초안입니다. 날짜·이름·숫자를 눈으로 확인합니다. 학생 정보는 넣지 않습니다.</p>
+<a class="hj-go" href="../library/rules.html">안전 규칙 한 장</a>
+<p class="hj-stuck"><span class="hj-lab">막히면</span>학생 정보가 걱정되면 <a href="#q-private">질문 6</a>을 보세요.</p>
+</div></li>
+<li class="hj-step" style="--i:5"><span class="hj-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7"/><path d="M12 17h.01"/></svg></span><div class="hj-card">
+<div class="hj-top"><span class="hj-no">6단계</span><span class="hj-chip is-need">막힐 때만</span></div>
+<h3>막히면 질문 보기</h3>
+<p><span class="hj-lab">하는 일</span>자주 막히는 곳부터 봅니다. 답은 한두 줄입니다.</p>
+<a class="hj-go" href="#faq">자주 묻는 질문</a>
+<p class="hj-stuck"><span class="hj-lab">막히면</span>답이 없으면 <a href="#write">7단계</a>로 가세요.</p>
+</div></li>
+<li class="hj-step" style="--i:6"><span class="hj-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4z"/></svg></span><div class="hj-card">
+<div class="hj-top"><span class="hj-no">7단계</span><span class="hj-chip is-need">마지막 방법</span></div>
+<h3>요청하기</h3>
+<p><span class="hj-lab">하는 일</span>문장을 만들어 교무실·쪽지·메신저로 전합니다.</p>
+<a class="hj-go" href="#write">요청 쓰기</a>
+<p class="hj-stuck"><span class="hj-lab">막히면</span>글쓰기가 어려우면 수·목 오전 교무실에서 말로 하셔도 됩니다.</p>
+</div></li>
+    </ol>
+  </section>
+
+  <section class="p-panel hq" id="faq" aria-labelledby="hqTitle">
+    <h2 id="hqTitle">자주 막히는 곳</h2>
+    <p class="hj-sub" style="margin-bottom:0">눌러서 열어 보세요. 답은 짧게, 자세한 건 카드 한 곳으로.</p>
+    <div class="hq-list">
+<details id="q-auth"><summary>1. 로그인은 되는데 다른 메뉴로 안 넘어가요</summary><div class="hq-a"><p>간편인증과 공동인증서를 <b>둘 다</b> 등록해야 합니다. 하나만 하면 막힙니다.</p><p><a href="../index.html#00">카드 00 · 계정 인증 보기</a></p></div></details>
+<details id="q-allow"><summary>2. 크롬·엣지를 업데이트했더니 인증서 로그인이 안 돼요</summary><div class="hq-a"><p>「이 장치에서 다른 앱 및 서비스에 액세스」 창이 뜨면 <b>[허용]</b>을 누르세요.</p><p>이미 [차단]을 눌렀다면 주소창 왼쪽 자물쇠 → [기기에 있는 앱] → 켜기.</p><p><a href="../index.html#00">카드 00 · 계정 인증 보기</a></p></div></details>
+<details id="q-pro"><summary>3. 미리캔버스에서 유료(Pro) 기능이 잠겨 있어요</summary><div class="hq-a"><p>아이모두를 거쳐 미리캔버스로 들어가야 교육용 Pro가 붙습니다. 적용에 10~20분 걸릴 수 있어요.</p><p><a href="../index.html#05b">카드 05b · Pro가 안 뜰 때 보기</a></p></div></details>
+<details id="q-student"><summary>4. 학생과 쓰려는데 뭐부터 하나요?</summary><div class="hq-a"><p>학생 등록에는 보호자 동의서(PDF)가 필요합니다. 수업 당일은 늦으니 하루 전에 해 두세요.</p><p><a href="../index.html#08b">카드 08b · 학생과 쓰기 전에 보기</a></p></div></details>
+<details id="q-odd"><summary>5. 붙여넣었는데 결과가 엉뚱해요</summary><div class="hq-a"><p>지시서를 처음부터 끝까지 복사했는지 보세요.</p><p>회의 내용이나 문서가 필요한 지시서는, 그 내용을 지시서 아래에 붙여야 합니다.</p><p><a href="../index.html">업무별 안내서에서 카드 다시 보기</a></p></div></details>
+<details id="q-private"><summary>6. 학생 이름이 든 문서도 올려도 되나요?</summary><div class="hq-a"><p>안 됩니다. 이름·연락처·성적은 지우고 올리세요.</p><p><a href="../library/rules.html">안전 규칙 한 장 보기</a></p></div></details>
+<details id="q-none"><summary>7. 찾는 일이 안내서에 없어요</summary><div class="hq-a"><p>요청해 주세요. 「이 일이 오래 걸려요」 한 줄이면 충분합니다.</p><p><a href="#write">요청 문장 만들러 가기</a></p></div></details>
+<details id="q-who"><summary>8. 코디네이터는 언제 만나나요?</summary><div class="hq-a"><p>수요일·목요일 오전, 교무실에 있습니다. 12월까지입니다.</p><p><a href="../about/index.html">코디네이터 소개 보기</a></p></div></details>
+    </div>
+  </section>
+
+  <section class="hw" id="write" aria-labelledby="hwTitle">
+  <div class="p-panel">
+    <h2 id="hwTitle">요청하기</h2>
+    <p class="hw-lede"><b>이 화면은 보낼 문장만 만듭니다.</b> 자동으로 전해지지는 않아요. 아래 세 가지 중 편한 방법으로 전해 주세요.</p>
+    <div class="grid cols-3">
+      <div class="card"><h3 class="card-title">교무실에서 말로</h3><p class="card-lede">수 · 목 오전에 학교에 있습니다. 편하게 부르세요.</p></div>
+      <div class="card"><h3 class="card-title">종이 쪽지로</h3><p class="card-lede">한 줄만 적어 주세요. 제가 가져갑니다.</p></div>
+      <div class="card"><h3 class="card-title">업무 메신저로</h3><p class="card-lede">문장을 복사해 보내세요. 학생 이름이 든 파일은 보내지 마세요.</p></div>
+    </div>
+    <h3 class="section-title" style="font-size:19px;margin-top:20px">이렇게 적으면 빠릅니다</h3>
+    <ol class="steps">
+      <li>무슨 일인지 한 줄 — 예: 「체육대회 안내 팜플렛을 해마다 외주로 맡깁니다」</li>
+      <li>언제까지 필요한지 — 날짜만 적어도 됩니다</li>
+      <li>지금은 얼마나 걸리는지 — 「한 번에 서너 시간」 정도면 충분합니다</li>
+    </ol>
+    <p class="hw-last">「이거 만들어 주세요」보다 <strong>「이 일이 오래 걸려요」</strong>가 좋습니다. 줄일 방법을 찾기 쉽습니다.</p>
+  </div>
+  <div class="r-bar" style="margin-top:20px">
     <div class="r-filters" id="rFilters" role="group" aria-label="상태로 거르기"></div>
     <button class="r-new" type="button" id="rNew" aria-expanded="false" aria-controls="rForm">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
@@ -87,7 +247,7 @@
 
     <div class="r-field">
       <label for="rBody">내용</label>
-      <textarea id="rBody" rows="4" placeholder="어떤 상황에서 무엇이 오래 걸리는지 적어주세요. 학생 개인정보는 넣지 마세요."></textarea>
+      <textarea id="rBody" rows="4" placeholder="어떤 일이 얼마나 오래 걸리나요? 학생 개인정보는 넣지 마세요."></textarea>
     </div>
 
     <div class="r-field">
@@ -102,48 +262,24 @@
     </div>
 
     <div class="r-made" id="rMade" hidden>
-      <h3>문장이 준비됐습니다. 복사해서 전달해 주세요</h3>
+      <h3>문장이 준비됐어요. 복사해서 전해 주세요</h3>
       <pre id="rMadeText"></pre>
       <p><button class="btn" type="button" id="rCopy">복사</button></p>
-      <p class="r-hint">여기서 작성한 내용은 자동 접수되지 않습니다. 수 · 목 오전 교무실에서 말로 하셔도 되고, 종이 쪽지나 업무 메신저로 주셔도 됩니다. 코디네이터가 목록에 옮겨 적습니다.</p>
+      <p class="r-hint">이 문장은 자동으로 전해지지 않아요. 교무실에서 말로, 쪽지로, 업무 메신저로 전해 주세요.</p>
     </div>
   </section>
 
+  <div class="r-board-head" id="rBoardHead" hidden><h2>받은 요청</h2><div class="r-stats"><div class="r-stat"><b id="rCountAll">0</b><span>전체</span></div><div class="r-stat r-stat-done"><b id="rCountDone">0</b><span>해결됨</span></div></div></div>
   <div class="r-list" id="rList" aria-live="polite"></div>
 
   <div class="r-warn">
     <span class="r-warn-mark" aria-hidden="true">!</span>
     <div>
-      <b>게시판에는 개인정보를 적지 않습니다</b>
-      <p>학생 이름 · 연락처 · 성적이 필요한 요청은 코디네이터에게 직접 문의해 주세요. 학생 이름 · 사진 · 성적이 들어간 파일은 보내지 마세요. 지워서 주시거나, 교무실에서 함께 보겠습니다. <a href="../library/rules.html">안전 규칙 한 장 보기</a></p>
+      <b>학생 개인정보는 적지 않습니다</b>
+      <p>학생 이름·연락처·성적은 적지 마세요. 그런 파일도 보내지 마세요. 필요하면 교무실에서 같이 봅니다. <a href="../library/rules.html">안전 규칙 한 장 보기</a></p>
     </div>
   </div>
-
-  <section class="p-panel" aria-labelledby="rWaysTitle">
-    <h2 id="rWaysTitle" class="section-title">전달하는 방법</h2>
-    <div class="grid cols-3">
-      <div class="card">
-        <h3 class="card-title">교무실에서 말로</h3>
-        <p class="card-lede">수 · 목 오전에는 학교에 있습니다. 지나가다 편하게 부르세요.</p>
-      </div>
-      <div class="card">
-        <h3 class="card-title">종이 쪽지로</h3>
-        <p class="card-lede">연수 때 나눠드린 종이에 한 줄 적어 두시면 제가 걷어갑니다.</p>
-      </div>
-      <div class="card">
-        <h3 class="card-title">메신저로</h3>
-        <p class="card-lede">업무 메신저로 보내주셔도 됩니다. 학생 이름이 들어가는 자료는 파일로 주지 마세요.</p>
-      </div>
-    </div>
-
-    <h2 class="section-title">이렇게 적어주시면 빠릅니다</h2>
-    <ol class="steps">
-      <li>어떤 일인지 한 줄 — 예: "체육대회 안내 팜플렛을 매년 외주로 맡깁니다"</li>
-      <li>언제까지 필요한지 — 날짜만 적어주셔도 됩니다</li>
-      <li>지금은 얼마나 걸리는지 — "한 번에 서너 시간" 정도면 충분합니다</li>
-    </ol>
-
-  </section>
+</section>
 
 </main>
 
@@ -228,6 +364,9 @@
     var done = items.filter(function (item) { return item.status === '해결됨'; });
     document.getElementById('rCountAll').textContent = items.length;
     document.getElementById('rCountDone').textContent = done.length;
+    /* 받은 요청이 아직 없으면 0/0 숫자와 거르개를 숨긴다 */
+    document.getElementById('rBoardHead').hidden = !items.length;
+    filtersBox.hidden = !items.length;
   }
 
   function renderFilters() {
@@ -248,7 +387,7 @@
       listBox.innerHTML = '<p class="r-empty">' +
         (DATA.items.length ?
           '이 상태인 요청이 아직 없습니다.' :
-          '아직 올라온 요청이 없습니다.<br>위 「보낼 요청 작성하기」를 눌러 전달할 문장을 만들어 보세요.') +
+          '아직 받은 요청이 없습니다.<br>첫 요청을 기다립니다. 「보낼 요청 작성하기」를 눌러 보세요.') +
         '</p>';
       return;
     }
@@ -284,8 +423,8 @@
     var ready = titleInput.value.trim().length > 0;
     makeBtn.disabled = !ready;
     hint.textContent = ready ?
-      '보내실 문장을 만들어 드립니다' :
-      '제목을 적으시면 문장을 만들어 드립니다';
+      '「요청 문장 만들기」를 누르세요' :
+      '제목을 적으면 문장을 만들어요';
   }
 
   function composeText() {
@@ -375,7 +514,7 @@
 
   loadJson('../data/requests.json', 'REQUESTS_DATA').then(function (data) {
     if (!data) {
-      listBox.innerHTML = '<p class="r-empty">요청 목록을 불러오지 못했습니다. ' +
+      listBox.innerHTML = '<p class="r-empty">요청 목록을 불러오지 못했어요. ' +
         '<a href="../data/requests.json">requests.json</a> 을 직접 여세요.</p>';
       return;
     }
