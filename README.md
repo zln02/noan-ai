@@ -53,7 +53,7 @@ sync 스크립트는 내보낼 필드를 **허용 목록**으로 못 박고, 본
 ```
 noan-ai/
 ├── index.html                  ★ 첫 화면 = 업무별 AI 안내서 25장
-├── guide/                      안내서 인쇄본 PDF · 옛 주소(/guide/)를 첫 화면으로 넘기는 쪽
+├── guide/                      첫 화면 목록(home-alpine.js·찾기·찜) · 상세(home.js) · 인쇄본 PDF · 옛 주소 넘김
 ├── training/                   연수 덱 24장
 ├── library/  contest/  request/  about/  class/  showcase/
 ├── iamodu/  ai/  terms/  how-ai-answers/  start/   (내용 채움 — 용어 애니메이션 6편, 3D 풀이)
@@ -67,7 +67,7 @@ noan-ai/
 │   ├── sessions.json   회차별 기록
 │   ├── approval.json   도구 승인 현황
 │   └── contest.json  showcase.json
-├── shared/   vendor/three(3D, MIT)  dial.js  tokens.css  site.css  app.css(앱 화면 층)  app.js(탭바·오프라인)  config.js  feedback.js  deck.css  icons.js  deck.js  site.js
+├── shared/   vendor/alpine(목록, MIT)  vendor/three(3D, MIT)  dial.js  tokens.css  site.css  app.css(앱 화면 층)  app.js(탭바·오프라인)  config.js  feedback.js  deck.css  icons.js  deck.js  site.js
 ├── assets/   guide/(캡처)  qr-*.svg  thumbs
 ├── tools/    gen-terms.js(용어 애니메이션 생성)  sync-data.js  sync-notion.js  check-copy.js  guide-build.py  CONTRACT.md
 ├── docs/     decisions.md  handover.md  requests.md  cli/  manual-findings.md  shots/
@@ -110,7 +110,7 @@ node tools/sync-data.js
 
 ```bash
 node tools/check-copy.js      # 대본 141문장이 덱에 그대로 있는지
-node tools/sync-data.js --check
+node tools/sync-data.js --check   # 첫 화면 「정적 목록」(JS 없이 보이는 25장)도 같이 검사
 ```
 
 ## 결과

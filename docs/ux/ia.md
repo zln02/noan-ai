@@ -103,3 +103,12 @@ guide/                  옛 주소 → 홈으로 넘김 (유지)
 - **부품**: `shared/vendor/webawesome/`(Web Awesome 3.15.0 무료판, MIT) — 탭·펼침·말풍선·복사·진행 막대·대화 상자 8개만. ESM 을 `tools/vendor-webawesome.js`(node 만, 외부 패키지 없음)로 평범한 `<script>` 하나로 묶어 `file://` 에서도 돈다. Font Awesome CDN 아이콘은 끄고 내장 SVG 몇 개만 남겼다(Font Awesome Free, CC BY 4.0 — SVG 주석에 출처). `shared/app.js` 가 부품을 쓰는 쪽에서만, oklch·`:has()` 를 받쳐 주는 브라우저에서만 불러온다. 못 불러오면 `premium.css` 의 대체 모양.
 - **안내 부품**(premium.css 5번): `.pm-head`(구역 머리) · `.pm-steps`(번호 단계) · `.pm-callout`(알림 상자) · `.pm-iconrow` · `.pm-compare`(비교 카드) · `.pm-chip` · `.pm-path`(경로 알약) · `.pm-empty`.
 - **쪽별 CSS**: `iamodu/iamodu.css` · `ai/ai.css` · `terms/terms.css` · `how-ai-answers/how.css`. 용어 썸네일 `assets/terms/*.webp` 는 `terms/anim/<id>.html?poster=1` 화면을 찍은 것.
+
+## 앱처럼 쓰는 목록 (Alpine.js)
+
+- **무엇**: `shared/vendor/alpine/alpine.min.js` — Alpine.js 3.17.5(MIT, `LICENSE.md` 함께). npm 공식 `dist/cdn.min.js` 를 고치지 않고 넣었다. 빌드 없음.
+- **언제 켜지나**: `shared/app.js` 가 `?.`·`??` 문법·Proxy·queueMicrotask 를 받쳐 주는 브라우저(크롬 80 이상)에서만 `<html class="alpine-ok">` 를 붙이고, `x-data` 가 있는 쪽에서만 불러온다. 못 불러오거나 5초 안에 안 켜지면 class 를 뗀다.
+- **첫 화면이 하는 일**(`guide/home-alpine.js` + `guide/home-alpine.css`, 모양은 `index.html` 의 `x-…` 표시): 찾기(치는 대로 좁혀짐, Esc 로 지움) · 분류 칩 · 정렬(번호/빨리 끝나는/가나다) · 보기 탭 전체/찜/최근 본(쪽마다 기억) · 카드 ☆ 찜 · 최근 본 카드 줄 · 카드에서 바로 「지시서 복사」 + 그 카드 위 알림 · 폰에서는 아래서 올라오는 필터 서랍(Esc·바깥 누르면 닫힘, 초점 돌아옴).
+- **기억하는 것**: 이 브라우저 `localStorage` 에 카드 번호만(`noan-favs`, `noan-recent`, `noan-ui:<쪽 주소>`). 이름·검색어·내용은 남기지 않는다. 저장이 막혀도 그대로 돈다.
+- **자바스크립트가 안 될 때**: `index.html` 안의 「정적 목록」(25장 `<details>`, 사용법·지시서·주의 포함)이 보인다. `node tools/gen-home-static.js`(또는 `node tools/sync-data.js`)가 `data/tasks.json` 으로 다시 만든다. 카드 id 가 번호라 QR 주소 `#02` 로 들어와도 그 카드로 내려간다.
+- **상세 쪽**(`guide/home.js`, 옛 문법 그대로): 열면 「최근 본」에 적히고, 머리에 「찜하기」 단추가 있다.
