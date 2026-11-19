@@ -2,8 +2,8 @@
    움직임은 transform·opacity 만. prefers-reduced-motion 이면 전부 멈춘다. */
 
 /* 보는 방법 한 줄 */
-.t-hints { list-style: none; margin: 20px 0 8px; padding: 0; display: grid; gap: 10px; grid-template-columns: 1fr; }
-@media (min-width: 760px) { .t-hints { grid-template-columns: repeat(3, 1fr); gap: 14px; } }
+.t-hints { list-style: none; margin: 20px 0 8px; padding: 0; display: grid; gap: 8px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .t-hints { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
 .t-hints li {
   display: grid; grid-template-columns: 44px 1fr; gap: 2px 12px; align-items: center;
   padding: 12px 16px; background: var(--pm-surface); border: 1px solid var(--pm-border); border-radius: var(--pm-r);
@@ -20,7 +20,7 @@
 .t-head { margin-top: var(--pm-s6); }
 
 /* 갤러리 */
-.term-grid { gap: 22px 20px; margin-top: 4px; }
+.term-grid { gap: 24px 20px; margin-top: 4px; }
 .tcard {
   display: grid; grid-template-rows: auto 1fr; min-width: 0;
   background: var(--pm-surface); border: 1px solid var(--pm-border); border-radius: var(--pm-r-lg);
@@ -42,7 +42,7 @@ div.tcard-frame { cursor: default; }
 
 /* 그림이 없을 때 대신 보이는 면 */
 .tcard-fallback {
-  position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-sizing: border-box; display: grid; place-content: center; gap: 6px; text-align: center; padding: 16px;
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%; box-sizing: border-box; display: grid; place-content: center; gap: 8px; text-align: center; padding: 16px;
   background: linear-gradient(135deg, #FFF4E2 0%, #EAF3FF 100%); color: var(--pm-ink);
 }
 .tcard-fallback b { font-size: 24px; letter-spacing: -.02em; }
@@ -58,14 +58,14 @@ div.tcard-frame { cursor: default; }
   display: grid; place-items: center; background: rgba(255, 255, 255, .96); color: var(--brand-ink);
   box-shadow: 0 10px 28px -6px rgba(22, 35, 58, .45); pointer-events: none;
 }
-.tcard-play svg { width: 28px; height: 28px; margin-left: 3px; }
+.tcard-play svg { width: 28px; height: 28px; margin-left: 4px; }
 @media (hover: hover) {
   .tcard-play { opacity: 0; transform: scale(.7); transition: opacity var(--pm-mid) var(--pm-ease), transform var(--pm-slow) var(--pm-spring); }
   .tcard-frame:hover .tcard-play, .tcard-frame:focus-visible .tcard-play { opacity: 1; transform: scale(1); }
 }
 .tcard-dur {
-  position: absolute; right: 10px; bottom: 10px; z-index: 1; display: inline-flex; align-items: center; gap: 5px;
-  min-height: 26px; padding: 0 10px 0 8px; border-radius: 999px; background: rgba(22, 35, 58, .88); color: #fff;
+  position: absolute; right: 10px; bottom: 10px; z-index: 1; display: inline-flex; align-items: center; gap: 4px;
+  min-height: 26px; padding: 0 8px 0 8px; border-radius: 999px; background: rgba(22, 35, 58, .88); color: #fff;
   font-size: 13px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; pointer-events: none;
 }
 .tcard-dur svg { width: 11px; height: 11px; fill: currentColor; }
@@ -81,7 +81,7 @@ div.tcard-frame { cursor: default; }
 .tcard-media video { position: absolute; left: 0; top: 0; z-index: 2; width: 100%; height: 100%; object-fit: contain; background: #16233A; }
 .tcard-media:focus-within { box-shadow: inset 0 0 0 3px #F59E0B; }
 .tcard-load {
-  position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 1; display: grid; place-content: center; justify-items: center; gap: 10px;
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 1; display: grid; place-content: center; justify-items: center; gap: 8px;
   background: linear-gradient(135deg, #FFF4E2, #EAF3FF); color: var(--pm-ink-2); font-size: var(--pm-fs-sm); font-weight: 700;
   transition: opacity .3s ease;
 }
@@ -100,31 +100,31 @@ div.tcard-frame { cursor: default; }
 .tcard-title { margin: 0; font-size: var(--pm-fs-xl); line-height: 1.25; color: var(--pm-ink); }
 .tcard-analogy { margin: 0; font-size: var(--pm-fs-md); font-weight: 800; color: var(--pm-peach-ink); line-height: 1.4; }
 .tcard-meaning { margin: 0; font-size: var(--pm-fs-sm); line-height: 1.7; color: var(--pm-ink-2); word-break: keep-all; }
-.tcard-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-.tcard-caps { margin: 4px 0 0; border-top: 1px dashed var(--pm-border-2); padding-top: 10px; font-size: var(--pm-fs-sm); color: var(--pm-ink-2); }
+.tcard-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.tcard-caps { margin: 4px 0 0; border-top: 1px dashed var(--pm-border-2); padding-top: 8px; font-size: var(--pm-fs-sm); color: var(--pm-ink-2); }
 .tcard-caps summary { cursor: pointer; font-weight: 800; color: var(--pm-ink); list-style: none; display: flex; align-items: center; gap: 8px; min-height: 28px; }
 .tcard-caps summary::-webkit-details-marker { display: none; }
 .tcard-caps summary::before { content: ""; width: 7px; height: 7px; border-right: 2.4px solid currentColor; border-bottom: 2.4px solid currentColor; transform: rotate(-45deg); transition: transform var(--pm-quick) ease; }
 .tcard-caps[open] summary::before { transform: rotate(45deg); }
-.tcard-caps ol { margin: 8px 0 0; padding-left: 22px; display: grid; gap: 4px; line-height: 1.6; word-break: keep-all; }
+.tcard-caps ol { margin: 8px 0 0; padding-left: 24px; display: grid; gap: 4px; line-height: 1.6; word-break: keep-all; }
 
 /* 처음 불러오는 동안 */
 .t-skel-grid { display: contents; }
 .t-skel { display: grid; grid-template-rows: auto 1fr; border-radius: var(--pm-r-lg); border: 1px solid var(--pm-border); overflow: hidden; background: var(--pm-surface); }
 .t-skel i { display: block; aspect-ratio: 16 / 9; background: #E4ECF7; position: relative; overflow: hidden; }
-.t-skel p { margin: 0; padding: 16px 20px 22px; display: grid; gap: 10px; }
+.t-skel p { margin: 0; padding: 16px 20px 24px; display: grid; gap: 8px; }
 .t-skel p b { display: block; height: 16px; width: 46%; border-radius: 8px; background: #E4ECF7; }
 .t-skel p b + b { width: 78%; height: 12px; background: #EDF2F9; }
 
 /* 이어 보기 카드 */
 .pm-card.t-next {
-  margin-top: var(--pm-s6); grid-template-columns: auto 1fr auto; align-items: center; gap: 18px;
-  padding: 22px 24px; color: inherit; text-decoration: none;
+  margin-top: var(--pm-s6); grid-template-columns: auto 1fr auto; align-items: center; gap: 16px;
+  padding: 24px 24px; color: inherit; text-decoration: none;
   background: linear-gradient(120deg, #EAF3FF 0%, #F3EFFF 100%); border-color: #DCE6F7;
 }
 .t-next .pm-chip { background: #fff; }
 .t-next .art { width: 96px; height: 72px; }
-.t-next .nx { display: grid; gap: 6px; min-width: 0; justify-items: start; }
+.t-next .nx { display: grid; gap: 8px; min-width: 0; justify-items: start; }
 .t-next .nx h3 { margin: 0; font-size: var(--pm-fs-lg); }
 .t-next .nx p { margin: 0; }
 .t-next .go {
@@ -134,9 +134,9 @@ div.tcard-frame { cursor: default; }
 .t-next .go svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
 @media (max-width: 600px) {
   .t-hints span.d { display: none; }
-  .t-hints li { padding: 10px 14px; }
-  .tcard-play { width: 52px; height: 52px; margin: -26px 0 0 -26px; }
-  .pm-card.t-next { grid-template-columns: 1fr auto; padding: 18px; gap: 12px 14px; }
+  .t-hints li { padding: 8px 16px; }
+  .tcard-play { width: 52px; height: 52px; margin: -24px 0 0 -24px; }
+  .pm-card.t-next { grid-template-columns: 1fr auto; padding: 16px; gap: 12px 16px; }
   .t-next .art { display: none; }
 }
 

@@ -127,7 +127,7 @@ html.alpine-ok .g-noenh { display: none !important; }
 
 .g-fav {
   grid-area: arw; align-self: start; justify-self: end; position: relative; z-index: 2;
-  display: grid; place-items: center; width: 44px; height: 44px; margin: -8px -8px 0 0;
+  display: grid; place-items: center; width: 44px; height: 44px; margin: -8px -8px 0 0; padding: 0;
   border: 0; border-radius: 50%; background: transparent; color: #8A99AD; cursor: pointer;
   transition: background-color .2s ease, color .2s ease;
 }
@@ -160,7 +160,7 @@ html.alpine-ok .g-noenh { display: none !important; }
 
 @media (max-width: 860px) {
   .g-card { grid-template-columns: 52px minmax(0, 1fr) 40px; }
-  .g-fav { width: 40px; height: 40px; margin: -6px -6px 0 0; }
+  .g-fav { width: 40px; height: 40px; margin: -8px -8px 0 0; }
 }
 /* 폰: 그림은 제목 옆에 작게, 설명·도구 줄은 카드 폭을 다 쓴다 (글이 좁게 꺾이지 않게) */
 @media (max-width: 560px) {

@@ -9,7 +9,7 @@ body.portal {
 }
 
 .portal .p-main {
-  padding-top: 26px;
+  padding-top: 24px;
 }
 
 .portal.p-legacy .section {
@@ -42,12 +42,12 @@ body.portal {
 }
 
 .portal.p-legacy .card {
-  padding: 23px 25px;
+  padding: 24px 24px;
   border-radius: 18px;
 }
 
 .portal.p-legacy .card.card-hero {
-  padding: 30px 36px;
+  padding: 32px 36px;
   border-radius: 20px;
   background: linear-gradient(115deg, #FFFFFF 52%, #F0F6FF 100%);
 }
@@ -85,7 +85,7 @@ body.portal {
 
 .portal-tool-grid a.card { display: block; color: inherit; text-decoration: none; overflow: hidden; }
 .portal-tool-grid a.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 11px; margin-bottom: 16px; }
-.portal-tool-grid a.card .card-lede { margin-bottom: 10px; }
+.portal-tool-grid a.card .card-lede { margin-bottom: 8px; }
 .portal-tool-more { color: var(--p-blue-dark); font-weight: 800; }
 
 .portal.p-legacy .card.mint,
@@ -95,7 +95,7 @@ body.portal {
 
 .portal.p-legacy .hero-a h1,
 .portal.p-legacy .card-hero h1 {
-  margin: 10px 0 10px;
+  margin: 8px 0 8px;
   color: var(--p-navy2);
   font-size: clamp(30px, 3.5vw, 44px);
   line-height: 1.15;
@@ -125,7 +125,7 @@ body.portal {
 }
 
 .portal-hero-note {
-  padding: 17px 19px;
+  padding: 16px 20px;
   border: 1px solid #DDE9F8;
   border-radius: 15px;
   background: #F2F7FF;
@@ -134,7 +134,7 @@ body.portal {
 
 .portal-hero-note b {
   display: block;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
   color: var(--p-blue-dark);
   font-size: 15px;
 }
@@ -147,14 +147,14 @@ body.portal {
 }
 
 .portal-hero-note ul {
-  padding-left: 18px;
+  padding-left: 16px;
 }
 
 .portal-action-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 19px;
+  gap: 8px;
+  margin-top: 20px;
 }
 
 body.portal.p-legacy main a.portal-action:not(.btn):not(.card):not([class^="p-"]):not([class*=" p-"]) {
@@ -162,7 +162,7 @@ body.portal.p-legacy main a.portal-action:not(.btn):not(.card):not([class^="p-"]
   align-items: center;
   justify-content: center;
   min-height: 43px;
-  padding: 9px 16px;
+  padding: 8px 16px;
   border: 1px solid #C9DBF2;
   border-radius: 10px;
   background: #FFFFFF;
@@ -193,14 +193,14 @@ body.portal.p-legacy main a.portal-action:focus-visible,
 
 .portal-empty {
   grid-column: 1 / -1;
-  padding: 30px;
+  padding: 32px;
   border: 1px dashed #C8D8EC;
   border-radius: 18px;
   background: #FFFFFF;
 }
 
 .portal-empty h3 {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   color: var(--p-navy2);
   font-size: 21px;
 }
@@ -231,7 +231,7 @@ body.portal.p-legacy main a.portal-action:focus-visible,
 }
 
 .page-request .r-hero {
-  padding: 26px 30px;
+  padding: 24px 32px;
 }
 
 .page-request .r-stats {
@@ -261,18 +261,18 @@ body.portal.p-legacy main a.portal-action:focus-visible,
 }
 
 .page-training .p-list-help {
-  margin: 4px 0 15px;
+  margin: 4px 0 16px;
   color: var(--p-muted);
   font-size: 14px;
 }
 
 .page-training .p-table th,
 .page-training .p-table td {
-  padding: 10px 12px;
+  padding: 8px 12px;
 }
 
 .page-library .library-share {
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
 .page-rules .hero,
@@ -282,7 +282,7 @@ body.portal.p-legacy main a.portal-action:focus-visible,
 
 .page-rules .hero .wrap,
 .page-approval .hero .wrap {
-  padding: 29px 34px;
+  padding: 28px 32px;
   border: 1px solid var(--p-border);
   border-radius: 20px;
   background: linear-gradient(110deg, #FFFFFF, #F0F6FF);
@@ -299,7 +299,7 @@ body.portal.p-legacy main a.portal-action:focus-visible,
 
 .page-rules .hero .lede,
 .page-approval .hero .lede {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   font-size: 16px;
 }
 
@@ -310,19 +310,19 @@ body.portal.p-legacy main a.portal-action:focus-visible,
 }
 
 @media (max-width: 767px) {
-  .portal .p-main { padding-top: 18px; }
+  .portal .p-main { padding-top: 16px; }
   .portal.p-legacy .section { padding: 12px 0; }
-  .portal.p-legacy main > .section:first-child { padding-top: 18px; }
+  .portal.p-legacy main > .section:first-child { padding-top: 16px; }
   .portal.p-legacy .card,
-  .portal.p-legacy .card.card-hero { padding: 21px 20px; }
+  .portal.p-legacy .card.card-hero { padding: 20px 20px; }
   .portal.p-legacy .grid { gap: 12px; }
   .page-class .grid.cols-4 { grid-template-columns: 1fr; }
   .page-class .grid.cols-4 > .card { min-height: 0; }
-  .portal-hero-note { padding: 15px; }
-  .portal-empty { padding: 23px 20px; }
-  .page-request .r-hero { padding: 21px 18px; }
+  .portal-hero-note { padding: 16px; }
+  .portal-empty { padding: 24px 20px; }
+  .page-request .r-hero { padding: 20px 16px; }
   .page-rules .hero .wrap,
-  .page-approval .hero .wrap { padding: 22px 20px; }
+  .page-approval .hero .wrap { padding: 24px 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

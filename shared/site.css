@@ -90,7 +90,7 @@ h2{
 }
 
 .nav-menu a{
-  padding:6px 2px;
+  padding:8px 2px;
   border-bottom:3px solid transparent;
   color:var(--text);
   font-size:17px;
@@ -342,7 +342,7 @@ a.card .btn{
 
 .badge-row{
   display:flex;
-  gap:10px;
+  gap:8px;
   overflow-x:auto;
   padding:4px 2px;
   -webkit-overflow-scrolling:touch;
@@ -351,7 +351,7 @@ a.card .btn{
 .badge{
   display:inline-flex;
   align-items:center;
-  gap:6px;
+  gap:8px;
   flex:0 0 auto;
   padding:8px 16px;
   border:1px solid var(--line);
@@ -542,7 +542,7 @@ a.badge:focus-visible{
   position:relative;
   flex:1;
   margin:0 4px;
-  padding:20px 18px;
+  padding:20px 16px;
   border:1px solid var(--line);
   border-radius:var(--radius);
   background:var(--card);
@@ -589,7 +589,7 @@ a.badge:focus-visible{
 }
 
 .state-sym{
-  margin-right:6px;
+  margin-right:8px;
   font-weight:800;
 }
 
@@ -605,7 +605,7 @@ a.badge:focus-visible{
 
 .tw th,
 .tw td{
-  padding:14px 16px;
+  padding:16px 16px;
   border-bottom:1px solid var(--line);
   vertical-align:top;
 }
@@ -622,7 +622,7 @@ a.badge:focus-visible{
 }
 
 .tw caption{
-  padding-bottom:10px;
+  padding-bottom:8px;
   font-weight:700;
   text-align:left;
 }
@@ -640,7 +640,7 @@ a.badge:focus-visible{
 .steps{
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:16px;
   margin:0;
   padding:0;
   list-style:none;
@@ -651,7 +651,7 @@ a.badge:focus-visible{
   position:relative;
   display:block;
   min-height:32px;
-  padding-left:46px;
+  padding-left:48px;
   counter-increment:noan-step;
 }
 
@@ -818,8 +818,8 @@ a.badge:focus-visible{
 .dday{
   display:inline-flex;
   align-items:center;
-  gap:6px;
-  padding:6px 14px;
+  gap:8px;
+  padding:8px 16px;
   border:1px solid var(--line);
   border-radius:999px;
   background:var(--paper);
@@ -861,7 +861,7 @@ a.badge:focus-visible{
 .contest-meta{
   display:grid;
   grid-template-columns:auto 1fr;
-  gap:6px 14px;
+  gap:8px 16px;
   margin:0;
   font-size:16px;
 }
@@ -876,7 +876,7 @@ a.badge:focus-visible{
 }
 
 .notice{
-  padding:10px 14px;
+  padding:8px 16px;
   border-left:4px solid var(--warm);
   border-radius:0 10px 10px 0;
   background:rgba(168,79,19,.09);
@@ -884,7 +884,7 @@ a.badge:focus-visible{
 }
 
 .contest-past summary{
-  padding:14px 0;
+  padding:16px 0;
   font-weight:700;
   cursor:pointer;
 }
@@ -909,7 +909,7 @@ a.badge:focus-visible{
 .guide-list,
 .guide-course-list{
   display:grid;
-  gap:10px;
+  gap:8px;
   margin:0;
   padding:0;
   list-style:none;
@@ -917,7 +917,7 @@ a.badge:focus-visible{
 
 .guide-list li,
 .guide-course-list li{
-  padding:10px 14px;
+  padding:8px 16px;
   border:1px solid var(--line);
   border-radius:10px;
   background:var(--card);
@@ -946,7 +946,7 @@ a.badge:focus-visible{
 
 .meter{
   height:16px;
-  margin-bottom:10px;
+  margin-bottom:8px;
   overflow:hidden;
   border:1px solid var(--line);
   border-radius:999px;
@@ -1007,7 +1007,7 @@ a.badge:focus-visible{
 
 .filters select{
   min-height:44px;
-  padding:6px 12px;
+  padding:8px 12px;
   border:1px solid var(--line);
   border-radius:10px;
   background:var(--card);
@@ -1100,7 +1100,7 @@ main a:not(.btn):not(.card):not(.brand):not(.hero-button):not(.help-card):not(.t
 .brand-divider{
   width:1px;
   height:34px;
-  margin:0 18px;
+  margin:0 16px;
   background:var(--line);
 }
 
@@ -1163,7 +1163,7 @@ main a:not(.btn):not(.card):not(.brand):not(.hero-button):not(.help-card):not(.t
 .nav-actions{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:8px;
   margin-left:auto;
 }
 
@@ -1199,11 +1199,11 @@ main a:not(.btn):not(.card):not(.brand):not(.hero-button):not(.help-card):not(.t
 .home-nav .nav-toggle{
   width:44px;
   height:44px;
-  padding:10px;
+  padding:8px;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:5px;
+  gap:4px;
   border:0;
   border-radius:50%;
   background:rgba(37,99,235,.08);
@@ -1238,11 +1238,11 @@ main a:not(.btn):not(.card):not(.brand):not(.hero-button):not(.help-card):not(.t
   flex-direction:column;
   align-items:flex-start;
   justify-content:center;
-  padding:66px 64px 92px 0;
+  padding:64px 64px 92px 0;
 }
 
 .hero-eyebrow{
-  margin-bottom:14px;
+  margin-bottom:16px;
   color:var(--ink2);
   font-size:20px;
   font-weight:700;
@@ -1271,7 +1271,7 @@ main a:not(.btn):not(.card):not(.brand):not(.hero-button):not(.help-card):not(.t
   display:flex;
   flex-wrap:wrap;
   gap:12px;
-  margin-top:30px;
+  margin-top:32px;
 }
 
 .hero-button{
@@ -1301,8 +1301,8 @@ main a:not(.btn):not(.card):not(.brand):not(.hero-button):not(.help-card):not(.t
   display:inline-flex;
   align-items:center;
   min-height:32px;
-  margin-top:18px;
-  padding:5px 12px;
+  margin-top:16px;
+  padding:4px 12px;
   border-radius:999px;
   background:rgba(37,99,235,.08);
   color:var(--ink2);
@@ -1375,7 +1375,7 @@ main a:not(.btn):not(.card):not(.brand):not(.hero-button):not(.help-card):not(.t
 .help-section{
   position:relative;
   z-index:5;
-  margin-top:-54px;
+  margin-top:-56px;
   padding-bottom:56px;
 }
 
@@ -1409,7 +1409,7 @@ main a:not(.btn):not(.card):not(.brand):not(.hero-button):not(.help-card):not(.t
 }
 
 .help-heading p{
-  margin-top:7px;
+  margin-top:8px;
   color:var(--mute);
   font-size:14px;
 }
@@ -1424,7 +1424,7 @@ main a:not(.btn):not(.card):not(.brand):not(.hero-button):not(.help-card):not(.t
   display:flex;
   min-width:0;
   min-height:142px;
-  padding:18px;
+  padding:16px;
   border-radius:18px;
   color:var(--ink);
   text-decoration:none;
@@ -1478,7 +1478,7 @@ a.help-card:focus-visible{
   display:flex;
   min-width:0;
   flex-direction:column;
-  margin-top:14px;
+  margin-top:16px;
 }
 
 .help-card-copy strong{
@@ -1488,7 +1488,7 @@ a.help-card:focus-visible{
 }
 
 .help-card-copy > span{
-  margin-top:6px;
+  margin-top:8px;
   color:var(--mute);
   font-size:14px;
   line-height:1.55;
@@ -1508,7 +1508,7 @@ a.help-card:focus-visible{
 }
 
 .help-card-imodu p{
-  margin-top:7px;
+  margin-top:8px;
   color:var(--mute);
   font-size:14px;
   line-height:1.5;
@@ -1580,7 +1580,7 @@ a.help-card:focus-visible{
 .panel-intro{
   display:flex;
   align-items:flex-start;
-  gap:14px;
+  gap:16px;
   margin-top:24px;
   padding-bottom:20px;
   border-bottom:1px solid var(--line);
@@ -1617,7 +1617,7 @@ a.help-card:focus-visible{
 }
 
 .panel-intro p{
-  margin-top:5px;
+  margin-top:4px;
   color:var(--mute);
   font-size:14px;
   line-height:1.5;
@@ -1653,7 +1653,7 @@ a.help-card:focus-visible{
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  padding:10px 0;
+  padding:8px 0;
   color:var(--ink);
   text-decoration:none;
 }
@@ -1666,7 +1666,7 @@ a.help-card:focus-visible{
   display:flex;
   min-width:0;
   align-items:center;
-  gap:10px;
+  gap:8px;
 }
 
 .list-main strong{
@@ -1700,7 +1700,7 @@ a.help-card:focus-visible{
   display:flex;
   flex:0 0 auto;
   align-items:center;
-  gap:7px;
+  gap:8px;
 }
 
 .deadline-badge{
@@ -1743,7 +1743,7 @@ a.help-card:focus-visible{
   gap:12px;
   min-height:76px;
   margin-top:auto;
-  padding:14px 16px;
+  padding:16px 16px;
   border-radius:16px;
   background:rgba(37,99,235,.06);
   color:var(--ink);
@@ -1789,7 +1789,7 @@ a.help-card:focus-visible{
 }
 
 .tools-shell{
-  padding:30px;
+  padding:32px;
   border-radius:24px;
   background:rgba(37,99,235,.055);
 }
@@ -1808,7 +1808,7 @@ a.help-card:focus-visible{
 }
 
 .tools-heading p{
-  margin-top:7px;
+  margin-top:8px;
   color:var(--mute);
   font-size:14px;
 }
@@ -1887,7 +1887,7 @@ a.help-card:focus-visible{
    ========================================================================== */
 
 .home-foot{
-  padding:34px 0;
+  padding:32px 0;
   border-top:1px solid var(--line);
   background:var(--card);
   color:var(--ink);
@@ -1896,7 +1896,7 @@ a.help-card:focus-visible{
 .footer-grid{
   display:grid;
   grid-template-columns:1.2fr 1.2fr .8fr auto;
-  gap:30px;
+  gap:32px;
   align-items:center;
 }
 
@@ -1912,7 +1912,7 @@ a.help-card:focus-visible{
 }
 
 .footer-brand p{
-  margin-top:10px;
+  margin-top:8px;
   color:var(--mute);
   font-size:13px;
 }
@@ -1920,7 +1920,7 @@ a.help-card:focus-visible{
 .footer-coordinator{
   display:flex;
   align-items:flex-start;
-  gap:10px;
+  gap:8px;
 }
 
 .footer-coordinator > span{
@@ -2035,7 +2035,7 @@ a.help-card:focus-visible{
     display:block;
     height:auto;
     min-height:48px;
-    padding:13px 24px;
+    padding:12px 24px;
     border-bottom:1px solid var(--line);
   }
 
@@ -2089,7 +2089,7 @@ a.help-card:focus-visible{
   }
 
   .hero-copy{
-    padding:60px 24px 82px;
+    padding:60px 24px 80px;
   }
 
   .hero-figure{
@@ -2113,12 +2113,12 @@ a.help-card:focus-visible{
 
 @media (max-width:720px){
   .wrap{
-    padding:0 18px;
+    padding:0 16px;
   }
 
   .nav-in{
     min-height:64px;
-    padding:10px 18px;
+    padding:8px 16px;
   }
 
   .nav-toggle{
@@ -2140,7 +2140,7 @@ a.help-card:focus-visible{
   }
 
   .nav-menu a{
-    padding:14px 24px;
+    padding:16px 24px;
     border-bottom:1px solid var(--line);
   }
 
@@ -2208,7 +2208,7 @@ a.help-card:focus-visible{
 
   .nav-cta{
     min-height:42px;
-    padding:0 14px;
+    padding:0 16px;
     font-size:13px;
   }
 
@@ -2262,7 +2262,7 @@ a.help-card:focus-visible{
   }
 
   .help-links{
-    gap:10px;
+    gap:8px;
   }
 
   .help-card{
@@ -2275,7 +2275,7 @@ a.help-card:focus-visible{
   }
 
   .home-panel{
-    padding:22px;
+    padding:24px;
   }
 
   .tools-section{
@@ -2283,7 +2283,7 @@ a.help-card:focus-visible{
   }
 
   .tools-shell{
-    padding:24px 18px;
+    padding:24px 16px;
   }
 
   .tools-heading{
@@ -2295,7 +2295,7 @@ a.help-card:focus-visible{
   .tool-list{
     display:flex;
     gap:12px;
-    margin-right:-18px;
+    margin-right:-16px;
     overflow-x:auto;
     scroll-snap-type:x proximity;
     scrollbar-width:thin;
@@ -2310,7 +2310,7 @@ a.help-card:focus-visible{
 
   .footer-grid{
     grid-template-columns:1fr;
-    gap:26px;
+    gap:24px;
   }
 
   .footer-cheer{
@@ -2357,7 +2357,7 @@ a.help-card:focus-visible{
   .list-side{
     align-items:flex-end;
     flex-direction:column;
-    gap:3px;
+    gap:4px;
   }
 }
 
@@ -2379,12 +2379,12 @@ a.help-card:focus-visible{
   }
 
   .hero-copy{
-    padding-right:18px;
-    padding-left:18px;
+    padding-right:16px;
+    padding-left:16px;
   }
 
   .hero-figure{
-    margin-left:18px;
+    margin-left:16px;
   }
 
   .help-section .wrap{
@@ -2392,12 +2392,12 @@ a.help-card:focus-visible{
   }
 
   .help-shell{
-    padding:18px 14px;
+    padding:16px 16px;
   }
 
   .help-card{
     min-height:146px;
-    padding:14px;
+    padding:16px;
   }
 
   .help-icon{
@@ -2406,7 +2406,7 @@ a.help-card:focus-visible{
   }
 
   .home-panel{
-    padding:20px 18px;
+    padding:20px 16px;
   }
 }
 

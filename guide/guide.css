@@ -120,7 +120,7 @@ a {
 .g-nav {
   display: flex;
   align-items: center;
-  gap: 14px 34px;
+  gap: 16px 32px;
   flex-wrap: wrap;
 }
 
@@ -142,7 +142,7 @@ a {
   color: #FFFFFF !important;
   font-size: 15px;
   font-weight: 700;
-  padding: 11px 18px;
+  padding: 12px 16px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(24, 119, 230, .28);
   white-space: nowrap;
@@ -173,9 +173,9 @@ a {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px 14px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  gap: 8px 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .g-printbar a {
@@ -192,7 +192,7 @@ a {
    ========================================================================== */
 
 .g-hero {
-  padding-top: 22px;
+  padding-top: 24px;
 }
 
 .g-hero-inner {
@@ -241,7 +241,7 @@ a {
 
 .g-hero-copy {
   position: relative;
-  padding: 40px 44px 34px;
+  padding: 40px 44px 32px;
   min-width: 0;
   max-width: min(660px, 66%);
 }
@@ -251,7 +251,7 @@ a {
   color: var(--g-blue-soft);
   font-size: 17px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .g-hero-copy h1 {
@@ -264,7 +264,7 @@ a {
 }
 
 .g-hero-copy > p {
-  margin: 0 0 26px;
+  margin: 0 0 24px;
   font-size: clamp(17px, 1.7vw, 23px);
   font-weight: 600;
   color: #2C3B52;
@@ -272,7 +272,7 @@ a {
 }
 
 .g-hero-tagline {
-  margin-top: 26px;
+  margin-top: 24px;
   font-size: clamp(17px, 1.85vw, 25px);
   font-weight: 800;
   color: var(--g-navy);
@@ -284,11 +284,11 @@ a {
 .g-search-form {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: #FFFFFF;
   border: 2px solid #BCD8F8;
   border-radius: 999px;
-  padding: 6px 8px 6px 22px;
+  padding: 8px 8px 8px 24px;
   max-width: 100%;
   box-shadow: var(--g-shadow-up);
 }
@@ -311,7 +311,7 @@ a {
   outline: none;
   font-size: 17px;
   color: var(--g-navy);
-  padding: 14px 6px;
+  padding: 16px 8px;
   background: transparent;
   -webkit-appearance: none;
   appearance: none;
@@ -329,7 +329,7 @@ a {
   color: #FFFFFF;
   font-size: 18px;
   font-weight: 700;
-  padding: 0 34px;
+  padding: 0 32px;
   min-height: 52px;
   border-radius: 999px;
 }
@@ -344,7 +344,7 @@ a {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 18px;
+  margin-top: 16px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -359,7 +359,7 @@ a {
   background: #FFFFFF;
   border: 1px solid #CFE0F5;
   border-radius: 999px;
-  padding: 0 22px;
+  padding: 0 24px;
   min-height: 44px;
   font-size: 15px;
   font-weight: 700;
@@ -383,16 +383,16 @@ a {
 .g-panel {
   background: #FFFFFF;
   border-radius: 18px;
-  padding: 26px 28px 28px;
+  padding: 24px 28px 28px;
   box-shadow: var(--g-shadow);
 }
 
 .g-section-heading {
   display: flex;
   align-items: baseline;
-  gap: 8px 14px;
+  gap: 8px 16px;
   flex-wrap: wrap;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .g-section-heading h2 {
@@ -440,9 +440,9 @@ a {
     "ico dsc arw"
     "ico bot arw";
   align-items: center;
-  column-gap: 18px;
+  column-gap: 16px;
   border-radius: 14px;
-  padding: 20px 22px;
+  padding: 20px 24px;
   border: 1px solid #E2ECFC;
   background: #F2F7FF;
   transition: border-color .15s ease, transform .15s ease;
@@ -482,7 +482,7 @@ a {
 
 .g-card-desc {
   grid-area: dsc;
-  margin: 3px 0 0;
+  margin: 4px 0 0;
   font-size: 15px;
   line-height: 1.5;
   color: var(--g-muted);
@@ -490,7 +490,7 @@ a {
 
 .g-card-bottom {
   grid-area: bot;
-  margin-top: 9px;
+  margin-top: 8px;
 }
 
 .g-tool-label {
@@ -510,7 +510,7 @@ a {
   color: #2A6FC4;
   font-size: 13px;
   font-weight: 700;
-  padding: 4px 11px;
+  padding: 4px 12px;
   border-radius: 999px;
   line-height: 1.5;
 }
@@ -561,9 +561,9 @@ a {
    ========================================================================== */
 
 .g-all-tasks {
-  margin-top: 22px;
+  margin-top: 24px;
   border-top: 1px solid var(--g-border2);
-  padding-top: 18px;
+  padding-top: 16px;
 }
 
 .g-all-tasks > summary {
@@ -589,11 +589,11 @@ a {
 }
 
 .g-results {
-  padding-top: 10px;
+  padding-top: 8px;
 }
 
 .g-result-group + .g-result-group {
-  margin-top: 26px;
+  margin-top: 24px;
 }
 
 .g-result-heading h3 {
@@ -612,17 +612,17 @@ a {
 .g-result-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 10px;
+  gap: 8px;
 }
 
 .g-result-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   background: #F7FAFF;
   border: 1px solid #E4EDF8;
   border-radius: 12px;
-  padding: 14px 16px;
+  padding: 16px 16px;
 }
 
 .g-result-card:hover {
@@ -676,7 +676,7 @@ a {
 }
 
 .g-tip {
-  margin-top: 22px;
+  margin-top: 24px;
   background: rgba(24, 119, 230, .07);
   border: 1px solid rgba(24, 119, 230, .16);
   border-radius: 14px;
@@ -716,7 +716,7 @@ a {
 }
 
 .g-first-heading h2 {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   font-size: 25px;
   font-weight: 800;
   color: var(--g-navy2);
@@ -741,7 +741,7 @@ a {
   align-items: center;
   gap: 16px;
   border-left: 1px solid var(--g-border2);
-  padding-left: 22px;
+  padding-left: 24px;
 }
 
 .g-first-number {
@@ -789,7 +789,7 @@ a {
 
 .g-support-section {
   padding-top: 16px;
-  padding-bottom: 22px;
+  padding-bottom: 24px;
 }
 
 .g-support-grid {
@@ -805,7 +805,7 @@ a {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px 22px;
+  gap: 16px 24px;
   box-shadow: var(--g-shadow);
 }
 
@@ -868,12 +868,12 @@ a {
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: var(--g-blue);
   color: #FFFFFF !important;
   font-size: 17px;
   font-weight: 700;
-  padding: 14px 28px;
+  padding: 16px 28px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(24, 119, 230, .28);
 }
@@ -903,7 +903,7 @@ a {
 .g-pager {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .g-detail-actions a,
@@ -913,7 +913,7 @@ a {
   min-height: 44px;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
+  padding: 0 16px;
   border: 1px solid var(--g-border);
   border-radius: 999px;
   background: #FFFFFF;
@@ -948,9 +948,9 @@ a {
 .g-detail-head {
   display: flex;
   align-items: center;
-  gap: 22px;
-  margin-top: 34px;
-  padding: 30px;
+  gap: 24px;
+  margin-top: 32px;
+  padding: 32px;
   border: 1px solid #DFE9F5;
   border-radius: 22px;
   background: var(--g-section-a);
@@ -980,9 +980,9 @@ a {
 .g-group-tag {
   display: inline-flex;
   min-height: 30px;
-  margin-top: 9px;
+  margin-top: 8px;
   align-items: center;
-  padding: 3px 12px;
+  padding: 4px 12px;
   border-radius: 999px;
   background: var(--g-sky);
   color: var(--g-blue);
@@ -1005,12 +1005,12 @@ a {
 .g-section {
   min-width: 0;
   grid-column: 1;
-  padding: 26px 0;
+  padding: 24px 0;
   border-bottom: 1px solid var(--g-border);
 }
 
 .g-section h2 {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   color: var(--g-navy);
   font-size: 22px;
   font-weight: 850;
@@ -1025,7 +1025,7 @@ a {
 }
 
 .g-mins {
-  margin-top: 13px;
+  margin-top: 12px;
   color: var(--g-muted);
   font-size: 16px;
   line-height: 1.6;
@@ -1042,7 +1042,7 @@ a {
 }
 
 .g-path {
-  margin-top: 9px;
+  margin-top: 8px;
   color: #49627E;
   font-size: 17px;
   line-height: 1.6;
@@ -1057,7 +1057,7 @@ a {
   margin: 0;
   padding: 0;
   flex-direction: column;
-  gap: 13px;
+  gap: 12px;
   list-style: none;
   counter-reset: g-detail-step;
 }
@@ -1065,7 +1065,7 @@ a {
 .g-detail-steps li {
   display: flex;
   align-items: flex-start;
-  gap: 13px;
+  gap: 12px;
   color: #23456F;
   font-size: 18px;
   line-height: 1.58;
@@ -1091,19 +1091,19 @@ a {
 .g-prompt {
   position: relative;
   margin: 0;
-  padding: 20px 22px 22px;
+  padding: 20px 24px 24px;
   border-radius: var(--radius);
   background: var(--ink);
   color: #EAF6F2;
 }
 
 .g-prompt + .g-note {
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 .g-prompt-lab {
   display: inline-block;
-  padding: 4px 9px;
+  padding: 4px 8px;
   border-radius: 6px;
   background: var(--gold);
   color: #3A2C00;
@@ -1126,10 +1126,10 @@ a {
   display: inline-flex;
   min-width: 82px;
   min-height: 44px;
-  margin-top: 18px;
+  margin-top: 16px;
   align-items: center;
   justify-content: center;
-  padding: 0 18px;
+  padding: 0 16px;
   border: 1px solid rgba(255, 255, 255, .4);
   border-radius: 999px;
   background: #FFFFFF;
@@ -1150,7 +1150,7 @@ a {
   margin-left: auto;
   align-items: center;
   justify-content: center;
-  padding: 0 18px;
+  padding: 0 16px;
   border: 1px solid var(--g-blue);
   border-radius: 999px;
   background: #FFFFFF;
@@ -1178,7 +1178,7 @@ a {
 }
 
 .g-note {
-  padding: 17px 20px;
+  padding: 16px 20px;
   border: 1px solid #AFCFF6;
   border-radius: var(--radius);
   background: #F2F7FF;
@@ -1231,7 +1231,7 @@ a {
 }
 
 .g-caution {
-  padding: 18px 20px;
+  padding: 16px 20px;
   border: 1px solid #F0D3B9;
   border-radius: 14px;
   background: #FFF8F3;
@@ -1245,7 +1245,7 @@ a {
   margin: 0;
   padding: 0;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   list-style: none;
 }
 
@@ -1255,7 +1255,7 @@ a {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 12px;
-  padding: 11px 14px;
+  padding: 12px 16px;
   border: 1px solid var(--g-border);
   border-radius: 12px;
   background: var(--g-section-a);
@@ -1273,8 +1273,8 @@ a {
 }
 
 .g-evidence {
-  margin-top: 14px;
-  padding: 13px 15px;
+  margin-top: 16px;
+  padding: 12px 16px;
   border: 1px solid #D8E6EF;
   border-radius: 12px;
   background: #F5FAFD;
@@ -1283,8 +1283,8 @@ a {
   line-height: 1.55;
 }
 
-.g-evidence strong { display: block; margin-bottom: 6px; color: #173A56; }
-.g-evidence ul { margin: 0; padding-left: 18px; }
+.g-evidence strong { display: block; margin-bottom: 8px; color: #173A56; }
+.g-evidence ul { margin: 0; padding-left: 16px; }
 .g-evidence li + li { margin-top: 4px; }
 .g-evidence a { color: #195BAB; font-weight: 750; }
 .g-evidence small { color: #657A8C; white-space: nowrap; }
@@ -1347,7 +1347,7 @@ a {
   display: inline-flex;
   min-height: 27px;
   align-items: center;
-  padding: 3px 8px;
+  padding: 4px 8px;
   border-radius: 6px 6px 6px 0;
   background: #E5484D;
   color: #FFFFFF;
@@ -1358,7 +1358,7 @@ a {
 
 .g-shot-caption,
 .g-result-note {
-  margin: 9px 0 0;
+  margin: 8px 0 0;
   color: var(--g-muted);
   font-size: 13px;
   line-height: 1.5;
@@ -1367,7 +1367,7 @@ a {
 .g-result-section { background: #fff; }
 .g-result-preview {
   margin-top: 12px;
-  padding: 18px 20px;
+  padding: 16px 20px;
   border: 1px solid #C9DDD7;
   border-radius: 14px;
   background: #F2F9F6;
@@ -1378,17 +1378,17 @@ a {
   font-size: 15px;
   line-height: 1.6;
 }
-.g-result-preview p + p { margin-top: 6px; }
-.g-result-shot { margin: 14px 0 0; }
+.g-result-preview p + p { margin-top: 8px; }
+.g-result-shot { margin: 16px 0 0; }
 .g-result-shot img { display: block; width: 100%; max-width: 520px; border: 1px solid var(--g-border); border-radius: 12px; }
-.g-result-shot figcaption { margin-top: 6px; color: var(--g-muted); font-size: 13px; }
+.g-result-shot figcaption { margin-top: 8px; color: var(--g-muted); font-size: 13px; }
 
 /* ==========================================================================
    푸터
    ========================================================================== */
 
 .g-footer {
-  margin-top: 22px;
+  margin-top: 24px;
   background: #FFFFFF;
   border-top: 1px solid var(--g-border);
 }
@@ -1397,7 +1397,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px 24px;
+  gap: 16px 24px;
   flex-wrap: wrap;
   padding-top: 16px;
   padding-bottom: 16px;
@@ -1430,7 +1430,7 @@ a {
 @media (max-width: 1099px) {
   .g-hero-copy {
     max-width: min(660px, 78%);
-    padding: 34px 32px 30px;
+    padding: 32px 32px 32px;
   }
 
   .g-quick-grid {
@@ -1481,7 +1481,7 @@ a {
 
   .g-hero-copy {
     max-width: 100%;
-    padding: 22px 22px 26px;
+    padding: 24px 24px 24px;
   }
 
   .g-first-steps li {
@@ -1496,13 +1496,13 @@ a {
 
 @media (max-width: 767px) {
   .g-wrap {
-    padding-right: 18px;
-    padding-left: 18px;
+    padding-right: 16px;
+    padding-left: 16px;
   }
 
   .g-header-inner {
     min-height: 0;
-    gap: 12px 18px;
+    gap: 12px 16px;
   }
 
   .g-brand img {
@@ -1524,7 +1524,7 @@ a {
 
   .g-nav-cta {
     margin-left: auto;
-    padding: 10px 14px;
+    padding: 8px 16px;
   }
 
   .g-printbar {
@@ -1532,7 +1532,7 @@ a {
   }
 
   .g-hero {
-    padding-top: 14px;
+    padding-top: 16px;
   }
 
   .g-hero-inner {
@@ -1552,7 +1552,7 @@ a {
   }
 
   .g-search-form {
-    padding: 6px 6px 6px 16px;
+    padding: 8px 8px 8px 16px;
     gap: 8px;
   }
 
@@ -1569,8 +1569,8 @@ a {
 
   .g-popular-scroll {
     flex-wrap: nowrap;
-    margin-right: -18px;
-    padding-right: 18px;
+    margin-right: -16px;
+    padding-right: 16px;
   }
 
   .g-popular-scroll button {
@@ -1586,7 +1586,7 @@ a {
   .g-first-panel,
   .g-support-card {
     border-radius: 16px;
-    padding: 20px 18px;
+    padding: 20px 16px;
   }
 
   .g-section-heading h2 {
@@ -1599,7 +1599,7 @@ a {
 
   .g-quick-card {
     grid-template-columns: 52px minmax(0, 1fr) 24px;
-    column-gap: 14px;
+    column-gap: 16px;
     padding: 16px 16px;
   }
 
@@ -1657,9 +1657,9 @@ a {
   .g-footer-grid {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    padding-top: 22px;
-    padding-bottom: 26px;
+    gap: 8px;
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
 
   #gDetailView {
@@ -1685,9 +1685,9 @@ a {
   }
 
   .g-detail-head {
-    gap: 15px;
+    gap: 16px;
     margin-top: 24px;
-    padding: 22px 18px;
+    padding: 24px 16px;
     flex-wrap: wrap;
   }
 
@@ -1710,7 +1710,7 @@ a {
   }
 
   .g-section {
-    padding: 23px 0;
+    padding: 24px 0;
   }
 
   .g-section h2,
@@ -1731,7 +1731,7 @@ a {
   }
 
   .g-prompt {
-    padding: 18px;
+    padding: 16px;
   }
 
   .g-prompt pre {
@@ -1741,13 +1741,13 @@ a {
 
   .g-copybtn {
     width: 100%;
-    margin-top: 18px;
+    margin-top: 16px;
   }
 
   .g-copyhint {
     display: block;
     width: 100%;
-    margin: 9px 0 0;
+    margin: 8px 0 0;
     text-align: center;
   }
 
@@ -1767,7 +1767,7 @@ a {
   }
 
   .g-hero-copy {
-    padding: 18px 16px 22px;
+    padding: 16px 16px 24px;
   }
 
   .g-search-form {
@@ -1957,9 +1957,9 @@ a {
 .g-time-pill {
   display: inline-flex;
   min-height: 30px;
-  margin: 9px 0 0 8px;
+  margin: 8px 0 0 8px;
   align-items: center;
-  padding: 3px 12px;
+  padding: 4px 12px;
   border: 1.5px solid #CDD9E6;
   border-radius: 8px;
   color: #3D4A5C;
@@ -1970,10 +1970,10 @@ a {
 /* 「이런 때 씁니다」 — 목업의 옅은 파랑 띠 */
 .g-when-strip {
   display: flex;
-  margin-top: 22px;
+  margin-top: 24px;
   align-items: baseline;
   gap: 20px;
-  padding: 15px 22px;
+  padding: 16px 24px;
   border-radius: 14px;
   background: #EEF5FF;
   flex-wrap: wrap;
@@ -1995,7 +1995,7 @@ a {
 }
 
 .g-detail-body > .g-mins {
-  margin: 11px 2px 0;
+  margin: 12px 2px 0;
 }
 
 /* 단계 카드 */
@@ -2015,7 +2015,7 @@ a {
 .g-step {
   display: flex;
   gap: 16px;
-  padding: 24px 26px;
+  padding: 24px 24px;
   border-radius: 18px;
   background: #FFFFFF;
   box-shadow: var(--g-shadow);
@@ -2041,7 +2041,7 @@ a {
 }
 
 .g-step-main h3 {
-  margin: 5px 0 0;
+  margin: 4px 0 0;
   color: var(--g-navy);
   font-size: 21px;
   font-weight: 800;
@@ -2051,17 +2051,17 @@ a {
 }
 
 .g-step-shot {
-  margin-top: 18px;
+  margin-top: 16px;
   background: #F7FAFD;
 }
 
 /* 주의 — 목업의 호박색 상자. 접어두지 않고 늘 펴 둔다. */
 .g-caution-box {
   display: flex;
-  margin-top: 22px;
-  gap: 14px;
+  margin-top: 24px;
+  gap: 16px;
   align-items: flex-start;
-  padding: 18px 22px;
+  padding: 16px 24px;
   border: 1px solid #F7E0BD;
   border-radius: 16px;
   background: #FFF8EE;
@@ -2102,11 +2102,11 @@ a {
 
 /* 단계 카드 안에 들어간 프롬프트 — 시안의 「그대로 치실 문장」 자리 */
 .g-step-main > .g-prompt {
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
 .g-step-main > .g-note {
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
 /* 도구 로고 — 시안의 로고 칸 */
@@ -2188,8 +2188,8 @@ a {
 /* 아래쪽 이동 줄 — 카드 이름이 보인다 */
 .g-pager-bottom {
   display: flex;
-  margin-top: 26px;
-  gap: 14px;
+  margin-top: 24px;
+  gap: 16px;
   justify-content: space-between;
   flex-wrap: wrap;
 }
@@ -2199,8 +2199,8 @@ a {
   max-width: 100%;
   min-height: 44px;
   flex-direction: column;
-  gap: 3px;
-  padding: 13px 22px;
+  gap: 4px;
+  padding: 12px 24px;
   border: 1px solid #DFE8F3;
   border-radius: 12px;
   background: #FFFFFF;
@@ -2251,7 +2251,7 @@ a {
 @media (max-width: 767px) {
   .g-step {
     gap: 12px;
-    padding: 20px 18px;
+    padding: 20px 16px;
   }
 
   .g-step-no {

@@ -94,7 +94,7 @@ body.portal {
 .p-nav {
   display: flex;
   align-items: center;
-  gap: 14px 30px;
+  gap: 16px 32px;
   flex-wrap: wrap;
 }
 
@@ -123,7 +123,7 @@ body.portal {
   color: #FFFFFF !important;
   font-size: 15px;
   font-weight: 700;
-  padding: 11px 18px;
+  padding: 12px 16px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(24, 119, 230, .28);
   white-space: nowrap;
@@ -142,14 +142,14 @@ body.portal {
 /* ===== 본문 틀 ===== */
 
 .p-main {
-  padding-top: 22px;
-  padding-bottom: 34px;
+  padding-top: 24px;
+  padding-bottom: 32px;
 }
 
 .p-panel {
   background: #FFFFFF;
   border-radius: 18px;
-  padding: 26px 28px 28px;
+  padding: 24px 28px 28px;
   box-shadow: var(--p-shadow);
 }
 
@@ -209,7 +209,7 @@ body.portal {
 
 .p-hero-copy {
   position: relative;
-  padding: 34px 40px 32px;
+  padding: 32px 40px 32px;
   max-width: min(620px, 66%);
 }
 
@@ -218,7 +218,7 @@ body.portal {
   color: var(--p-blue-soft);
   font-size: 16px;
   font-weight: 700;
-  margin-bottom: 9px;
+  margin-bottom: 8px;
 }
 
 .p-hero-copy h1 {
@@ -244,8 +244,8 @@ body.portal {
 .p-two {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
-  gap: 18px;
-  margin-top: 18px;
+  gap: 16px;
+  margin-top: 16px;
   align-items: start;
 }
 
@@ -254,11 +254,11 @@ body.portal {
 .p-find {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   border: 1px solid #DFE8F3;
   border-radius: 12px;
-  padding: 6px 16px;
-  margin-bottom: 14px;
+  padding: 8px 16px;
+  margin-bottom: 16px;
 }
 
 .p-find svg {
@@ -288,7 +288,7 @@ body.portal {
 .p-rows {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .p-row {
@@ -298,7 +298,7 @@ body.portal {
   width: 100%;
   cursor: pointer;
   border-radius: 14px;
-  padding: 16px 18px;
+  padding: 16px 16px;
   text-align: left;
   background: #FFFFFF;
   border: 1px solid var(--p-border);
@@ -313,14 +313,14 @@ body.portal {
   background: #F4F9FF;
   border: 2px solid var(--p-blue);
   box-shadow: 0 2px 10px rgba(24, 119, 230, .12);
-  padding: 15px 17px;
+  padding: 16px 16px;
 }
 
 .p-row-no {
   flex: none;
   font-size: 14px;
   font-weight: 800;
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: 999px;
   background: #EEF3FA;
   color: var(--p-muted);
@@ -350,7 +350,7 @@ body.portal {
   font-size: 14px;
   line-height: 1.5;
   color: #5D6C80;
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 .p-row-date {
@@ -383,7 +383,7 @@ body.portal {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 8px;
   color: #5F6F83;
   font-size: 15px;
   font-weight: 600;
@@ -405,7 +405,7 @@ body.portal {
   color: #1568D2;
   font-size: 15px;
   font-weight: 800;
-  padding: 8px 18px;
+  padding: 8px 16px;
   border-radius: 999px;
 }
 
@@ -416,7 +416,7 @@ body.portal {
 }
 
 .p-detail h2 {
-  margin: 18px 0 12px;
+  margin: 16px 0 12px;
   font-size: clamp(22px, 2.2vw, 31px);
   font-weight: 800;
   color: #0F1D33;
@@ -424,14 +424,14 @@ body.portal {
 }
 
 .p-detail-lede {
-  margin: 0 0 26px;
+  margin: 0 0 24px;
   font-size: 16px;
   line-height: 1.6;
   color: var(--p-muted);
 }
 
 .p-detail h3 {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-size: 20px;
   font-weight: 800;
   color: var(--p-navy);
@@ -448,11 +448,11 @@ body.portal {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 14px 18px;
+  gap: 16px 16px;
   background: #F2F7FF;
   border: 1px solid #E2ECFC;
   border-radius: 14px;
-  padding: 16px 18px;
+  padding: 16px 16px;
 }
 
 .p-res-icon {
@@ -488,7 +488,7 @@ body.portal {
   display: block;
   font-size: 14px;
   color: #5D6C80;
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 .p-res-open {
@@ -501,7 +501,7 @@ body.portal {
   color: #2C4360;
   font-size: 15px;
   font-weight: 700;
-  padding: 10px 18px;
+  padding: 8px 16px;
   border-radius: 10px;
 }
 
@@ -519,17 +519,17 @@ body.portal {
   margin-top: 20px;
   background: var(--p-sky);
   border-radius: 14px;
-  padding: 18px 20px;
+  padding: 16px 20px;
   display: flex;
   flex-wrap: wrap;
-  gap: 14px 18px;
+  gap: 16px 16px;
   align-items: flex-start;
 }
 
 .p-notice-head {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex: none;
 }
 
@@ -556,7 +556,7 @@ body.portal {
   flex: 1;
   min-width: 220px;
   margin: 0;
-  padding-left: 18px;
+  padding-left: 16px;
   color: #4D5D72;
   font-size: 15px;
   line-height: 1.8;
@@ -578,7 +578,7 @@ body.portal {
 .p-table th,
 .p-table td {
   text-align: left;
-  padding: 11px 14px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--p-border2);
 }
 
@@ -615,7 +615,7 @@ body.portal {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px 24px;
+  gap: 16px 24px;
   flex-wrap: wrap;
   padding-top: 16px;
   padding-bottom: 16px;
@@ -665,19 +665,19 @@ body.portal {
 
   .p-hero-copy {
     max-width: 100%;
-    padding: 22px 22px 26px;
+    padding: 24px 24px 24px;
   }
 }
 
 @media (max-width: 767px) {
   .p-wrap {
-    padding-right: 18px;
-    padding-left: 18px;
+    padding-right: 16px;
+    padding-left: 16px;
   }
 
   .p-header-inner {
     min-height: 0;
-    gap: 12px 18px;
+    gap: 12px 16px;
   }
 
   .p-brand img {
@@ -699,12 +699,12 @@ body.portal {
 
   .p-nav-cta {
     margin-left: auto;
-    padding: 10px 14px;
+    padding: 8px 16px;
   }
 
   .p-panel {
     border-radius: 16px;
-    padding: 20px 18px;
+    padding: 20px 16px;
   }
 
   .p-two {
@@ -713,7 +713,7 @@ body.portal {
 
   .p-row {
     flex-wrap: wrap;
-    gap: 10px 12px;
+    gap: 8px 12px;
   }
 
   .p-row-copy {
@@ -729,9 +729,9 @@ body.portal {
   .p-footer-grid {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    padding-top: 22px;
-    padding-bottom: 26px;
+    gap: 8px;
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
 }
 
@@ -773,9 +773,9 @@ body.portal {
 .r-hero {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 24px;
   flex-wrap: wrap;
-  padding: 26px 30px;
+  padding: 24px 32px;
   border-radius: 20px;
   background: #FFFFFF;
   box-shadow: 0 1px 3px rgba(20, 50, 90, .06);
@@ -793,7 +793,7 @@ body.portal {
 }
 
 .r-hero-copy h1 {
-  margin: 7px 0 8px;
+  margin: 8px 0 8px;
   color: #0F1D33;
   font-size: clamp(28px, 3.2vw, 38px);
   font-weight: 800;
@@ -808,19 +808,19 @@ body.portal {
 }
 
 .r-lede + .r-lede {
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .r-stats {
   display: flex;
   flex: none;
-  gap: 14px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .r-stat {
   min-width: 104px;
-  padding: 16px 22px;
+  padding: 16px 24px;
   border-radius: 14px;
   background: #EEF5FF;
   text-align: center;
@@ -856,7 +856,7 @@ body.portal {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin: 22px 0 14px;
+  margin: 24px 0 16px;
 }
 
 .r-filters {
@@ -867,7 +867,7 @@ body.portal {
 
 .r-filters button {
   min-height: 44px;
-  padding: 10px 18px;
+  padding: 8px 16px;
   border: 1px solid #DFE8F3;
   border-radius: 999px;
   background: #FFFFFF;
@@ -890,7 +890,7 @@ body.portal {
   margin-left: auto;
   align-items: center;
   gap: 8px;
-  padding: 13px 22px;
+  padding: 12px 24px;
   border: 0;
   border-radius: 12px;
   background: #1568D2;
@@ -917,7 +917,7 @@ body.portal {
   flex-direction: column;
   gap: 16px;
   margin-bottom: 16px;
-  padding: 22px 24px;
+  padding: 24px 24px;
   border: 2px solid #1568D2;
   border-radius: 18px;
   background: #FFFFFF;
@@ -928,7 +928,7 @@ body.portal {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
@@ -951,7 +951,7 @@ body.portal {
 .r-field > label,
 .r-legend {
   display: block;
-  margin-bottom: 9px;
+  margin-bottom: 8px;
   color: #16233A;
   font-size: 14.5px;
   font-weight: 700;
@@ -961,7 +961,7 @@ body.portal {
 .r-field textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 14px 16px;
+  padding: 16px 16px;
   border: 1px solid #DFE8F3;
   border-radius: 12px;
   color: #16233A;
@@ -989,7 +989,7 @@ body.portal {
 
 .r-tagpick button {
   min-height: 44px;
-  padding: 9px 16px;
+  padding: 8px 16px;
   border: 1px solid #DFE8F3;
   border-radius: 999px;
   background: #FFFFFF;
@@ -1010,13 +1010,13 @@ body.portal {
 .r-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .r-submit {
   min-height: 44px;
-  padding: 13px 26px;
+  padding: 12px 24px;
   border: 0;
   border-radius: 12px;
   background: #1568D2;
@@ -1034,7 +1034,7 @@ body.portal {
 
 .r-cancel {
   min-height: 44px;
-  padding: 13px 22px;
+  padding: 12px 24px;
   border: 1px solid #DFE8F3;
   border-radius: 12px;
   background: #FFFFFF;
@@ -1052,7 +1052,7 @@ body.portal {
 
 /* 만들어진 요청 문장 */
 .r-made {
-  padding: 16px 18px;
+  padding: 16px 16px;
   border: 1px solid #DFE8F3;
   border-radius: 14px;
   background: #F7FAFD;
@@ -1065,7 +1065,7 @@ body.portal {
 }
 
 .r-made pre {
-  margin: 10px 0 12px;
+  margin: 8px 0 12px;
   color: #23456F;
   font: inherit;
   font-size: 15.5px;
@@ -1084,9 +1084,9 @@ body.portal {
 .r-item {
   display: flex;
   align-items: flex-start;
-  gap: 18px;
+  gap: 16px;
   flex-wrap: wrap;
-  padding: 20px 22px;
+  padding: 20px 24px;
   border-radius: 16px;
   background: #FFFFFF;
   box-shadow: 0 1px 3px rgba(20, 50, 90, .06);
@@ -1100,13 +1100,13 @@ body.portal {
 .r-pills {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .r-status,
 .r-tag {
-  padding: 4px 11px;
+  padding: 4px 12px;
   border-radius: 999px;
   font-size: 13px;
   font-weight: 700;
@@ -1134,7 +1134,7 @@ body.portal {
 }
 
 .r-item-main h2 {
-  margin: 9px 0 5px;
+  margin: 8px 0 4px;
   color: #16233A;
   font-size: 19px;
   font-weight: 800;
@@ -1150,7 +1150,7 @@ body.portal {
 }
 
 .r-meta {
-  margin-top: 10px;
+  margin-top: 8px;
   color: #5F6F83;
   font-size: 13.5px;
 }
@@ -1158,8 +1158,8 @@ body.portal {
 .r-answer {
   display: flex;
   flex: 1 1 100%;
-  gap: 11px;
-  padding: 14px 16px;
+  gap: 12px;
+  padding: 16px 16px;
   border-radius: 12px;
   background: #F7FAFD;
 }
@@ -1200,7 +1200,7 @@ body.portal {
 /* 노션 폼 자리 — 주소가 없을 때는 빈 상자를 크게 벌리지 않는다 */
 .portal .formbox {
   min-height: 0;
-  padding: 16px 18px;
+  padding: 16px 16px;
 }
 
 .portal .formbox.is-live {
@@ -1212,9 +1212,9 @@ body.portal {
 .r-warn {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  margin-top: 18px;
-  padding: 18px 22px;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 16px 24px;
   border: 1px solid #F7E0BD;
   border-radius: 16px;
   background: #FFF8EE;
@@ -1241,7 +1241,7 @@ body.portal {
 }
 
 .r-warn p {
-  margin-top: 3px;
+  margin-top: 4px;
   color: #7A5C33;
   font-size: 14.5px;
   line-height: 1.6;
@@ -1249,7 +1249,7 @@ body.portal {
 
 @media (max-width: 767px) {
   .r-hero {
-    padding: 22px 18px;
+    padding: 24px 16px;
   }
 
   .r-new {
@@ -1259,8 +1259,8 @@ body.portal {
   }
 
   .r-item {
-    gap: 14px;
-    padding: 18px 16px;
+    gap: 16px;
+    padding: 16px 16px;
   }
 }
 
@@ -1288,7 +1288,7 @@ body.portal.p-legacy {
   display: grid;
   gap: 8px;
   align-self: stretch;
-  padding: 18px;
+  padding: 16px;
   border: 1px solid #DDE8F5;
   border-radius: 18px;
   background: #F4F8FE;
@@ -1305,8 +1305,8 @@ body.portal.p-legacy main a.library-quick-link:not(.btn):not(.card):not([class^=
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  padding: 11px 14px;
+  gap: 16px;
+  padding: 12px 16px;
   border: 1px solid #E0E8F2;
   border-radius: 12px;
   background: #FFFFFF;
@@ -1320,7 +1320,7 @@ body.portal.p-legacy main a.library-quick-link:not(.btn):not(.card):not([class^=
 
 .portal .library-quick-link small {
   display: block;
-  margin-top: 3px;
+  margin-top: 4px;
   color: var(--p-muted);
   font-size: 12px;
   font-weight: 600;
@@ -1372,8 +1372,8 @@ body.portal.p-legacy main a.library-quick-link:not(.btn):not(.card):not([class^=
   }
 
   .portal .library-quick {
-    margin-top: 22px;
-    padding: 14px;
+    margin-top: 24px;
+    padding: 16px;
   }
 
   .portal .hero-a.is-text-only h1,
