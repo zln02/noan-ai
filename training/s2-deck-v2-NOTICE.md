@@ -46,3 +46,9 @@ CC0 자산 다시 만들기: 위 URL에서 받은 파일을 새 빈 폴더에 �
 WebGL이 없을 때 보여 줄 장면 사진: `py docs/training/deck-v2-src/shoot.py --stills` → `deck-v2-src/stills/*.jpg` → build.py를 다시 돌리면 들어가요.
 
 `docs/training/compare/` 화면(시연 결과 캡처)은 있으면 만들 때 JPEG data URI로 넣고, 없으면 「결과 화면 들어갈 자리」 틀을 보여 줍니다.
+
+## 2회차 안내 쪽(`training/s2.html`)에 쓴 사진
+
+| 파일 | 원본 | 만든 사람 | 라이선스 | 손질 |
+|---|---|---|---|---|
+| `training/assets/s2/horse.jpg` | 「Three horse power.」 https://commons.wikimedia.org/wiki/File:Three_horse_power._(9408119676).jpg | Bernard Spragg. NZ | CC0 1.0 | 덱용 16:9 판(교사 스튜디오 `deck-v2-src/assets/p_horse.jpg`)을 800×450 JPEG로 줄임. EXIF 없음 |

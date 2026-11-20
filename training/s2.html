@@ -30,6 +30,40 @@
   .note-hero{font-size:16px;color:#c9d3d8;margin:14px 0 0}
   .note{font-size:15px;color:#53626b;margin-top:12px}
   @media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:16px 16px 60px}}
+  /* 키워드 정리 · 하네스란? · 부탁 모음 (지시서 복사 단추는 업무별 안내서와 같은 모양·동작) */
+  .can{background:#E8F6F5;border:1px solid #B5E3E0;border-radius:14px;padding:16px 18px;margin:22px 0}
+  .can h2{font-size:17px;color:#0a5f61;margin:0 0 8px}
+  .can ol{margin:0;padding-left:24px}
+  .can li{font-size:17px;line-height:1.6}
+  .sec{margin-top:22px}
+  .sec .lead{font-size:20px;line-height:1.55;margin:0 0 6px}
+  .rows{display:grid;gap:8px;margin:14px 0;padding:0}
+  .rows>div{display:grid;grid-template-columns:6.2em 1fr;gap:10px;align-items:baseline}
+  .rows dt{font-size:16px;font-weight:800;color:#41525c;margin:0}
+  .rows dd{font-size:18px;line-height:1.55;margin:0}
+  .rows .is-good dd{font-weight:800;color:#0a5f61}
+  .horse{margin:16px 0 0}
+  .horse img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid #d8d5cc}
+  .horse figcaption{font-size:15px;color:#4a5961;line-height:1.55;margin-top:6px}
+  .motto{font-size:20px;font-weight:800;margin:16px 0 0;padding:12px 16px;background:#13202a;color:#fff;border-radius:12px}
+  .card a:not(.button){color:#0a6c6e;font-weight:700}
+  .g-prompt{position:relative;margin:14px 0 0;padding:16px 18px 18px;border-radius:14px;background:var(--ink,#102A43);color:#EAF6F2}
+  .g-prompt-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
+  .g-prompt-lab{display:inline-block;padding:4px 10px;border-radius:6px;background:#FFE58A;color:#3A2C00;font-size:15px;font-weight:800}
+  .g-prompt pre{margin:12px 0 0;color:#fff;font-family:inherit;font-size:18px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+  .g-copybtn{display:inline-flex;min-width:82px;min-height:44px;align-items:center;justify-content:center;padding:0 16px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:#fff;color:var(--ink,#102A43);font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}
+  .g-copybtn:hover{background:#EAF4FF}
+  .g-copybtn.is-done{background:#D9F5E4;color:#14532D}
+  .g-copyhint{display:block;margin-top:8px;color:#fff;font-size:15px;font-weight:700}
+  .g-copyhint[hidden]{display:none}
+  .asks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .asks .g-prompt{margin:0}
+  .tips{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px}
+  .tips li{font-size:18px;line-height:1.55;padding:10px 14px;background:#f8f6f1;border-radius:10px}
+  .tips b{display:block}
+  .steps{margin:10px 0 0;padding-left:26px}
+  .dl{display:inline-flex;align-items:center;min-height:44px}
+  @media(max-width:700px){.asks{grid-template-columns:1fr}.rows>div{grid-template-columns:5.4em 1fr}.card{padding:20px}}
 </style>
 </head>
 <body>
@@ -38,10 +72,106 @@
   <header class="hero">
     <span class="eyebrow">노안중학교 교원연수 · 2회차 · 11/23(월) 오후 2시 · 60분</span>
     <h1>AI에게 무기를 주면</h1>
-    <p>ChatGPT·Claude에 도구와 레시피를 챙겨 주면 결과가 어떻게 달라지는지 보고, 직접 설치해서 나란히 비교합니다.</p>
+    <p>ChatGPT·Claude에 도구·레시피 챙겨 주기 → 직접 설치해 나란히 비교</p>
     <div class="buttons"><a class="button" href="s2-deck-v2.html">슬라이드 열기</a></div>
-    <p class="note-hero">3D 그림이 들어 있어 파일이 큽니다(약 7.7MB). 와이파이에서 한 번 열어 두면 그다음은 인터넷 없이도 열립니다.</p>
+    <p class="note-hero">약 7.7MB(3D 그림) · 와이파이에서 한 번 열면 다음부터 인터넷 없이</p>
   </header>
+
+  <section class="can" aria-labelledby="h-can">
+    <h2 id="h-can">이 페이지에서 할 수 있는 것</h2>
+    <ol>
+      <li><b>슬라이드 열기</b> 2회차 발표자료</li>
+      <li><b>하네스란?</b> 한 줄 뜻 · 유래 · 김치볶음밥 이야기</li>
+      <li><b>부탁 복사</b> 오늘 쓴 부탁 8개 · 꿀팁 3줄 · 막히면</li>
+    </ol>
+  </section>
+
+  <section class="card sec" aria-labelledby="h-harness">
+    <h2 id="h-harness">하네스란?</h2>
+    <p class="lead"><b>하네스</b> = AI에게 도구와 레시피를 주는 것</p>
+    <dl class="rows">
+      <div><dt>유래</dt><dd>말에 채우는 마구(하네스) → 힘센 말의 힘을 원하는 방향으로</dd></div>
+    </dl>
+    <figure class="horse">
+      <img src="assets/s2/horse.jpg" alt="목걸이와 끄는 줄을 채우고 밭을 가는 말 세 마리" width="800" height="450" loading="lazy" decoding="async">
+      <figcaption>사진: 「Three horse power.」 Bernard Spragg. NZ · Wikimedia Commons · CC0</figcaption>
+    </figure>
+    <h3 style="font-size:19px;margin:20px 0 0">김치볶음밥 이야기</h3>
+    <dl class="rows">
+      <div><dt>그냥 AI</dt><dd>밥만 따로</dd></div>
+      <div><dt>하네스 AI</dt><dd>셰프 레시피 + 도구</dd></div>
+      <div class="is-good"><dt>결과</dt><dd>한 번에 완성</dd></div>
+    </dl>
+    <p class="motto">그냥 시키지 말고, 도구와 길을 같이</p>
+    <p style="font-size:18px;margin:14px 0 0"><a href="../terms/index.html#t-harness">AI 알기 · 하네스 20초 그림 보기</a></p>
+  </section>
+
+  <section class="card sec" aria-labelledby="h-asks">
+    <h2 id="h-asks">오늘 쓴 부탁 모음</h2>
+    <p style="font-size:18px;margin:0">「지시서 복사」 → ChatGPT·Claude 입력창에 붙여넣기</p>
+    <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">설치 한 줄</span><button type="button" class="g-copybtn" data-target="ask-1">지시서 복사</button></div><pre id="ask-1" tabindex="0">github.com/zln02/teacher-studio
+내가 준 링크에 하네스 세팅해 줘</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+    <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">시연</span><button type="button" class="g-copybtn" data-target="ask-2">지시서 복사</button></div><pre id="ask-2" tabindex="0">나는 중학교 선생님인데 오늘 수업에 쓸 AI 코딩 도우미 만들어 줘. 나한테 물어보지 말고 네가 알아서 만들어.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+    <h3 style="font-size:19px;margin:22px 0 10px">예시 부탁 6가지</h3>
+    <div class="asks">
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">게임</span><button type="button" class="g-copybtn" data-target="ask-3">지시서 복사</button></div><pre id="ask-3" tabindex="0">중2 과학 '빛의 반사' 복습 퀴즈 게임 만들어 줘. TV로 띄워서 모둠 대항으로.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">슬라이드</span><button type="button" class="g-copybtn" data-target="ask-4">지시서 복사</button></div><pre id="ask-4" tabindex="0">학부모 설명회 10분 발표 자료 만들어 줘. 차분하고 믿음직한 느낌으로.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">가정통신문</span><button type="button" class="g-copybtn" data-target="ask-5">지시서 복사</button></div><pre id="ask-5" tabindex="0">현장체험학습 안내 가정통신문을 한글 파일로. 회신서도 붙여 줘.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">수업 도구</span><button type="button" class="g-copybtn" data-target="ask-6">지시서 복사</button></div><pre id="ask-6" tabindex="0">발표 순서 뽑기 + 3분 타이머. 교실 TV에서 크게 보이게.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">성적 분석</span><button type="button" class="g-copybtn" data-target="ask-7">지시서 복사</button></div><pre id="ask-7" tabindex="0">이 엑셀로 반별 평균 비교 보고서 만들어 줘. 학생 이름은 빼고.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">프로그램</span><button type="button" class="g-copybtn" data-target="ask-8">지시서 복사</button></div><pre id="ask-8" tabindex="0">모둠 활동 점수판 프로그램 만들어 줘. 인터넷 없이 열리게.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+    </div>
+    <h3 style="font-size:19px;margin:22px 0 0">꿀팁 3줄</h3>
+    <ul class="tips">
+      <li><b>그냥 시키지 않기</b>도구와 레시피(하네스)를 켜고 시작</li>
+      <li><b>한 번 제대로 말하기</b>누구에게 · 어디에 · 어떤 느낌 · 어떤 재료</li>
+      <li><b>끝나면 확인</b>사실·숫자·출처는 원문으로 · 학생 정보는 넣지 않기</li>
+    </ul>
+  </section>
+
+  <section class="card sec" aria-labelledby="h-stuck">
+    <h2 id="h-stuck">막히면</h2>
+    <p style="font-size:18px;margin:0">링크 설치가 안 될 때 — zip으로</p>
+    <ol class="steps">
+      <li>github.com/zln02/teacher-studio 에서 zip 받기</li>
+      <li>Claude 앱 Customize → Skills</li>
+      <li>zip 파일 올리기</li>
+    </ol>
+    <p style="font-size:18px;margin:14px 0 0"><a href="../start/index.html">설치·시작 가이드 보기</a> · <a class="dl" href="assets/s2/handout.pdf" download>인쇄 안내지(PDF) 내려받기</a></p>
+  </section>
 </main>
+<script>
+/* 지시서 복사 — 업무별 안내서(guide/home.js)의 「지시서 복사」와 같은 동작. ES2017 */
+(function () {
+  'use strict';
+  var buttons = document.querySelectorAll('.g-copybtn');
+  Array.prototype.forEach.call(buttons, function (button) {
+    button.addEventListener('click', function () {
+      var pre = document.getElementById(button.getAttribute('data-target'));
+      var hint = button.closest('.g-prompt').querySelector('.g-copyhint');
+      var label = button.textContent;
+      function success() {
+        button.textContent = '✓ 복사됐어요';
+        button.classList.add('is-done');
+        if (hint) { hint.hidden = false; hint.textContent = '복사했어요. 입력창에 붙여넣으세요'; }
+        window.setTimeout(function () { button.textContent = label; button.classList.remove('is-done'); }, 2500);
+      }
+      function manualCopy() {
+        try {
+          var range = document.createRange();
+          var sel = window.getSelection();
+          range.selectNodeContents(pre);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          if (document.execCommand && document.execCommand('copy')) { success(); return; }
+        } catch (e) {}
+        if (hint) { hint.hidden = false; hint.textContent = '글을 선택했어요. Ctrl+C 를 누르세요'; }
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(pre.textContent).then(success, manualCopy);
+      else manualCopy();
+    });
+  });
+})();
+</script>
 </body>
 </html>
