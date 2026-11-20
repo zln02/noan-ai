@@ -5,7 +5,7 @@
   var NEED = '<span class="need">확인 필요</span>';
   /* "잘하는 일" 글을 태그로: 첫 문장 끝의 (괄호 안내)는 따로, 나머지 문장은 작은 주의 글로 */
   function goodFor(text) {
-    if (!text) return '<p class="ai-missing">' + NEED + ' 아직 확인하지 못했습니다.</p>';
+    if (!text) return '<p class="ai-missing">' + NEED + ' 아직 확인하지 못했어요.</p>';
     var s = String(text), rest = '', i = s.indexOf('. ');
     if (i > -1) { rest = s.slice(i + 2); s = s.slice(0, i); }
     var note = '', m = s.match(/\s*\(([^)]*)\)\s*$/);
@@ -31,16 +31,16 @@
       ? '<a class="pm-btn-ghost" href="' + esc(m.url) + '" target="_blank" rel="noopener" aria-label="' + esc(m.name) + ' 공식 쪽 보기 (새 창)">공식 쪽 보기 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>'
       : '<span class="ai-note">공식 쪽 주소 ' + NEED + '</span>';
     return '<article class="ai-card ' + (empty ? 'is-todo' : (kr ? 'is-kr' : 'is-global')) + '"><div class="ai-top">' + kindChip + '</div>' +
-      '<h2>' + esc(m.name) + '</h2>' + (m.maker ? '<p class="ai-maker">' + esc(m.maker) + '</p>' : '') +
-      (m.summary ? '<p class="ai-sum">' + esc(m.summary) + '</p>' : '<p class="ai-missing">' + NEED + ' 소개 한 줄을 아직 확인하지 못했습니다.</p>') +
-      '<div class="ai-sec"><h3>잘하는 일</h3>' + goodFor(m.good_for) + '</div>' +
-      '<div class="ai-sec"><h3>아이모두 안에</h3>' + inside(m.in_aimodu) + '</div>' +
+      '<h3 class="ai-name">' + esc(m.name) + '</h3>' + (m.maker ? '<p class="ai-maker">' + esc(m.maker) + '</p>' : '') +
+      (m.summary ? '<p class="ai-sum">' + esc(m.summary) + '</p>' : '<p class="ai-missing">' + NEED + ' 소개 한 줄을 아직 확인하지 못했어요.</p>') +
+      '<div class="ai-sec"><h4>잘하는 일</h4>' + goodFor(m.good_for) + '</div>' +
+      '<div class="ai-sec"><h4>아이모두 안에 있나요</h4>' + inside(m.in_aimodu) + '</div>' +
       '<div class="ai-foot">' + checked + link + '</div></article>';
   }
   function draw(data) {
     var box = document.getElementById('models');
     if (!data || !data.items || !data.items.length) {
-      box.innerHTML = '<div class="pm-empty"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><b>자료를 불러오지 못했습니다</b><span>잠시 뒤 다시 열어 주세요.</span></div>';
+      box.innerHTML = '<div class="pm-empty"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><b>자료를 불러오지 못했어요</b><span>잠시 뒤 다시 열어 주세요.</span></div>';
       return;
     }
     box.innerHTML = '<div class="ai-grid">' + data.items.map(card).join('') + '</div>';
