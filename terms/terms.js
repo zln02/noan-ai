@@ -37,7 +37,8 @@
       ((t.analogy_line || t.analogy) ? row('bi', '비유', t.analogy_line || t.analogy) : '') +
       row('real', '진짜', t.real || t.meaning) +
       row('use', '활용', t.use || '') +
-      '<details class="tcard-caps"><summary>' + esc(t.gap_label || '비유와 다른 점') + ' · 자막 글로 읽기</summary>' +
+      '<details class="tcard-caps"><summary>더 보기 · ' + esc(t.gap_label || '비유와 다른 점') + ' · 자막</summary>' +
+        (t.real_more ? '<p class="tc-gap"><b>진짜 더</b> ' + esc(t.real_more) + '</p>' : '') +
         (t.gap ? '<p class="tc-gap"><b>' + esc(t.gap_label || '비유와 다른 점') + '</b> ' + esc(t.gap) + '</p>' : '') +
         (caps ? '<ol>' + caps + '</ol>' : '') +
         '<p class="tc-chk">' + (t.checked ? '내용 확인 ' + esc(t.checked) : '사람이 아직 내용을 확인하지 않았어요 (확인 필요)') + '</p>' +
