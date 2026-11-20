@@ -27,7 +27,8 @@ const PAIRS = [
   { json: 'data/quicktasks.json', js: 'data/quicktasks.js', global: 'QUICKTASKS' },
   { json: 'data/ai-models.json', js: 'data/ai-models.js', global: 'AI_MODELS_DATA' },
   { json: 'data/terms.json', js: 'data/terms.js', global: 'TERMS_DATA' },
-  { json: 'data/requests.json', js: 'data/requests.js', global: 'REQUESTS_DATA' }
+  { json: 'data/requests.json', js: 'data/requests.js', global: 'REQUESTS_DATA' },
+  { json: 'data/iamodu-tools.json', js: 'data/iamodu-tools.js', global: 'IAMODU_TOOLS' }
 ];
 
 function build(pair) {

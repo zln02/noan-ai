@@ -1,7 +1,7 @@
 /* 노안중 AI 안내서 — 오프라인용 서비스 워커.
    화면 글과 데이터는 미리 담아 두고(precache), 그림은 본 만큼 담는다(runtime).
    안내서 문장이나 파일 목록을 바꿨다면 CACHE_VERSION 숫자를 하나 올린다. 이 파일 하나만 고치면 된다. */
-var CACHE_VERSION = 'noan-guide-v9';
+var CACHE_VERSION = 'noan-guide-v10';
 var CACHE_PREFIX = 'noan-guide-';
 var CORE = [
   'index.html', 'manifest.webmanifest', 'offline.html',
@@ -10,7 +10,8 @@ var CORE = [
   'guide/guide.css', 'guide/home.js', 'guide/home-alpine.js', 'guide/home-alpine.css', 'shared/vendor/alpine/alpine.min.js',
   'data/tasks.js', 'data/tasks.json', 'data/guides.js', 'data/guides.json',
   'data/ai-models.js', 'data/ai-models.json', 'data/terms.js', 'data/terms.json',
-  'iamodu/index.html', 'ai/index.html', 'ai/ai.js', 'terms/index.html', 'terms/terms.js', 'how-ai-answers/index.html', 'how-ai-answers/how.js', 'how-ai-answers/scene3d.js', 'iamodu/iamodu.js',
+  'iamodu/index.html', 'ai/index.html', 'ai/ai.js', 'terms/index.html', 'terms/terms.js', 'how-ai-answers/index.html', 'how-ai-answers/how.js', 'how-ai-answers/scene3d.js', 'iamodu/iamodu.js', 'iamodu/dict.js', 'data/iamodu-tools.js', 'data/iamodu-tools.json',
+  /* assets/iamodu/*.webp(도구 사전 화면 49장)는 일부러 넣지 않는다. 줄을 펼쳐 본 그림만 아래 fetch 에서 담긴다. */
   'terms/anim/model.html', 'terms/anim/token.html', 'terms/anim/context.html', 'terms/anim/temperature.html', 'terms/anim/training.html', 'terms/anim/hallucination.html', 'terms/anim/prompt.html', 'terms/anim/order.html', 'terms/anim/rag.html', 'terms/anim/multimodal.html', 'terms/anim/tool.html', 'terms/anim/agent.html', 'terms/anim/skill.html', 'terms/anim/harness.html', 'terms/anim/privacy.html', 'terms/anim/students.html', 'terms/anim/iamodu.html',
   'shared/vendor/three/three.min.js', 'shared/premium.css', 'shared/vendor/open-props/open-props.subset.css', 'shared/vendor/webawesome/webawesome.js', 'shared/vendor/webawesome/webawesome.css',
   'iamodu/iamodu.css', 'ai/ai.css', 'terms/terms.css', 'how-ai-answers/how.css',
