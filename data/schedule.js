@@ -8,5 +8,12 @@ window.SCHEDULE_DATA = [
   "time": "13:00",
   "title": "업무 편해지기",
   "status": "planned"
+ },
+ {
+  "no": 2,
+  "date": "2026-11-23",
+  "time": "14:00",
+  "title": "AI에게 무기를 주면",
+  "status": "planned"
  }
 ];
