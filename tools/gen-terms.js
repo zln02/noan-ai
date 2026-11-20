@@ -364,7 +364,7 @@ const ENGINE = '(function(){var DUR=__DUR__,CAPS=__CAPS__,POSTER=__POSTER__,THUM
   'function play(){if(R){step();return}if(idle){t=0;idle=false}if(t>=DUR)t=0;playing=true;last=performance.now();ui();requestAnimationFrame(tick)}function pause(){playing=false;ui()}' +
   'function tog(){playing?pause():play()}pp.onclick=function(e){e.stopPropagation();tog()};document.getElementById("st").onclick=function(){if(!/poster=1/.test(location.search))tog()};' +
   'document.getElementById("pg").onclick=function(e){e.stopPropagation();idle=false;var r=this.getBoundingClientRect();t=Math.max(0,Math.min(DUR,(e.clientX-r.left)/r.width*DUR));draw();ui()};' +
-  'document.addEventListener("keydown",function(e){if(e.key===" "&&e.target===document.body){e.preventDefault();tog()}});' +
+  '(function(){var s=0;function pm(v){try{parent.postMessage(v,"*")}catch(x){}}document.addEventListener("pointermove",function(e){if(e.pointerType&&e.pointerType!=="mouse")return;var n=Date.now();if(n-s<120)return;s=n;pm("noan-hot")});document.documentElement.addEventListener("mouseleave",function(){pm("noan-cold")})})();document.addEventListener("keydown",function(e){if(e.key==="Escape"){try{parent.postMessage("noan-esc","*")}catch(x){}return}if(e.key===" "&&e.target===document.body){e.preventDefault();tog()}});' +
   'var mh=/[#&]t=([0-9.]+)/.exec(location.hash),po=/poster=1/.test(location.search),au=/autoplay=1/.test(location.search);' +
   'if(po){document.documentElement.className="poster";document.querySelector("svg").setAttribute("viewBox",THUMB)}' +
   'if(mh){t=Math.min(DUR,parseFloat(mh[1]))}else if(po||R||!au){t=POSTER;idle=!po&&!R}' +

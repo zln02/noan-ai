@@ -179,17 +179,35 @@ div.tcard-frame { cursor: default; }
 .tc-caps-h { margin: 12px 0 0; font-weight: 800; color: var(--pm-ink); }
 .tc-chk { margin: 10px 0 4px; font-size: 14px; color: var(--pm-ink-3); }
 
-/* 크게 보기: 재생 중인 그림을 화면 가득 (가로 16:9 유지) */
+/* 크게 보기: 재생 중인 그림을 화면 가득 (가로 16:9 유지). 같은 iframe 을 그대로 쓰고 class 만 바꾼다. */
 .tcard-big {
-  position: absolute; left: 10px; top: 10px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px;
-  border: 1px solid rgba(22, 35, 58, .14); border-radius: 999px; background: rgba(255, 255, 255, .95); color: var(--pm-ink);
+  position: absolute; right: 56px; top: 8px; z-index: 3; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0;
+  border: 1px solid rgba(22, 35, 58, .14); border-radius: 999px; background: rgba(255, 255, 255, .92); color: var(--pm-ink);
   font: inherit; font-size: 15px; font-weight: 800; cursor: pointer;
 }
-.tcard-big svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.tcard-close { width: 44px; height: 44px; }
-.tcard-media.is-big { position: fixed; inset: 0; z-index: 1000; aspect-ratio: auto; background: #16233A; display: grid; place-items: center; }
+.tcard-big span { display: none; }
+.tcard-big svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.tcard-big:focus-visible, .tcard-close:focus-visible { outline: 3px solid #F59E0B; outline-offset: 2px; }
+.tcard-close { width: 44px; height: 44px; right: 8px; top: 8px; }
+/* 마우스(가리키는 장치): 평소엔 숨기고, 카드에 올리거나 키보드로 오면 모서리에 살짝 나타남 */
+@media (hover: hover) and (pointer: fine) {
+  .tcard-big { padding: 0 14px 0 12px; }
+  .tcard-big span { display: inline; }
+  .tcard-media:not(.is-big) .tcard-big { opacity: 0; pointer-events: none; transition: opacity .18s ease; }
+  .tcard-media:not(.is-big):hover .tcard-big, .tcard-media.is-hot:not(.is-big) .tcard-big, .tcard-media:not(.is-big) .tcard-big:focus-visible { opacity: 1; pointer-events: auto; }
+}
+/* 터치: 글자 없는 작은 돋보기(44px)만 오른쪽 위 모서리, 닫기 단추 옆. 자막(아래)과 제목 표지(왼쪽 위)는 가리지 않음 */
+.tcard-media.is-big .tcard-big { right: max(64px, calc(env(safe-area-inset-right) + 60px)); top: max(8px, env(safe-area-inset-top)); padding: 0 14px; background: #fff; }
+.tcard-media.is-big .tcard-big span { display: inline; }
+.tcard-media.is-big .tcard-close { right: max(8px, env(safe-area-inset-right)); top: max(8px, env(safe-area-inset-top)); }
+.tcard-ph { aspect-ratio: 16 / 9; background: #16233A; }
+.tcard-media.is-big { position: fixed; inset: 0; z-index: 1000; aspect-ratio: auto; background: #16233A; display: grid; place-items: center; animation: tbig-in .18s var(--pm-ease); }
 .tcard-media.is-big iframe { position: relative; width: min(100vw, calc(100vh * 16 / 9)); height: auto; aspect-ratio: 16 / 9; }
+@keyframes tbig-in { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: none; } }
 .t-big-open, .t-big-open body { overflow: hidden; }
+/* 카드가 떠오르는 효과(transform)가 남아 있으면 fixed 가 카드 안에 갇힘 → 켜진 동안은 끈다 */
+.t-big-open .tcard { transform: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) { .tcard-media.is-big { animation: none; } .tcard-media .tcard-big { transition: none; } }
 
 .t-pattern { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .t-pattern li { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px; font-weight: 800; font-size: var(--pm-fs-sm); }

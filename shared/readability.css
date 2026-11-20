@@ -83,7 +83,14 @@
 @media (max-width: 520px) { .dc-tags .pm-chip { padding: 1px 8px; } }
 
 /* 7. 화면 그림 — 눌러서 크게 보기 (shared/zoom.js) */
-.zm-btn { position: absolute; right: 8px; bottom: 8px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: rgba(18, 32, 58, .88); color: #fff; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px -4px rgba(18, 32, 58, .5); }
+.zm-btn { position: absolute; right: 8px; bottom: 8px; z-index: 3; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 12px; border: 0; border-radius: 999px; background: rgba(18, 32, 58, .82); color: #fff; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px -4px rgba(18, 32, 58, .5); }
+.zm-btn span { display: none; }
+/* 터치: 글자 없는 44px 돋보기만 모서리에 작게. 마우스: 평소엔 숨기고 그림에 올리거나 키보드로 오면 나타남 */
+@media (hover: hover) and (pointer: fine) {
+  .zm-btn span { display: inline; }
+  .zm-host > .zm-btn { opacity: 0; pointer-events: none; transition: opacity .18s ease; }
+  .zm-host:hover > .zm-btn, .zm-host > .zm-btn:focus-visible { opacity: 1; pointer-events: auto; }
+}
 .zm-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 .zm-btn:focus-visible { outline: 3px solid #F59E0B; outline-offset: 2px; }
 .zm-host { position: relative; }

@@ -95,7 +95,7 @@
     Array.prototype.forEach.call(box.children, function (ch) {
       if (ch.classList && ch.classList.contains('zm-btn')) return;
       var c = ch.cloneNode(true);
-      if (c.tagName === 'IMG') { c.removeAttribute('loading'); c.removeAttribute('width'); c.removeAttribute('height'); c.className = ''; }
+      if (c.tagName === 'IMG') { c.decoding = 'async'; c.removeAttribute('loading'); c.removeAttribute('width'); c.removeAttribute('height'); c.className = ''; }
       frame.appendChild(c);
     });
     frame.style.overflow = 'visible';
@@ -113,6 +113,7 @@
       stage.scrollLeft = Math.max(0, frame.offsetWidth * (left + wid / 2) / 100 - stage.clientWidth / 2 + 12);
       stage.scrollTop = Math.max(0, frame.offsetHeight * (top + hei / 2) / 100 - stage.clientHeight / 2 + 12);
     }
+    try { history.pushState({ zm: 1 }, ''); } catch (e) { }
     closeBtn.focus();
   }
 
@@ -122,11 +123,13 @@
     frame.innerHTML = '';
     document.documentElement.classList.remove('zm-open');
     if (lastFocus && lastFocus.focus) lastFocus.focus();
+    try { if (history.state && history.state.zm) history.back(); } catch (e) { }
   }
 
   var t = 0;
   new MutationObserver(function () { clearTimeout(t); t = setTimeout(enhance, 60); })
     .observe(document.body, { childList: true, subtree: true });
+  window.addEventListener('popstate', close);
   window.addEventListener('resize', function () { if (view && !view.hidden) size(fitted); });
   enhance();
 })();

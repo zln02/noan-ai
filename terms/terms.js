@@ -72,7 +72,7 @@
     }
     media.className = 'tcard-media is-playing';
     media.innerHTML = inner + '<button type="button" class="tcard-close" aria-label="' + esc(name) + ' 닫고 그림으로 돌아가기">' + CLOSE + '</button>' +
-      '<button type="button" class="tcard-big" aria-pressed="false">' + BIG + '<span>크게 보기</span></button>';
+      '<button type="button" class="tcard-big" aria-pressed="false" aria-label="' + esc(name) + ' 크게 보기">' + BIG + '<span>크게 보기</span></button>';
     var fr = media.querySelector('iframe');
     var vd = media.querySelector('video');
     if (fr) {
@@ -82,15 +82,49 @@
     }
     if (vd) { vd.play(); }
     var big = media.querySelector('.tcard-big');
-    function setBig(on) {
-      media.classList.toggle('is-big', on); document.documentElement.classList.toggle('t-big-open', on);
-      big.setAttribute('aria-pressed', on ? 'true' : 'false'); big.lastChild.textContent = on ? '작게 보기' : '크게 보기';
-      if (on) { document.addEventListener('keydown', onKey); } else { document.removeEventListener('keydown', onKey); }
+    var ph = null;
+    function label(on) { var t = on ? '작게 보기' : '크게 보기'; big.lastChild.textContent = t; big.setAttribute('aria-label', name + ' ' + t); big.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+    label(false);
+    /* 같은 iframe 을 그대로 두고 class 만 바꾼다 (다시 불러오지 않음). 자리는 빈 상자로 남겨 아래 글이 움직이지 않게 한다. */
+    function show() {
+      if (media.classList.contains('is-big')) return;
+      ph = document.createElement('div'); ph.className = 'tcard-ph'; ph.setAttribute('aria-hidden', 'true');
+      ph.style.height = media.offsetHeight + 'px';
+      media.parentNode.insertBefore(ph, media);
+      media.classList.add('is-big'); document.documentElement.classList.add('t-big-open');
+      label(true);
+      document.addEventListener('keydown', onKey); window.addEventListener('popstate', onPop);
+      try { history.pushState({ tbig: 1 }, ''); } catch (e) { }
+      big.focus();
     }
-    function onKey(e) { if (e.key === 'Escape') { setBig(false); big.focus(); } }
-    big.addEventListener('click', function () { setBig(!media.classList.contains('is-big')); });
+    function hide(focusBtn) {
+      if (!media.classList.contains('is-big')) return;
+      media.classList.remove('is-big'); document.documentElement.classList.remove('t-big-open');
+      if (ph && ph.parentNode) ph.parentNode.removeChild(ph); ph = null;
+      label(false);
+      document.removeEventListener('keydown', onKey); window.removeEventListener('popstate', onPop);
+      if (focusBtn) big.focus();
+    }
+    function setBig(on, focusBtn) {
+      if (on) { show(); return; }
+      var had = media.classList.contains('is-big');
+      hide(focusBtn);
+      if (had) { try { if (history.state && history.state.tbig) history.back(); } catch (e) { } }
+    }
+    function onPop() { hide(true); }
+    function onKey(e) { if (e.key === 'Escape' || e.key === 'Esc') { e.preventDefault(); setBig(false, true); } }
+    /* 그림(iframe) 안에서는 부모의 :hover 가 안 먹으므로, 그림이 알려 주는 신호로 마우스 올림을 안다 */
+    var hotT = 0;
+    function onMsg(e) {
+      if (!fr || e.source !== fr.contentWindow) return;
+      if (e.data === 'noan-esc') { if (media.classList.contains('is-big')) setBig(false, true); }
+      else if (e.data === 'noan-hot') { media.classList.add('is-hot'); clearTimeout(hotT); hotT = setTimeout(function () { media.classList.remove('is-hot'); }, 2200); }
+      else if (e.data === 'noan-cold') { clearTimeout(hotT); media.classList.remove('is-hot'); }
+    }
+    window.addEventListener('message', onMsg);
+    big.addEventListener('click', function () { setBig(!media.classList.contains('is-big'), true); });
     media.querySelector('.tcard-close').addEventListener('click', function () {
-      setBig(false);
+      setBig(false); window.removeEventListener('message', onMsg); clearTimeout(hotT);
       media.className = 'tcard-media';
       media.innerHTML = saved;
       var b = media.querySelector('button.tcard-frame');
