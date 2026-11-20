@@ -151,3 +151,45 @@ header .g-nav-cta, header .p-nav-cta { font-size: 15px; }
 .g-sort select { min-height: 44px; }
 .g-footer-links a { padding: 0 8px; min-width: 44px; justify-content: center; }
 @media (max-width: 859px) { .tabbar a { font-size: 13.5px; letter-spacing: -.02em; } }
+
+/* 10. 키워드 정리 2026-11 (docs/ux/keyword-copy-2026-11.md)
+   문장 대신 「굵은 낱말 + 짧은 한 줄」. 쪽 맨 위 「이 페이지에서 할 수 있는 것」 세 줄, 긴 설명은 「더 보기」로 접는다. */
+.kw-can { max-width: var(--rd-measure); margin: 16px 0 20px; padding: 14px 16px 12px; border-radius: var(--pm-r-sm, 12px);
+  background: var(--pm-sky, #EAF3FF); border: 1px solid var(--pm-sky-line, #CFE2FB); color: var(--pm-ink, #12203A); text-align: left; }
+.kw-can > h2, .kw-can > p.kw-can-h { margin: 0 0 8px; font-size: 16px; font-weight: 800; line-height: 1.4; color: var(--pm-sky-ink, #0B5FC0); letter-spacing: 0; }
+.kw-can ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; counter-reset: kw; }
+.kw-can li { position: relative; padding-left: 32px; font-size: 16px; line-height: 1.55; counter-increment: kw; }
+.kw-can li::before { content: counter(kw); position: absolute; left: 0; top: 1px; width: 23px; height: 23px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; background: var(--pm-sky-ink, #0B5FC0); color: #fff; font-size: 14px; font-weight: 800; line-height: 1; }
+.kw-can li b { font-weight: 800; }
+.kw-can a { font-weight: 700; }
+
+/* 라벨 · 값 줄 — <dl class="kw-rows"><div><dt>위치</dt><dd>도구모음 2쪽</dd></div>… */
+.kw-rows { display: grid; gap: 8px; margin: 10px 0; padding: 0; max-width: var(--rd-measure); }
+.kw-rows > div { display: grid; grid-template-columns: 4.6em 1fr; gap: 10px; align-items: baseline; }
+.kw-rows dt { margin: 0; font-size: 14px; font-weight: 800; line-height: 1.5; color: var(--pm-ink-2, #3C4F66); }
+.kw-rows dd { margin: 0; font-size: 16px; line-height: 1.55; color: var(--pm-ink, #12203A); }
+
+/* 낱말 칩 — <ul class="kw-chips"><li><b>시간</b> 3분</li>… */
+.kw-chips { display: flex; flex-wrap: wrap; gap: 6px 8px; list-style: none; margin: 10px 0; padding: 0; }
+.kw-chips > li { display: inline-flex; align-items: baseline; gap: 6px; min-height: 32px; padding: 4px 12px; border-radius: 999px;
+  background: var(--pm-sunken, #F5F8FD); border: 1px solid var(--pm-border-2, #D3DFEE); font-size: 16px; line-height: 1.45; color: var(--pm-ink, #12203A); }
+.kw-chips > li > b { font-size: 14px; font-weight: 800; color: var(--pm-ink-2, #3C4F66); }
+
+/* 더 보기 — 네이티브 <details class="kw-more"><summary>더 보기</summary>… */
+.kw-more { margin: 8px 0; max-width: var(--rd-measure); }
+.kw-more > summary { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 2px; cursor: pointer;
+  font-size: 16px; font-weight: 700; color: var(--pm-sky-ink, #0B5FC0); list-style: none; }
+.kw-more > summary::-webkit-details-marker { display: none; }
+.kw-more > summary::before { content: "+"; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px;
+  border-radius: 50%; border: 1.5px solid currentColor; font-size: 16px; line-height: 1; }
+.kw-more[open] > summary::before { content: "−"; }
+.kw-more > :not(summary) { font-size: 16px; line-height: 1.6; }
+.kw-more p { margin: 6px 0; }
+@media (max-width: 380px) { .kw-rows > div { grid-template-columns: 4.2em 1fr; gap: 8px; } }
+/* 홈 · 안내서 카드에 쓰는 키워드 칸 */
+.g-kw-can { margin: 14px 0 18px; }
+.g-kw-chips { margin: 4px 0 16px; }
+.g-src-more { margin: 4px 0 16px; }
+.g-src-more .g-evidence { margin-top: 6px; }
+.g-gl-body .kw-more { margin: 6px 0 0; }

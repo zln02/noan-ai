@@ -176,7 +176,7 @@ function stepsHtml(task) {
         '<span class="g-step-no">' + (i + 1) + '</span>' +
         '<div class="g-step-main">' +
           '<h3>' + esc(step) + '</h3>' +
-          (here ? '<p class="g-step-pointer">↑ 위 「지시서」 칸에서 복사해 붙여넣습니다.</p>' : '') +
+          (here ? '<p class="g-step-pointer">↑ 위 「지시서」를 복사해 붙여넣어요.</p>' : '') +
           (file ?
             '<div class="g-shot-wrap g-step-shot">' +
               '<img class="g-shot-img" src="assets/guide/' + esc(file) +
@@ -244,13 +244,14 @@ function timePillHtml(task) {
 }
 
 function minsHtml(task) {
+  /* 키워드 칩 한 줄 — 도구 · 시간(초기 추정) · 단계 수. 숫자는 지어내지 않고 min·steps 를 쓴다. */
   var mins = task.min || [0, 0];
+  var chips = '<li><b>도구</b> ' + esc(task.tool) + '</li>';
 
-  if (!mins[0]) return '';
+  if (mins[0]) chips += '<li><b>시간</b> 보통 ' + esc(mins[0]) + '분 → ' + esc(mins[1]) + '분 (초기 추정)</li>';
+  chips += '<li><b>단계</b> ' + task.steps.length + '단계</li>';
 
-  return '<p class="g-mins">보통 <b>' + esc(mins[0]) +
-    '분</b> 걸리던 일이 <b>' + esc(mins[1]) +
-    '분</b> 쯤으로 줄어듭니다. — 초기 추정입니다. 해보시고 알려주세요.</p>';
+  return '<ul class="kw-chips g-kw-chips" aria-label="한 줄 요약">' + chips + '</ul>';
 }
 
 function manualsHtml(task) {
@@ -311,23 +312,23 @@ function pagerBottomHtml(index) {
   '</nav>';
 }
 
-/* 한눈에 카드 — 쇼츠처럼 필요한 것만: 무엇을 · 어디서 · 지시서 · 결과 예시 · 주의 */
+/* 한눈에 카드 — 칸은 넷만: 무엇을 · 어디서 · 어떻게 · 주의. 결과 예시와 긴 주의는 「더 보기」로 접는다. */
 function glanceHtml(task) {
   var path = (task.path || []).map(function (p, i, all) {
     return '<li' + (i === all.length - 1 ? ' class="is-last"' : '') + '><span>' + esc(p) + '</span></li>';
   }).join('');
   var lines = (task.result_example || []).slice(0, 3);
   var order = task.prompt ? promptHtml(task) + noteHtml(task) :
-    '<p class="g-gl-noprompt">' + esc(task.prompt_note || '지시서 없이 화면 순서대로 하면 됩니다.') + '</p>';
+    '<p class="g-gl-noprompt">' + esc(task.prompt_note || '지시서 없이 화면 순서대로 하면 돼요.') + '</p>';
+  var result = lines.length ? '<details class="kw-more g-gl-more"><summary>결과 예시 보기</summary><ul class="g-gl-result">' +
+      lines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul><small>' + esc(task.result_note || '가상 정보로 만든 결과 구성 예시') + '</small></details>' : '';
   var full = task.caution && task.caution_one && task.caution !== task.caution_one;
   return '<section class="g-glance" aria-label="한눈에">' +
     '<div class="g-gl-row is-what"><span class="g-gl-lab">무엇을</span><p class="g-gl-what">' + esc(task.what || task.when) + '</p></div>' +
     (path ? '<div class="g-gl-row is-where"><span class="g-gl-lab">어디서</span><ol class="g-pills" aria-label="여는 길">' + path + '</ol></div>' : '') +
-    '<div class="g-gl-row is-order"><span class="g-gl-lab">지시서</span><div class="g-gl-body">' + order + '</div></div>' +
-    (lines.length ? '<div class="g-gl-row is-result"><span class="g-gl-lab">결과 예시</span><div class="g-gl-body"><ul class="g-gl-result">' +
-      lines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul><small>' + esc(task.result_note || '가상 정보로 만든 결과 구성 예시') + '</small></div></div>' : '') +
+    '<div class="g-gl-row is-order"><span class="g-gl-lab">어떻게</span><div class="g-gl-body">' + order + result + '</div></div>' +
     (task.caution ? '<div class="g-gl-row is-caution"><span class="g-gl-lab">주의</span><div class="g-gl-body"><p class="g-gl-caution">' + esc(task.caution_one || task.caution) + '</p>' +
-      (full ? '<details class="g-gl-more"><summary>자세히</summary><p>' + esc(task.caution) + '</p></details>' : '') + '</div></div>' : '') +
+      (full ? '<details class="kw-more g-gl-more"><summary>자세히</summary><p>' + esc(task.caution) + '</p></details>' : '') + '</div></div>' : '') +
   '</section>';
 }
 
@@ -359,14 +360,11 @@ function renderDetail(task, index) {
 
     '<div class="g-detail-body">' +
       '<p class="g-when-line"><b>이럴 때</b> ' + esc(task.when) + '</p>' +
-      glanceHtml(task) +
       minsHtml(task) +
+      glanceHtml(task) +
 
-      '<section class="g-section">' +
-        '<h2>도구와 근거</h2>' +
-        '<p class="g-tool-line">도구: ' + esc(task.tool) + '</p>' +
-        evidenceHtml(task) +
-      '</section>' +
+      (task.sources && task.sources.length ?
+        '<details class="kw-more g-src-more"><summary>근거 · 확인한 날</summary>' + evidenceHtml(task) + '</details>' : '') +
 
       '<section class="g-section g-steps-section">' +
         '<h2>' + task.steps.length + '단계 사용법</h2>' +
