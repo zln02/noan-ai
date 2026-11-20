@@ -1,0 +1,153 @@
+/* shared/readability.css — 가독성 손질 2026-11 (docs/ux/readability-2026-11.md)
+   맨 마지막 스타일시트로 읽는다. 기존 토큰·클래스는 그대로 두고 여기서 덮어쓴다.
+   수업 도구(studio/)는 이 파일을 읽지 않는다.
+   원칙: 본문 16px 이상 · 작은 글씨도 14px 이상 · 줄 간격 1.6 안팎 · PC 한 줄 40em 안쪽 · 누르는 곳 44px 이상. */
+
+/* 1. 글자 크기 토큰 — 15px 본문을 16px로, 13px 보조 글씨를 14px로 */
+:root {
+  --pm-fs-xs: 14px;
+  --pm-fs-sm: 16px;
+  --rd-measure: 40em;
+}
+
+/* 2. 값을 직접 적어 둔 곳 (토큰을 안 쓰는 글씨) */
+/* 공통 꼬리말·머리글 */
+.p-footer-grid, .p-footer-grid p, .p-footer-grid a, .p-footer-grid strong,
+.g-footer-slogan, .g-footer-coordinator, .g-footer-coordinator p, .g-footer-coordinator strong, .g-footer-links a { font-size: 14px; line-height: 1.6; }
+.p-footer-grid a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; }
+.need, .pm-chip, .pm-eyebrow, .pm-hero-meta span { font-size: 14px; }
+.checked { font-size: 14px; line-height: 1.6; }
+
+/* 홈 · 업무별 안내서 목록 */
+.g-card-desc, .g-card .g-card-desc { font-size: 16px; line-height: 1.55; }
+.g-tool-pill { font-size: 14px; }
+.g-tip p, .g-support-copy p, .g-section-heading p, .g-first-heading p { font-size: 16px; line-height: 1.6; }
+.g-popular-scroll button { font-size: 15px; }
+.g-tabs button small { font-size: 13px; }
+/* 안내서 카드 · 한눈에 */
+.g-when-line { font-size: 16px; }
+.g-gl-result { font-size: 16px; line-height: 1.6; }
+.g-gl-body small { font-size: 14px; line-height: 1.5; }
+.g-gl-more { font-size: 16px; }
+.g-gl-more summary { min-height: 44px; }
+.g-shot-caption, .g-result-note, .g-result-shot figcaption { font-size: 15px; line-height: 1.55; }
+.g-mark span { font-size: 13px; }
+
+/* 아이모두 */
+.im-p b { font-size: 14px; }
+.dc-h small, .dc-depth, .dc-group, .dc-shot figcaption, .dc-f small { font-size: 14px; }
+.dc-shot figcaption { line-height: 1.55; color: var(--pm-ink-2); }
+
+/* AI 알기 · 4가지 AI · AI가 답하는 과정 */
+.tc-lab, .tcard-dur { font-size: 14px; }
+.ai-note, .ai-sec h3 { font-size: 14px; }
+.flow-real, .flow-use { font-size: 16px; }
+.flow-food, .how-cap-p { font-size: 14px; }
+.how-cap-f, .how-att-h small { font-size: 13px; }
+
+/* 연수 · 도움 */
+.p-row-copy span, .p-res-copy, .p-list-help, .p-note, .p-row-date { font-size: 15px; }
+.page-training .p-panel li, .page-training td, .page-training th, .dial-text { font-size: 16px; }
+.hq-a p, .hj-card p, .hw-last, .hj-stuck, .page-request .p-panel p { font-size: 16px; }
+.hj-chip { font-size: 13.5px; }
+
+/* 3. 줄 길이 — PC에서 한 줄이 너무 길지 않게 (한글 약 40자) */
+.checked, .im-list li, .im-faq-a, .im-tool p, .im-note, .st-list li, .st-copy, .st-b, .p-detail-lede, .hq-a p,
+.pm-callout p, .pm-steps > li > span, .dc-open, .dc-steps, .dc-ul, .tc-row p, .tcard-meaning, .flow-real, .flow-use, .ai-sum {
+  max-width: var(--rd-measure);
+}
+.pm-head p, .page-hero p { max-width: 42em; }
+
+/* 4. 줄 간격 — 한글 본문 1.6 안팎 */
+.pm-callout, .pm-callout p, .im-list li, .dc-common .im-list li { line-height: 1.65; }
+
+/* 5. 누르는 곳 44px */
+.g-nav-cta, .p-nav-cta { min-height: 44px; box-sizing: border-box; }
+.g-tabs button { min-height: 44px; }
+.printline a, .g-printbar a { display: inline-flex; align-items: center; min-height: 44px; }
+.p-res-open, .s-compat-link { min-height: 44px; }
+.tcard-caps > summary, .g-gl-more > summary { min-height: 44px; display: flex; align-items: center; }
+.how-mode, #howMode { min-height: 44px; }
+.how-ctl button, .how-dot { min-width: 44px; min-height: 44px; }
+.im-faq-link a { min-height: 44px; display: inline-flex; align-items: center; }
+
+/* 6. 도구 사전 — 묶음 제목 · 조금 더 촘촘한 줄 */
+.dc-gh { list-style: none; grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 14px 0 2px; padding: 0 4px 6px; border-bottom: 2px solid var(--pm-border); scroll-margin-top: 76px; }
+.dc-gh:first-child { margin-top: 0; }
+.dc-gh h3 { margin: 0; font-size: var(--pm-fs-lg); color: var(--pm-ink); line-height: 1.35; }
+.dc-gh b { font-size: 15px; color: var(--pm-sky-ink); font-variant-numeric: tabular-nums; }
+.dc-gh p { flex-basis: 100%; margin: 0; font-size: 15px; line-height: 1.55; color: var(--pm-ink-2); }
+.dc-card > summary { min-height: 56px; }
+.dc-one { font-size: 16px; line-height: 1.55; }
+@media (min-width: 760px) { .dc-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
+@media (max-width: 520px) { .dc-tags .pm-chip { padding: 1px 8px; } }
+
+/* 7. 화면 그림 — 눌러서 크게 보기 (shared/zoom.js) */
+.zm-btn { position: absolute; right: 8px; bottom: 8px; z-index: 3; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: rgba(18, 32, 58, .88); color: #fff; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px -4px rgba(18, 32, 58, .5); }
+.zm-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.zm-btn:focus-visible { outline: 3px solid #F59E0B; outline-offset: 2px; }
+.zm-host { position: relative; }
+.zm-host img { cursor: zoom-in; }
+.zm-view { position: fixed; inset: 0; z-index: 2147483000; display: flex; flex-direction: column; background: #0B1424; color: #fff; }
+.zm-view[hidden] { display: none; }
+.zm-bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; padding-top: max(8px, env(safe-area-inset-top)); }
+.zm-cap { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 16px; font-weight: 700; line-height: 1.45; word-break: keep-all; }
+.zm-bar button { flex: none; min-height: 44px; min-width: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .5); background: rgba(255, 255, 255, .12); color: #fff; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer; }
+.zm-bar button:focus-visible { outline: 3px solid #F59E0B; outline-offset: 2px; }
+.zm-stage { flex: 1 1 auto; overflow: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 12px; }
+.zm-stage > .zm-frame { position: relative; margin: 0 auto; background: #fff; border-radius: 8px; }
+.zm-stage > .zm-frame img { display: block; width: 100%; height: auto; cursor: default; border: 0; border-radius: 8px; max-width: none; }
+.zm-stage .zm-btn { display: none; }
+.zm-hint { margin: 0; padding: 6px 12px 10px; padding-bottom: max(10px, env(safe-area-inset-bottom)); font-size: 14px; color: #C9D6E8; text-align: center; }
+html.zm-open, html.zm-open body { overflow: hidden; }
+@media print { .zm-btn, .zm-view { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { .zm-btn, .zm-view { transition: none; animation: none; } }
+
+/* 8. 누를 곳 — 번호 동그라미 + 그림 아래 목록 (guide/home.js markHtml · markLegendHtml) */
+.g-mark-no { position: absolute; left: -13px; top: -13px; z-index: 2; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #C62B30; color: #fff; font-size: 15px; font-weight: 900; line-height: 1; box-shadow: 0 0 0 2px #fff, 0 3px 8px rgba(110, 20, 20, .35); font-variant-numeric: tabular-nums; }
+.g-mark.is-top .g-mark-no { top: 2px; }
+.g-mark.is-left .g-mark-no { left: 2px; }
+.g-step-shot .g-mark .g-mark-no { left: -6px; top: -6px; }
+.g-mark-legend { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 16px; line-height: 1.45; color: var(--g-navy, #16233A); word-break: keep-all; }
+.g-mark-legend li { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; }
+.g-mark-legend b { flex: none; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #C62B30; color: #fff; font-size: 14px; font-weight: 900; line-height: 1; }
+.g-mark-legend::before { content: "누를 곳"; flex-basis: auto; align-self: center; padding: 2px 8px; border-radius: 6px; background: #FDECEC; color: #A3243B; font-size: 14px; font-weight: 900; }
+.g-step-shot + .g-mark-legend { margin-top: 8px; }
+
+/* 9. 남은 작은 글씨 · 누르는 곳 (1차 측정 뒤 손질) */
+.g-nav-cta, .p-nav-cta { font-size: 15px; }
+.g-printbar, .g-printbar span, .g-printbar a { font-size: 14px; }
+.g-card-copy { min-height: 44px; font-size: 14px; }
+.g-card .g-fav { width: 44px; height: 44px; }
+body .hj-chip { font-size: 14px; padding: 2px 10px; }
+.hq-a p > a:only-child, .r-list a, .hj-card a { display: inline-flex; align-items: center; min-height: 44px; }
+.p-footer-grid a { padding: 0 8px; min-width: 44px; justify-content: center; }
+.p-nav > a, .g-nav > a { min-height: 44px; display: inline-flex; align-items: center; box-sizing: border-box; }
+.how-cap .how-cap-f { font-size: 14px; }
+.how-cap .how-cap-p, .how-flow .flow-real, .how-flow .flow-use { font-size: 16px; }
+.how-flow .flow-food { font-size: 14px; }
+.how-ctl .how-dot, .how-ctl #howPrev, .how-ctl #howNext { min-width: 44px; min-height: 44px; }
+.badge, .card small, .tool small { font-size: max(14px, .82em); }
+.muted, .card-lede, .steps li { max-width: var(--rd-measure); }
+.how-flow .flow-real b, .how-flow .flow-use b { font-size: 14px; }
+
+/* 10. 도움 「처음이라면 이 순서대로」 — 7칸 한 줄은 칸이 좁아 한 줄에 7~9자. 태블릿 2칸 · PC 4칸으로 */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .page-request .hj-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 16px; }
+  .page-request .hj-step:nth-child(4)::before { display: block; }
+  .page-request .hj-step:nth-child(2n)::before, .page-request .hj-step:last-child::before { display: none; }
+}
+@media (min-width: 1280px) {
+  .page-request .hj-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 16px; }
+  .page-request .hj-step:nth-child(4)::before, .page-request .hj-step:last-child::before { display: none; }
+  .page-request .hj-card { padding: 14px 16px; }
+}
+.page-request .hj-card p .hj-lab, .page-request .hj-no { font-size: 14px; }
+
+/* 11. 마지막 손질 — 더 센 선택자에 묻힌 값 */
+header .g-nav-cta, header .p-nav-cta { font-size: 15px; }
+.how-flow p.flow-real, .how-flow p.flow-use, .im-note { font-size: 16px; }
+.portal .badge, .portal .card small { font-size: 14px; }
+.g-sort select { min-height: 44px; }
+.g-footer-links a { padding: 0 8px; min-width: 44px; justify-content: center; }
+@media (max-width: 859px) { .tabbar a { font-size: 13.5px; letter-spacing: -.02em; } }
