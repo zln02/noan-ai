@@ -14,7 +14,7 @@ index.html            랜딩
 404.html              없는 쪽 안내
 training/index.html   회차 목록
 training/s1.html      1회차 덱 (슬라이드 1~24)
-training/s2.html      2회차 — 투표로 결정, 준비 중
+training/s2.html      2회차 — 「AI에게 무기를 주면」 발표자료 안내
 class/index.html      학생 수업 — 준비 중
 library/index.html    교육청 지원 도구 5 + 시작법
 library/rules.html    안전 규칙 한 장 (인쇄 A4)

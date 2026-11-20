@@ -12,5 +12,16 @@ window.SESSIONS_DATA = [
   "attendees": null,
   "survey_summary": null,
   "next": "문서 마무리 — 한컴어시스턴트"
+ },
+ {
+  "no": 2,
+  "date": "2026-11-23",
+  "time": null,
+  "title": "AI에게 무기를 주면",
+  "deck": "training/s2-deck-v2.html",
+  "minutes": 60,
+  "attendees": null,
+  "survey_summary": null,
+  "next": null
  }
 ];
