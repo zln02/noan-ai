@@ -193,3 +193,4 @@ header .g-nav-cta, header .p-nav-cta { font-size: 15px; }
 .g-src-more { margin: 4px 0 16px; }
 .g-src-more .g-evidence { margin-top: 6px; }
 .g-gl-body .kw-more { margin: 6px 0 0; }
+.g-gl-more > small { display: block; margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--pm-ink-2, #3C4F66); }
