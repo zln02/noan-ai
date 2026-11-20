@@ -33,9 +33,9 @@
       '<span class="dc-group sr-only">' + esc(t.group) + '</span></span></span>' +
       '<svg class="dc-caret" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></summary>' +
       '<div class="dc-body">' +
-        '<div class="dc-row"><h4 class="dc-h">여는 길</h4>' + path + '<p class="dc-open">' + esc(t.open) + (depth ? ' <span class="dc-depth">' + esc(t.depth + ' ' + depth) + '</span>' : '') + '</p></div>' +
-        '<div class="dc-row"><h4 class="dc-h">쓰는 법</h4><ol class="dc-steps">' + lis(t.steps) + '</ol></div>' +
-        '<div class="dc-row"><h4 class="dc-h">선생님이 만들 수 있는 것</h4><ul class="dc-ul">' + lis(t.makes) + '</ul></div>' +
+        '<div class="dc-row"><h4 class="dc-h">무엇을</h4><ul class="dc-ul">' + lis(t.makes) + '</ul></div>' +
+        '<div class="dc-row"><h4 class="dc-h">어디서</h4>' + path + '<p class="dc-open">' + esc(t.open) + (depth ? ' <span class="dc-depth">' + esc(t.depth + ' ' + depth) + '</span>' : '') + '</p></div>' +
+        '<div class="dc-row"><h4 class="dc-h">어떻게</h4><ol class="dc-steps">' + lis(t.steps) + '</ol></div>' +
         '<div class="dc-row dc-warn"><h4 class="dc-h">주의</h4><ul class="dc-ul">' + warn.join('') + lis(t.cautions) + '</ul></div>' +
         (shots ? '<div class="dc-row"><h4 class="dc-h">실제 화면 <small>(개인 정보는 가림)</small></h4><div class="dc-shots">' + shots + '</div></div>' : '') +
       '</div></details></li>';
