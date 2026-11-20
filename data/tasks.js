@@ -850,7 +850,7 @@ window.GUIDE_TASKS = {
    ],
    "prompt": null,
    "prompt_note": "「학교관리자 매뉴얼 v4.2」 p14·p17에 나오는 절차입니다. 학생용 도구를 쓰시려면 이게 첫 단추입니다.",
-   "shot": "current/home.jpg",
+   "shot": "2026-11/home.webp",
    "marks": [],
    "caution": "구글 클래스룸 연결은 신청 후 수 분에서 수 시간이 걸립니다(교사 매뉴얼 v4.0 p35). 수업 당일에 하시면 시간 안에 안 됩니다. 최소 하루 전에 해두십시오.",
    "caution_one": "클래스룸 연결은 수업 하루 전에 해 두세요.",
