@@ -116,7 +116,7 @@
     }
     function pillItem(text, worldH, o) { var g = new T.Group(); label(g, text, worldH, o, 0, 0, 0); return mk(g, { amp: 0.04 }); }
 
-    /* 1. 주문서 + 화살표 + AI 주방 */
+    /* 1. 주문서 + 화살표 + AI */
     var tkG = new T.Group();
     tkG.add(body(6.6, 1.55, 0.16, 0.22, 0xFFFDF7));
     var strip = body(6.6, 0.26, 0.2, 0.12, 0xFFD58A); strip.position.y = 0.64; tkG.add(strip);
@@ -129,7 +129,7 @@
     var arrow = mk(arG, { amp: 0.1 });
     var aiG = new T.Group();
     aiG.add(body(3.4, 1.15, 0.9, 0.34, 0xDCEBFF));
-    label(aiG, 'AI 주방', 0.6, { fg: '#0B4FA8', fs: 0.6 }, 0, 0, 0.5);
+    label(aiG, 'AI', 0.6, { fg: '#0B4FA8', fs: 0.6 }, 0, 0, 0.5);
     var aiBox = mk(aiG, { amp: 0.03 });
 
     /* 2. 토큰 + 도마 */

@@ -7,10 +7,10 @@
   var STEPS = [
     { t: '입력', f: '주문서', c: '내가 쓴 글이 AI에 들어와요' },
     { t: '토큰으로 쪼개기', f: '김밥 썰기', c: '글을 작은 조각으로 나눠요' },
-    { t: '의미 공간에 놓기', f: '비슷한 재료끼리', c: '뜻이 비슷한 조각은 가까이 놓여요' },
-    { t: '관계 보기 (어텐션)', f: '어울림 판단', c: '어느 조각이 어느 조각과 이어지는지 따져요' },
-    { t: '다음 말 하나씩 예측', f: '한 숟갈씩 뽑기', c: '후보마다 확률을 매기고 하나를 뽑아요 (숫자는 예시)' },
-    { t: '답', f: '완성 요리', c: '이어 붙인 말이 답이 돼요' }
+    { t: '의미 공간에 놓기', f: '마트 진열대', c: '뜻이 비슷한 조각은 가까이 놓여요' },
+    { t: '관계 보기 (어텐션)', f: '형광펜 긋기', c: '어느 조각이 어느 조각과 이어지는지 따져요' },
+    { t: '다음 말 하나씩 예측', f: '휴대폰 자동완성', c: '후보마다 확률을 매기고 하나를 뽑아요 (숫자는 예시)' },
+    { t: '답', f: '완성된 요리', c: '이어 붙인 말이 답이 돼요' }
   ];
   var WORDS = ['오늘', '급식', '메뉴', '추천', '해줘'];
   var TOK = [['#FFD9E4', '#F2B3C7'], ['#CDEFDB', '#9FD6B6'], ['#CDEFDB', '#9FD6B6'], ['#E6DDFF', '#BFAFF2'], ['#E6DDFF', '#BFAFF2']];
@@ -71,7 +71,7 @@
       s += G('<rect x="-300" y="-65" width="600" height="130" rx="22" fill="#FFFDF7" stroke="#EBDDBF" stroke-width="3" filter="url(#hsd)"/><path d="M-300 -37v-12a22 22 0 0 1 22-22H278a22 22 0 0 1 22 22v12z" fill="#FFD58A"/><text y="26" text-anchor="middle" font-size="42" font-weight="800" fill="#3A2E24">오늘 급식 메뉴 추천해줘</text>', 360, 205);
       s += G(pill('주문서 · 내가 쓴 글', { bg: '#FFE9A8', fg: '#6B4A00', size: 24 }), 210, 132);
       s += G('<g filter="url(#hsd)"><path d="M0 0v50" stroke="#1568D2" stroke-width="12" stroke-linecap="round"/><path d="M-26 38L0 68l26-30z" fill="#1568D2" stroke="#1568D2" stroke-width="8" stroke-linejoin="round"/></g>', 360, 300);
-      s += G('<rect x="-120" y="-38" width="240" height="76" rx="28" fill="#DCEBFF" stroke="#B9D5F8" stroke-width="3" filter="url(#hsd)"/><text y="11" text-anchor="middle" font-size="34" font-weight="800" fill="#0B4FA8">AI 주방</text>', 360, 420);
+      s += G('<rect x="-120" y="-38" width="240" height="76" rx="28" fill="#DCEBFF" stroke="#B9D5F8" stroke-width="3" filter="url(#hsd)"/><text y="11" text-anchor="middle" font-size="34" font-weight="800" fill="#0B4FA8">AI</text>', 360, 420);
     } else if (k === 1) {
       s += G('<rect x="-330" y="-26" width="660" height="52" rx="22" fill="#D9AE6F"/><rect x="-330" y="-26" width="660" height="40" rx="22" fill="#EBC993"/><rect x="-300" y="-16" width="600" height="8" rx="4" fill="#fff" opacity=".35"/>', 360, 352);
       for (i = 0; i < 5; i++) s += G(token(i), 100 + i * 130, 272);
