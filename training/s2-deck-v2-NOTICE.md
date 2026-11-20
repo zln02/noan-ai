@@ -17,17 +17,23 @@
 
 | 자산 | 출처 URL | 라이선스 | 받은 것 → 덱에서 |
 |---|---|---|---|
-| Evening Road 01 (HDRI) | https://polyhaven.com/a/evening_road_01 | CC0 | 4k .hdr → 반사용 1024×512(`env_road`), 흐린 배경(`bd_road`, `hb_road`): 표지·하네스·말 장면, 밝은 HTML 장 배경 |
+| Evening Road 01 (HDRI) | https://polyhaven.com/a/evening_road_01 | CC0 | 4k .hdr → 반사용 1024×512(`env_road`), 흐린 배경(`bd_road`, `hb_road`): 표지·하네스·마무리 장면, HTML 장 배경(만들 때 색을 빼서 먹빛으로: `build.py`의 `INK`) |
 | School Hall (HDRI) | https://polyhaven.com/a/school_hall | CC0 | 4k .hdr → `env_hall`, `bd_hall`, `hb_hall`: AI 커닝 구간(시험장) |
 | Blinds (HDRI, 실제 부엌) | https://polyhaven.com/a/blinds | CC0 | 4k .hdr → `env_kitchen`, `bd_kitchen`: 김치볶음밥 부엌 |
 | Asphalt 02 | https://polyhaven.com/a/asphalt_02 | CC0 | 1k 색·노멀·거칠기 → 「하네스」 등장 장면 바닥 |
-| Aerial Grass Rock | https://polyhaven.com/a/aerial_grass_rock | CC0 | 1k → 말 장면 풀밭 |
 | Wood Table 001 | https://polyhaven.com/a/wood_table_001 | CC0 | 1k → 책상·바닥·수레·웍 손잡이 |
 | Marble 01 | https://polyhaven.com/a/marble_01 | CC0 | 1k → 부엌 조리대 |
 | Paper 003 | https://ambientcg.com/view?id=Paper003 | CC0 | 1K-JPG zip 안 `Paper003_1K-JPG_Color.jpg` 하나만 → 시험지·레시피 종이 |
-| Horse Statue 01 (모델) | https://polyhaven.com/a/horse_statue_01 | CC0 | glTF 1k → 텍스처 512로 줄여 한 파일(`assets/m_horse.gltf`): 「하네스의 원래 뜻」 말 조각상. 손으로 만든 말보다 훨씬 나아서 |
 | RobotExpressive (모델, 뼈대·애니메이션) | https://github.com/mrdoob/three.js/tree/r128/examples/models/gltf/RobotExpressive (원작 Tomás Laulhé, 수정 Don McCurdy) | CC0 1.0 (폴더 README.md 「CC0 1.0」 직접 확인) | .glb 그대로 `assets/m_robot.glb`: 김치볶음밥 그림책의 로봇 주인공(걷기·뛰기·도리도리·끄덕·엄지척). 재질만 덱의 툰 재질로 바꿈. 사람·캐릭터 저작물이 아닌 범용 로봇이라 골랐어요 |
 | Round Spectacles (모델) | https://polyhaven.com/a/round_spectacles | CC0 | glTF 1k → `assets/m_specs.gltf`: AI 커닝 구간의 모든 안경(테는 모델 그대로, 렌즈는 덱의 유리 재질, 작은 카메라·렌즈 화면은 덱에서 덧붙임) |
+
+## 사진 (하네스의 유래 장)
+
+| 자산 | 출처 URL | 만든 사람 | 라이선스 | 받은 것 → 덱에서 |
+|---|---|---|---|---|
+| 「Three horse power.」 (목걸이 · 하메 · 끄는 줄을 채우고 밭을 가는 클라이즈데일 세 마리, 2010-04-18 촬영) | https://commons.wikimedia.org/wiki/File:Three_horse_power._(9408119676).jpg (원래 올린 곳: https://www.flickr.com/photos/volvob12b/9408119676/) | Bernard Spragg. NZ (뉴질랜드 크라이스트처치) | **CC0 1.0** (퍼블릭 도메인 기증, 출처 표시 의무 없음). 2026-11-20에 파일 쪽을 직접 열어 확인: 라이선스 틀 `{{cc-zero}}`, Flickr 검토 봇 `FlickreviewR 2`가 2021-05-09에 `cc-zero`로 통과 표시 | 1920×1321 JPEG (Commons가 만든 1920px 판) → 왼쪽 차를 잘라 16:9로, 1920×1080 JPEG `deck-v2-src/assets/p_horse.jpg`. 다시 저장하면서 EXIF(위치 정보)는 버렸어요. 색은 덱에서 CSS로 가라앉혀요(채도 0.74) |
+
+사진 속 사람은 멀리 작게 보이는 한 명뿐이라 누구인지 알아볼 수 없어요(얼굴이 또렷한 다른 후보 사진은 그래서 쓰지 않았어요). 예전의 Poly Haven 말 조각상 모델(`horse_statue_01`)은 뺐어요.
 
 ## 글꼴
 
@@ -43,12 +49,8 @@ Noto Serif KR은 이제 넣지 않아요(쓰지 않아서). Noto Sans KR은 비�
 (three.js는 이미 만든 `deck-v2.html` 안의 블록을 해시 확인 뒤 다시 씁니다. 처음부터 만들 때는 `--three <패키지>/build/three.min.js`.)
 
 CC0 자산 다시 만들기: 위 URL에서 받은 파일을 새 빈 폴더에 두고 `set PYTHONUTF8=1 && py -I docs/training/deck-v2-src/prep_assets.py --src <그 폴더>`.
+말 사진만 다시 만들기: `py -I docs/training/deck-v2-src/prep_assets.py --horse <받은 사진>`.
+「그냥 AI」 비교 화면 다시 찍기: `py docs/training/deck-v2-src/recapture_bare.py` → `deck-v2-src/compare-bare/*.png` (원본 결과물은 `compare/raw/`, 내용은 그대로 두고 찍는 창 크기만 맞춰요).
 WebGL이 없을 때 보여 줄 장면 사진: `py docs/training/deck-v2-src/shoot.py --stills` → `deck-v2-src/stills/*.jpg` → build.py를 다시 돌리면 들어가요.
 
 `docs/training/compare/` 화면(시연 결과 캡처)은 있으면 만들 때 JPEG data URI로 넣고, 없으면 「결과 화면 들어갈 자리」 틀을 보여 줍니다.
-
-## 2회차 안내 쪽(`training/s2.html`)에 쓴 사진
-
-| 파일 | 원본 | 만든 사람 | 라이선스 | 손질 |
-|---|---|---|---|---|
-| `training/assets/s2/horse.jpg` | 「Three horse power.」 https://commons.wikimedia.org/wiki/File:Three_horse_power._(9408119676).jpg | Bernard Spragg. NZ | CC0 1.0 | 덱용 16:9 판(교사 스튜디오 `deck-v2-src/assets/p_horse.jpg`)을 800×450 JPEG로 줄임. EXIF 없음 |
