@@ -57,15 +57,31 @@ function findTask(key) {
   return -1;
 }
 
-function markHtml(mark) {
-  var label = mark[4] ? '<span>' + esc(mark[4]) + '</span>' : '';
-
-  return '<span class="g-mark" style="left:' + Number(mark[0]) +
-    '%;top:' + Number(mark[1]) +
+/* 누를 곳 표시 — 빨간 상자 + 번호 동그라미. 이름은 그림 아래 「누를 곳」 목록(markLegendHtml)에 16px 글씨로 적는다.
+   (예전처럼 이름표를 그림 위에 얹으면 폰에서 글씨가 12px로 작아지고, 옆 상자를 가리거나 그림 밖으로 잘렸다.) */
+function markHtml(mark, i) {
+  var x = Number(mark[0]), y = Number(mark[1]);
+  var cls = 'g-mark' + (y < 6 ? ' is-top' : '') + (x < 4 ? ' is-left' : '');
+  return '<span class="' + cls + '" style="left:' + x +
+    '%;top:' + y +
     '%;width:' + Number(mark[2]) +
     '%;height:' + Number(mark[3]) + '%">' +
-    label +
+    '<b class="g-mark-no" aria-hidden="true">' + (i + 1) + '</b>' +
   '</span>';
+}
+
+function markName(mark) {
+  return String(mark[4] || '').replace(/^[①-⑳]\s*/, '');
+}
+
+function markLegendHtml(marks) {
+  var named = (marks || []).filter(function (m) { return m[4]; });
+  if (!named.length) return '';
+  return '<ol class="g-mark-legend" aria-label="누를 곳">' +
+    (marks || []).map(function (m, i) {
+      return m[4] ? '<li><b aria-hidden="true">' + (i + 1) + '</b><span>' + esc(markName(m)) + '</span></li>' : '';
+    }).join('') +
+  '</ol>';
 }
 
 function shotHtml(task) {
@@ -88,7 +104,8 @@ function shotHtml(task) {
       '<img class="g-shot-img" src="assets/guide/' + esc(file) +
         '" alt="' + alt + '">' +
       (array ? '' : (task.marks || []).map(markHtml).join('')) +
-    '</div>';
+    '</div>' +
+    (array ? '' : markLegendHtml(task.marks));
   }).join('');
 
   return '<section class="g-section g-shot-section' + (many ? ' g-shot-many' : '') + '" hidden>' +
@@ -165,7 +182,7 @@ function stepsHtml(task) {
               '<img class="g-shot-img" src="assets/guide/' + esc(file) +
                 '" alt="' + esc(task.title) + ' ' + (i + 1) + '단계 화면">' +
               marks.map(markHtml).join('') +
-            '</div>' : '') +
+            '</div>' + markLegendHtml(marks) : '') +
         '</div>' +
       '</li>';
     }).join('') +
@@ -446,6 +463,8 @@ function bindShotFallback() {
     if (ok) {
       if (inSection) sectionShown++;
     } else if (wrap && wrap.parentNode) {
+      var legend = wrap.nextElementSibling;
+      if (legend && legend.classList.contains('g-mark-legend')) legend.parentNode.removeChild(legend);
       wrap.parentNode.removeChild(wrap);
     }
 
