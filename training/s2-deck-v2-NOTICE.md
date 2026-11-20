@@ -35,6 +35,37 @@
 
 사진 속 사람은 멀리 작게 보이는 한 명뿐이라 누구인지 알아볼 수 없어요(얼굴이 또렷한 다른 후보 사진은 그래서 쓰지 않았어요). 예전의 Poly Haven 말 조각상 모델(`horse_statue_01`)은 뺐어요.
 
+## 상표 · 로고 (「AI 회사들도 하네스로 경쟁해요」 장)
+
+이 장은 세 앱을 **가리키려고만**(지명적 사용) 이름과 로고를 써요. 어느 회사와도 제휴·후원·보증 관계가 없고, 화면 아래에 「각 상표는 해당 회사의 소유입니다. 비교 설명용.」을 적었어요. 2026-11-20에 각 회사의 공식 쪽을 직접 열어 확인했어요.
+
+| 상표 | 덱에서 쓴 것 | 확인한 공식 쪽 | 규칙 (요약) | 판단 |
+|---|---|---|---|---|
+| OpenAI · ChatGPT | **공식 로고 Blossom(흰색)** `deck-v2-src/assets/logo_openai_blossom_white.svg` + 이름 글자 「ChatGPT」 | https://openai.com/brand/ (한국어판 https://openai.com/ko-KR/brand/ ). 로고 파일: 그 쪽의 「로고 다운로드」 = https://cdn.openai.com/brand/openai-logos.zip (sha256 `c54e85ab…3222db`) 안 `SVGs/OAI_OpenAI-Blossom_White.svg` (sha256 `01d15876…ce87285`) | 가이드라인을 지키는 경우에만 쓸 수 있음(사용 약관). OpenAI 서비스와 직접 관련된 경우에만 · 제공된 대로 정확하게 · OpenAI 소유임을 표시 · 보증·후원·제휴를 암시하지 않기 · 내 것보다 더 눈에 띄게 쓰지 않기 · Blossom에 색을 넣지 않기 · 복잡한 그림 위에 두지 않기 · 충분한 여백 · 굿즈·판촉물 금지 · 수정 금지. OpenAI는 언제든 허락을 거둘 수 있음 | **로고 사용.** 파일을 바이트 그대로 넣음(색·비율·여백 손대지 않음. 여백은 파일의 716×716 틀에 들어 있는 그대로), 60px로 작게, 무광 단색 판 위, ChatGPT를 설명하는 자리에만. OpenAI 워드마크와 함께 쓰지 않음 |
+| Anthropic · Claude | **이름 글자만** 「Claude」(브랜드 색 `#d97757`), 로고 없음 | https://www.anthropic.com/legal/trademark-guidelines (2024-08-01 시행) | 상표는 Anthropic이 따로 허락한 방식으로만, 그리고 미리 승인받은 자료에서만 쓸 수 있음(「only in materials we approve beforehand」). 변경 금지(색·글꼴·비율) · 주변 여백 · 후원·보증 암시 금지. 문의 marketing@anthropic.com | **로고 쓰지 않음**(사전 승인이 필요한데 받지 않았어요). 승인을 받으면 로고로 바꿀 수 있어요. 보도자료 묶음(https://www.anthropic.com/press-kit)은 받지 않았어요 |
+| Google · Gemini | **이름 글자만** 「Gemini」(Google 파랑 `#4285f4`), 로고 없음 | https://about.google/brand-resource-center/guidance/ · https://partnermarketinghub.withgoogle.com/brands/google/branding-guidelines/how-to-show-googles-brand/ (Gemini 전용 가이드 https://partnermarketinghub.withgoogle.com/brands/google-gemini/brand-introduction/ 는 로그인·승인 계정이 있어야 열려요) | 허락 없이 되는 것: 정보 전달용 **글자 표기**, 교재용 **고치지 않은 화면 캡처**. 제품 아이콘은 Partner Marketing Hub 계정을 만들고 승인 양식으로 **허락을 받아야** 함. 보증·제휴 암시 금지, 흉내 금지 | **로고 쓰지 않음**(제품 아이콘은 승인이 필요하고, Gemini 가이드를 열어 볼 수 없었어요). 글자 표기는 허락 없이 가능 |
+
+- 두 이름 글자의 색은 「어느 앱인지」 알아보게 하는 용도라, 덱의 「강조색은 둘」 규칙에서 이 장만 예외로 두었어요(이름 글자와 창 위 3px 줄뿐, 화면의 1% 안쪽).
+- 앱 화면은 **캡처가 아니라 직접 그린 그림**이에요(창 틀 + 가운데 「AI 두뇌」 + 둘레 기능 이름). 실제 화면을 흉내 내지 않았어요. 로그인한 앱 화면은 찍지 않았어요.
+- 이 덱을 책·굿즈·광고에 쓰거나 공개 배포 범위를 넓히면 위 규칙을 다시 확인해요.
+
+### 둘레에 적은 기능 이름 (2026-11-20 공식 도움말 확인)
+
+| 범주 | ChatGPT | Claude | Gemini |
+|---|---|---|---|
+| 웹 검색 | 검색 | 웹 검색 | Google 검색 **＊확인 못 함**(도움말은 「출처 및 관련 콘텐츠 표시」까지만 확인. 기능 이름은 공식 문서에서 못 찾았어요) |
+| 파일 읽기 | 파일 업로드 | 파일 업로드 (Upload files to Claude) | 파일 업로드 (Upload & analyze files) |
+| 기억 | 메모리 | 메모리 (chat search and memory) | 메모리 (2026-03-26 「과거 채팅」에서 이름 바뀜) |
+| 스킬 | 스킬 (2026-07-09 정식, 플러그인 디렉터리의 스킬 탭. Enterprise·Edu부터) | 스킬 (What are skills?) | 스킬 (2026-11부터 개인 계정의 Gems를 대신함) |
+| 깊이 조사 | 심층 리서치 | 리서치 (Use research on Claude) | Deep Research |
+| 앱 연결 | 플러그인 (2026-07-09 앱 디렉터리 → 플러그인 디렉터리. 스킬·앱을 묶음) | 커넥터 (Connectors) | 연결된 앱 |
+| 대신 일하기 | ChatGPT Work (브라우저·데스크톱 앱·파일에서 작업) | 컴퓨터 사용 (Let Claude use your computer in Cowork. Pro·Max·Ultra, 데스크톱 앱) | Gemini Spark (2026-05-19, 개인 AI 에이전트로 소개) |
+| 그림·영상 | ChatGPT 이미지 (2026-09-08 이미지 2.5). 영상 기능은 확인 못 해서 적지 않음 | **없음** (도움말: 사진·일러스트 같은 그림은 만들지 않는다고 적혀 있어요. 도표·아티팩트는 만들어요) | Nano Banana(그림) · Gemini Omni(영상, 2026-05-19) |
+
+확인한 쪽: ChatGPT https://help.openai.com/ko-kr/articles/6825453-chatgpt-release-notes · https://help.openai.com/ko-kr/articles/9260256-chatgpt-capabilities-overview / Claude https://support.claude.com/en/collections/18031719-features-and-capabilities · https://support.claude.com/en/articles/9002504-can-claude-produce-images · https://support.claude.com/en/articles/14128542-let-claude-use-your-computer-in-cowork · https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context / Gemini https://gemini.google/release-notes/ · https://support.google.com/gemini/answer/18560919?hl=ko · https://support.google.com/gemini/answer/14903178
+
+적지 않은 것: 「코드 실행」 범주(ChatGPT 「데이터 분석」, Claude 「파일 만들기」는 확인. Gemini 쪽 이름을 확인하지 못해 범주째 뺐어요). 기능은 요금제·기기·나라마다 다르고 자주 바뀌어요. Claude 한국어 화면의 이름은 영어 도움말 이름을 옮긴 것이라 실제 화면과 다를 수 있어요. 연수 전에 한 번 더 확인해요.
+
 ## 글꼴
 
 | 이름 | 버전 | 라이선스 | 어디서 | 메모 |
