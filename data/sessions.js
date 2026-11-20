@@ -16,7 +16,7 @@ window.SESSIONS_DATA = [
  {
   "no": 2,
   "date": "2026-11-23",
-  "time": null,
+  "time": "14:00",
   "title": "AI에게 무기를 주면",
   "deck": "training/s2-deck-v2.html",
   "minutes": 60,
