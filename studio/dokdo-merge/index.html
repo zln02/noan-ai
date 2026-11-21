@@ -473,15 +473,13 @@ body.on-title .fs-btn{display:flex}
 <!-- name + school (asked after the round, then saved) -->
 <section id="name" class="screen">
   <div class="box card3d">
-    <div class="nhead"><div class="gull-slot" data-slot="name"><canvas data-gull role="img" aria-label="괭이갈매기 마스코트"></canvas></div><div><span id="nameScore">0점!</span><h2>이름과 소속을 알려 줘!</h2></div></div>
-    <div class="flabel">소속 <small>(하나를 골라 주세요)</small></div>
-    <div class="orgs" id="orgs" role="group" aria-label="소속 선택"><button type="button" class="org" data-org="노안초">노안초</button><button type="button" class="org" data-org="노안남초">노안남초</button><button type="button" class="org" data-org="노안중">노안중</button></div>
-    <label class="flabel" for="nameInput">이름 <small>(랭킹에 올라가요 · 8글자까지)</small></label>
-    <input id="nameInput" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예) 김노안">
-    <p class="privacy" id="namePrivacy">🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요. 별명을 써도 괜찮아요. 입력하지 않으면 랭킹에 등록되지 않아요.</p>
+    <div class="nhead"><div class="gull-slot" data-slot="name"><canvas data-gull role="img" aria-label="괭이갈매기 마스코트"></canvas></div><div><span id="nameScore">0점!</span><h2>내 별명으로 기록해요!</h2></div></div>
+    <label class="flabel" for="nameInput">내 별명 <small>(랭킹에 올라가요)</small></label>
+    <input id="nameInput" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" readonly>
+    <p class="privacy" id="namePrivacy">🔒 기록은 이 기기에만 저장돼요. 인터넷으로 보내지 않아요.</p>
     <div id="nameMsg" role="alert"></div>
     <div class="row"><button class="clay-btn" id="goBtn"><span>기록 남기기!</span></button></div>
-    <div class="row"><button class="soft-btn" id="randBtn">🎲 별명으로 할래요</button></div>
+    <div class="row"><button class="soft-btn" id="randBtn">🎲 다른 별명</button></div>
   </div>
 </section>
 
@@ -538,16 +536,16 @@ body.on-title .fs-btn{display:flex}
       <div><label for="setMusic">배경음악</label><select id="setMusic"><option value="1">켜기</option><option value="0">끄기</option></select></div>
       <div><label for="setDemo">시작 전 게임 방법 시연</label><select id="setDemo"><option value="1">매번 보여 주기 · 기본</option><option value="0">끄기</option></select></div>
       <div><label for="setFs">터치하면 자동으로 전체 화면</label><select id="setFs"><option value="1">켜기 · 기본</option><option value="0">끄기</option></select></div>
-    </div><p id="setNote" style="margin-top:8px;font-size:13px;line-height:1.5;color:var(--muted)">시간 제한을 끈 판은 온라인 랭킹에 올라가지 않고 이 기기에만 저장돼요. 태블릿마다 같은 제한 시간으로 맞춰 주세요.</p></fieldset>
+    </div><p id="setNote" style="margin-top:8px;font-size:13px;line-height:1.5;color:var(--muted)">랭킹 기록은 이 기기에만 저장돼요. 태블릿마다 같은 제한 시간으로 맞춰 주세요.</p></fieldset>
     <fieldset><legend>랭킹 관리</legend>
       <div class="pin-note"><span>퀴즈쇼와 공통 관리자 번호</span><input id="setPin" value="" readonly aria-label="관리자 번호" aria-readonly="true"></div>
       <div class="rank-tools"><div><label for="setSeason">현재 랭킹 이름</label><input id="setSeason" maxlength="30"></div><button class="btn dan" id="clearRankBtn">새 랭킹 시작</button></div>
-      <div id="seasonRow"><span>현재 랭킹을 리셋할까요? 예전 기록은 DB에 안전하게 남습니다.</span><span><button class="btn" id="seasonNo">취소</button> <button class="btn dan" id="seasonYes">리셋</button></span></div>
+      <div id="seasonRow"><span>현재 랭킹을 새로 시작할까요? 예전 기록은 이 기기에만 남아요.</span><span><button class="btn" id="seasonNo">취소</button> <button class="btn dan" id="seasonYes">리셋</button></span></div>
       <p id="netAdmin"></p>
     </fieldset>
     <fieldset><legend>이 기기 기록 사본</legend>
       <div class="rec"><span id="recCount">기록 0개</span><button class="btn dan" id="resetBtn">이 기기 사본 지우기</button></div>
-      <div id="confirmRow"><span>이 기기에 남은 기록 사본을 지울까요? (온라인 랭킹은 그대로예요)</span><span><button class="btn" id="resetNo">취소</button> <button class="btn dan" id="resetYes">지우기</button></span></div>
+      <div id="confirmRow"><span>이 기기에 남은 기록 사본을 지울까요? (현재 랭킹 기록이 지워져요)</span><span><button class="btn" id="resetNo">취소</button> <button class="btn dan" id="resetYes">지우기</button></span></div>
     </fieldset>
     <div class="row"><button class="btn" id="adminClose">닫기</button><button class="btn pri" id="adminSave">설정 저장</button></div>
   </div>
@@ -4926,10 +4924,9 @@ window.NoanFullscreen = (function () {
     return new T3.MeshStandardMaterial(s);
   }
   var FS = null; // 전체 화면 모듈 (맨 아래에서 연결)
-  var K = {s: 'dokdoMerge.settings.v2', r: 'dokdoMerge.records.v2', q: 'dokdoMerge.pending.v2', s1: 'dokdoMerge.settings.v1'};
+  var K = {s: 'dokdoMerge.settings.v2', r: 'dokdoMerge.records.v3', old: 'dokdoMerge.records.v2', oldq: 'dokdoMerge.pending.v2', s1: 'dokdoMerge.settings.v1'};
   var ADMIN_PIN = '0000';
   var DEF = {limit: true, minutes: 5, sound: true, music: true, demo: true, season: '2026 독도의 날'};
-  var ORGS = ['노안초', '노안남초', '노안중'];
   var IDLE = {play: 60, result: 30}, TEST = {noOver: false, noMerge: false};
   var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
   var store = {
@@ -6026,139 +6023,44 @@ window.NoanFullscreen = (function () {
   }
   function clearFacts() { factQ = []; factBusy = false; clearTimeout(factTimer); $('fact').classList.remove('on'); }
 
-  /* ===== ranking: online DB (Supabase), same pattern as the memory game =====
-     - the publishable key can only insert and select; RLS blocks update/delete (dashboard only).
-     - offline: save on this device first (pending queue) and upload when the connection is back.
-     - records with the same season name are ranked together; admin 「랭킹 리셋」 starts a new season. */
-  var CLOUD = {url: 'https://dovpodhwmredayldjrvb.supabase.co/rest/v1/dokdo_merge_scores', key: 'sb_publishable_T5RxDUQ0qOjSfUqbwmqYxw_z0afNxi_'};
-  var MS_MAX = 3600000, SCORE_MAX = 1000000; // server check constraints
+  /* ===== ranking: local only (this device / this browser). Nothing is sent over the network. ===== */
+  var MS_MAX = 3600000;
   var Board = (function () {
-    var online = false, held = 0, cache = {top: [], count: 0, local: true}; // held: queued records the server refuses for now
+    var cache = {top: [], count: 0, local: true};
     function season() { return settings.season || DEF.season; }
-    var SEASON_URL = CLOUD.url.replace(/\/[^/]+$/, '/dokdo_seasons');
-    var seasonRev = 0, syncingSeason = null;
-    function applySeason(name) {
-      settings.season = name; saveSettings();
-      cache = {top: [], count: 0, local: true};
-      return refresh().then(function () { if (G.phase === 'title') drawTitle(); });
+    function list(k) { var a = store.get(k, []); return Array.isArray(a) ? a.filter(function (e) { return e && typeof e.id === 'string' && isFinite(+e.score); }) : []; }
+    function records() { return list(K.r); }
+    function mine(l) { var sn = season(); return l.filter(function (e) { return e.season === sn; }); }
+    function sorted(l) { return l.slice().sort(function (a, b) { return b.score - a.score || (a.t || 0) - (b.t || 0); }); }
+    function view(e) { return {id: String(e.id || ''), name: cleanName(e.name) || '별명 없음', org: '', score: Math.max(0, Math.round(+e.score) || 0), top: clamp(Math.round(+e.top) || 1, 1, MAXL), t: +e.t || 0}; }
+    function fromLocal() { var l = sorted(mine(records())); return {top: l.slice(0, 10).map(view), count: l.length, local: true}; }
+    function drawStatus() {
+      [].forEach.call(document.querySelectorAll('[data-net]'), function (el) { el.className = 'net off'; el.textContent = '이 기기에만 저장돼요'; });
     }
-    function syncSeason() {
-      if (syncingSeason) return syncingSeason;
-      var rev = seasonRev;
-      syncingSeason = req('?select=season&game=eq.merge&order=id.desc&limit=1', {url: SEASON_URL})
-        .then(function (r) { if (!r.ok) throw new Error('season-read-' + r.status); return r.json(); })
-        .then(function (rows) {
-          if (rev !== seasonRev) return;
-          var name = rows && rows[0] && String(rows[0].season || '').trim();
-          if (name && name !== season()) return applySeason(name);
-        }).catch(function () { return null; })
-        .then(function (result) { syncingSeason = null; return result; });
-      return syncingSeason;
-    }
+    function refresh() { cache = fromLocal(); drawStatus(); return Promise.resolve(cache); }
     function newSeason(name) {
       name = String(name || '').trim().slice(0, 30);
       if (!name) return Promise.reject(new Error('empty-season'));
-      seasonRev++;
-      return req('', {url: SEASON_URL, method: 'POST', body: JSON.stringify({game: 'merge', season: name}), headers: {Prefer: 'return=minimal'}})
-        .then(function (r) { if (!r.ok) throw new Error('season-write-' + r.status); seasonRev++; return applySeason(name); });
-    }
-    function list(k) { var a = store.get(k, []); return Array.isArray(a) ? a.filter(function (e) { return e && typeof e.id === 'string' && isFinite(+e.score); }) : []; }
-    function records() { return list(K.r); }
-    function queue() { return list(K.q); }
-    function mine(l) { var sn = season(); return l.filter(function (e) { return e.season === sn; }); }
-    function sorted(l) { return l.slice().sort(function (a, b) { return b.score - a.score || (a.t || 0) - (b.t || 0); }); }
-    function view(e) { return {id: String(e.id || ''), name: cleanName(e.name) || '이름 없음', org: ORGS.indexOf(e.org) >= 0 ? e.org : '', score: Math.max(0, Math.round(+e.score) || 0), top: clamp(Math.round(+e.top) || 1, 1, MAXL), t: +e.t || 0}; }
-    function fromLocal() { var l = sorted(mine(records())); return {top: l.slice(0, 10).map(view), count: l.length, local: true}; }
-    function req(qs, opt) {
-      if (!navigator.onLine) return Promise.reject(new Error('offline'));
-      var ctl = window.AbortController ? new AbortController() : null, tm = setTimeout(function () { if (ctl) ctl.abort(); }, 5000);
-      opt = opt || {};
-      return fetch((opt.url || CLOUD.url) + qs, {method: opt.method || 'GET', cache: 'no-store', signal: ctl && ctl.signal, body: opt.body,
-        headers: Object.assign({apikey: CLOUD.key, 'Content-Type': 'application/json'}, opt.headers || {})})
-        .then(function (r) { clearTimeout(tm); return r; }, function (e) { clearTimeout(tm); throw e; });
-    }
-    function filt() { return 'season=eq.' + encodeURIComponent(season()); }
-    function total(r) { var cr = r.headers.get('content-range') || ''; var n = +(cr.split('/')[1] || 0); return isNaN(n) ? 0 : n; }
-    function row(e) { return {client_id: e.id, season: e.season, name: e.name, org: e.org || '', score: e.score, max_level: e.top, ms: e.ms}; }
-    // 'done' = stored (or a duplicate / an invalid record that will never be accepted),
-    // 'held' = server refuses it for now (check constraint 23514, endpoint 404) -> keep and retry,
-    // 'net'  = network or server error -> keep and retry
-    function push(e) {
-      return req('', {method: 'POST', body: JSON.stringify(row(e)), headers: {Prefer: 'return=minimal'}})
-        .then(function (r) {
-          if (r.ok || r.status === 409) return 'done';
-          if (r.status === 404) return 'held';
-          if (r.status === 400) return r.json().then(function (b) { return b && String(b.code) === '23514' ? 'held' : 'done'; }, function () { return 'done'; });
-          if (r.status >= 400 && r.status < 500 && r.status !== 401 && r.status !== 408 && r.status !== 429) return 'done';
-          return 'net';
-        }, function () { return 'net'; });
-    }
-    var flushing = null;
-    function flush() { // upload the pending queue
-      if (flushing) return flushing;
-      var q = queue(); if (!q.length) { held = 0; drawStatus(); return Promise.resolve(); }
-      flushing = q.reduce(function (p, e) {
-        return p.then(function (acc) { return push(e).then(function (res) {
-          if (res !== 'done') acc.left.push(e); if (res === 'held') acc.held++; if (res !== 'net') acc.reached = true; return acc; }); });
-      }, Promise.resolve({left: [], held: 0, reached: false})).then(function (acc) {
-        var ids = q.map(function (e) { return e.id; }); // keep records queued while this flush was running
-        store.set(K.q, acc.left.concat(queue().filter(function (e) { return ids.indexOf(e.id) < 0; })));
-        held = acc.held; if (acc.reached) online = true; flushing = null; drawStatus();
-      }, function () { flushing = null; });
-      return flushing;
-    }
-    function merge(rows, pend) { // server rows + this device's queued rows, without duplicates
-      var ids = rows.map(function (x) { return x.id; });
-      return rows.concat(pend.filter(function (e) { return ids.indexOf(e.id) < 0; }));
-    }
-    function refresh() {
-      return req('?select=client_id,name,org,score,max_level,created_at&' + filt() + '&order=score.desc,created_at.asc&limit=10', {headers: {Prefer: 'count=exact'}})
-        .then(function (r) { if (!r.ok) throw new Error(r.status); var n = total(r); return r.json().then(function (rows) {
-          // records still waiting in this device's queue are shown together with the server rows
-          var pend = mine(queue()), srv = rows.map(function (x) { return {id: x.client_id, name: x.name, org: x.org, score: x.score, top: x.max_level, t: Date.parse(x.created_at) || 0}; });
-          var all = merge(srv, pend);
-          online = true;
-          cache = {top: sorted(all).slice(0, 10).map(view), count: n + (all.length - srv.length)};
-          drawStatus(); return cache; }); })
-        .catch(function () { online = false; cache = fromLocal(); drawStatus(); return cache; });
+      settings.season = name; saveSettings();
+      return refresh().then(function () { if (G.phase === 'title') drawTitle(); });
     }
     function add(e) {
       e.season = season();
-      var l = records(); l.push(e); store.set(K.r, l.slice(-2000)); // keep a copy on this device too
-      cache = {top: sorted(cache.top.concat([view(e)])).slice(0, 10), count: cache.count + 1, local: cache.local};
-      var localRank = function () { var m = mine(records()); return {rank: m.filter(function (x) { return x.score > e.score; }).length + 1, count: m.length, local: true}; };
-      if (!e.cloud) { cache = fromLocal(); drawStatus(); return Promise.resolve(localRank()); }
-      return push(e).then(function (res) {
-        if (res !== 'done') { var q = queue(); q.push(e); store.set(K.q, q); }
-        if (res === 'net') { online = false; cache = fromLocal(); drawStatus(); return localRank(); }
-        if (res === 'held') held++;
-        online = true; drawStatus();
-        return Promise.all([
-          req('?select=id&' + filt() + '&score=gt.' + e.score, {headers: {Prefer: 'count=exact', Range: '0-0'}}).then(function (r) { if (!r.ok) throw new Error(r.status); return total(r); }),
-          refresh()
-        ]).then(function (v) {
-          var ahead = mine(queue()).filter(function (x) { return x.id !== e.id && x.score > e.score; }).length;
-          return {rank: v[0] + ahead + 1, count: v[1].count};
-        }, localRank);
-      });
+      var l = records(); l.push(e); store.set(K.r, l.slice(-2000));
+      cache = fromLocal(); drawStatus();
+      var m = mine(records());
+      return Promise.resolve({rank: m.filter(function (x) { return x.score > e.score; }).length + 1, count: m.length, local: true});
     }
-    function drawStatus() {
-      var q = queue().length;
-      [].forEach.call(document.querySelectorAll('[data-net]'), function (el) {
-        el.className = 'net ' + (online ? 'on' : 'off');
-        el.textContent = online ? (q ? (held ? '온라인 랭킹 · 기록 ' + q + '건은 이 기기에 보관 중 (서버 준비 중)' : '온라인 · ' + q + '건 올리는 중') : '온라인 랭킹')
-          : '인터넷 연결 안 됨 · 이 기기에 저장 중' + (q ? ' (' + q + '건 대기)' : '');
-      });
-    }
-    setInterval(flush, 15000); setInterval(syncSeason, 15000); window.addEventListener('online', function () { flush().then(syncSeason).then(refresh); });
+    store.del(K.old); store.del(K.oldq); // old records / old upload queue (may hold real names) are no longer used
+    cache = fromLocal(); drawStatus();
     return {
-      detect: function () { return flush(); },
-      refresh: refresh, add: add, flush: flush,
-      newSeason: newSeason, syncSeason: syncSeason,
-      season: season, pending: function () { return queue().length; }, held: function () { return held; }, online: function () { return online; },
+      detect: function () { return refresh(); },
+      refresh: refresh, add: add, flush: function () { return Promise.resolve(); },
+      newSeason: newSeason, syncSeason: function () { return Promise.resolve(); },
+      season: season, pending: function () { return 0; }, held: function () { return 0; }, online: function () { return false; },
       data: function () { return cache; }, local: function () { return records(); },
-      best: function () { var a = cache.top[0] ? cache.top[0].score : 0, b = sorted(mine(records()))[0]; return Math.max(a, b ? +b.score : 0); },
-      clearLocal: function () { store.del(K.r); if (cache.local) cache = fromLocal(); }
+      best: function () { var b = sorted(mine(records()))[0]; return b ? Math.max(0, +b.score) : 0; },
+      clearLocal: function () { store.del(K.r); cache = fromLocal(); }
     };
   })();
   function rankHTML(list, n, meId) {
@@ -6239,29 +6141,27 @@ window.NoanFullscreen = (function () {
     G.phase = 'name';
     var top = Math.max(1, G.top);
     G.entry = {id: 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: '', org: '', score: G.score, top: top, merges: G.merges,
-      ms: clamp(G.playMs || 1000, 1000, MS_MAX), cloud: (G.playMs || 0) <= MS_MAX && G.score <= SCORE_MAX, t: Date.now()};
+      ms: clamp(G.playMs || 1000, 1000, MS_MAX), t: Date.now()};
     G.prevBest = Board.best();
     $('nameScore').textContent = G.score + '점!';
-    $('namePrivacy').textContent = (G.entry.cloud ? '🔒 이름·소속은 랭킹을 위해 인터넷 서버에 저장돼요.' : '🔒 이 기록은 서버 허용 범위를 넘어 이 기기에만 저장돼요.') + ' 별명을 써도 괜찮아요. 입력하지 않으면 랭킹에 등록되지 않아요.';
-    pickOrg(''); $('nameInput').value = ''; $('nameMsg').textContent = '';
+    $('namePrivacy').textContent = '🔒 기록은 이 기기에만 저장돼요. 인터넷으로 보내지 않아요.';
+    $('nameInput').value = nick(); $('nameMsg').textContent = '';
     show('name'); bumpIdle();
   }
   function submitName() {
-    var v = cleanName($('nameInput').value);
-    if (!curOrg) { $('nameMsg').textContent = '노안초·노안남초·노안중 중 하나를 골라 주세요'; restart($('orgs'), 'shake'); return; }
-    if (!v) { $('nameMsg').textContent = '이름을 쓰거나 「별명으로 할래요」를 눌러 주세요'; restart($('nameInput'), 'shake'); return; }
-    $('nameInput').blur(); Snd.play('fact'); saveEntry(v, curOrg, true);
+    var v = cleanName($('nameInput').value) || nick();
+    $('nameInput').blur(); Snd.play('fact'); saveEntry(v, '', true);
   }
   function restart(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
   function saveEntry(name, org, showResult) {
     var e = G.entry; name = cleanName(name);
-    if (!e || e.saved || !name || ORGS.indexOf(org) < 0) return;
-    e.saved = true; e.name = name; e.org = org; G.recId = e.id;
+    if (!e || e.saved || !name) return;
+    e.saved = true; e.name = name; e.org = ''; G.recId = e.id;
     var p = Board.add(e);
     if (!showResult) return;
     G.phase = 'result';
     $('resTitle').textContent = G.endReason === 'time' ? '시간 끝! 잘했어요' : G.endReason === 'full' ? '수조가 꽉 찼어요!' : '게임 끝!';
-    $('resWho').textContent = '👤 ' + e.name + (e.org ? ' · ' + e.org : '');
+    $('resWho').textContent = '👤 ' + e.name + '';
     $('resScore').textContent = e.score;
     var best = e.score > G.prevBest && e.score > 0;
     $('resNew').classList.toggle('hidden', !best);
@@ -6282,9 +6182,6 @@ window.NoanFullscreen = (function () {
   function drawResRank() { $('resRank').innerHTML = rankHTML(Board.data().top, 10, G.recId); }
   var NA = ['번개', '천재', '용감한', '반짝', '슈퍼', '날쌘', '똑똑한', '씩씩한', '황금', '신나는'], NB = ['강치', '갈매기', '바다제비', '문어', '오징어', '소라', '전복', '성게', '고래', '돌고래'];
   function nick() { for (var i = 0; i < 20; i++) { var s = NA[Math.floor(Math.random() * NA.length)] + ' ' + NB[Math.floor(Math.random() * NB.length)]; if (s.length <= 8) return s; } return '독도 친구'; }
-  var curOrg = '';
-  function pickOrg(v) { curOrg = v; [].forEach.call($('orgs').children, function (b) { var on = b.dataset.org === v; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }); }
-  $('orgs').addEventListener('click', function (e) { var b = e.target.closest('.org'); if (!b) return; Snd.play('click'); pickOrg(b.dataset.org); $('nameMsg').textContent = ''; });
   $('randBtn').addEventListener('click', function () { Snd.play('click'); $('nameInput').value = nick(); $('nameMsg').textContent = ''; });
   $('nameInput').addEventListener('input', function () { var v = this.value.replace(/[<>\u0000-\u001f\u007f-\u009f]/g, ''); if (v !== this.value) this.value = v; });
   $('nameInput').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submitName(); } });
@@ -6725,7 +6622,7 @@ window.NoanFullscreen = (function () {
     $('setSound').value = settings.sound ? '1' : '0'; $('setMusic').value = settings.music ? '1' : '0'; $('setFs').value = !FS || FS.auto() ? '1' : '0';
     $('recCount').textContent = '이 기기 기록 사본 ' + Board.local().length + '개'; $('confirmRow').classList.remove('on'); $('seasonRow').classList.remove('on');
     $('setSeason').value = Board.season(); $('setPin').value = ADMIN_PIN;
-    $('netAdmin').textContent = (Board.online() ? '온라인 DB에 연결됨' : '온라인 DB에 연결 안 됨') + ' · 올릴 기록 대기 ' + Board.pending() + '건 · 예전 랭킹 기록은 DB에 그대로 남아요';
+    $('netAdmin').textContent = '기록은 이 기기(이 브라우저)에만 저장돼요. 인터넷으로 보내지 않아요.';
     $('adminOv').classList.add('on');
   }
   $('adminClose').addEventListener('click', function () { $('adminOv').classList.remove('on'); $('setPin').value = ''; bumpIdle(); Gull3D.kick(); });
@@ -6733,7 +6630,7 @@ window.NoanFullscreen = (function () {
     settings.demo = $('setDemo').value === '1'; settings.limit = $('setLimit').value === '1'; settings.minutes = +$('setMin').value; settings.sound = $('setSound').value === '1'; settings.music = $('setMusic').value === '1';
     var sn = cleanSeason($('setSeason').value) || Board.season(), changed = sn !== Board.season();
     normalize(); saveSettings(); if (FS) FS.setAuto($('setFs').value === '1'); Snd.apply(); drawBgm();
-    if (changed) Board.newSeason(sn).then(function () { $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('저장했어요'); goTitle(); }, function () { toast('서버에 연결하지 못했어요. 랭킹 이름은 바뀌지 않았어요.'); });
+    if (changed) Board.newSeason(sn).then(function () { $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('저장했어요'); goTitle(); }, function () { toast('랭킹 이름을 바꾸지 못했어요.'); });
     else { $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('저장했어요'); goTitle(); }
   });
   $('resetBtn').addEventListener('click', function () { $('confirmRow').classList.add('on'); });
@@ -6745,7 +6642,7 @@ window.NoanFullscreen = (function () {
     var d = new Date(), p2 = function (n) { return String(n).padStart(2, '0'); };
     var name = '합치기 랭킹 ' + d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds());
     $('seasonRow').classList.remove('on');
-    Board.newSeason(name).then(function () { $('setSeason').value = name; $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('새 랭킹을 시작했어요'); goTitle(); }, function () { toast('서버에 연결하지 못했어요. 다시 시도해 주세요.'); });
+    Board.newSeason(name).then(function () { $('setSeason').value = name; $('adminOv').classList.remove('on'); $('setPin').value = ''; toast('새 랭킹을 시작했어요'); goTitle(); }, function () { toast('새 랭킹을 시작하지 못했어요. 다시 시도해 주세요.'); });
   });
 
   /* ===== music toggle ===== */
@@ -6764,7 +6661,7 @@ window.NoanFullscreen = (function () {
     onReady: function () { Mascot.active(false); }, onFail: function () { Mascot.active(G.phase !== 'play' && G.phase !== 'ending' && G.phase !== 'paused'); }});
   Mascot.active(!Gull3D.ready); Gull3D.attach(document.querySelector('#title .gull-slot'));
   drawTitle();
-  Board.detect().then(Board.syncSeason).then(function () { return Board.refresh(); }).then(drawTitle);
+  Board.refresh().then(drawTitle);
   requestAnimationFrame(frame);
 
   /* ===== test hooks ===== */
@@ -6779,7 +6676,7 @@ window.NoanFullscreen = (function () {
     drop: function (x) { if (G.phase !== 'play') return false; G.cool = 0; return doDrop(x); },
     setLevel: function (lv) { G.held = clamp(lv | 0, 1, MAXL); },
     spawn: function (lv, x, y, o) { return World.add(clamp(lv | 0, 1, MAXL), x, y, o); },
-    start: startRound, end: endRound, title: goTitle, submit: function (name, org) { if (G.phase === 'name') saveEntry(name, org, true); }, pause: pause, resume: resume,
+    start: startRound, end: endRound, title: goTitle, submit: function (name) { if (G.phase === 'name') saveEntry(name, '', true); }, pause: pause, resume: resume,
     step: function (n) { for (var i = 0; i < (n || 1); i++) tick(); render(1, STEP); },
     timeWarp: function (sec) { G.timeLeft = Math.max(0.05, G.timeLeft - sec); },
     sheet: function (px) { var s = px || 100, c = document.createElement('canvas'); c.width = s * 2.3 * 6; c.height = s * 2.3 * 2; var x = c.getContext('2d'); x.fillStyle = '#7cc8f0'; x.fillRect(0, 0, c.width, c.height); for (var lv = 1; lv <= MAXL; lv++) { var sp = makeSprite(lv, s); x.drawImage(sp.cv, ((lv - 1) % 6) * s * 2.3 + s * 1.15 - sp.half, Math.floor((lv - 1) / 6) * s * 2.3 + s * 1.15 - sp.half); } return c.toDataURL(); },
