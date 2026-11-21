@@ -4,8 +4,10 @@
  * 그림(장면)은 아래 ART 에 편마다 적는다. 모든 편이 같은 쇼츠 순서다:
  *   0–3초 질문 · 3–8.4초 비유(따뜻한 주방) · 8.4–14.4초 진짜(파란 설계도 판) · 14.4–17.2초 비유와 다른 점 · 17.2–20.2초 활용 · 20.2초~ 한 줄 정리
  * 각 HTML 은 CSS·SVG·JS 가 다 든 한 장짜리라 USB·오프라인에서도 돈다. 외부 요청 0건 · 소리 없음 · 자막 항상 · 눌러야 재생.
- * 움직임은 data-k="시간:x,y,배율,투명도[,가로배율,세로배율]" 키프레임(transform·opacity 만). data-lin 이 있으면 등속(궤도).
- * 움직임 낱말: letterDive(글자가 위에서 내려와 박힘) · explode(겹친 층이 벌어짐) · rackFocus(흐릿→또렷) · orbit(궤도) · underline(손그림 밑줄).
+ * 움직임은 data-k="시간:x,y,배율,투명도[,가로배율,세로배율]" 키프레임(transform·opacity 만). data-e 로 곡선을 고른다(없으면 snap).
+ * 공통 모션 토큰(연수 deck-v3 와 같음): 박자 0.16/0.32/0.62/0.9초 · 사이 0.09초 · 거리 26/46 · 곡선 snap 1-(1-t)^5, spring 1-e^(-6.2t)cos(12.5t).
+ * 뜻에 따라 고른다: spring = 친근한 것(요리사·재료·그릇) · snap = 결과·숫자 · stamp = 판정(꼬리표·도장) · flip = 전→후(카드 뒤집기)
+ *   · wipe = 장면 머리표(가림막) · kinetic = 핵심 낱말만(용어 제목·한 줄 정리). 한 박자에 한 움직임, 자리 잡으면 가만히(끝없는 반복 없음).
  * 보기 모드: ?autoplay=1 바로 재생 · ?poster=1 대표 한 장(썸네일) · #t=초 그 시각에 멈춘 장면. 동작 줄이기를 켜면 장면마다 멈춘 그림으로 넘긴다.
  * 썸네일 다시 찍기: python tools/shoot-terms.py (?poster=1 을 960×540 으로 찍어 assets/terms/<id>.webp). */
 'use strict';
@@ -15,8 +17,13 @@ const OUT = path.join(__dirname, '..', 'terms', 'anim');
 fs.mkdirSync(OUT, { recursive: true });
 
 /* ---------- 키프레임 도우미 ---------- */
-const kf = (...f) => f.map(a => a[0] + ':' + a.slice(1).join(',')).join(';');
+const kf = (...f) => f.map(a => a[0] + ':' + a.slice(1).map(v => +(+v).toFixed(3)).join(',')).join(';');
 const G = (inner, k, extra) => '<g data-k="' + kf.apply(null, k) + '"' + (extra || '') + '>' + inner + '</g>';
+/* 공통 모션 토큰 (초) */
+const TOK = { xs: .16, s: .32, m: .62, l: .9, gap: .09, cgap: .036, move: 26, big: 46 };
+const EZ_SPRING = ' data-e="spring"', EZ_INOUT = ' data-e="inout"';
+/* 장면마다 「나타나기」 곡선: 비유(주방) 장면은 spring, 진짜(설계도) 장면은 snap */
+let POP_E = '';
 const INK = '#22324D';
 const LN = ' stroke="' + INK + '" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"';
 const P = (d, f) => '<path d="' + d + '" fill="' + f + '"' + LN + '/>';
@@ -29,7 +36,7 @@ const shadow = (x, y, rx) => '<ellipse cx="' + x + '" cy="' + y + '" rx="' + rx 
 
 /* ---------- 부품 (원점 기준, 위쪽이 -y) ---------- */
 /* 요리 로봇: 모든 편이 같은 얼굴 (2회차 연수의 김치볶음밥 로봇과 같은 역할) */
-const bot = () => '<g data-bob="1">' +
+const bot = () => '<g>' +
   R(-64, -94, 20, 52, 10, '#BFD9FA') + R(44, -94, 20, 52, 10, '#BFD9FA') + C(-54, -40, 12, '#FFC9A3') + C(54, -40, 12, '#FFC9A3') +
   R(-48, -104, 96, 124, 30, '#BFD9FA') + R(-32, -94, 64, 112, 18, '#FFFDF7') + R(-18, -36, 36, 26, 9, '#FFE3CC') +
   C(0, -78, 4.5, '#A9DCC0') + C(0, -60, 4.5, '#A9DCC0') +
@@ -45,7 +52,7 @@ const bot = () => '<g data-bob="1">' +
   R(-38, -208, 76, 22, 9, '#fff') +
   '<path d="M0 -261v-12" fill="none"' + LN + '/>' + C(0, -278, 6.5, '#FFE58A') + '</g>';
 /* 손님: 로봇과 같은 선 굵기의 동글동글한 사람 */
-const person = (c) => '<g data-bob="1">' + R(-42, -96, 84, 118, 34, c || '#CDBDF7') + C(0, -126, 33, '#FFDDC2') +
+const person = (c) => '<g>' + R(-42, -96, 84, 118, 34, c || '#CDBDF7') + C(0, -126, 33, '#FFDDC2') +
   P('M-34 -132q1-32 34-32t34 32q-14-14-34-14t-34 14z', '#6B4E3A') +
   '<circle cx="-11" cy="-124" r="3.6" fill="' + INK + '"/><circle cx="11" cy="-124" r="3.6" fill="' + INK + '"/>' +
   '<circle cx="-21" cy="-113" r="5.5" fill="#F4857A" opacity=".6"/><circle cx="21" cy="-113" r="5.5" fill="#F4857A" opacity=".6"/>' +
@@ -84,24 +91,34 @@ const chipW = (txt, size) => Math.round(W(txt, size || 22) + (size || 22) * 1.4)
 const chip = (txt, tone, size) => { size = size || 22; const t = TONE[tone || 'white']; const w = chipW(txt, size), h = Math.round(size * 1.9);
   return '<g><rect x="' + (-w / 2) + '" y="' + (-h / 2) + '" width="' + w + '" height="' + h + '" rx="' + (h / 2) + '" fill="' + t[0] + '"' + LN + '/>' + TX(txt, 0, Math.round(size * .36), size, t[1], 800) + '</g>'; };
 /* 나타나기: 살짝 아래에서 커지며 */
-const pop = (inner, t, x, y, s) => G(inner, [[t, x, y + 14, (s || 1) * .82, 0], [t + .45, x, y, s || 1, 1]]);
-const arrow = (x, y, t, len, color) => G('<path d="M0 0h' + (len || 46) + 'm-12 -10l12 10-12 10" fill="none" stroke="' + (color || '#1568D2') + '" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>', [[t, x - 10, y, 1, 0], [t + .4, x, y, 1, 1]]);
+const pop = (inner, t, x, y, s) => POP_E ? G(inner, [[t, x, y + TOK.move, (s || 1) * .6, 0], [t + TOK.l - .14, x, y, s || 1, 1]], POP_E)
+  : G(inner, [[t, x, y + TOK.move, (s || 1) * .94, 0], [t + TOK.s, x, y, s || 1, 1]]);
+/* 도장: 크게 와서 쾅 (판정·이름표) */
+const stamp = (inner, t, x, y, s0) => G(inner, [[t, x, y, s0 || 1.6, 0], [t + TOK.s, x, y, 1, 1]]);
+/* 카드 뒤집기: 앞면이 가로로 접히고 뒷면이 펴진다 (전 → 후). at 에 접히기 시작 */
+const flip = (front, back, x, y, tIn, at, keepFront) => { const h = TOK.s;
+  return G(front, [[tIn, x, y + TOK.move, .94, 0], [tIn + TOK.s, x, y, 1, 1], [at, x, y, 1, 1, 1, 1], [at + h, x, y, 1.04, 1, .001, 1], [at + h + .001, x, y, 1, 0, .001, 1]], EZ_INOUT) +
+    G(back, [[at + h, x, y, 1.04, 0, .001, 1], [at + h + .001, x, y, 1.04, 1, .001, 1], [at + 2 * h, x, y, 1, 1, 1, 1]], EZ_INOUT); };
+const arrow = (x, y, t, len, color) => G('<path d="M0 0h' + (len || 46) + 'm-12 -10l12 10-12 10" fill="none" stroke="' + (color || '#1568D2') + '" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>', [[t, x - TOK.move, y, 1, 0], [t + TOK.s, x, y, 1, 1]]);
 /* 장면 통째로 나타났다 사라지기 */
-const scene = (t0, t1, inner) => { const k = []; if (t0 <= 0) k.push([0, 0, 0, 1, 1]); else { k.push([t0 - .001, 0, 0, 1, 0]); k.push([t0 + .35, 0, 0, 1, 1]); } if (t1 != null) { k.push([t1 - .3, 0, 0, 1, 1]); k.push([t1, 0, 0, 1, 0]); } return G(inner, k); };
+/* 들어올 때는 아래에서(+26), 나갈 때는 위로(-26). 앞 장면이 다 나간 뒤 다음 장면이 들어와 겹치지 않는다 */
+const scene = (t0, t1, inner) => { const k = []; if (t0 <= 0) k.push([0, 0, 0, 1, 1]); else { k.push([t0 - .001, 0, TOK.move, 1, 0]); k.push([t0 + TOK.s, 0, 0, 1, 1]); } if (t1 != null) { k.push([t1 - TOK.s, 0, 0, 1, 1]); k.push([t1 - .001, 0, -TOK.move, 1, 0]); } return G(inner, k); };
 /* letter dive: 글자가 하나씩 위에서 떨어져 제자리에 박힌다 */
 const letterDive = (txt, cx, cy, size, t0, fill, wt) => { const chars = [...String(txt)]; const ws = chars.map(c => W(c, size)); const tot = ws.reduce((a, b) => a + b, 0); let x = cx - tot / 2, s = '';
-  chars.forEach((c, i) => { const mid = x + ws[i] / 2; x += ws[i]; if (c === ' ') return; s += G(TX(c, 0, 0, size, fill, wt || 900), [[t0 + i * .055, Math.round(mid), cy - 70, 1.6, 0], [t0 + i * .055 + .5, Math.round(mid), cy, 1, 1]]); }); return s; };
+  chars.forEach((c, i) => { const mid = x + ws[i] / 2; x += ws[i]; if (c === ' ') return; s += G(TX(c, 0, 0, size, fill, wt || 900), [[t0 + i * TOK.cgap, Math.round(mid), cy + TOK.big, .7, 0], [t0 + i * TOK.cgap + TOK.m, Math.round(mid), cy, 1, 1]], EZ_SPRING); }); return s; };
 /* sketch underline: 손으로 그은 밑줄이 왼쪽부터 그어진다 (가로 배율만) */
-const underline = (x0, y, w, t0, color) => G('<path d="M0 0q' + (w / 4) + ' -7 ' + (w / 2) + ' 0t' + (w / 2) + ' 0" fill="none" stroke="' + (color || '#FFC94D') + '" stroke-width="7" stroke-linecap="round"/>', [[t0, Math.round(x0), Math.round(y), 1, 1, .001, 1], [t0 + .6, Math.round(x0), Math.round(y), 1, 1, 1, 1]]);
-/* rack focus: 흐릿한 것이 또렷해진다 (흐림 필터는 고정, 투명도만 바뀜) */
-const rackFocus = (inner, x, y, t0) => G('<g filter="url(#bl)">' + inner + '</g>', [[t0, x, y, 1.06, 0], [t0 + .15, x, y, 1.06, 1], [t0 + .9, x, y, 1, 0]]) + G(inner, [[t0 + .15, x, y, 1.03, 0], [t0 + .9, x, y, 1, 1]]);
+const underline = (x0, y, w, t0, color) => G('<path d="M0 0q' + (w / 4) + ' -7 ' + (w / 2) + ' 0t' + (w / 2) + ' 0" fill="none" stroke="' + (color || '#FFC94D') + '" stroke-width="7" stroke-linecap="round"/>', [[t0, Math.round(x0), Math.round(y), 1, 1, .001, 1], [t0 + TOK.m - TOK.xs, Math.round(x0), Math.round(y), 1, 1, 1, 1]]);
 /* orbit: 타원 궤도를 등속으로 돈다. 끝나면 end 자리로 */
 const orbit = (inner, cx, cy, rx, ry, t0, t1, ph, turns, end) => { const n = Math.round(20 * (turns || 1)), k = [];
   for (let i = 0; i <= n; i++) { const a = (ph + i / n * 360 * (turns || 1)) * Math.PI / 180; k.push([+(t0 + (t1 - t0) * i / n).toFixed(3), Math.round(cx + rx * Math.cos(a)), Math.round(cy + ry * Math.sin(a)), 1, i === 0 ? 0 : 1]); }
   if (end) end.forEach(e => k.push(e)); return G(inner, k, ' data-lin="1"'); };
 /* explode: 겹쳐 있던 층이 위아래로 벌어진다 */
 const explode = (layers, cx, cy0, ys, t0) => layers.map((l, i) => G(l, [[t0 - .6, cx, cy0 + i * 5, .9, 0], [t0 - .2, cx, cy0 + i * 5, 1, 1], [t0, cx, cy0 + i * 5, 1, 1], [t0 + .8 + i * .08, cx, ys[i], 1, 1]])).join('');
-const label = (txt, tone) => { const w = chipW(txt, 22); return G(chip(txt, tone, 22), [[0, 40 + w / 2, 40, 1, 1]]); };
+/* 장면 머리표: 가림막(wipe) — 왼쪽부터 드러난다. 잘라 내는 틀(clipPath)의 사각형만 가로로 편다 */
+let CLIP = 0;
+const label = (txt, tone, t0) => { const w = chipW(txt, 22) + 8, id = 'cw' + (++CLIP); t0 = t0 || 0;
+  return '<clipPath id="' + id + '"><rect x="0" y="-26" width="' + w + '" height="52" data-k="' + kf([t0 + .12, -w / 2, 0, 1, 1, .001, 1], [t0 + .12 + TOK.m - TOK.xs, -w / 2, 0, 1, 1, 1, 1]) + '"/></clipPath>' +
+    G('<g clip-path="url(#' + id + ')">' + chip(txt, tone, 22) + '</g>', [[t0 + .12, 40 + w / 2 - 16, 40, 1, 1], [t0 + .12 + TOK.m - TOK.xs, 40 + w / 2, 40, 1, 1]]); };
 const panel = '<rect x="24" y="70" width="912" height="350" rx="26" fill="#F3F8FF" stroke="#B9D5F8" stroke-width="3"/><rect x="24" y="70" width="912" height="350" rx="26" fill="url(#dots)"/>';
 const box = (w, h, fill, txt, size, ink) => R(-w / 2, -h / 2, w, h, 16, fill) + (txt ? TX(txt, 0, Math.round((size || 24) * .36), size || 24, ink || INK, 800) : '');
 const dots = (cols, rows, gap, fill) => { let s = ''; for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) s += '<circle cx="' + ((c - (cols - 1) / 2) * gap) + '" cy="' + ((r - (rows - 1) / 2) * gap) + '" r="' + (gap * .28) + '" fill="' + (typeof fill === 'function' ? fill(r, c) : fill) + '"/>'; return s; };
@@ -109,8 +126,8 @@ const doc = (ttl) => R(-34, -42, 68, 84, 8, '#fff') + '<path d="M-20 -22h40M-20 
 const lockIco = '<rect x="-14" y="-4" width="28" height="22" rx="5" fill="#FFE58A"' + LN + '/><path d="M-8 -4v-6a8 8 0 0116 0v6" fill="none"' + LN + '/>';
 const okBadge = (r) => C(0, 0, r || 24, '#D6F3E2') + '<path d="M-10 0l7 8 14-16" fill="none" stroke="#2E9B5C" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>';
 const B0 = 3, C0 = 8.4, D0 = 14.4, E0 = 17.2, F0 = 20.2;
-const chefB = () => G(shadow(0, 2, 76) + bot(), [[B0, 820, 366, .82, 0], [B0 + .6, 820, 344, .9, 1]]);
-const tagAt = (txt, x, t) => G(tag(txt, '#FFEEC2'), [[t, x, 398, .8, 0], [t + .6, x, 394, 1, 1]], ' data-tag="1"');
+const chefB = () => G(shadow(0, 2, 76) + bot(), [[B0, 820, 366, .6, 0], [B0 + TOK.l - .14, 820, 344, .9, 1]], EZ_SPRING);
+const tagAt = (txt, x, t) => G(tag(txt, '#FFEEC2'), [[t, x, 394, 1.5, 0], [t + TOK.s, x, 394, 1, 1]], ' data-tag="1"');
 
 /* ================= 편마다 그림 (B=비유, C=진짜) ================= */
 const ART = {};
@@ -163,7 +180,7 @@ ART.training = {
   B: () => { let s = chefB() + pop(shadow(0, 4, 110) + P('M-100 0v-110l100-60 100 60v110z', '#FFFDF7') + R(-26, -60, 52, 60, 6, '#FFC9A3') + '<path d="M0 -170v-40" stroke="' + INK + '" stroke-width="3"/>' + P('M0 -210l34 10-34 10z', '#F4857A') + TX('요리 학교', 0, -92, 24, '#8A4B14', 900), B0 + .2, 200, 340);
     s += arrow(380, 250, B0 + 1.2, 70) + pop(TX('졸업', 0, 0, 20, '#1568D2', 900), B0 + 1.3, 415, 222);
     s += pop(ticket(['주문']), B0 + 1.8, 570, 270) + pop(C(0, 0, 34, '#fff') + '<g transform="translate(0 -4)">' + lockIco + '</g>' + TX('실력 그대로', 0, 60, 20, INK, 900), B0 + 2.8, 680, 100);
-    return s + tagAt('학습 = 학교, 사용 = 식당', 400, B0 + 3.8); },
+    return s + tagAt('학습 = 요리 학교, 사용 = 주방', 400, B0 + 3.8); },
   C: () => { let s = pop(chip('학습 training', 'sky', 22), C0 + .2, 140, 160) + pop('<g transform="translate(-14 -8)">' + doc() + '</g><g transform="translate(14 8)">' + doc() + '</g>', C0 + .4, 300, 160) + arrow(372, 160, C0 + .8);
     s += pop(box(170, 84, '#EEF4FF'), C0 + .6, 520, 160);
     for (let k = 0; k < 5; k++) { const t = C0 + .9 + k * .45; s += G(dots(6, 2, 24, (r, c) => ((r + c + k) % 3 === 0 ? '#F4857A' : (r + c + k) % 3 === 1 ? '#7FD1A0' : '#93B9EF')), [[t, 520, 160, 1, 0], [t + .1, 520, 160, 1, 1], [t + .4, 520, 160, 1, 1], [t + .5, 520, 160, 1, k === 4 ? 1 : 0]]); }
@@ -177,7 +194,7 @@ ART.hallucination = {
   B: () => { let s = chefB() + pop(R(-104, -78, 208, 156, 12, '#3B5A48') + TX('메뉴판', 0, -40, 21, '#fff', 900) + TX('김치볶음밥', 0, -6, 19, '#E8F3EA') + TX('된장찌개', 0, 22, 19, '#E8F3EA') + TX('비빔밥', 0, 50, 19, '#E8F3EA'), B0 + .2, 190, 180);
     s += pop(plate(P('M-44 -2q4-46 44-46t44 46z', '#F2C94C') + C(-14, -30, 7, '#fff') + C(14, -24, 6, '#fff')), B0 + .8, 500, 330);
     s += pop(tag('금성산 황금 전복죽', '#FFE58A'), B0 + 1.2, 500, 252) + G(bubble('네, 있어요!', 170, 'r'), [[B0 + 1.8, 650, 124, .6, 0], [B0 + 2.2, 650, 110, 1, 1]]);
-    s += G('<g transform="rotate(-8)">' + R(-90, -24, 180, 48, 10, '#FFF0EE') + TX('메뉴판에 없음', 0, 9, 24, '#B3261E', 900) + '</g>', [[B0 + 3, 190, 300, 1.7, 0], [B0 + 3.4, 190, 300, 1, 1]]);
+    s += stamp('<g transform="rotate(-8)">' + R(-90, -24, 180, 48, 10, '#FFF0EE') + TX('메뉴판에 없음', 0, 9, 24, '#B3261E', 900) + '</g>', B0 + 3, 190, 300, 1.7);
     return s + tagAt('환각 = 없는 메뉴', 360, B0 + 3.9); },
   C: () => { let s = pop(chip('예시중 개교 연도는?', 'peach', 24), C0 + .2, 480, 118);
     [['1951년', .34], ['1948년', .31], ['1962년', .29]].forEach((r, i) => { const y = 190 + i * 52;
@@ -190,10 +207,9 @@ ART.hallucination = {
 };
 ART.prompt = {
   B: () => { let s = chefB() + G(shadow(0, 2, 60) + person(), [[B0, 130, 350, .9, 0], [B0 + .5, 130, 344, 1, 1]]);
-    s += G(ticket(['맛있는 거', '주세요']), [[B0 + .3, 170, 160, .8, 0], [B0 + .7, 170, 160, 1, 1], [B0 + 1.3, 470, 150, .9, 1], [B0 + 2.2, 470, 150, .9, 1], [B0 + 2.5, 470, 150, .8, 0]]);
-    s += G(plate(oddDish), [[B0 + 1.4, 470, 350, .8, 0], [B0 + 1.8, 470, 330, 1, 1], [B0 + 2.5, 470, 330, 1, 1], [B0 + 2.8, 470, 330, .9, 0]]);
-    s += G(ticket(['김치볶음밥', '달걀 추가', '안 맵게']), [[B0 + 2.6, 170, 150, .8, 0], [B0 + 3, 170, 150, 1, 1], [B0 + 3.5, 470, 140, .9, 1]]);
-    s += G(plate(rice), [[B0 + 3.6, 470, 350, .8, 0], [B0 + 4, 470, 330, 1.1, 1]]);
+    /* 전 → 후: 대충 쓴 주문서가 뒤집혀 자세한 주문서로, 이상한 요리가 뒤집혀 원하던 요리로 */
+    s += G(flip(ticket(['맛있는 거', '주세요']), ticket(['김치볶음밥', '달걀 추가', '안 맵게']), 0, 0, B0 + .3, B0 + 2.5), [[B0 + .3, 170, 160, 1, 1], [B0 + 1, 170, 160, 1, 1], [B0 + 1.32, 470, 150, .9, 1]]);
+    s += G(flip(plate(oddDish), plate(rice), 0, 0, B0 + 1.4, B0 + 3.3), [[B0 + 1.4, 470, 330, 1, 1], [B0 + 4, 470, 330, 1, 1], [B0 + 4.32, 470, 330, 1.1, 1]]);
     return s + tagAt('프롬프트 = 자세한 주문서', 470, B0 + 4.4); },
   C: () => { const K = [['누', '누구에게', 'peach'], ['어', '어디에', 'sky'], ['느', '어떤 느낌', 'lilac'], ['재', '어떤 재료', 'mint']];
     let s = ''; K.forEach((k, i) => { const x = 170 + i * 207; s += pop(R(-92, -44, 184, 88, 18, TONE[k[2]][0]) + TX(k[0], -54, 14, 40, TONE[k[2]][1], 900) + TX(k[1], 24, 10, 21, INK, 900), C0 + .3 + i * .3, x, 148); });
@@ -203,9 +219,10 @@ ART.prompt = {
 ART.rag = {
   B: () => { let s = chefB() + pop(R(-200, -12, 400, 24, 8, '#C98F52'), B0 + .1, 400, 330);
     s += pop(P('M0 -6q-60-18-120-4v-96q60-14 120 4z', '#fff') + P('M0 -6q60-18 120-4v-96q-60-14-120 4z', '#fff') + '<path d="M-100 -80h76M-100 -60h70M20 -80h76M20 -60h60" stroke="#9FB4D4" stroke-width="5" stroke-linecap="round"/>', B0 + .4, 470, 318);
-    s += pop(R(-70, -90, 140, 180, 10, '#FFFDF7') + TX('시험지', 0, -56, 22, '#8A4B14', 900) + TX('Q. 회신 기한?', 0, -16, 18, INK, 800) + '<path d="M-48 20h96M-48 44h70" stroke="#E4C9A0" stroke-width="5" stroke-linecap="round"/>', B0 + .3, 170, 220);
+    s += pop(R(-70, -90, 140, 180, 10, '#FFFDF7') + TX('주문서', 0, -56, 22, '#8A4B14', 900) + TX('회신 기한은?', 0, -16, 18, INK, 800) + '<path d="M-48 20h96M-48 44h70" stroke="#E4C9A0" stroke-width="5" stroke-linecap="round"/>', B0 + .3, 170, 220);
     s += G(magnifier, [[B0 + 1.4, 400, 250, .7, 0], [B0 + 1.8, 400, 250, 1, 1], [B0 + 3.2, 540, 250, 1, 1]]);
-    return s + tagAt('자료 붙이기 = 오픈북 시험', 420, B0 + 3.8); },
+    s += pop(chip('레시피 책 = 올린 자료', 'peach', 18), B0 + .8, 470, 178);
+    return s + tagAt('자료 붙이기 = 레시피 책 펴 놓기', 420, B0 + 3.8); },
   C: () => { let s = pop(chip('체험학습 회신 기한은?', 'peach', 22), C0 + .2, 210, 120);
     s += pop('<g transform="translate(-30 -10)">' + doc() + '</g>' + doc() + '<g transform="translate(30 10)">' + doc('안내문 3개') + '</g>', C0 + .5, 210, 262);
     s += G(magnifier, [[C0 + 1, 150, 240, .7, 0], [C0 + 1.3, 150, 240, .8, 1], [C0 + 2.2, 260, 250, .8, 1], [C0 + 2.5, 260, 250, .8, 0]]);
@@ -229,7 +246,7 @@ ART.multimodal = {
     return s + pop(chip('모두 숫자 조각으로 바꿔 함께 처리', 'sky', 20), C0 + 4.2, 480, 392); }
 };
 ART.agent = {
-  B: () => { const st = [['장보기', -90, R(-20, -12, 40, 26, 6, '#FFC9A3')], ['손질', 0, '<path d="M-18 8l30-24 6 6-30 24z" fill="#DCE3EC"' + LN + '/>'], ['요리', 90, E(0, 0, 22, 10, '#B7C3D4')], ['맛보기', 180, E(0, 4, 8, 6, '#FFE58A') + '<path d="M0 -2v-18" stroke="' + INK + '" stroke-width="4"/>']];
+  B: () => { const st = [['장보기', -90, R(-20, -12, 40, 26, 6, '#FFC9A3')], ['손질', 0, '<path d="M-18 8l30-24 6 6-30 24z" fill="#DCE3EC"' + LN + '/>'], ['요리', 90, E(0, 0, 22, 10, '#B7C3D4')], ['시식', 180, E(0, 4, 8, 6, '#FFE58A') + '<path d="M0 -2v-18" stroke="' + INK + '" stroke-width="4"/>']];
     let s = chefB() + pop('<circle r="112" fill="none" stroke="#C98F52" stroke-width="4" stroke-dasharray="10 10"/>', B0 + .2, 380, 205);
     st.forEach((x, i) => { const a = x[1] * Math.PI / 180; s += pop(C(0, 0, 32, '#FFFDF7') + x[2] + TX(x[0], 0, 54, 19, INK, 900), B0 + .4 + i * .3, Math.round(380 + 112 * Math.cos(a)), Math.round(205 + 112 * Math.sin(a))); });
     s += orbit(C(0, 0, 14, '#BFD9FA') + '<circle cx="-4" cy="-2" r="2.4" fill="' + INK + '"/><circle cx="4" cy="-2" r="2.4" fill="' + INK + '"/>', 380, 205, 112, 112, B0 + 1.6, B0 + 4.6, -90, 1);
@@ -244,28 +261,28 @@ ART.agent = {
 ART.harness = {
   B: () => { let s = chefB();
     s += G(bubble('김치볶음밥 해 줘!', 220, 'l'), [[B0 + .1, 250, 104, .6, 0], [B0 + .4, 250, 92, 1, 1], [B0 + 1.8, 250, 92, 1, 1], [B0 + 2.1, 250, 92, .9, 0]]);
-    s += G(plate(P('M-40 -2q4-40 40-40t40 40z', '#FFFFFF')) + TX('맨밥', 0, 52, 18, INK, 900), [[B0 + .6, 560, 320, .8, 0], [B0 + 1, 560, 310, 1, 1], [B0 + 1.9, 560, 310, 1, 1], [B0 + 2.2, 560, 320, .8, 0]]);
+    s += flip(plate(P('M-40 -2q4-40 40-40t40 40z', '#FFFFFF')) + TX('맨밥', 0, 52, 18, INK, 900), plate(rice) + TX('김치볶음밥', 0, 52, 18, INK, 900), 560, 310, B0 + .6, B0 + 3.4);
     s += G(chip('김치 왜 안 넣었어?', 'rose', 20), [[B0 + 1.1, 560, 210, .8, 0], [B0 + 1.4, 560, 200, 1, 1], [B0 + 1.9, 560, 200, 1, 1], [B0 + 2.2, 560, 200, .9, 0]]);
-    s += G(card('셰프 레시피', 1), [[B0 + 2.2, 120, 120, .5, 0], [B0 + 2.7, 170, 170, 1, 1]]);
-    [['웍', 'white'], ['뒤집개', 'white'], ['김치', 'rose'], ['밥', 'butter'], ['달걀', 'butter']].forEach((c, i) => { s += G(chip(c[0], c[1], 18), [[B0 + 2.6 + i * .15, 120, 300, .6, 0], [B0 + 3 + i * .15, 120 + (i % 3) * 86, 270 + Math.floor(i / 3) * 46, 1, 1]]); });
-    s += G(plate(rice) + TX('김치볶음밥', 0, 52, 18, INK, 900), [[B0 + 3.4, 560, 320, .8, 0], [B0 + 3.8, 560, 310, 1, 1]]);
+    s += G(card('레시피', 1), [[B0 + 2.2, 120, 120, .5, 0], [B0 + 2.7, 170, 170, 1, 1]]);
+    [['웍', 'white'], ['뒤집개', 'white'], ['김치', 'rose'], ['밥', 'butter'], ['시식', 'mint']].forEach((c, i) => { s += G(chip(c[0], c[1], 18), [[B0 + 2.5 + i * TOK.gap, 120, 300, .6, 0], [B0 + 2.5 + i * TOK.gap + TOK.l - .14, 120 + (i % 3) * 86, 270 + Math.floor(i / 3) * 46, 1, 1]], EZ_SPRING); });
     s += G(bubble('바로 이거야!', 170, 'l'), [[B0 + 3.7, 560, 200, .6, 0], [B0 + 4, 560, 190, 1, 1]]);
-    return s + tagAt('하네스 = 도구와 레시피', 480, B0 + 3.9); },
-  C: () => { const L = [['확인 규칙', '#FFE0E6'], ['도구 (검색·계산·파일)', '#FFF1B8'], ['레시피 (순서·규칙 = 스킬)', '#D6F3E2']];
+    return s + tagAt('하네스 = 레시피와 도구', 480, B0 + 4.1); },
+  C: () => { const L = [['시식·위생 규칙 (확인)', '#FFE0E6'], ['도구 (검색·계산·파일)', '#FFF1B8'], ['레시피 (순서·규칙 = 스킬)', '#D6F3E2']];
     let s = explode(L.map((l, i) => box(520 - i * 30, 50, l[1], l[0], 22)), 500, 260, [330, 266, 202], C0 + 1.2);
-    s += G(box(240, 54, '#16233A', 'ChatGPT·Claude', 24, '#fff'), [[C0 + 1.6, 500, 260, .8, 0], [C0 + 2.4, 500, 130, 1, 1]]);
+    s += G(box(240, 54, '#16233A', 'AI (요리사)', 24, '#fff'), [[C0 + 1.6, 500, 260, .8, 0], [C0 + 2.4, 500, 130, 1, 1]]);
     s += G('<path d="M22 -120q-22 0-22 22v196q0 22 22 22" fill="none" stroke="#1568D2" stroke-width="5" stroke-linecap="round"/>' + TX('하네스', -56, 8, 26, '#0B4FA8', 900), [[C0 + 3, 195, 252, 1, 0], [C0 + 3.4, 195, 252, 1, 1]]);
     return s + pop(chip('같은 AI + 다른 하네스 = 다른 답', 'butter', 18), C0 + 4.2, 500, 402); }
 };
 ART.privacy = {
-  B: () => { let s = chefB() + pop(shadow(0, 4, 90) + P('M-80 0v-120h160v120z', '#DCE6F4') + P('M-96 -120l96-50 96 50z', '#93B9EF') + '<path d="M-50 -90h24M-10 -90h24M30 -90h24M-50 -50h24M30 -50h24" stroke="#fff" stroke-width="12"/>' + R(-18, -40, 36, 40, 4, '#FFFDF7') + TX('AI 회사 서버', 0, 30, 20, INK, 900), B0 + .2, 160, 330);
+  B: () => { let s = chefB() + pop(shadow(0, 4, 90) + P('M-80 0v-120h160v120z', '#DCE6F4') + P('M-96 -120l96-50 96 50z', '#93B9EF') + '<path d="M-50 -90h24M-10 -90h24M30 -90h24M-50 -50h24M30 -50h24" stroke="#fff" stroke-width="12"/>' + R(-18, -40, 36, 40, 4, '#FFFDF7') + TX('식당 창고 = AI 회사 서버', 0, 30, 20, INK, 900), B0 + .2, 160, 330);
     s += G('<path d="M0 0h380" stroke="#C98F52" stroke-width="4" stroke-dasharray="12 10"/>', [[B0 + .5, 260, 220, 1, 0], [B0 + .8, 260, 220, 1, 1]]);
     s += G('<g transform="translate(0 70)">' + R(-84, -40, 168, 80, 8, '#E7B27A') + '<path d="M0 -40v80" stroke="#C98F52" stroke-width="10"/>' + '</g>' + ticket(['김○○', '010-○○○○']), [[B0 + .8, 680, 220, .8, 0], [B0 + 1.2, 680, 220, .9, 1], [B0 + 2.4, 240, 200, .8, 1]]);
-    s += pop(chip('되돌리기 어려워요', 'rose', 22), B0 + 2.6, 240, 110);
+    s += stamp(chip('되돌리기 어려워요', 'rose', 22), B0 + 2.6, 240, 110, 1.5);
+    s += pop(chip('위생 규칙: 넣기 전에 이름 빼기', 'mint', 20), B0 + 3.1, 640, 120);
     s += pop(ticket(['ㄱ학생']) + '<g transform="translate(76 -44)">' + okBadge(16) + '</g>', B0 + 3.3, 640, 210);
-    return s + tagAt('넣은 글 = 회사로 가는 택배', 440, B0 + 3.9); },
+    return s + tagAt('넣기 전에 빼기 = 주방 위생', 440, B0 + 3.9); },
   C: () => { let s = pop(chip('내 입력 (글·파일)', 'peach', 22), C0 + .2, 160, 190);
-    s += pop([0, 1, 2].map(i => R(-70, -66 + i * 44, 140, 38, 10, '#DCEBFF') + '<circle cx="-46" cy="' + (-47 + i * 44) + '" r="5" fill="#2E9B5C"/>').join('') + TX('서비스 회사 서버', 0, 98, 20, INK, 900), C0 + .5, 470, 200);
+    s += pop([0, 1, 2].map(i => R(-70, -66 + i * 44, 140, 38, 10, '#DCEBFF') + '<circle cx="-46" cy="' + (-47 + i * 44) + '" r="5" fill="#2E9B5C"/>').join('') + TX('AI 회사(식당) 서버', 0, 98, 20, INK, 900), C0 + .5, 470, 200);
     s += G(chip('입력', 'peach', 18), [[C0 + 1, 280, 190, .8, 0], [C0 + 1.2, 280, 190, 1, 1], [C0 + 1.9, 400, 190, 1, 1], [C0 + 2.1, 430, 190, .7, 0]]);
     s += arrow(570, 150, C0 + 2.3, 50) + pop(chip('저장', 'sky', 22), C0 + 2.5, 720, 150) + arrow(570, 250, C0 + 2.6, 50) + pop(chip('학습에 쓰일 수도 (설정 확인)', 'butter', 20), C0 + 2.8, 780, 250);
     s += pop(R(-40, -30, 80, 60, 8, '#fff') + '<path d="M-30 20l20-22 14 12 10-8 16 18z" fill="#7FD1A0"/>' + C(24, -18, 13, '#FFE58A') + TX('©', 24, -12, 18, INK, 900), C0 + 3.8, 230, 362);
@@ -309,27 +326,30 @@ const cardLines = (lines, c, fill) => lines.map((l, i) => TX(l, 0, Math.round(c.
 const CY = 214;
 function finale(d, t0) {
   const fc = bigCard('sum', d.summary, 60), l2 = d.summary[1], y1 = Math.round(CY + fc.top + fc.sz * .36), y2 = Math.round(CY + fc.top + fc.sz * 1.3 + fc.sz * .36), uw = Math.min(fc.w - 100, W(l2, fc.sz));
-  return scene(t0, null, G(fc.svg(), [[t0, 480, CY + 16, .9, 0], [t0 + .45, 480, CY, 1, 1]]) + G(TX(d.summary[0], 0, 0, fc.sz, '#BFD9FA', 900), [[t0 + .3, 480, y1 + 10, 1, 0], [t0 + .7, 480, y1, 1, 1]]) +
-    letterDive(l2, 480, y2, fc.sz, t0 + .6, '#FFFFFF') + underline(480 - uw / 2, y2 + fc.sz * .3, uw, t0 + 1.6, '#FFC94D') + label('한 줄 정리', 'sum'));
+  /* 결과 카드는 snap, 핵심 한 줄만 글자 움직임(kinetic), 밑줄 한 번 — 그다음엔 가만히 */
+  return scene(t0, null, G(fc.svg(), [[t0, 480, CY + TOK.move, .94, 0], [t0 + TOK.s, 480, CY, 1, 1]]) + G(TX(d.summary[0], 0, 0, fc.sz, '#BFD9FA', 900), [[t0 + TOK.s, 480, y1 + TOK.move, 1, 0], [t0 + 2 * TOK.s, 480, y1, 1, 1]]) +
+    letterDive(l2, 480, y2, fc.sz, t0 + .6, '#FFFFFF') + underline(480 - uw / 2, y2 + fc.sz * .3, uw, t0 + .7 + [...l2].length * TOK.cgap + TOK.m, '#FFC94D') + label('한 줄 정리', 'sum', t0));
 }
 function shorts(d) {
   const art = ART[d.id], caps = d.captions; let s = '';
   const ts = Math.min(104, Math.floor(800 / W(d.term, 1))), tw = W(d.term, ts);
-  s += scene(0, B0, G(chip('AI 알기', 'sky', 20), [[0, 480, 96, 1, 1]]) + letterDive(d.term, 480, 222, ts, .15) + G(TX(d.en, 0, 0, 30, '#1568D2', 800), [[.9, 480, 292, 1, 0], [1.3, 480, 282, 1, 1]]) +
-    underline(480 - tw / 2, 244, tw, 1.1, '#FFC94D') + G(shadow(0, 2, 50) + '<g transform="scale(.62)">' + bot() + '</g>', [[.4, 870, 380, .9, 0], [.9, 870, 352, 1, 1]]));
-  s += scene(B0, C0, art.B() + label(d.scene_label || '비유 · ' + d.analogy, 'bi'));
-  s += scene(C0, D0, panel + art.C(C0) + label(d.real_label || '진짜 · ' + d.term + ' ' + d.en.split(' · ')[0], 'real'));
-  const dc = bigCard('gap', d.card_gap); s += scene(D0, E0, rackFocus(dc.svg(cardLines(d.card_gap, dc, INK)), 480, CY, D0 + .1) + label(d.gap_label || '비유와 다른 점', 'gap'));
+  s += scene(0, B0, G(chip('AI 알기', 'sky', 20), [[0, 480, 96, 1, 1]]) + letterDive(d.term, 480, 222, ts, .15) + G(TX(d.en, 0, 0, 30, '#1568D2', 800), [[.9, 480, 282 + TOK.move, 1, 0], [.9 + TOK.s, 480, 282, 1, 1]]) +
+    underline(480 - tw / 2, 244, tw, .15 + [...d.term].length * TOK.cgap + TOK.m, '#FFC94D') + G(shadow(0, 2, 50) + '<g transform="scale(.62)">' + bot() + '</g>', [[.4, 870, 380, .6, 0], [.4 + TOK.l - .14, 870, 352, 1, 1]], EZ_SPRING));
+  POP_E = EZ_SPRING; s += scene(B0, C0, art.B() + label(d.scene_label || '비유 · ' + d.analogy, 'bi', B0));
+  POP_E = ''; s += scene(C0, D0, panel + art.C(C0) + label(d.real_label || '진짜 · ' + d.term + ' ' + d.en.split(' · ')[0], 'real', C0));
+  /* 다른 점: 비유 카드가 뒤집혀 「다른 점」 카드가 된다 (전 → 후) */
+  const dc = bigCard('gap', d.card_gap), front = d.analogy || d.term, fcd = bigCard('bi', [front], 64);
+  s += scene(D0, E0, flip(fcd.svg(cardLines([front], fcd, '#8A4B14')), dc.svg(cardLines(d.card_gap, dc, INK)), 480, CY, D0 + .05, D0 + .75) + label(d.gap_label || '비유와 다른 점', 'gap', D0));
   const ec = bigCard('use', d.card_use), last = d.card_use[d.card_use.length - 1], uw = Math.min(ec.w - 120, W(last, ec.sz));
-  s += scene(E0, F0, G(ec.svg(cardLines(d.card_use, ec, '#17623A')), [[E0, 480, CY + 16, .86, 0], [E0 + .5, 480, CY, 1, 1]]) +
-    underline(480 - uw / 2, CY + ec.top + (d.card_use.length - 1) * ec.sz * 1.3 + ec.sz * .66, uw, E0 + .9, '#7FD1A0') + label('이렇게 써요', 'use'));
+  s += scene(E0, F0, G(ec.svg(cardLines(d.card_use, ec, '#17623A')), [[E0, 480, CY + TOK.move, .94, 0], [E0 + TOK.s, 480, CY, 1, 1]]) +
+    underline(480 - uw / 2, CY + ec.top + (d.card_use.length - 1) * ec.sz * 1.3 + ec.sz * .66, uw, E0 + .6, '#7FD1A0') + label('이렇게 써요', 'use', E0));
   s += finale(d, F0);
   return { body: s, caps: [[.2, caps[0]], [B0 + .1, caps[1]], [C0 + .1, caps[2]], [C0 + 3, caps[3]], [D0 + .1, caps[4]], [E0 + .1, caps[5]], [F0 + .1, caps[6]]], dur: 23, poster: B0 + 4.7 };
 }
 function mini(d) {
   const art = ART[d.id], c0 = 4.6, f0 = 10, caps = d.captions; let s = '';
-  s += scene(0, c0, art.B() + label(d.scene_label || '비유 · ' + d.analogy, 'bi'));
-  s += scene(c0, f0, panel + art.C(c0) + label(d.real_label || '진짜 · ' + d.term + ' ' + d.en, 'real'));
+  POP_E = EZ_SPRING; s += scene(0, c0, art.B() + label(d.scene_label || '비유 · ' + d.analogy, 'bi', 0));
+  POP_E = ''; s += scene(c0, f0, panel + art.C(c0) + label(d.real_label || '진짜 · ' + d.term + ' ' + d.en, 'real', c0));
   s += finale(d, f0);
   return { body: s, caps: [[.2, caps[0]], [2.4, caps[1]], [c0 + .1, caps[2]], [c0 + 3.7, caps[3]], [f0 + .1, caps[4]]], dur: 13, poster: 4.2 };
 }
@@ -340,7 +360,7 @@ const CSS = 'html,body{margin:0;height:100%;overflow:hidden;background:#16233A;f
   '#bar{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;min-height:20%;background:#16233A;color:#fff;box-sizing:border-box;border-top:1px solid rgba(255,255,255,.14)}' +
   '#pp{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#1568D2;display:grid;place-items:center;cursor:pointer;padding:0;transition:transform .2s cubic-bezier(.22,1,.36,1)}#pp:hover{transform:scale(1.06)}#pp svg{position:static;width:22px;height:22px}' +
   '#pp:focus-visible{outline:3px solid #FFE58A;outline-offset:2px}#cap{flex:1;font-size:clamp(14px,2.8vw,22px);line-height:1.35;font-weight:700;letter-spacing:-.01em}' +
-  '#cap.n{animation:cf .4s cubic-bezier(.22,1,.36,1)}@keyframes cf{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}' +
+  '#cap.n{animation:cf .32s cubic-bezier(.23,1,.32,1)}@keyframes cf{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}' +
   '#pg{position:absolute;left:0;right:0;top:0;height:14px;cursor:pointer}#pg:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:rgba(255,255,255,.24)}' +
   '#pg i{position:absolute;left:0;top:0;width:100%;height:4px;background:#FFE58A;transform-origin:left;transform:scaleX(0)}' +
   '#big{position:absolute;left:50%;top:66%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(22,35,58,.28);display:grid;place-items:center;color:#1568D2;pointer-events:none;transition:opacity .25s,transform .3s cubic-bezier(.22,1,.36,1)}#big svg{position:static;width:32px;height:32px}#big.off{opacity:0;transform:scale(.8)}' +
@@ -349,14 +369,14 @@ const CSS = 'html,body{margin:0;height:100%;overflow:hidden;background:#16233A;f
   '.poster .dr{display:none}' +
   '@media (prefers-reduced-motion:reduce){#cap.n{animation:none}#pp,#big{transition:none}}' +
   '@media (min-width:700px){#cap{font-size:22px}}';
-const ENGINE = '(function(){var DUR=__DUR__,CAPS=__CAPS__,POSTER=__POSTER__,THUMB="__THUMB__",TAGAT="__TAGAT__";var R=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;' +
-  'var els=[].slice.call(document.querySelectorAll("[data-k]")).map(function(e){return{e:e,k:e.getAttribute("data-k").split(";").map(function(s){var p=s.split(":"),v=p[1].split(",").map(Number);return{t:+p[0],x:v[0],y:v[1],s:v[2],o:v[3],a:v.length>4?v[4]:1,b:v.length>5?v[5]:1}}),l:e.hasAttribute("data-lin")}});' +
-  'var bobs=[].slice.call(document.querySelectorAll("[data-bob]"));' +
-  'function ez(p){return 1-Math.pow(1-p,3)}function at(k,t,l){if(t<=k[0].t)return k[0];var n=k.length-1;if(t>=k[n].t)return k[n];for(var i=0;i<n;i++){if(t<k[i+1].t){var a=k[i],b=k[i+1],p=(t-a.t)/(b.t-a.t);if(!l)p=ez(p);return{x:a.x+(b.x-a.x)*p,y:a.y+(b.y-a.y)*p,s:a.s+(b.s-a.s)*p,o:a.o+(b.o-a.o)*p,a:a.a+(b.a-a.a)*p,b:a.b+(b.b-a.b)*p}}}return k[n]}' +
+const ENGINE = '(function(){var DUR=__DUR__,CAPS=__CAPS__,POSTER=__POSTER__,THUMB="__THUMB__",TAGAT="__TAGAT__";var R=(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)||/reduced=1/.test(location.search);' +
+  'var els=[].slice.call(document.querySelectorAll("[data-k]")).map(function(e){return{e:e,k:e.getAttribute("data-k").split(";").map(function(s){var p=s.split(":"),v=p[1].split(",").map(Number);return{t:+p[0],x:v[0],y:v[1],s:v[2],o:v[3],a:v.length>4?v[4]:1,b:v.length>5?v[5]:1}}),l:e.hasAttribute("data-lin")?"lin":(e.getAttribute("data-e")||"snap")}});' +
+  /* 공통 곡선: snap 1-(1-t)^5 · spring 1-e^(-6.2t)cos(12.5t) · inout(뒤집기) · lin(궤도) */
+  'var EZ={lin:function(p){return p},snap:function(p){return 1-Math.pow(1-p,5)},spring:function(p){return p>=1?1:1-Math.exp(-6.2*p)*Math.cos(12.5*p)},inout:function(p){return p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2}};' +
+  'function at(k,t,l){if(t<=k[0].t)return k[0];var n=k.length-1;if(t>=k[n].t)return k[n];for(var i=0;i<n;i++){if(t<k[i+1].t){var a=k[i],b=k[i+1],p=(t-a.t)/(b.t-a.t);p=(EZ[l]||EZ.snap)(p);return{x:a.x+(b.x-a.x)*p,y:a.y+(b.y-a.y)*p,s:a.s+(b.s-a.s)*p,o:a.o+(b.o-a.o)*p,a:a.a+(b.a-a.a)*p,b:a.b+(b.b-a.b)*p}}}return k[n]}' +
   'var cap=document.getElementById("cap"),pg=document.getElementById("pg").firstChild,pp=document.getElementById("pp"),big=document.getElementById("big");var t=0,playing=false,last=0,ci=-1,idle=false;' +
   'var IP=\'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>\',IA=\'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg>\',IR=\'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>\';' +
-  'function draw(){els.forEach(function(o){var v=at(o.k,t,o.l);o.e.setAttribute("transform","translate("+v.x.toFixed(1)+" "+v.y.toFixed(1)+") scale("+(v.s*v.a).toFixed(3)+" "+(v.s*v.b).toFixed(3)+")");o.e.setAttribute("opacity",v.o.toFixed(3))});' +
-  'bobs.forEach(function(e,i){var y=(R||!playing)?0:Math.sin(t*2.6+i)*2.2;e.setAttribute("transform","translate(0 "+y.toFixed(2)+")")});' +
+  'function draw(){els.forEach(function(o){var v=at(o.k,t,o.l);o.e.setAttribute("transform","translate("+v.x.toFixed(1)+" "+v.y.toFixed(1)+") scale("+(v.s*v.a).toFixed(3)+" "+(v.s*v.b).toFixed(3)+")");o.e.setAttribute("opacity",Math.max(0,Math.min(1,v.o)).toFixed(3))});' +
   'var c=0;for(var i=0;i<CAPS.length;i++)if(t>=CAPS[i][0])c=i;if(c!==ci){ci=c;cap.textContent=CAPS[c][1];if(!R){cap.className="";void cap.offsetWidth;cap.className="n"}}pg.style.transform="scaleX("+(t/DUR)+")"}' +
   'function ui(){var ended=t>=DUR;pp.innerHTML=playing?IA:(ended?IR:IP);pp.setAttribute("aria-label",playing?"일시정지":(ended?"처음부터 다시 보기":"재생"));big.className=playing?"off":"";big.innerHTML=ended?IR:IP}' +
   'function tick(n){if(!playing)return;t=Math.min(DUR,t+(n-last)/1000);last=n;draw();if(t>=DUR){playing=false;ui();return}requestAnimationFrame(tick)}' +
@@ -375,7 +395,7 @@ const ENGINE = '(function(){var DUR=__DUR__,CAPS=__CAPS__,POSTER=__POSTER__,THUM
 const DEFS = '<defs><filter id="bl" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur stdDeviation="7"/></filter><pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.7" fill="#C9DCF5"/></pattern></defs>';
 function page(d, sc) {
   return '<!DOCTYPE html>\n<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
-    '<title>' + esc(d.term) + ' — AI 알기 움직이는 그림</title><style>' + CSS + '</style></head><body>\n' +
+    '<link rel="icon" href="data:,"><title>' + esc(d.term) + ' — AI 알기 움직이는 그림</title><style>' + CSS + '</style></head><body>\n' +
     '<!-- 자동 생성: tools/gen-terms.js (글은 data/terms.json) · 외부 요청 0건 · 소리 없음 · 자막 항상 켜짐 · 자동재생 없음 (?poster=1 대표 한 장 · #t=초 멈춘 장면) -->\n' +
     '<div id="st"><svg viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" role="img" aria-label="' + esc(d.term) + ' 설명 그림: 비유, 진짜 작동, 다른 점, 활용 순서. 아래 자막으로 같은 내용을 읽을 수 있어요.">' + DEFS + wall + counter + sc.body + '</svg><div id="big" aria-hidden="true"></div></div>\n' +
     '<div id="bar"><button id="pp" type="button" aria-label="재생"></button><div id="cap" role="status" aria-live="off">' + esc(sc.caps[0][1]) + '</div><div id="pg" aria-hidden="true"><i></i></div></div>\n' +
