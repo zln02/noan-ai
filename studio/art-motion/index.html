@@ -37,6 +37,7 @@ footer{text-align:center;font-size:11px;color:var(--math-muted);padding:0 20px 2
   <nav aria-label="주요 메뉴"><a href="../../index.html">홈</a><a href="../index.html">수업 도구</a><a href="../../library/index.html">자료실</a></nav>
 </header>
 <main id="main">
+  <div role="alert" style="margin:0 0 22px;padding:18px 22px;border:2px solid #b42318;border-radius:14px;background:#fff4f2;color:#7a1a10;font-size:17px;line-height:1.6;font-weight:700">학생 작품·얼굴 사진은 올리지 마세요. 이 도구는 지금 학교 승인 목록에 없어요.</div>
   <section class="intro"><div><p class="eyebrow">ART STUDIO · 중학교 미술</p><h1>내 그림 살리기<span class="dot">.</span></h1><p>그림을 넣고 바꿀 내용을 쓰면 AI가 그림을 바꾸고, 움직임을 쓰면 5초 영상으로 만듭니다.</p></div><span class="local-badge">가입 없이 · 참가 코드로</span></section>
   <div class="workspace">
     <aside class="controls" aria-label="그림과 문장 준비">
@@ -71,7 +72,6 @@ footer{text-align:center;font-size:11px;color:var(--math-muted);padding:0 20px 2
       <p class="status" id="status" role="status" aria-live="polite">그림을 먼저 골라 주세요.</p>
       <section class="notice" aria-label="안전 규칙"><h2>안전 규칙</h2><ul><li>학생 이름·얼굴·성적이 들어간 이미지는 올리지 않습니다. 작품만 촬영합니다.</li><li>만드는 동안 창을 닫지 않습니다. 그림은 1~2분, 영상은 1~3분 걸립니다.</li><li>AI로 만든 결과물은 「AI로 만듦」이라고 표시해서 공유합니다.</li></ul></section>
       <details class="help"><summary>처음 사용하시나요?</summary><ol><li>선생님께 받은 내 참가 코드를 넣습니다.</li><li>작품 사진을 고르고, 바꿀 내용을 쓴 뒤 「AI로 그림 바꾸기」를 누릅니다. (최대 5번)</li><li>가장 마음에 드는 그림에서 움직임을 쓰고 「5초 영상으로 만들기」를 누릅니다. (2번)</li><li>바뀐 그림과 영상을 내려받습니다.</li></ol></details>
-      <details class="help"><summary>선생님용 · AI 크레딧 계산</summary><div class="budget-box"><p>위의 생성 횟수는 참가 코드의 사용 한도입니다. <a href="https://platform.lumalabs.ai/billing" target="_blank" rel="noopener noreferrer">Luma 청구 화면</a>에서 실제 잔액을 확인한 뒤 아래에 입력하면 제작 가능 횟수를 계산합니다.</p><label for="budgetUsd">확인한 Luma 잔액 (USD)</label><input id="budgetUsd" type="number" min="0" step="0.01" inputmode="decimal" placeholder="예: 8.12"><output id="budgetResult" aria-live="polite">잔액을 입력하면 예상 횟수가 표시됩니다.</output><small id="budgetUpdated"></small><small>계산 기준: uni-1 그림 변환 1회 $0.0434 · ray-3.2 540p 5초 영상 1회 $0.15. 다른 기기에서 만든 결과, 충전·환불, Anthropic 문장 다듬기 비용은 이 계산에 자동 반영되지 않습니다. 실제 잔액은 Luma 청구 화면을 확인해 주세요. <a href="https://docs.agents.lumalabs.ai/guides/pricing/" target="_blank" rel="noopener noreferrer">요금표 보기</a></small></div></details>
     </div>
   </div>
 </main>
@@ -93,10 +93,6 @@ function poll(id,kind){var tries=0;return new Promise(function(resolve,reject){f
 function showImage(url){imageUrl=url;$('imageStage').innerHTML='<span class="tag">바뀐 그림</span><img src="'+url+'" alt="AI로 바꾼 학생 작품">';$('imageDownload').href=url;$('imageDownload').hidden=false}
 function showVideo(url){$('videoStage').innerHTML='<span class="tag">5초 영상</span><video src="'+url+'" controls autoplay muted loop playsinline aria-label="학생 작품으로 만든 영상"></video>';$('videoDownload').href=url;$('videoDownload').hidden=false}
 function quotaText(kind,d){return d.unlimited?'참가 코드 횟수 제한 없음 · 유료 크레딧 별도':(kind==='image'?'참가 코드 그림 남은 횟수 '+d.remainingImages:'참가 코드 영상 남은 횟수 '+d.remainingVideos)}
-var BUDGET_KEY='noan.art.budget.v1', IMAGE_COST=0.0434, VIDEO_COST=0.15;
-function drawBudget(){var raw=$('budgetUsd').value.trim(), out=$('budgetResult');if(raw===''||!Number.isFinite(+raw)||+raw<0){out.textContent='잔액을 입력하면 예상 횟수가 표시됩니다.';return}var usd=+raw, count=function(cost){return Math.floor((usd+0.0000001)/cost)};out.textContent='예상 가능: 그림만 '+count(IMAGE_COST)+'회 · 영상만 '+count(VIDEO_COST)+'회 · 그림 1장 + 영상 1개 '+count(IMAGE_COST+VIDEO_COST)+'세트 · 참가 코드 한도(그림 5회 + 영상 2회) 기준 '+count(IMAGE_COST*5+VIDEO_COST*2)+'명';}
-try{var savedBudget=JSON.parse(localStorage.getItem(BUDGET_KEY)||'null');if(savedBudget&&Number.isFinite(savedBudget.usd)&&savedBudget.usd>=0){$('budgetUsd').value=String(savedBudget.usd);$('budgetUpdated').textContent='이 기기에 저장한 잔액 · '+new Date(savedBudget.at).toLocaleString('ko-KR')+' 입력';drawBudget()}}catch(e){}
-$('budgetUsd').addEventListener('input',function(){drawBudget();var raw=this.value.trim();if(raw!==''&&Number.isFinite(+raw)&&+raw>=0){var at=new Date().toISOString();try{localStorage.setItem(BUDGET_KEY,JSON.stringify({usd:+raw,at:at}))}catch(e){}$('budgetUpdated').textContent='이 기기에 저장한 잔액 · '+new Date(at).toLocaleString('ko-KR')+' 입력'}else{$('budgetUpdated').textContent='';try{localStorage.removeItem(BUDGET_KEY)}catch(e){}}});
 $('imageFile').addEventListener('change',function(){file=this.files&&this.files[0];if(!file)return;if(file.size>4*1024*1024){file=null;this.value='';say('그림은 4MB 이하로 골라 주세요.','err');return}var u=URL.createObjectURL(file);$('dropInner').innerHTML='<img class="preview" src="'+u+'" alt="선택한 원본 그림"><strong>다른 그림 고르기</strong>';say('문장을 쓰고 그림 바꾸기를 눌러 주세요.');sync()});
 $('prompt').addEventListener('input',sync);$('accessCode').addEventListener('input',sync);
 $('editBtn').addEventListener('click',async function(){busy=true;sync();try{say('그림을 서버에 보내는 중이에요…');var raw=await dataUrl(file), comma=raw.indexOf(','), d=await api({action:'edit',prompt:$('prompt').value.trim(),image:{data:raw.slice(comma+1),mediaType:file.type}});say('AI가 그림을 바꾸는 중이에요…');var done=await poll(d.generationId,'image');imageGeneration=d.generationId;showImage(done.url);say('바뀐 그림을 확인하세요. 마음에 들면 영상을 만드세요.','ok');$('imageQuota').textContent=quotaText('image',done)}catch(e){say(e.message,'err')}finally{busy=false;sync()}});

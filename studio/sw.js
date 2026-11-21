@@ -1,6 +1,6 @@
 /* Offline bundle for the five tools that can run without a server.
    Bump CACHE_VERSION whenever the bundled pages or assets change. */
-var CACHE_VERSION = 'noan-studio-v25';
+var CACHE_VERSION = 'noan-studio-v26';
 var CACHE_PREFIX = 'noan-studio-';
 var FILES = [
   'index.html',
@@ -25,7 +25,6 @@ var FILES = [
   'dokdo-ox/img/gangchi-star.webp',
   'dokdo-merge/index.html',
   'math/index.html',
-  'thumbs/art-motion.webp',
   'thumbs/dokdo-merge.webp',
   'thumbs/dokdo-ox.webp',
   'thumbs/dokdo-silhouette.webp',

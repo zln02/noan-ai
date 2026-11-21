@@ -81,14 +81,6 @@
 .s-steps p{margin:3px 0 0;font-size:14.5px;line-height:1.55;color:var(--p-muted)}
 .s-steps kbd{font:inherit;font-size:13px;padding:0 6px;border-radius:5px;border:1px solid var(--p-border);border-bottom-width:2px;background:#F6F9FD}
 
-/* 요청 카드: 첫 화면 「도움이 필요하신가요?」와 같은 결 */
-.s-ask{display:flex;align-items:center;gap:18px;margin-top:18px}
-.s-ask-icon{flex:none;width:52px;height:52px;border-radius:14px;background:var(--p-sky);color:var(--p-blue);display:flex;align-items:center;justify-content:center}
-.s-ask-icon svg{width:26px;height:26px}
-.s-ask h2{font-size:21px !important;letter-spacing:-.6px !important}
-.s-ask p{margin:3px 0 0;color:var(--p-muted);font-size:15px}
-.s-ask .s-open{margin-left:auto;padding:0 22px;white-space:nowrap}
-
 /* 태블릿 오프라인 저장 */
 .s-offline{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px 28px;margin-top:18px;background:linear-gradient(115deg,#eaf4ff,#fff 62%);border-color:#bfd9f8}
 .s-offline h2{margin:4px 0 6px;font-size:clamp(22px,2.4vw,29px);letter-spacing:-.8px;color:var(--p-navy2)}
@@ -112,7 +104,6 @@
 @media (max-width:720px){
   .s-grid,.s-steps{grid-template-columns:1fr}
   .s-filter{width:100%} .s-filter button{flex:1}
-  .s-ask{flex-wrap:wrap} .s-ask .s-open{margin-left:0;width:100%}
   .s-offline{grid-template-columns:1fr}
   .s-offline-actions{width:100%}
 }
@@ -140,7 +131,6 @@
       <a href="../showcase/index.html">활용 사례</a>
       <a href="../library/index.html">자료실</a>
       <a class="is-here" href="../studio/index.html" aria-current="page">수업 도구</a>
-      <a href="../request/index.html">요청하기</a>
       <a class="p-nav-cta" href="https://ai.jne.kr/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path></svg>
         아이모두 바로가기
@@ -151,7 +141,7 @@
 
 <main id="main" class="p-wrap p-main">
 
-  <!-- 히어로: 연수·요청하기 쪽과 같은 틀, 오른쪽은 도구 미리보기 그림 -->
+  <!-- 히어로: 연수 쪽과 같은 틀, 오른쪽은 도구 미리보기 그림 -->
   <section class="p-hero s-hero" aria-labelledby="sHeroTitle">
     <figure class="p-hero-visual s-hero-art" aria-hidden="true">
       <svg viewBox="0 0 900 340" preserveAspectRatio="xMaxYMid slice">
@@ -213,7 +203,7 @@
       <a class="s-compat-link" href="compat.html">태블릿 호환성 확인</a>
     </div>
     <p class="s-offline-status" id="offlineStatus" role="status" aria-live="polite">홈 화면 아이콘으로 연 화면에서 저장 완료 메시지를 확인하고, 비행기 모드에서 다시 실행해 보세요. 갤럭시 탭의 삼성 인터넷과 Chrome은 각각 따로 저장됩니다.</p>
-    <p class="s-offline-small">인터넷에 연결된 동안에는 기존 GitHub Pages 주소와 온라인 랭킹을 그대로 사용합니다. 오프라인 기록은 각 태블릿에 저장되고 5대의 실시간 통합 랭킹은 표시되지 않습니다. 「내 그림 살리기」는 AI 서버가 필요해 오프라인 대상에서 제외됩니다.</p>
+    <p class="s-offline-small">게임 기록과 랭킹은 인터넷에 연결돼 있어도 각 태블릿(기기)에만 저장되고, 인터넷으로 보내지 않아요. 여러 대의 랭킹은 합쳐지지 않아요.</p>
   </section>
 
   <!-- 도구 목록 -->
@@ -252,35 +242,6 @@
                 <li>평면도형 7가지·입체도형 9가지 중 하나를 고르고 길이를 넣어요.</li>
                 <li>치수를 숨기거나 <b>?</b>로 바꾸면 바로 문제가 돼요.</li>
                 <li>인쇄할 때 정답을 넣을지 고를 수 있어요. 그림은 PNG·SVG로 저장돼요.</li>
-              </ol>
-            </details>
-          </div>
-        </div>
-      </article>
-
-      <!-- 미술 AI -->
-      <article class="s-card" data-use="class">
-        <a class="s-thumb" href="art-motion/index.html" tabindex="-1" aria-hidden="true">
-          <img src="thumbs/art-motion.webp" alt="종이 위 물고기 그림이 입체로 튀어나오는 모습" width="1280" height="720" loading="lazy" decoding="async">
-          <span class="s-new">AI</span>
-        </a>
-        <div class="s-body">
-          <div class="s-tags"><span>미술</span><span>생성형 AI</span><span>5초 영상</span><span>인터넷 필요</span></div>
-          <h3><a href="art-motion/index.html">내 그림 살리기</a></h3>
-          <p class="s-desc">학생 작품과 한 문장을 넣으면 그림 속 대상이 바뀌고, 원래 화풍을 살린 5초 영상으로 움직입니다.</p>
-          <ul class="s-meta">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg><b>대상</b>중학교 미술</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M10.5 18h3"/></svg><b>기기</b>인터넷 연결 태블릿·PC</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4.5l3 2M9.5 2.5h5"/></svg><b>한도</b>그림 3회·영상 1회</li>
-          </ul>
-          <div class="s-actions">
-            <a class="s-open" href="art-motion/index.html">내 그림 살리기 열기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            <details class="s-how"><summary>선생님 사용법</summary>
-              <ol>
-                <li>학생에게 수업 코드 <b>NOAN-ART</b>와 서로 다른 참가 코드를 하나씩 나눠 주세요.</li>
-                <li>이름·얼굴·성적이 없는 작품 사진만 올리도록 안내해 주세요.</li>
-                <li>참가 코드 하나로 그림 변환 3회, 5초 영상 1회를 만들 수 있어요. 탭이나 기기를 바꿔도 횟수는 합쳐져요.</li>
-                <li>수업이 끝나면 결과를 내려받고 브라우저 화면을 닫아요.</li>
               </ol>
             </details>
           </div>
@@ -333,10 +294,10 @@
             <a class="s-open" href="dokdo/index.html">독도 게임 열기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             <details class="s-how"><summary>선생님 사용법</summary>
               <ol>
-                <li>학생은 소속(노안초·노안남초·노안중)과 이름을 넣고 시작해요. 실명이 걱정되면 「별명으로 할래요」를 안내해 주세요.</li>
+                <li>학생은 진짜 이름 대신 자동으로 정해지는 별명으로 시작해요. 소속·이름은 묻지 않아요.</li>
                 <li>관리 화면: 첫 화면 랭킹 카드의 <b>[랭킹 관리]</b>를 누르고 비밀번호를 넣어요.</li>
                 <li>카드 짝 수(8~12쌍, 기본 12쌍 = 카드 24장)와 미리 보기 시간(3~8초, 기본 5초), 효과음을 바꿀 수 있어요. 랭킹은 짝 수마다 따로예요.</li>
-                <li>랭킹은 온라인에 계속 남아요. 새로 시작하려면 관리 화면의 [랭킹 리셋]을 누르세요. 다른 태블릿은 같은 랭킹 이름으로 맞춰 주세요.</li>
+                <li>학생은 진짜 이름 대신 자동으로 정해지는 별명으로 참여해요. 랭킹은 이 기기에만 저장돼요. 새로 시작하려면 관리 화면의 [새 랭킹 시작]을 누르세요.</li>
               </ol>
             </details>
           </div>
@@ -351,7 +312,7 @@
         <div class="s-body">
           <div class="s-tags"><span class="ev">독도의 날·부스</span><span>초등·중학생</span><span>문제 191개</span><span>초등·중학생 랭킹</span><span>정답·해설 다시 보기</span></div>
           <h3><a href="dokdo-ox/index.html">노안초 × 노안남초 × 노안중 · 독도 OX 퀴즈</a></h3>
-          <p class="s-desc">독이와 함께 3D 독도 10곳을 한 바퀴 돌며 O/X 문제를 풀어요. 독도가 왜 우리 땅인지 옛 기록과 증거로 쉽게 알아봐요. 학교·이름(별명 가능)을 넣으면 초등·중학생 랭킹에 따로 올라가고, 다 풀면 내가 푼 문제와 해설을 다시 볼 수 있어요.</p>
+          <p class="s-desc">독이와 함께 3D 독도 10곳을 한 바퀴 돌며 O/X 문제를 풀어요. 독도가 왜 우리 땅인지 옛 기록과 증거로 쉽게 알아봐요. 별명으로 참여하면 초등·중학생 랭킹(이 기기에만 저장)에 따로 올라가고, 다 풀면 내가 푼 문제와 해설을 다시 볼 수 있어요.</p>
           <ul class="s-meta">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg><b>대상</b>초등학생·중학생 (노안중은 중학생 판)</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M10.5 18h3"/></svg><b>기기</b>터치 태블릿·전자칠판</li>
@@ -363,9 +324,9 @@
               <ol>
                 <li>태블릿·전자칠판에서 열고 전체 화면으로 띄운 뒤 화면을 한 번 터치해 두세요. 첫 터치 뒤부터 소리가 나요.</li>
                 <li>학생은 학교(노안초·노안남초·노안중)를 고르고 이름이나 「별명으로 할래요」를 눌러 시작해요. 노안중을 고르면 중학생 판(조금 더 깊은 역사 문제)으로 나와요.</li>
-                <li>랭킹은 <b>초등 판·중학생 판을 따로</b> 매겨요(맞힌 개수 → 걸린 시간 순). 첫 화면 카드가 안내 → 초등 랭킹 → 중학생 랭킹으로 번갈아 바뀌어요. 인터넷이 끊겨도 기기에 저장했다가 연결되면 올려요.</li>
+                <li>랭킹은 <b>초등 판·중학생 판을 따로</b> 매겨요(맞힌 개수 → 걸린 시간 순). 첫 화면 카드가 안내 → 초등 랭킹 → 중학생 랭킹으로 번갈아 바뀌어요. 기록은 이 기기에만 저장되고 인터넷으로 보내지 않아요.</li>
                 <li>다 풀면 결과 화면의 <b>「내가 푼 문제 다시 보기」</b>에서 문제마다 ✓/✗, 내 답·정답과 해설을 확인해요. 틀린 문제는 빨갛게 표시돼요.</li>
-                <li>관리 화면: 첫 화면 안내 카드의 <b>[선생님 설정]</b>을 누르고 비밀번호를 넣어요. 문제 수·문제당 시간·중학생 판(노안중 선택 시 자동 / 항상 초등 / 항상 중학생)·소리·문제 켜기/끄기와 랭킹 이름을 바꿀 수 있어요. <b>[새 랭킹 시작]</b>을 누르면 첫 화면 랭킹이 비워지고, 예전 기록은 DB에 남아요.</li>
+                <li>관리 화면: 첫 화면 안내 카드의 <b>[선생님 설정]</b>을 누르고 비밀번호를 넣어요. 문제 수·문제당 시간·중학생 판(참가자가 고르기 / 항상 초등 / 항상 중학생)·소리·문제 켜기/끄기와 랭킹 이름을 바꿀 수 있어요. <b>[새 랭킹 시작]</b>을 누르면 첫 화면 랭킹이 비워지고, 예전 기록은 이 기기에만 남아요.</li>
               </ol>
             </details>
           </div>
@@ -379,7 +340,7 @@
           <span class="s-new">NEW</span>
         </a>
         <div class="s-body">
-          <div class="s-tags"><span class="ev">독도의 날·부스</span><span>초등부터</span><span>한 판 3~5분</span><span>온라인 랭킹</span></div>
+          <div class="s-tags"><span class="ev">독도의 날·부스</span><span>초등부터</span><span>한 판 3~5분</span><span>기기 안 랭킹</span></div>
           <h3><a href="dokdo-merge/index.html">독도 생물 합치기</a></h3>
           <p class="s-desc">같은 독도 바다 생물끼리 합치면 더 큰 생물로! 플랑크톤부터 독이까지 키우며 독도 바다 친구들을 알아봐요.</p>
           <ul class="s-meta">
@@ -393,16 +354,16 @@
               <ol>
                 <li>태블릿·전자칠판에서 열고 전체 화면으로 띄운 뒤 화면을 한 번 터치해 두세요. 첫 터치 뒤부터 소리가 나요.</li>
                 <li>학생은 수조 위에서 손가락을 좌우로 움직이다 떼면 생물이 떨어져요. 같은 생물이 닿으면 더 큰 생물로 합쳐지고, 처음 나온 생물마다 짧은 독도 이야기가 떠요.</li>
-                <li>부스용 <b>5분 제한</b>이 기본으로 켜져 있어요. 시간이 끝나거나 수조가 빨간 선 위로 꽉 차면 소속(노안초·노안남초·노안중)과 이름을 넣고 기록을 남겨요. 실명이 걱정되면 「별명으로 할래요」를 안내해 주세요.</li>
+                <li>부스용 <b>5분 제한</b>이 기본으로 켜져 있어요. 시간이 끝나거나 수조가 빨간 선 위로 꽉 차면 자동으로 정해지는 별명으로 기록을 남겨요. 진짜 이름은 넣지 않아요.</li>
                 <li>관리 화면: 첫 화면 <b>오른쪽 위 구석을 3초 안에 5번</b> 누르고 비밀번호를 넣어요. 비밀번호는 담당 선생님께 물어보세요. 5분 제한 켜기·끄기, 시간(3·5·7분), 효과음·배경음악을 바꿀 수 있어요.</li>
-                <li>랭킹은 온라인에 계속 남아요(인터넷이 끊기면 이 기기에 모아 두었다가 연결되면 올려요). 새로 시작하려면 관리 화면의 [랭킹 리셋]을 누르세요. 다른 태블릿은 같은 랭킹 이름과 같은 제한 시간으로 맞춰 주세요. 시간 제한을 끈 판은 이 기기에만 저장돼요.</li>
+                <li>랭킹은 이 기기에만 저장돼요(인터넷으로 보내지 않아요). 새로 시작하려면 관리 화면의 [랭킹 리셋]을 누르세요.</li>
               </ol>
             </details>
           </div>
         </div>
       </article>
     </div>
-    <p class="s-empty" id="sEmpty" hidden>이 용도의 도구는 아직 없어요. 아래 「도구 요청하기」로 알려 주세요.</p>
+    <p class="s-empty" id="sEmpty" hidden>이 용도의 도구는 아직 없어요.</p>
   </section>
 
   <!-- 이렇게 써요 -->
@@ -416,16 +377,6 @@
       <li><span class="n">2</span><div><b>앱에서 다운로드</b><p>홈 화면 아이콘으로 연 다음 위 버튼을 눌러 저장 완료를 확인해요.</p></div></li>
       <li><span class="n">3</span><div><b>오프라인 시험</b><p>비행기 모드에서 앱을 다시 열어 봐요. 점수는 기기마다 저장돼요.</p></div></li>
     </ol>
-  </section>
-
-  <!-- 요청 -->
-  <section class="p-panel s-ask" aria-labelledby="sAskTitle">
-    <span class="s-ask-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span>
-    <div>
-      <h2 id="sAskTitle">이런 도구가 있으면 좋겠어요?</h2>
-      <p>과목·학년·쓰임을 알려 주시면 수업에 바로 쓸 수 있게 만들어 드립니다.</p>
-    </div>
-    <a class="s-open" href="../request/index.html">도구 요청하기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   </section>
 
 </main>
