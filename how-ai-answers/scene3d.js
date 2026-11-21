@@ -204,6 +204,8 @@
 
     /* ---- 카메라 자세: 바라보는 곳, 올려다보는 각, 가로 반폭·세로 반높이(세계 길이) ---- */
     var step = 0, clock = 0, running = false, raf = 0, last = 0, aspect = 16 / 9;
+    /* 걸음이 바뀐 뒤 1.2초 동안만 살짝 떠다니고, 그다음 0.8초에 걸쳐 멈춘다. 3.5초 뒤에는 그리기도 쉰다(글 읽는 동안 가만히). */
+    var stepAt = 0, amb = 1, idle = false;
     var VIEWS = [
       { lx: 0, ly: -0.1, lz: 0, el: 12, az: 0, hw: 4.2, hh: 3.3 },
       { lx: 0, ly: -0.5, lz: 0, el: 20, az: 0, hw: 6.0, hh: 3.3 },
@@ -224,7 +226,8 @@
     function linkEnds(i) { return { a: [SP[3][0], HOVER, SP[3][1]], b: [SP[i][0], HOVER, SP[i][1]] }; }
 
     function setStep(n, instant) {
-      step = n;
+      step = n; stepAt = clock; amb = 1;
+      if (running && idle) { idle = false; last = performance.now(); raf = requestAnimationFrame(frame); }
       items.forEach(function (it) { it.t.o = 0; if (!it.link) it.t.s = 0.6; });
       vT = VIEWS[n];
       if (n === 0) {
@@ -274,9 +277,9 @@
       var g = it.g, vis = it.c.o > 0.02 && it.c.s > 0.02;
       g.visible = vis; if (!vis) return;
       if (!it.link) {
-        var fy = reduced ? 0 : Math.sin(clock * 1.15 + it.ph) * it.amp;
+        var fy = reduced ? 0 : Math.sin(clock * 1.15 + it.ph) * it.amp * amb;
         g.position.set(it.c.x, it.c.y + fy, it.c.z);
-        if (!reduced) { if (it.spin) g.rotation.y += it.spin * dt; else if (it.tok && (step === 2 || step === 3)) g.rotation.y = Math.sin(clock * 0.7 + it.ph) * 0.12; else g.rotation.y *= 0.9; }
+        if (!reduced) { if (it.spin) g.rotation.y += it.spin * dt * amb; else if (it.tok && (step === 2 || step === 3)) g.rotation.y = Math.sin(clock * 0.7 + it.ph) * 0.12 * amb; else g.rotation.y *= 0.9; }
       }
       g.scale.setScalar(Math.max(0.001, it.c.s));
       var op = Math.min(1, it.c.o);
@@ -285,7 +288,7 @@
     function updateCam() {
       var tanH = Math.tan(cam.fov * Math.PI / 360);
       var d = Math.max(vC.hh / tanH, vC.hw / (aspect * tanH));
-      var el = vC.el * Math.PI / 180, az = vC.az + (reduced ? 0 : Math.sin(clock * 0.22) * 0.03);
+      var el = vC.el * Math.PI / 180, az = vC.az + (reduced ? 0 : Math.sin(clock * 0.22) * 0.03 * amb);
       cam.position.set(vC.lx + Math.sin(az) * Math.cos(el) * d, vC.ly + Math.sin(el) * d, vC.lz + Math.cos(az) * Math.cos(el) * d);
       cam.lookAt(vC.lx, vC.ly, vC.lz);
     }
@@ -305,15 +308,17 @@
       steam.forEach(function (s) {
         var ph = (clock * 0.35 + s.userData.i * 0.33) % 1;
         s.position.set((s.userData.i - 1) * 0.6 + Math.sin(clock + s.userData.i) * 0.1, FL + 1.2 + ph * 1.5, 0.5);
-        s.material.opacity = step === 5 ? 0.35 * Math.sin(ph * Math.PI) : 0;
+        s.material.opacity = step === 5 ? 0.35 * Math.sin(ph * Math.PI) * amb : 0;
       });
-      boke.forEach(function (m) { m.position.y += Math.sin(clock * 0.4 + m.userData.ph) * 0.0025; });
+      boke.forEach(function (m) { m.position.y += Math.sin(clock * 0.4 + m.userData.ph) * 0.0025 * amb; });
     }
     function frame(now) {
       if (!running) return;
-      raf = requestAnimationFrame(frame);
       var dt = Math.min(0.05, (now - last) / 1000); last = now; clock += dt;
+      var live = clock - stepAt; amb = live < 1.2 ? 1 : Math.max(0, 1 - (live - 1.2) / 0.8);
       tick(dt); updateCam(); renderer.render(scene, cam);
+      if (live > 3.5) { idle = true; return; }
+      raf = requestAnimationFrame(frame);
     }
     function renderOnce() {
       /* 동작 줄이기: 막대 높이도 바로 맞춘다 */
@@ -325,12 +330,13 @@
       var w = canvas.clientWidth || 640, h = canvas.clientHeight || Math.round(w * 9 / 16);
       renderer.setSize(w, h, false); aspect = w / h; cam.aspect = aspect; cam.updateProjectionMatrix();
       if (!running && reduced) renderOnce();
+      else if (running && idle) { updateCam(); renderer.render(scene, cam); }
     }
     linkPlace(); setStep(0, false); resize();
     if (reduced) renderOnce();
     return {
       setStep: setStep, resize: resize,
-      start: function () { if (running) return; if (reduced) { renderOnce(); return; } running = true; last = performance.now(); raf = requestAnimationFrame(frame); },
+      start: function () { if (running) return; if (reduced) { renderOnce(); return; } running = true; idle = false; stepAt = clock; last = performance.now(); raf = requestAnimationFrame(frame); },
       stop: function () { running = false; cancelAnimationFrame(raf); },
       dispose: function () { running = false; cancelAnimationFrame(raf); renderer.dispose(); }
     };
