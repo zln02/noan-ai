@@ -12,7 +12,13 @@ ART_C = '<svg class="slot-art" viewBox="0 0 190 150" aria-hidden="true" focusabl
 ART = {'iamodu': ART_A, 'start': ART_A, 'ai': ART_B, 'terms': ART_C, 'how-ai-answers': ART_C}
 
 
+# 「AI 알기」 세 쪽(ai · terms · how-ai-answers)은 2026-11 손질 뒤 손으로 고친다 (shared/ai-know.css). 다시 만들면 덮어써지므로 건너뛴다.
+HAND = ('ai/', 'terms/index.html', 'terms/terms.js', 'how-ai-answers/')
+
+
 def page(path, title, desc, body, scripts=""):
+    if path.startswith(HAND):
+        print('건너뜀(손으로 고치는 쪽):', path); return
     full = os.path.join(ROOT, path)
     body = body.replace('<section class="page-hero">', '<section class="page-hero">' + ART.get(path.split('/')[0], ''), 1)
     os.makedirs(os.path.dirname(full), exist_ok=True)
@@ -59,6 +65,8 @@ def page(path, title, desc, body, scripts=""):
 
 
 def write(path, text):
+    if path.startswith(HAND):
+        print('건너뜀(손으로 고치는 쪽):', path); return
     with open(os.path.join(ROOT, path), 'w', encoding='utf8', newline='\n') as f:
         f.write(text)
 

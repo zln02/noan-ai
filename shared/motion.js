@@ -17,8 +17,8 @@
   };
   if (reduced) return;
 
-  var CARD_SEL = '.g-quick-card, .g-support-card, .g-first-steps > li, .toc > .panel, .model, .term, .flow > li, .g-step, .g-result-card';
-  var DRAW_SEL = '.g-section-heading h2, .g-more-title, .page-hero h1, .g-section h2, .g-first-heading h2';
+  var CARD_SEL = '.g-quick-card, .g-support-card, .g-first-steps > li, .toc > .panel, .model, .term, .flow > li, .g-step, .g-result-card, .ak-reveal';
+  var DRAW_SEL = '.g-section-heading h2, .g-more-title, .page-hero h1, .ak-hero h1, .g-section h2, .g-first-heading h2';
   var io = null;
   var listRevealed = false;
 

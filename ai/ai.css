@@ -1,35 +1,4 @@
-/* ai/ai.css — AI 활용 안내 마감 (premium.css 뒤) */
-#models { margin: var(--pm-s5) 0 var(--pm-s6); }
-.ai-grid { display: grid; gap: var(--pm-s4); grid-template-columns: 1fr; }
-@media (min-width: 760px) { .ai-grid { grid-template-columns: repeat(2, 1fr); } }
-.ai-card {
-  --pm-tone: var(--pm-sky-ink);
-  position: relative; overflow: hidden; display: grid; gap: 16px; align-content: start;
-  padding: 24px 24px 20px; border-radius: var(--pm-r-lg); background: var(--pm-surface);
-  border: 1px solid var(--pm-border); box-shadow: var(--pm-sh-2);
-  transition: box-shadow var(--pm-mid) var(--pm-ease), transform var(--pm-mid) var(--pm-ease);
-}
-.ai-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--pm-tone); }
-.ai-card:hover { box-shadow: var(--pm-sh-2); transform: none; }
-.ai-card.is-kr { --pm-tone: var(--pm-mint-ink); }
-.ai-card.is-global { --pm-tone: var(--pm-lilac-ink); }
-.ai-card.is-todo { --pm-tone: var(--pm-butter-ink); }
-.ai-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.ai-card .ai-name { margin: 0; font-size: var(--pm-fs-xl); line-height: 1.25; color: var(--pm-ink); }
-.ai-maker { margin: -8px 0 0; font-size: var(--pm-fs-sm); color: var(--pm-ink-3); font-weight: 700; }
-.ai-sum { margin: 0; font-size: var(--pm-fs-md); line-height: 1.65; color: var(--pm-ink-2); }
-.ai-sec { display: grid; gap: 8px; padding-top: 16px; border-top: 1px dashed var(--pm-border-2); }
-.ai-sec h4 { margin: 0; font-size: var(--pm-fs-xs); color: var(--pm-ink-3); font-weight: 800; letter-spacing: .02em; }
-.ai-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.ai-tags li { padding: 4px 12px; border-radius: 999px; background: var(--pm-sunken); border: 1px solid var(--pm-border); color: var(--pm-ink); font-size: var(--pm-fs-sm); font-weight: 700; line-height: 1.3; }
-.ai-note { margin: 0; font-size: var(--pm-fs-xs); color: var(--pm-ink-3); line-height: 1.6; }
-.ai-in { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; margin: 0; }
-.ai-in span:last-child:not(.pm-chip) { font-size: var(--pm-fs-sm); color: var(--pm-ink-2); line-height: 1.55; flex: 1 1 200px; min-width: 0; }
-.ai-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding-top: 16px; border-top: 1px solid var(--pm-border); }
-.ai-foot .pm-chip { white-space: normal; height: auto; padding: 8px 8px; line-height: 1.3; }
-.ai-missing { margin: 0; padding: 12px 16px; border-radius: var(--pm-r-sm); background: var(--pm-butter); border: 1px dashed var(--pm-butter-line); color: #5E4300; font-size: var(--pm-fs-sm); line-height: 1.6; }
-.ai-missing .need { background: #fff; }
-
+/* ai/ai.css — 「AI 식당 고르기」 쪽 아래 안내 카드 (공통 모양은 shared/ai-know.css) */
 /* 아래 안내 카드 */
 .ai-more { margin: var(--pm-s6) 0 var(--pm-s5); }
 .ai-more-grid { display: grid; gap: var(--pm-s4); grid-template-columns: 1fr; }
@@ -45,29 +14,12 @@
 .ai-go .ai-arrow svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .ai-go:hover .ai-arrow { transform: translateX(3px); background: var(--pm-sky); }
 @media (max-width: 420px) {
-  .ai-card { padding: 24px 16px 16px; }
   .ai-go { grid-template-columns: 48px minmax(0, 1fr); }
   .ai-go .pm-ico { width: 48px; height: 48px; }
   .ai-go .ai-arrow { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ai-card, .ai-go .ai-arrow { transition: none; }
-  .ai-card:hover, .ai-go:hover .ai-arrow { transform: none; }
+  .ai-go .ai-arrow { transition: none; }
+  .ai-go:hover .ai-arrow { transform: none; }
 }
 
-/* 쓰기 전에 세 가지 (2026-11 AI 알기 손질) — 맨 위, 번호 + 한 줄 + 그림 링크 */
-.ai-rules { margin: 20px 0 28px; }
-.ai-rules > h2 { margin: 0 0 12px; font-size: 22px; color: var(--pm-ink); }
-.ai-rule-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-@media (min-width: 860px) { .ai-rule-list { grid-template-columns: repeat(3, 1fr); } }
-.ai-rule-list > li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 16px; background: var(--pm-surface); border: 1px solid var(--pm-border); border-radius: var(--pm-r, 16px); }
-.ai-rule-n { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--pm-sky); color: var(--pm-sky-ink); font-weight: 900; font-size: 17px; }
-.ai-rule-list h3 { margin: 4px 0; font-size: 18px; line-height: 1.4; color: var(--pm-ink); word-break: keep-all; }
-.ai-rule-list p { margin: 0 0 6px; font-size: 16px; line-height: 1.6; color: var(--pm-ink-2); word-break: keep-all; }
-.ai-rule-list a { display: inline-flex; align-items: center; min-height: 44px; font-size: 16px; font-weight: 800; }
-.ai-rule-list a::after { content: " →"; white-space: pre; }
-.ai-models-head { margin: 8px 0 12px; }
-.ai-models-head p { margin: 4px 0 0; }
-
-/* 폰에서는 머리 그림을 숨겨 첫 화면에 핵심 줄이 더 보이게 (2026-11 AI 알기 손질) */
-@media (max-width: 600px) { .page-hero .slot-art { display: none; } }
