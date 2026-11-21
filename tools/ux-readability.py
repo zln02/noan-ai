@@ -6,7 +6,7 @@ from playwright.sync_api import sync_playwright
 ROOT = os.environ.get("NOAN_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = sys.argv[1]
 PAGES = sys.argv[2:] or ["index.html", "iamodu/index.html", "terms/index.html", "start/index.html",
-  "training/index.html", "request/index.html", "library/index.html", "library/approval.html",
+  "training/index.html", "library/index.html", "library/approval.html",
   "library/rules.html", "contest/index.html", "about/index.html", "class/index.html",
   "showcase/index.html", "studio/index.html", "ai/index.html", "how-ai-answers/index.html",
   "guide/index.html", "404.html"]

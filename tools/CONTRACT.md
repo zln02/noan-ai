@@ -40,7 +40,7 @@
   <button class="nav-toggle" aria-expanded="false" aria-controls="navmenu">메뉴</button>
   <nav id="navmenu" class="nav-menu" aria-label="주요 메뉴">
     <a href="{ROOT}training/">연수</a><a href="{ROOT}class/">수업</a>
-    <a href="{ROOT}library/">자료실</a><a href="{ROOT}request/">요청하기</a>
+    <a href="{ROOT}library/">자료실</a><a href="{ROOT}start/#stuck">막혔을 때</a>
     <a href="{ROOT}about/">소개</a>
   </nav>
   <span class="online-dot" title="네트워크 상태" aria-hidden="true"></span>

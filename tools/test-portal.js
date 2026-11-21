@@ -74,7 +74,7 @@ test('안내서 검색 화면과 모든 정보 페이지가 공유 스타일을 
   assert.match(home, /data-no="16"/);
   for (const page of ['about/index.html', 'class/index.html', 'contest/index.html',
     'library/index.html', 'library/rules.html', 'library/approval.html',
-    'request/index.html', 'showcase/index.html', 'training/index.html']) {
+    'showcase/index.html', 'training/index.html']) {
     assert.match(read(page), /portal-pages\.css/, `${page}: 공유 스타일 누락`);
   }
 });
@@ -82,7 +82,7 @@ test('안내서 검색 화면과 모든 정보 페이지가 공유 스타일을 
 test('포털의 내부 이동과 이미지 주소는 게시 파일에 연결된다', () => {
   const pages = ['index.html', 'about/index.html', 'class/index.html',
     'contest/index.html', 'library/index.html', 'library/rules.html',
-    'library/approval.html', 'request/index.html', 'showcase/index.html',
+    'library/approval.html', 'start/index.html', 'showcase/index.html',
     'training/index.html'];
   for (const page of pages) {
     const html = read(page).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');

@@ -133,7 +133,7 @@ noan-ai/
 │                                 · s2-deck-v2-NOTICE.md · assets/s2/(handout.pdf · horse.jpg)
 ├── start/                      설치·시작 가이드 (교사 스튜디오 세 걸음)
 ├── studio/                     수업 도구 (자기 sw.js·manifest)
-├── library/  request/  about/  class/  contest/  showcase/
+├── library/  about/  class/  contest/  showcase/
 ├── ops/                        운영 층 — 홈 · log/ · sessions/ · handover/
 ├── sw.js  manifest.webmanifest  offline.html  404.html   「홈 화면에 추가」 + 오프라인
 ├── data/                       ★ 모든 데이터가 여기 한 곳 (JSON 마다 .js 짝)
@@ -143,18 +143,18 @@ noan-ai/
 │   ├── ai-models.json      AI 활용 안내 네 가지
 │   ├── guides.json         도구별 공식 안내 판정 12건 + 외부 연수 3건
 │   ├── schedule.json  sessions.json   연수 일정 · 회차별 기록
-│   ├── log.json  requests.json        활동 기록 · 요청 게시판 (노션에서 내려받음)
+│   ├── log.json                       활동 기록 (노션에서 내려받음)
 │   └── approval.json  quicktasks.json  contest.json  showcase.json
 ├── shared/   tokens.css  site.css  portal.css  portal-pages.css  premium.css  app.css  readability.css(가독성 층)
 │             app.js(탭바·오프라인)  site.js  motion.js  zoom.js(크게 보기)  dial.js  icons.js  config.js  feedback.js
 │             deck.css  deck.js  deck-stage.js  contest.js
 │             vendor/ alpine · three · webawesome · open-props (라이선스 동봉)
 ├── assets/   guide/(안내서 화면)  iamodu/(도구 사전 화면, 가린 사본)  terms/(썸네일)  qr-*.svg  아이콘
-├── tools/    sync-notion.js  sync-requests.js  sync-data.js  gen-home-static.js  gen-terms.js  shoot-terms.py
+├── tools/    sync-notion.js  sync-data.js  gen-home-static.js  gen-terms.js  shoot-terms.py
 │             guide-build.py  check-copy.js  test-portal.js
 │             ux-audit.py  ux-axe-detail.py  ux-offline-check.py  ux-readability.py  ux-contact.py  CONTRACT.md  …
 ├── supabase/ feedback.sql  migrations/  functions/   (선택 기능, 기본은 꺼짐)
-├── docs/     decisions.md  handover.md  requests.md  ux/(진단·측정·전후 그림)  harness-testbed/  content/  cli/  shots/  …
+├── docs/     decisions.md  handover.md  ux/(진단·측정·전후 그림)  harness-testbed/  content/  cli/  shots/  …
 ├── private/  (gitignore) 학교 실물 자료
 └── README.md  LICENSE
 ```
@@ -183,7 +183,7 @@ AI 알기도 같다. `tools/gen-terms.js` 가 `data/terms.json` 의 글로 `term
 ## 갱신하기
 
 ```bash
-# 1. 노션에 적는다 (활동 기록 · 도구 승인 현황 · 요청 게시판)
+# 1. 노션에 적는다 (활동 기록 · 도구 승인 현황)
 # 2. 내려받는다
 NOTION_TOKEN=... NOTION_LOG_DB=... node tools/sync-notion.js
 # 3. file:// 폴백 짝을 다시 만든다 (푸터의 「최종 수정」도 오늘 날짜로 찍힌다)
@@ -231,8 +231,8 @@ PYTHONUTF8=1 py tools/ux-readability.py <출력 폴더>   # 글자 크기 · 줄
 [`/ops/handover`](ops/handover/index.html) — 이 자리가 하는 일, 연간 흐름, 계정 발급 절차,
 파일 위치, 첫날 할 일 5개, 미해결 목록.
 큰 결정의 이유는 [`docs/decisions.md`](docs/decisions.md) 에 날짜와 함께 적어 두었다.
-선생님 요청이 들어온 뒤의 처리 절차 — 노션 두 DB, 상태 바꾸는 기준, 공개 기준, 내보내는 명령 — 는
-[`docs/requests.md`](docs/requests.md) 에 있다.
+요청하기(`request/`) 쪽과 요청 게시판은 2026-11 에 없앴다. 막혔을 때 보는 곳은 `start/index.html#stuck`
+(자주 막히는 8가지 · 아이모두 처음 순서 7단계)이다.
 아이모두 화면이 바뀌면 [`docs/ux/iamodu-manual-update.md`](docs/ux/iamodu-manual-update.md) 의 「남은 일」부터 본다.
 
 ## 라이선스

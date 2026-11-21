@@ -20,7 +20,7 @@ library/index.html    교육청 지원 도구 5 + 시작법
 library/rules.html    안전 규칙 한 장 (인쇄 A4)
 library/approval.html 도구 승인 현황 (data/approval.json 을 읽어 렌더)
 data/approval.json   승인 현황 사본 — 원천은 노션 DB
-request/index.html    요청하기 (노션 폼 자리)
+start/index.html      하네스 설치 + 「막혔을 때」(#stuck) · 처음 순서(#journey)
 about/index.html      코디네이터 소개
 showcase/index.html   학생 작품 — 준비 중 (data/showcase.json, consent:true 만 렌더)
 shared/               tokens.css site.css deck.css deck.js site.js icons.js
@@ -35,18 +35,10 @@ private/              (gitignore) 학교 실물 자료 — 절대 커밋하지 �
 - 네트워크가 끊겨도 덱은 그대로 돈다. 외부 요청이 0건이기 때문이다.
 
 ## 4. 아직 비어 있는 것
-- `data-form=""` 1곳 — `request/index.html`. 노션 폼 공개 URL 이 정해지면 채운다.
+- 요청하기(`request/`)·요청 게시판은 2026-11 에 없앴다 (받은 요청 0건, 사람에게 기대는 약속을 남기지 않기 위해).
+  자주 막히는 8가지와 처음 7단계는 `start/index.html` 의 `#stuck` · `#journey` 로 옮겼다.
   (덱 쪽 폼 자리는 2026-09-13 새 시안 18장으로 바뀌면서 없어졌다. 연수 설문은 18번 장 QR → 구글 폼.)
-
-  **요청 게시판 (2026-09-10)** — 받는 곳은 노션으로 정했다. 정적 사이트라 글을 받아줄 서버가 없다.
-  - 노션 DB 「노안중 AI교육 — 요청 게시판」 `39eb7d4e6d46446db925fbd099f9ade7`
-    속성: 제목 · 내용 · 유형 · 상태 · 소속 · 공감 · 답변 · **공개**(체크) · 올린 날
-  - **「공개」 를 켠 줄만** 사이트로 나간다. 선생님이 보낸 원문이 곧바로 학교 사이트에 올라가지 않는다.
-  - 내려받기: `NOTION_TOKEN=... NOTION_REQUESTS_DB=... node tools/sync-requests.js` → `node tools/sync-data.js` → 커밋
-  - 아직 없는 것: 그 DB의 **공개 폼 URL**. 받으면 `request/index.html` 의 `data-form` 에 넣는다.
-    그 전까지 「새 요청 쓰기」 는 보내실 문장을 만들어 드리는 데까지만 한다.
-  - **요청이 들어온 뒤 누가·언제·어떻게 처리하고 무엇을 공개하는지** — [`docs/requests.md`](requests.md) 에 절차로 적어 두었다.
-- `assets/qr-site.svg` · `assets/qr-request.svg` — GitHub Pages 주소가 확정된 뒤 생성한다.
+- `assets/qr-site.svg` — GitHub Pages 주소가 확정된 뒤 생성한다.
   ```bash
   pip install "qrcode[pil]"
   python -m qrcode "<사이트 주소>" --factory=svg-path --output=assets/qr-site.svg

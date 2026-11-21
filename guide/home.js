@@ -339,7 +339,7 @@ function renderDetail(task, index) {
     '<div class="g-detail-top">' +
       '<div class="g-detail-actions">' +
         '<a class="g-back" href="#">← 목록으로</a>' +
-        '<a class="g-request" href="request/index.html">요청하기</a>' +
+        '<a class="g-request" href="start/index.html#stuck">막혔을 때</a>' +
       '</div>' +
       pagerHtml(index) +
     '</div>' +

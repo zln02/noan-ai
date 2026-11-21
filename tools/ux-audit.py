@@ -6,7 +6,7 @@ import glob
 _ax=glob.glob(r"C:\Users\User\Downloads\teacher-studio\shared\vendor\axe-core\axe*.min.js")
 AXE=open(_ax[0],encoding="utf8").read() if _ax else None
 os.makedirs(OUT,exist_ok=True)
-PAGES=["index.html","training/index.html","training/s1.html","training/s2.html","library/index.html","library/approval.html","library/rules.html","contest/index.html","request/index.html","about/index.html","class/index.html","showcase/index.html","studio/index.html","studio/compat.html","guide/index.html","iamodu/index.html","ai/index.html","terms/index.html","how-ai-answers/index.html","start/index.html","training/s2-deck.html","ops/index.html","ops/log/index.html","ops/sessions/index.html","ops/handover/index.html","404.html"]
+PAGES=["index.html","training/index.html","training/s1.html","training/s2.html","library/index.html","library/approval.html","library/rules.html","contest/index.html","start/index.html","about/index.html","class/index.html","showcase/index.html","studio/index.html","studio/compat.html","guide/index.html","iamodu/index.html","ai/index.html","terms/index.html","how-ai-answers/index.html","training/s2-deck.html","ops/index.html","ops/log/index.html","ops/sessions/index.html","ops/handover/index.html","404.html"]
 class Q(http.server.SimpleHTTPRequestHandler):
     def log_message(self,*a): pass
 handler=functools.partial(Q,directory=ROOT)

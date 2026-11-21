@@ -10,7 +10,6 @@ import qrcode.image.svg
 
 URLS = {
     "assets/qr-site.svg":    "https://zln02.github.io/noan-ai/",
-    "assets/qr-request.svg": "https://zln02.github.io/noan-ai/request/",
 }
 
 

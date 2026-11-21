@@ -89,7 +89,7 @@
     { key: 'iamodu', label: '아이모두', href: 'iamodu/index.html',   ico: 'iamodu', at: ['iamodu'] },
     { key: 'ai',     label: 'AI 알기',  href: 'ai/index.html',       ico: 'ai',     at: ['ai', 'terms', 'how-ai-answers'] },
     { key: 'learn',  label: '연수·자료', href: 'training/index.html', ico: 'learn',  at: ['training', 'library', 'showcase', 'contest', 'start'] },
-    { key: 'help',   label: '도움',     href: 'request/index.html',  ico: 'help',   at: ['request', 'about'] }
+    { key: 'help',   label: '도움',     href: 'start/index.html#stuck', ico: 'help', at: ['about'] }
   ];
 
   function currentKey() {

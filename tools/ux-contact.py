@@ -3,7 +3,7 @@
 import sys,threading,http.server,socketserver,functools,io
 from playwright.sync_api import sync_playwright
 from PIL import Image, ImageDraw, ImageFont
-SCREENS=[("홈","index.html"),("안내서 카드(회의록)","index.html#04"),("자료실","library/index.html"),("연수","training/index.html"),("요청하기","request/index.html")]
+SCREENS=[("홈","index.html"),("안내서 카드(회의록)","index.html#04"),("자료실","library/index.html"),("연수","training/index.html"),("막혔을 때","start/index.html#stuck")]
 def serve(root):
     class Q(http.server.SimpleHTTPRequestHandler):
         def log_message(self,*a):pass
