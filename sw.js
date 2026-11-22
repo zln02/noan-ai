@@ -1,7 +1,7 @@
 /* 노안중 AI 안내서 — 오프라인용 서비스 워커.
    화면 글과 데이터는 미리 담아 두고(precache), 그림은 본 만큼 담는다(runtime).
    안내서 문장이나 파일 목록을 바꿨다면 CACHE_VERSION 숫자를 하나 올린다. 이 파일 하나만 고치면 된다. */
-var CACHE_VERSION = 'noan-guide-v30';
+var CACHE_VERSION = 'noan-guide-v31';
 var CACHE_PREFIX = 'noan-guide-';
 var CORE = [
   'index.html', 'manifest.webmanifest', 'offline.html',
