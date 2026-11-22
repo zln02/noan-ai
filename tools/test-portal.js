@@ -70,8 +70,9 @@ test('공개 작품은 동의 기준을 갖고, 실제 도구 링크는 파일�
 
 test('안내서 검색 화면과 모든 정보 페이지가 공유 스타일을 사용한다', () => {
   const home = read('index.html');
-  assert.match(home, /DATA\.tasks\.length \+ '가지 전체 보기'/);
-  assert.match(home, /data-no="16"/);
+  /* 홈은 Alpine 화면: 「전체」 탭이 카드 수를 보이고, 16번(업무 지시서) 카드가 있어야 한다 */
+  assert.match(home, /전체 <small x-text="tasks\.length"><\/small>/);
+  assert.match(home, /id="16"/);
   for (const page of ['about/index.html', 'class/index.html', 'contest/index.html',
     'library/index.html', 'library/rules.html', 'library/approval.html',
     'showcase/index.html', 'training/index.html']) {
@@ -86,7 +87,8 @@ test('포털의 내부 이동과 이미지 주소는 게시 파일에 연결된�
     'training/index.html'];
   for (const page of pages) {
     const html = read(page).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '');
-    for (const [, raw] of html.matchAll(/(?:href|src)="([^"<>]+)"/g)) {
+    /* :href · x-bind:href 같은 Alpine 묶음 주소는 글자 조립식이라 건너뛴다 */
+    for (const [, raw] of html.matchAll(/(?<![:\w-])(?:href|src)="([^"<>]+)"/g)) {
       if (!raw || raw.startsWith('#') || /^(https?:|mailto:|data:|javascript:)/i.test(raw)) continue;
       if (raw.includes('{') || raw.includes('$')) continue;
       const target = path.resolve(root, path.dirname(page), decodeURIComponent(raw.split(/[?#]/)[0]));
