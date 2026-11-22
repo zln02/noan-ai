@@ -1,7 +1,7 @@
 /* 노안중 AI 안내서 — 오프라인용 서비스 워커.
    화면 글과 데이터는 미리 담아 두고(precache), 그림은 본 만큼 담는다(runtime).
    안내서 문장이나 파일 목록을 바꿨다면 CACHE_VERSION 숫자를 하나 올린다. 이 파일 하나만 고치면 된다. */
-var CACHE_VERSION = 'noan-guide-v23';
+var CACHE_VERSION = 'noan-guide-v24';
 var CACHE_PREFIX = 'noan-guide-';
 var CORE = [
   'index.html', 'manifest.webmanifest', 'offline.html',
@@ -18,7 +18,7 @@ var CORE = [
   'assets/ai-know/restaurants.webp', 'assets/ai-know/cover-a.webp', 'assets/ai-know/cover-b.webp', 'assets/ai-know/closing.webp', 'assets/ai-know/life.webp', 'assets/ai-know/work.webp', 'assets/ai-know/class.webp',
   'assets/terms/model.webp', 'assets/terms/token.webp', 'assets/terms/context.webp', 'assets/terms/training.webp', 'assets/terms/hallucination.webp', 'assets/terms/prompt.webp', 'assets/terms/rag.webp', 'assets/terms/multimodal.webp', 'assets/terms/agent.webp', 'assets/terms/harness.webp', 'assets/terms/privacy.webp', 'assets/terms/students.webp',
   'start/index.html',
-  /* training/s2-deck-v2·v3.html(약 7~8MB)과 s2-ai-cheating.html은 일부러 여기 넣지 않는다. 모든 방문자가 설치할 때 받게 되기 때문.
+  /* training/s2-deck-v2·v3·e.html(약 7~9MB)과 s2-ai-cheating.html은 일부러 여기 넣지 않는다. 모든 방문자가 설치할 때 받게 되기 때문.
      한 번 열면 아래 navigate 처리에서 담겨서 그다음부터는 오프라인으로 열린다. */
   'training/index.html', 'library/index.html', 'library/rules.html', 'library/approval.html', 'data/approval.js',
   'showcase/index.html', 'data/showcase.js', 'about/index.html',
