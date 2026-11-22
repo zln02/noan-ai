@@ -20,9 +20,24 @@
 <script src="../shared/app.js"></script>
 <style>
 .st-flow { margin-top: 16px; }
+/* 설치 세 걸음: 번호 + 그림 한 장 + 짧은 글 (넓은 화면은 세 칸) */
+.st-flow { position: relative; }
+.st-flow > li { position: relative; grid-template-columns: minmax(0, 1fr); align-items: start; }
+.st-flow .flow-n { position: absolute; left: 26px; top: 26px; z-index: 1; width: 44px; height: 44px; font-size: 20px; box-shadow: 0 0 0 4px #fff; }
+.st-pic { grid-column: 1 / -1; margin: 0; border-radius: 12px; overflow: hidden; background: #2B1D14; aspect-ratio: 16 / 7; }
+.st-pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.st-flow > li > div { grid-column: 1 / -1; }
+.st-flow h2 { font-size: 21px; margin: 0; }
+.st-flow > li > div > p, .st-flow .st-list li { font-size: 17px; line-height: 1.6; }
+@media (min-width: 960px) {
+  .st-flow { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+  .st-flow > li { grid-template-rows: auto auto 1fr; }
+}
 .st-flow p { margin: 6px 0 0; }
 .st-list { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 6px; list-style: disc; }
 .flow .st-list li { display: list-item; padding: 0; border: 0; border-radius: 0; background: none; }
+.st-copyrow { margin: 10px 0 0; }
+.st-copybtn { min-height: 44px; font-size: 16px; }
 .st-copy { background: #F2F7FF; border: 1px dashed #B9D5F8; border-radius: 12px; padding: 12px 16px; font-weight: 700; color: #12203A; overflow-wrap: anywhere; -webkit-user-select: all; user-select: all; }
 .st-b { color: #5E4300; background: #FFF4DA; border-radius: 10px; padding: 8px 12px; font-size: 15px; }
 .st-head { margin-top: 32px; }
@@ -119,9 +134,10 @@
 <p class="im-note" role="note"><b>앱 단추 이름은 자주 바뀌어요.</b> 연수 발표자료 기준 · 다르면 비슷한 이름 찾기(확인 필요) · 설치가 막히면 정보 담당 선생님께.</p>
 
 <ol class="flow st-flow">
-<li id="s1"><span class="flow-n">1</span><div><h2>쓰시는 AI를 하나 고르기</h2><p>Claude 또는 ChatGPT. 폰 말고 <b>컴퓨터용 앱</b>에서.</p></div></li>
-<li id="s2"><span class="flow-n">2</span><div><h2>컴퓨터를 쓰는 모드로 열기</h2><p>AI가 내 컴퓨터에 파일을 직접 만드는 모드</p><ul class="st-list"><li><b>Claude 데스크톱 앱</b> 「Cowork」 또는 「Code」 탭 (일반 채팅은 링크 설치 안 됨 · Cowork는 유료 요금제)</li><li><b>ChatGPT</b> 개인 계정은 「Codex」 앱</li></ul></div></li>
-<li id="s3"><span class="flow-n">3</span><div><h2>링크를 붙여 넣고 한 줄</h2><p>아래 두 줄 그대로</p><p class="st-copy" tabindex="0" aria-label="붙여 넣을 글">https://github.com/zln02/teacher-studio<br>내가 준 링크에 하네스 세팅해 줘</p><p><b>「무엇을 만들까요?」</b> 준비 카드가 뜨면 성공</p><details class="kw-more"><summary>안 되면</summary><p class="st-b">Claude 앱 Customize → Skills에서 zip 파일 올리기. zip은 위 주소에서 받아요.</p></details></div></li>
+<li id="s1"><span class="flow-n">1</span><figure class="st-pic"><img src="../assets/ai-know/restaurants.webp" alt="나란히 선 식당 세 곳. 쓰실 AI를 하나 고르는 장면" width="1600" height="900" loading="lazy" decoding="async" style="object-position:12% 70%"></figure><div><h2>쓰시는 AI를 하나 고르기</h2><p>Claude 또는 ChatGPT. 폰 말고 <b>컴퓨터용 앱</b>에서.</p></div></li>
+<li id="s2"><span class="flow-n">2</span><figure class="st-pic"><img src="../assets/ai-know/cover-b.webp" alt="도구가 걸린 주방. 파일을 만드는 모드를 여는 장면" width="1600" height="900" loading="lazy" decoding="async" style="object-position:88% 60%"></figure><div><h2>컴퓨터를 쓰는 모드로 열기</h2><p>AI가 내 컴퓨터에 파일을 직접 만드는 모드</p><ul class="st-list"><li><b>Claude 데스크톱 앱</b> 「Cowork」 또는 「Code」 탭 (일반 채팅은 링크 설치 안 됨 · Cowork는 유료 요금제)</li><li><b>ChatGPT</b> 개인 계정은 「Codex」 앱</li></ul></div></li>
+<li id="s3"><span class="flow-n">3</span><figure class="st-pic"><img src="../assets/terms/harness.webp" alt="로봇 요리사 옆에 레시피와 도구가 놓인 그림. 하네스 = 레시피와 도구" width="960" height="540" loading="lazy" decoding="async" style="object-position:50% 50%"></figure><div><h2>링크를 붙여 넣고 한 줄</h2><p>아래 두 줄 그대로</p><p class="st-copy" tabindex="0" aria-label="붙여 넣을 글">https://github.com/zln02/teacher-studio<br>내가 준 링크에 하네스 세팅해 줘</p><p class="st-copyrow"><button type="button" class="btn btn-primary st-copybtn" data-copy="https://github.com/zln02/teacher-studio
+내가 준 링크에 하네스 세팅해 줘">두 줄 복사</button></p><p><b>「무엇을 만들까요?」</b> 준비 카드가 뜨면 성공</p><details class="kw-more"><summary>안 되면</summary><p class="st-b">Claude 앱 Customize → Skills에서 zip 파일 올리기. zip은 위 주소에서 받아요.</p></details></div></li>
 </ol>
 
 <div class="pm-head st-head"><span class="pm-eyebrow">설치가 끝났다면</span><h2>첫 자료 만들어 보기</h2><p>평소 말하듯 한 줄. 연수에서 넣어 본 부탁:</p></div>
@@ -215,5 +231,24 @@
 
 </main>
 
+<script>
+/* 설치 두 줄 복사 — 공통 알림(NoanApp.toast). 복사가 막힌 브라우저는 글을 선택해 준다. ES2017 */
+(function () {
+  'use strict';
+  var btn = document.querySelector('.st-copybtn');
+  if (!btn) return;
+  function say(t) { if (window.NoanApp && window.NoanApp.toast) window.NoanApp.toast(t); }
+  btn.addEventListener('click', function () {
+    var text = btn.getAttribute('data-copy');
+    function ok() { say('복사했어요. 입력창에 붙여넣으세요'); }
+    function manual() {
+      var box = document.querySelector('.st-copy');
+      try { var r = document.createRange(); r.selectNodeContents(box); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch (e) {}
+      say('글을 선택했어요. Ctrl+C 를 누르세요');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, manual); else manual();
+  });
+})();
+</script>
 </body>
 </html>
