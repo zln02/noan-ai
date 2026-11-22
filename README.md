@@ -22,7 +22,6 @@
 | 「토큰」「하네스」 같은 말이 연수를 막는다 | 20초짜리 움직이는 그림 **AI 알기** — 비유 → 진짜 → 다른 점 → 활용 |
 | 연수가 끝나면 화면도 부탁 문장도 사라진다 | 회차별 안내 쪽 — 덱, 그날 쓴 부탁 복사 단추, 인쇄 안내지 |
 | 결과보고서를 학기 끝에 몰아서 써야 한다 | 근무일마다 5분 기록이 그대로 보고서 원천이 되게 |
-| 후임자에게 넘길 것이 사람 머릿속에만 있다 | `/ops/handover` 한 쪽 |
 
 ## 숫자로 보기
 
@@ -134,7 +133,7 @@ noan-ai/
 ├── start/                      설치·시작 가이드 (교사 스튜디오 세 걸음)
 ├── studio/                     수업 도구 (자기 sw.js·manifest)
 ├── library/  about/  class/  contest/  showcase/
-├── ops/                        운영 층 — 홈 · log/ · sessions/ · handover/
+├── ops/                        운영 층 — 홈 · log/ · sessions/
 ├── sw.js  manifest.webmanifest  offline.html  404.html   「홈 화면에 추가」 + 오프라인
 ├── data/                       ★ 모든 데이터가 여기 한 곳 (JSON 마다 .js 짝)
 │   ├── tasks.json          안내서 25장의 원본 (인쇄본과 같은 원천)
@@ -228,8 +227,7 @@ PYTHONUTF8=1 py tools/ux-readability.py <출력 폴더>   # 글자 크기 · 줄
 
 ## 인수인계
 
-[`/ops/handover`](ops/handover/index.html) — 이 자리가 하는 일, 연간 흐름, 계정 발급 절차,
-파일 위치, 첫날 할 일 5개, 미해결 목록.
+인수인계 쪽은 공개 사이트에서 뺐다(2026-11). 넘길 내용은 저장소 밖에서 직접 전달한다.
 큰 결정의 이유는 [`docs/decisions.md`](docs/decisions.md) 에 날짜와 함께 적어 두었다.
 요청하기(`request/`) 쪽과 요청 게시판은 2026-11 에 없앴다. 막혔을 때 보는 곳은 `start/index.html#stuck`
 (자주 막히는 8가지 · 아이모두 처음 순서 7단계)이다.
