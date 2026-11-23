@@ -320,3 +320,10 @@ body:not(.page-training) .card { border-radius: var(--rd-r-in); border-color: va
 .ab-jobs li { display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 10px 16px; background: #fff; border: 1px solid var(--rd-line, #E1EAF5); border-radius: var(--rd-r-in, 16px); box-shadow: var(--rd-sh); font-size: 18px; font-weight: 700; color: var(--pm-ink, #12203A); }
 .ab-jobs li + li { border-top: 1px solid var(--rd-line, #E1EAF5); }
 .ab-ico { flex: none; width: 40px; height: 40px; padding: 8px; border-radius: 12px; background: #EEF5FF; color: #1568D2; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* 15. 누르는 곳 44px · 화살표 대비 */
+body:not(.page-training) :is(.btn, .portal-action) { display: inline-flex; align-items: center; justify-content: center; min-height: 44px !important; box-sizing: border-box; }
+body:not(.page-training) .g-tabs button small { color: #33445C; }
+body:not(.page-training) .g-first-arrow { color: #5D6C80; }
+body:not(.page-training) .g-card-arrow { color: #3C4F66; }
+body:not(.page-training) .guide-official, body:not(.page-training) .section li > a[target="_blank"] { display: inline-flex; align-items: center; min-height: 44px; }
