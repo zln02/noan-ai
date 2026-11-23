@@ -279,7 +279,8 @@ body:not(.page-training) :is(.pm-head, .st-head) { margin-top: 40px; }
 body:not(.page-training) main > section + section { margin-top: 28px; }
 
 /* 10. 홈 — 머리 아래 큰 바로 가기 네 칸 */
-.g-entry { display: grid; gap: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 20px; margin-bottom: 8px; }
+.g-entry { display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 20px; margin-bottom: 8px; }
+.g-entry-title { grid-column: 1 / -1; margin: 4px 0 2px; font-size: 22px; line-height: 1.3; color: var(--pm-ink, #12203A); }
 .g-entry-card { display: grid; grid-template-columns: 52px minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 14px; align-items: center; min-height: 88px; padding: 16px 18px;
   background: #fff; border: 1px solid var(--rd-line, #E1EAF5); border-radius: var(--rd-r-in, 16px); box-shadow: var(--rd-sh); color: var(--pm-ink, #12203A); text-decoration: none;
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
@@ -291,7 +292,15 @@ body:not(.page-training) main > section + section { margin-top: 28px; }
 .g-entry-card:hover { border-color: var(--rd-line-hover, #B9D5F8); box-shadow: var(--rd-sh-hover); }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) { .g-entry-card:hover { transform: translateY(-2px); } }
 @media (max-width: 960px) { .g-entry { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .g-entry { grid-template-columns: 1fr; gap: 10px; } .g-entry-card { min-height: 72px; } }
+/* 휴대폰: 두 칸 큰 타일 — 아이콘 위, 이름 아래 (엄지로 누르기 쉽게) */
+@media (max-width: 600px) {
+  .g-entry { gap: 10px; margin-top: 14px; }
+  .g-entry-card { grid-template-columns: 1fr; grid-template-rows: auto auto auto; row-gap: 6px; align-content: start; min-height: 132px; padding: 14px; }
+  .g-entry-card .g-card-icon { grid-column: 1; grid-row: 1; width: 44px; height: 44px; }
+  .g-entry-card > b, .g-entry-card > span:last-child { grid-column: 1; }
+  .g-entry-card b { font-size: 18px; }
+  .g-entry-card > span:last-child { font-size: 14.5px; }
+}
 
 /* 11. 빈 상태 — 점선 상자 대신 그림 칸 + 짧은 말 + 할 일 단추 */
 body:not(.page-training) .portal-empty { display: grid; justify-items: center; gap: 4px; padding: 36px 24px; text-align: center;
@@ -330,3 +339,11 @@ body:not(.page-training) .guide-official, body:not(.page-training) .section li >
 
 /* 16. 카드 맨 위 아이콘 칸 (수업 주제 등) */
 .card > .ab-ico:first-child { display: block; width: 48px; height: 48px; padding: 10px; margin-bottom: 10px; }
+
+/* 17. 예시 부탁 한 줄 + 복사 단추 (자료실 등) */
+.rd-ask { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 10px 0 4px; padding: 10px 12px; background: #F2F7FF; border: 1px dashed #B9D5F8; border-radius: 12px; }
+.rd-ask-t { flex: 1 1 12em; font-size: 17px; font-weight: 700; color: var(--pm-ink, #12203A); line-height: 1.5; }
+.rd-ask .rd-copy { min-width: 72px; }
+
+/* 18. 휴대폰 홈: 할 일 타일이 빨리 보이게 — 안내 상자는 넓은 화면에서만 */
+@media (max-width: 600px) { .g-kw-can { display: none; } .g-hero-copy h1 { margin-bottom: 12px; } }
