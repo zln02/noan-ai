@@ -116,13 +116,13 @@
     }
     function pillItem(text, worldH, o) { var g = new T.Group(); label(g, text, worldH, o, 0, 0, 0); return mk(g, { amp: 0.04 }); }
 
-    /* 1. 주문서 + 화살표 + AI */
+    /* 1. 부탁 글 + 화살표 + AI */
     var tkG = new T.Group();
     tkG.add(body(6.6, 1.55, 0.16, 0.22, 0xFFFDF7));
     var strip = body(6.6, 0.26, 0.2, 0.12, 0xFFD58A); strip.position.y = 0.64; tkG.add(strip);
     label(tkG, '오늘 급식 메뉴 추천해줘', 0.78, { fg: '#3A2E24', fs: 0.58 }, 0, -0.1, 0.14);
     var ticket = mk(tkG, { amp: 0.06 });
-    var tagTicket = pillItem('주문서 · 내가 쓴 글', 0.62, { bg: '#FFE9A8', fg: '#6B4A00', shadow: 1 });
+    var tagTicket = pillItem('부탁 글 · 내가 쓴 글', 0.62, { bg: '#FFE9A8', fg: '#6B4A00', shadow: 1 });
     var arG = new T.Group();
     var shaft = new T.Mesh(new T.CylinderGeometry(0.13, 0.13, 0.8, 14), lam(0x1568D2)); shaft.position.y = 0.3; shaft.castShadow = true; arG.add(shaft);
     var head = new T.Mesh(new T.ConeGeometry(0.36, 0.5, 16), lam(0x1568D2)); head.rotation.z = Math.PI; head.position.y = -0.3; head.castShadow = true; arG.add(head);

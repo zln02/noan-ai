@@ -62,7 +62,7 @@ window.GUIDES_DATA = [
   "verdict": "summary",
   "url": "https://support.google.com/docs/answer/16961475?hl=ko",
   "source": "support.google.com",
-  "note": "영어 프롬프트만. 전남 계정에서 켜져 있는지 확인 필요",
+  "note": "영어 부탁 글만. 전남 계정에서 켜져 있는지 확인 필요",
   "checked": "2026-09-06"
  },
  {
@@ -80,7 +80,7 @@ window.GUIDES_DATA = [
   "verdict": "summary",
   "url": "https://support.google.com/gemini/answer/14620100?hl=ko&co=DASHER._Family%3DEducation",
   "source": "support.google.com",
-  "note": "교사 프롬프트 예시 없음 → 우리 안내서가 그것",
+  "note": "교사 부탁 글 예시 없음 → 우리 안내서가 그것",
   "checked": "2026-09-06"
  },
  {

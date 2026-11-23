@@ -4,7 +4,7 @@
 var listView = document.getElementById('gListView');
 var detailView = document.getElementById('gDetailView');
 var tipBox = document.getElementById('gTip');
-/* 목록(찾기·분류·찜·최근 본)은 guide/home-alpine.js 가 맡는다. 이 파일은 상세 쪽(#02 같은 주소)과 지시서 복사를 맡는다. */
+/* 목록(찾기·분류·찜·최근 본)은 guide/home-alpine.js 가 맡는다. 이 파일은 상세 쪽(#02 같은 주소)과 부탁 글 복사를 맡는다. */
 var Store = window.NoanGuideStore || null;
 
 var DATA = null;
@@ -168,7 +168,7 @@ function stepsHtml(task) {
     task.steps.map(function (step, i) {
       var file = shots[i];
       var marks = Array.isArray(markSets[i]) ? markSets[i] : [];
-      /* 프롬프트는 그 문장을 치는 단계 안에 들어간다.
+      /* 부탁 글은 그 문장을 치는 단계 안에 들어간다.
          prompt_step 이 없는 카드는 예전처럼 아래 따로 선다. */
       var here = task.prompt_step === i + 1;
 
@@ -176,7 +176,7 @@ function stepsHtml(task) {
         '<span class="g-step-no">' + (i + 1) + '</span>' +
         '<div class="g-step-main">' +
           '<h3>' + esc(step) + '</h3>' +
-          (here ? '<p class="g-step-pointer">↑ 위 「지시서」를 복사해 붙여넣어요.</p>' : '') +
+          (here ? '<p class="g-step-pointer">↑ 위 「부탁 글」를 복사해 붙여넣어요.</p>' : '') +
           (file ?
             '<div class="g-shot-wrap g-step-shot">' +
               '<img class="g-shot-img" src="assets/guide/' + esc(file) +
@@ -189,7 +189,7 @@ function stepsHtml(task) {
   '</ol>';
 }
 
-/* 지시서 안의 [ ] 와 「○○」 는 선생님이 바꿔 넣는 자리다. 눈에 띄게 칠한다. */
+/* 부탁 글 안의 [ ] 와 「○○」 는 선생님이 바꿔 넣는 자리다. 눈에 띄게 칠한다. */
 function blanksHtml(text) {
   var n = 0;
   var html = esc(text).replace(/\[[^\]\n]*\]|「[○ ]+」/g, function (m) {
@@ -207,8 +207,8 @@ function promptHtml(task) {
 
   return '<div class="g-prompt">' +
     '<div class="g-prompt-head">' +
-      '<span class="g-prompt-lab">지시서 — 그대로 붙여넣으세요</span>' +
-      '<button type="button" class="g-copybtn" data-target="' + esc(id) + '">지시서 복사</button>' +
+      '<span class="g-prompt-lab">부탁 글 — 그대로 붙여넣으세요</span>' +
+      '<button type="button" class="g-copybtn" data-target="' + esc(id) + '">부탁 글 복사</button>' +
     '</div>' +
     '<pre id="' + esc(id) + '" tabindex="0">' + b.html + '</pre>' +
     (b.n ? '<p class="g-prompt-blank"><mark class="blank">이렇게 표시된 곳</mark>만 내 내용으로 바꾸세요.</p>' : '') +
@@ -319,7 +319,7 @@ function glanceHtml(task) {
   }).join('');
   var lines = (task.result_example || []).slice(0, 3);
   var order = task.prompt ? promptHtml(task) + noteHtml(task) :
-    '<p class="g-gl-noprompt">' + esc(task.prompt_note || '지시서 없이 화면 순서대로 하면 돼요.') + '</p>';
+    '<p class="g-gl-noprompt">' + esc(task.prompt_note || '부탁 글 없이 화면 순서대로 하면 돼요.') + '</p>';
   var result = lines.length ? '<details class="kw-more g-gl-more"><summary>결과 예시 보기</summary><ul class="g-gl-result">' +
       lines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul><small>' + esc(task.result_note || '가상 정보로 만든 결과 구성 예시') + '</small></details>' : '';
   var full = task.caution && task.caution_one && task.caution !== task.caution_one;

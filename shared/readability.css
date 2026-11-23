@@ -347,3 +347,161 @@ body:not(.page-training) .guide-official, body:not(.page-training) .section li >
 
 /* 18. 휴대폰 홈: 할 일 타일이 빨리 보이게 — 안내 상자는 넓은 화면에서만 */
 @media (max-width: 600px) { .g-kw-can { display: none; } .g-hero-copy h1 { margin-bottom: 12px; } }
+
+/* 1단계: 구조를 유지하는 읽기 규칙. 이 파일을 쓰지 않는 발표 화면에는 적용하지 않는다. */
+:root {
+  --fs-body: var(--type-body);
+  --fs-h1: var(--type-display);
+  --rd-measure: var(--measure);
+  --pm-fs-xs: var(--type-micro);
+  --pm-fs-sm: var(--type-sub);
+  --pm-ink: var(--c-text);
+  --pm-ink-2: var(--c-sub);
+  --g-navy: var(--c-text);
+  --g-muted: var(--c-sub);
+  --text: var(--c-text);
+  --ink: var(--c-text);
+  --mute: var(--c-sub);
+  --radius: var(--r-card);
+  --pm-r: var(--r-card);
+  --pm-r-lg: var(--r-card);
+  --pm-r-sm: var(--r-card);
+  --pm-r-xs: var(--r-control);
+  --pm-r-pill: var(--r-control);
+  --rd-r-out: var(--r-card);
+  --rd-r-in: var(--r-card);
+}
+body, body:not(.page-training) {
+  --pm-ink-2: var(--c-sub); --mute: var(--c-sub);
+  color: var(--c-text); font-size: var(--type-body); line-height: 1.7;
+  word-break: keep-all; overflow-wrap: anywhere;
+}
+/* 크기를 직접 지정한 레거시 카드에도 같은 위계를 쓴다. */
+body main :is(p, li, dd, td, th, blockquote, pre, summary, .card-lede, .muted, .g-card-desc, .kw-rows dd) {
+  font-size: var(--type-body); line-height: 1.7;
+}
+body main :is(p, dd, blockquote, pre, .prose, .steps, .pm-steps, .dc-steps, .im-list) { max-width: var(--measure); }
+body main :is(p, dd, .card-lede, .g-card-desc, .muted, .im-note, .im-faq-a, .dc-one) { color: var(--c-text); }
+body main :is(h1, .g-hero-copy h1) { font-size: var(--type-display); line-height: 1.3; font-weight: 700; letter-spacing: -.01em; color: var(--c-text); }
+body main :is(h2, .section-title, .g-entry-title) { font-size: var(--type-h2); line-height: 1.35; font-weight: 700; letter-spacing: -.01em; color: var(--c-text); }
+body main :is(h3, h4, h5, h6, .card-title, .g-entry-card > b, .g-static-t > b, .dc-h) {
+  font-size: var(--type-h3); line-height: 1.45; font-weight: 700; letter-spacing: 0; color: var(--c-text);
+}
+body main :is(small, figcaption, .small, .checked, .g-when-line, .g-tool-label, .g-tool-pill, .g-card-time,
+  .g-entry-card > span:last-child, .g-static-t > small, .pm-eyebrow, .pm-hero-meta span, .p-row-date,
+  .p-res-copy, .p-list-help, .p-note, .g-shot-caption, .g-result-note, .dc-depth, .dc-group,
+  .kw-rows dt, .hj-no, .hj-lab, .im-mini-dur, .im-p > b, .tc-lab, .tcard-dur) {
+  font-size: var(--type-sub); line-height: 1.6; color: var(--c-sub);
+}
+body :is(button, input, select, textarea, .btn, .portal-action, .hj-go, .g-search-form input, .g-search-form button) { font-size: var(--type-body); }
+body :is(.tabbar a, .badge, .pm-chip, .hj-chip, .g-count, .g-filter-n, .g-tabs button small) { font-size: var(--type-micro); line-height: 1.4; }
+body :is(.g-nav, .p-nav, .g-footer, .p-footer-grid, .g-footer-links) :is(a, p, strong) { font-size: var(--type-sub); }
+body main :is(.g-hero-tagline, .p-panel p, .pm-head p, .page-hero p) { font-size: var(--type-body); }
+/* 본문과 링크는 대비 4.5:1 이상인 색을 쓴다. */
+body main a:not(.btn-primary):not(.hj-go):not(.g-entry-card):not(.card):not(.g-quick-card) { color: var(--c-action); }
+body :is(.btn-primary, .hj-go, .g-search-form button, .g-card-copy) { background: var(--c-action); color: #fff; }
+body main :is(.kw-can, .g-kw-can) { display: none; }
+body main .page-summary { margin: 8px 0 16px; }
+/* 상자 속 상자는 배경·테두리 대신 구분선으로 나눈다. */
+body main :is(.panel .panel, .panel .pm-card, .panel .hj-card, .im-intro-text .im-p, .pm-card .kw-more, .card .rd-ask) {
+  background: transparent; border: 0; border-top: 1px solid #D8E2F0; box-shadow: none;
+}
+body main :is(.panel, .p-panel, .pm-card, .card, .page-hero, .g-panel, .g-first-panel, .g-quick-card,
+  .g-entry-card, .g-static-card, .g-glance, .g-gl-more, .im-tool, .im-p, .im-note, .pm-callout,
+  .hj-card, .hq details, .st-tips, .st-copy, .st-pic, .st-try li, .portal-empty, .rd-ask, img, figure) {
+  border-radius: var(--r-card); box-shadow: none;
+}
+body :is(button, input, select, textarea, .btn, .portal-action, .hj-go, .pm-chip, .badge, .hj-chip,
+  .kw-chips li, .pm-hero-meta span, .g-tool-pill, .g-hero-badge, .kw-more, .pm-btn-ghost) { border-radius: var(--r-control); }
+/* 여러 칸의 본문은 항목당 280px을 확보하고, 작은 화면에서는 컨테이너에 맞춘다. */
+body main :is(.grid, .grid.cols-2, .grid.cols-3, .grid.cols-4, .g-entry, .g-quick-grid, .im-tools,
+  .pm-iconrow, .pm-iconrow.is-3, .pm-compare, .g-support-grid, .g-first-steps, .flow.st-flow) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+body main :is(.grid, .g-entry, .g-quick-grid, .im-tools) > * { min-width: 0; }
+/* start/의 7단계는 화면 폭과 관계없이 세로 목록으로 읽는다. */
+body main .hj-list { grid-template-columns: minmax(0, 1fr); max-width: var(--measure); }
+body main .hj-step { padding: 0 0 0 60px; }
+body main .hj-step::before { left: 21px; right: auto; top: 44px; bottom: -14px; width: 2px; height: auto; animation: none; }
+body main .hj-card { height: auto; padding: 14px 0; }
+body main .hj-card p { font-size: var(--type-body); }
+body main .hj-card .guide-actions { margin: 12px 0; padding-left: 24px; }
+body main .guide-actions li + li { margin-top: 16px; }
+body main .guide-actions li > b { display: block; font-weight: 700; }
+body main .guide-actions li > p { margin: 4px 0 0; }
+body main .guide-actions .screen-pending { color: var(--c-sub); font-size: var(--type-sub); }
+body main .g-first-section { margin: 16px 0; padding: 0; }
+body main .g-first-section > .g-wrap { width: 100%; padding: 0; }
+body main .g-first-panel { padding: 16px; }
+body main .g-first-steps { margin: 12px 0; grid-template-columns: minmax(0, 1fr); }
+body main .g-first-steps li { min-width: 0; }
+body main .g-first-steps :is(h3, p) { font-size: var(--type-sub); }
+@media (max-width: 767px) {
+  .g-printbar, .p-printbar, .footer-qr, .g-support-qr-card { display: none !important; }
+  body main .kw-rows > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  body main .g-entry { grid-template-columns: minmax(0, 1fr); }
+  body main .g-entry-card { grid-template-columns: 44px minmax(0, 1fr); grid-template-rows: auto auto; min-height: 88px; }
+  body main .g-entry-card .g-card-icon { grid-column: 1; grid-row: 1 / span 2; }
+  body main .g-entry-card > :is(b, span:last-child) { grid-column: 2; }
+}
+
+/* 레거시 선택자와 인라인 크기보다 이 여섯 값이 우선한다. */
+body main { font-size: var(--type-body); }
+body main :is(span, b, strong, em, a, label, dt) { font-size: inherit !important; }
+body main :is(p, li, dd, td, th, blockquote, pre, summary, .card-lede, .muted, .g-card-desc, .kw-rows dd) {
+  font-size: var(--type-body) !important; line-height: 1.7;
+}
+body main :is(p, dd, blockquote, pre, .prose, .steps, .pm-steps, .dc-steps, .im-list) { max-width: var(--measure) !important; }
+body main :is(h1, .g-hero-copy h1) { font-size: var(--type-display) !important; }
+body main :is(h2, .section-title, .g-entry-title) { font-size: var(--type-h2) !important; }
+body main :is(h3, h4, h5, h6, .card-title, .g-entry-card > b, .g-static-t > b, .dc-h) { font-size: var(--type-h3) !important; }
+body main :is(small, figcaption, .small, .checked, .g-when-line, .g-tool-label, .g-tool-pill, .g-card-time,
+  .g-entry-card > span:last-child, .g-static-t > small, .pm-eyebrow, .pm-hero-meta span, .p-row-date,
+  .p-res-copy, .p-list-help, .p-note, .g-shot-caption, .g-result-note, .dc-depth, .dc-group,
+  .kw-rows dt, .hj-no, .hj-lab, .im-mini-dur, .im-p > b, .tc-lab, .tcard-dur, .sec-nav a, .p-hero-eyebrow) {
+  font-size: var(--type-sub) !important; line-height: 1.6; color: var(--c-sub);
+}
+body main :is(button, input, select, textarea, .btn, .button, .portal-action, .hj-go, .g-search-form input, .g-search-form button) { font-size: var(--type-body) !important; }
+body main :is(.badge, .pm-chip, .hj-chip, .g-count, .g-filter-n, .g-tabs button small) { font-size: var(--type-micro) !important; }
+body main :is(.g-first-number, .flow-n) { font-size: var(--type-h3) !important; }
+body main :is(p, dd, .card-lede, .g-card-desc, .muted, .im-note, .im-faq-a, .dc-one) { color: var(--c-text) !important; }
+body main :is(h1, h2, h3, h4, .card-title) { color: var(--c-text) !important; font-weight: 700; }
+body main :is(p, dd) { font-weight: 400; }
+/* 기존 장식과 배치는 유지하면서, 상자/배지에 남아 있던 여러 둥글기를 통일한다. */
+body main :is([class], img, figure, article, section, details) { border-radius: var(--r-card) !important; }
+body main :is(button, input, select, textarea, .btn, .button, .portal-action, .hj-go, .pm-chip, .badge, .hj-chip,
+  .kw-chips li, .pm-hero-meta span, .g-tool-pill, .g-hero-badge, .kw-more, .pm-btn-ghost,
+  .g-first-number, .flow-n, .hj-badge, .g-search-form, .g-filters button) { border-radius: var(--r-control) !important; }
+body main :is(.grid, .grid.cols-2, .grid.cols-3, .grid.cols-4, .g-entry, .g-quick-grid, .im-tools,
+  .pm-iconrow, .pm-iconrow.is-3, .pm-compare, .g-support-grid, .g-first-steps, .flow.st-flow) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+body main .hj-list { grid-template-columns: minmax(0, 1fr) !important; }
+body main .hj-step { padding: 0 0 0 60px !important; }
+/* s2의 기존 어두운 표지에서 흰 글자의 대비를 유지한다. */
+body main .hero :is(h1, h2, h3, p) { color: #fff !important; }
+body main :is(dt, .how-cap, .how-cap-t, .how-cap-f, .how-cap-p) { font-size: var(--type-sub) !important; }
+body main :is(li, span, b, strong, a) { border-radius: var(--r-card) !important; }
+body main :is(a, span, b) { border-radius: var(--r-control) !important; }
+body main :is(.im-mini-dur, .tcard-dur) { color: #fff !important; }
+body main .dc-f[aria-pressed="true"] small { color: #fff; }
+body main .how-cap-n { color: #fff; background: var(--c-action); }
+body main .p-row-arrow { color: var(--c-action); }
+body main .how-dot[aria-current="step"] { background: var(--c-action) !important; }
+body main .how-dot::before { border-radius: var(--r-control); }
+body main :is(.motto, .more .button) { color: #fff !important; }
+body main .button.main { background: var(--c-action); color: #fff !important; }
+body main :is(.grid, .grid.cols-2, .grid.cols-3, .grid.cols-4, .g-entry, .g-quick-grid, .im-tools,
+  .pm-iconrow, .pm-iconrow.is-3, .pm-compare, .g-support-grid, .flow.st-flow, .buttons) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
+}
+body main .g-tabs [aria-selected="true"] small { color: #fff !important; }
+body main .g-printbar :is(span, a) { font-size: var(--type-sub) !important; }
+body input::placeholder { color: var(--c-sub); opacity: 1; }
+body main :is(summary, .more > div) { border-radius: var(--r-card) !important; }
+body main .g-tabs button[aria-selected="true"] { background: var(--c-action) !important; color: #fff !important; }
+body main .portal-hero-note { background: transparent; border: 0; border-top: 1px solid #D8E2F0; box-shadow: none; }
+body main .g-prompt { background: var(--c-text); }
+body main :is(.g-note, .g-evidence) { font-size: var(--type-body) !important; }
+body main .g-filters [aria-pressed="true"] small { color: #fff !important; }
+body main .g-prompt .g-prompt-blank { color: #fff !important; }

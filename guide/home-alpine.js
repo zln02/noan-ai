@@ -1,7 +1,7 @@
 /* guide/home-alpine.js — 첫 화면 안내서 목록의 「앱 같은」 부분 (Alpine.js 3, shared/vendor/alpine)
  *
  *  하는 일: 찾기(바로바로 좁혀짐) · 분류 칩 · 정렬 · 보기 탭(전체/찜/최근 본, 쪽마다 기억)
- *          · 찜(☆) · 최근 본 카드 · 카드에서 바로 「지시서 복사」 + 카드 위 알림 · 폰에서 아래서 올라오는 필터 서랍
+ *          · 찜(☆) · 최근 본 카드 · 카드에서 바로 「부탁 글 복사」 + 카드 위 알림 · 폰에서 아래서 올라오는 필터 서랍
  *
  *  화면 모양은 index.html 의 x-… 표시가 정한다. 이 파일은 「상태」와 「계산」만 갖는다.
  *  - 글자를 바꾸려면 index.html 을 메모장으로 고치면 된다.
@@ -43,7 +43,7 @@
     [/가정통신문|알림|홈페이지/, 'letter'], [/회의|녹음|발언/, 'mic'],
     [/공문|지침|요강|계획서/, 'doc-long'], [/활동지|문항|퀴즈|형성평가|질문/, 'book'],
     [/설문|동의|인증|계정|안전/, 'shield'], [/발표|팜플렛|포스터|PPT|슬라이드/, 'slides'],
-    [/수업|과학|캐릭터|배우/, 'school'], [/검토|비교|찾기|체크|지시서|운영/, 'search-doc']
+    [/수업|과학|캐릭터|배우/, 'school'], [/검토|비교|찾기|체크|부탁 글|운영/, 'search-doc']
   ];
 
   var Store = window.NoanGuideStore = {
@@ -97,7 +97,7 @@
   document.addEventListener('alpine:init', function () {
     var FILTERS = [
       { key: 'all', label: '모든 분류' }, { key: 'work', label: '업무' },
-      { key: 'class', label: '수업' }, { key: 'prompt', label: '지시서 있음' }
+      { key: 'class', label: '수업' }, { key: 'prompt', label: '부탁 글 있음' }
     ];
     var SORTS = { no: '번호순', fast: '빨리 끝나는 순', name: '가나다순' };
     var TABS = ['all', 'fav', 'recent'];

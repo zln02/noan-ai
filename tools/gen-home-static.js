@@ -2,7 +2,7 @@
 /* tools/gen-home-static.js — 첫 화면(index.html)의 「자바스크립트 없이도 보이는 목록」을 data/tasks.json 으로 만든다.
  *
  * 왜: 자바스크립트가 꺼져 있거나 아주 오래된 크롬이면 Alpine(찾기·찜 목록)이 돌지 않는다.
- *     그때도 안내서 25장을 펼쳐 읽고 지시서를 손으로 복사할 수 있게, 같은 내용을 평범한 HTML 로 넣어 둔다.
+ *     그때도 안내서 25장을 펼쳐 읽고 부탁 글을 손으로 복사할 수 있게, 같은 내용을 평범한 HTML 로 넣어 둔다.
  *     카드마다 id 가 번호(#02)라서 QR 주소로 들어와도 그 카드 자리로 내려간다.
  *
  *   node tools/gen-home-static.js          index.html 의 표시 사이를 다시 쓴다
@@ -25,11 +25,11 @@ function card(t, groups) {
   const mins = t.min && t.min[1] ? ' · ' + t.min[1] + '분' : '';
   const pathLine = (t.path && t.path.length) ? '<p class="g-static-path">[ ' + t.path.map(esc).join(' &gt; ') + ' ]</p>' : '';
   const steps = (t.steps || []).map((s) => '<li>' + esc(s) + '</li>').join('');
-  const prompt = t.prompt ? '<p class="g-static-lab">지시서 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>' + esc(t.prompt) + '</pre>' : '';
+  const prompt = t.prompt ? '<p class="g-static-lab">부탁 글 — 그대로 붙여넣으세요 (길게 눌러 선택 → 복사)</p><pre>' + esc(t.prompt) + '</pre>' : '';
   const caution = t.caution ? '<p class="g-static-caution"><b>꼭 확인할 것</b> ' + esc(t.caution) + '</p>' : '';
   return '<details class="g-static-card" id="' + esc(t.no) + '">' +
     '<summary><span class="g-static-no">' + esc(t.no) + '</span><span class="g-static-t"><b>' + esc(t.title) + '</b>' +
-    '<span>' + esc(t.when) + '</span><small>' + esc(g.label || '') + ' · ' + esc(t.tool) + mins + (t.prompt ? ' · 지시서 있음' : '') + '</small></span></summary>' +
+    '<span>' + esc(t.when) + '</span><small>' + esc(g.label || '') + ' · ' + esc(t.tool) + mins + (t.prompt ? ' · 부탁 글 있음' : '') + '</small></span></summary>' +
     '<div class="g-static-body"><p><b>추천 도구</b> ' + esc(t.tool) + '</p>' + pathLine +
     (steps ? '<ol>' + steps + '</ol>' : '') + prompt + caution + '</div></details>';
 }
@@ -38,7 +38,7 @@ function build(data) {
   const groups = {};
   (data.groups || []).forEach((g) => { groups[g.id] = g; });
   return START + '\n<div class="g-static" id="gStatic">\n' +
-    '<p class="g-static-note">하시려는 일을 눌러 펼치면 사용법과 지시서가 나옵니다. 종이로 보시려면 위의 인쇄용 PDF를 쓰세요.</p>\n' +
+    '<p class="g-static-note">하시려는 일을 눌러 펼치면 사용법과 부탁 글이 나옵니다. 종이 안내서가 필요하면 넓은 화면에서 인쇄용 PDF를 내려받으세요.</p>\n' +
     data.tasks.map((t) => card(t, groups)).join('\n') + '\n</div>\n' + END;
 }
 

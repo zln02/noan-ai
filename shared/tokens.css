@@ -160,6 +160,22 @@ h1,h2,h3,h4,h5,h6,p,ul,ol,figure,blockquote{
   --tone-mint:rgba(37,99,235,.05);
   --brand-fg:var(--ink);
 }
+
+/* 포털 읽기 규칙. 발표 화면은 기존 토큰을 유지하고 readability.css에서 연결한다. */
+:root {
+  --type-display: 28px;
+  --type-h2: 22px;
+  --type-h3: 18px;
+  --type-body: 17px;
+  --type-sub: 15px;
+  --type-micro: 13px;
+  --c-text: #16233A;
+  --c-sub: #4A5A70;
+  --c-action: #1558B8;
+  --measure: 680px;
+  --r-card: 12px;
+  --r-control: 8px;
+}
 html[data-projector]{
   --brand-fg:var(--ink);
 }

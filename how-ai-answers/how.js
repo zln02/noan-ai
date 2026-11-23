@@ -5,10 +5,10 @@
 (function () {
   'use strict';
   var STEPS = [
-    { t: '입력', f: '주문서', c: '내가 쓴 글이 AI에 들어와요' },
+    { t: '입력', f: '부탁 글', c: '내가 쓴 글이 AI에 들어와요' },
     { t: '토큰으로 쪼개기', f: '김밥 썰기', c: '글을 작은 조각으로 나눠요' },
     { t: '의미 공간에 놓기', f: '재료 창고 선반', c: '뜻이 비슷한 조각은 가까이 놓여요' },
-    { t: '관계 보기 (어텐션)', f: '주문서의 중요한 말 짚기', c: '어느 조각이 어느 조각과 이어지는지 따져요' },
+    { t: '관계 보기 (어텐션)', f: '부탁 글의 중요한 말 짚기', c: '어느 조각이 어느 조각과 이어지는지 따져요' },
     { t: '다음 말 하나씩 예측', f: '다음 재료 하나씩 넣기', c: '후보마다 확률을 매기고 하나를 뽑아요 (숫자는 예시)' },
     { t: '답', f: '완성된 요리', c: '이어 붙인 말이 답이 돼요' }
   ];
@@ -69,7 +69,7 @@
     if (k === 0) {
       s += G(floorShadow(250, 12, .8), 360, 285);
       s += G('<rect x="-300" y="-65" width="600" height="130" rx="22" fill="#FFFDF7" stroke="#EBDDBF" stroke-width="3" filter="url(#hsd)"/><path d="M-300 -37v-12a22 22 0 0 1 22-22H278a22 22 0 0 1 22 22v12z" fill="#FFD58A"/><text y="26" text-anchor="middle" font-size="42" font-weight="800" fill="#3A2E24">오늘 급식 메뉴 추천해줘</text>', 360, 205);
-      s += G(pill('주문서 · 내가 쓴 글', { bg: '#FFE9A8', fg: '#6B4A00', size: 24 }), 210, 132);
+      s += G(pill('부탁 글 · 내가 쓴 글', { bg: '#FFE9A8', fg: '#6B4A00', size: 24 }), 210, 132);
       s += G('<g filter="url(#hsd)"><path d="M0 0v50" stroke="#1568D2" stroke-width="12" stroke-linecap="round"/><path d="M-26 38L0 68l26-30z" fill="#1568D2" stroke="#1568D2" stroke-width="8" stroke-linejoin="round"/></g>', 360, 300);
       s += G('<rect x="-120" y="-38" width="240" height="76" rx="28" fill="#DCEBFF" stroke="#B9D5F8" stroke-width="3" filter="url(#hsd)"/><text y="11" text-anchor="middle" font-size="34" font-weight="800" fill="#0B4FA8">AI</text>', 360, 420);
     } else if (k === 1) {
