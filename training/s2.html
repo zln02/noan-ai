@@ -5,192 +5,212 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2회차 · AI에게 무기를 주면 · 노안중 AI교육</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="2회차 연수 발표자료 「AI에게 무기를 주면」을 엽니다. ChatGPT·Claude에 도구를 챙겨 주면 결과가 어떻게 달라지는지 봅니다.">
+<meta name="description" content="2회차 연수 자료 · 이어서 해 보기: 슬라이드, ChatGPT·Claude 시작 가이드, 부탁 예시, 아이모두와 다른 점.">
 <link rel="icon" href="../assets/noan-ai-icon-32.png">
 <link rel="stylesheet" href="../shared/tokens.css">
 <style>
-  body{background:#f8f6f1;color:#13202a;word-break:keep-all;overflow-wrap:break-word}
+  body{margin:0;background:#f8f6f1;color:#13202a;word-break:keep-all;overflow-wrap:break-word}
   .wrap{max-width:1040px;margin:0 auto;padding:24px 24px 90px}
-  .back{display:inline-block;color:#0a7779;font-weight:700;text-decoration:none;margin-bottom:28px}
-  .hero{background:#13202a;color:white;padding:clamp(32px,6vw,70px);border-radius:22px;border-left:10px solid #20b6b0}
-  .eyebrow{color:#20b6b0;font-size:16px;font-weight:800;letter-spacing:.05em}
-  h1{font-size:clamp(28px,5vw,58px);line-height:1.2;letter-spacing:-.04em;margin:16px 0}
-  .hero p{font-size:clamp(18px,2vw,24px);line-height:1.5}
-  .buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-  .button,.button:visited{display:inline-block;background:#fa6b58;color:#13202a;padding:14px 19px;border-radius:10px;font-weight:800;text-decoration:none}
-  .button.light{background:white;color:#13202a}
-  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:22px 0}
-  .card{background:white;border:1px solid #d8d5cc;border-radius:16px;padding:27px}
-  .card h2{font-size:25px;color:#13202a;margin:0 0 15px}
+  .back{display:inline-flex;align-items:center;min-height:44px;color:#0a7779;font-size:17px;font-weight:700;text-decoration:none;margin-bottom:16px}
+  .hero{background:#13202a;color:#fff;padding:clamp(26px,5vw,56px);border-radius:22px;border-left:10px solid #20b6b0}
+  .eyebrow{color:#7fdcd6;font-size:17px;font-weight:800}
+  h1{font-size:clamp(30px,5vw,54px);line-height:1.2;letter-spacing:-.03em;margin:12px 0 8px}
+  .hero-lead{font-size:clamp(19px,2.2vw,24px);line-height:1.5;margin:0}
+  .buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:24px}
+  .button,.button:visited{display:flex;align-items:center;justify-content:center;min-height:56px;padding:10px 16px;border-radius:12px;background:#fff;color:#13202a;font-size:19px;font-weight:800;text-decoration:none;text-align:center}
+  .button.main{background:#fa6b58}
+  .note-hero{font-size:17px;color:#c9d3d8;margin:14px 0 0}
+  /* 차례 */
+  .toc{background:#E8F6F5;border:1px solid #B5E3E0;border-radius:16px;padding:18px 20px;margin:20px 0}
+  .toc h2{font-size:19px;color:#0a5f61;margin:0 0 10px}
+  .toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  .toc a{display:flex;align-items:center;gap:8px;min-height:48px;padding:6px 12px;border-radius:10px;background:#fff;color:#0a5f61;font-size:17px;font-weight:800;text-decoration:none;border:1px solid #B5E3E0}
+  .toc a span{display:inline-grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;background:#0a7779;color:#fff;font-size:15px}
+  /* 카드 */
+  .card{background:#fff;border:1px solid #d8d5cc;border-radius:16px;padding:26px;margin:20px 0 0;scroll-margin-top:12px}
+  .card>h2{display:flex;align-items:center;gap:10px;font-size:25px;line-height:1.3;color:#13202a;margin:0 0 6px}
+  .card>h2 .no{display:inline-grid;place-items:center;flex:none;width:34px;height:34px;border-radius:50%;background:#13202a;color:#fff;font-size:18px}
   .card p,.card li{font-size:18px;line-height:1.65}
-  .card ol,.card ul{padding-left:24px;margin:0}
-  .card li+li{margin-top:8px}
-  .shot{width:100%;border-radius:12px;border:1px solid #d8d5cc;margin-top:16px}
-  .prompt{background:#f8f6f1;border-left:5px solid #20b6b0;padding:17px;border-radius:0 12px 12px 0;white-space:pre-wrap}
-  .note-hero{font-size:16px;color:#c9d3d8;margin:14px 0 0}
-  .note{font-size:15px;color:#53626b;margin-top:12px}
-  @media(max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:16px 16px 60px}}
-  /* 키워드 정리 · 하네스란? · 부탁 모음 (지시서 복사 단추는 업무별 안내서와 같은 모양·동작) */
-  .can{background:#E8F6F5;border:1px solid #B5E3E0;border-radius:14px;padding:16px 18px;margin:22px 0}
-  .can h2{font-size:17px;color:#0a5f61;margin:0 0 8px}
-  .can ol{margin:0;padding-left:24px}
-  .can li{font-size:17px;line-height:1.6}
-  .sec{margin-top:22px}
-  .sec .lead{font-size:20px;line-height:1.55;margin:0 0 6px}
-  .rows{display:grid;gap:8px;margin:14px 0;padding:0}
-  .rows>div{display:grid;grid-template-columns:6.2em 1fr;gap:10px;align-items:baseline}
-  .rows dt{font-size:16px;font-weight:800;color:#41525c;margin:0}
-  .rows dd{font-size:18px;line-height:1.55;margin:0}
-  .rows .is-good dd{font-weight:800;color:#0a5f61}
-  .horse{margin:16px 0 0}
-  .horse img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid #d8d5cc}
-  .horse figcaption{font-size:15px;color:#4a5961;line-height:1.55;margin-top:6px}
-  .motto{font-size:20px;font-weight:800;margin:16px 0 0;padding:12px 16px;background:#13202a;color:#fff;border-radius:12px}
   .card a:not(.button){color:#0a6c6e;font-weight:700}
-  .g-prompt{position:relative;margin:14px 0 0;padding:16px 18px 18px;border-radius:14px;background:var(--ink,#102A43);color:#EAF6F2}
+  .lead{font-size:19px;line-height:1.55;margin:0 0 4px}
+  .date{display:inline-block;font-size:17px;font-weight:700;color:#7a3e00;background:#fff4e0;border-radius:8px;padding:3px 10px;margin:6px 0 0}
+  .sub{font-size:21px;margin:26px 0 12px;padding-top:18px;border-top:1px solid #e6e2d8;scroll-margin-top:12px}
+  .tag{display:inline-block;margin-left:4px;padding:2px 9px;border-radius:6px;background:#FFE58A;color:#3A2C00;font-size:17px;font-weight:800;vertical-align:middle}
+  .note{font-size:17px!important;line-height:1.6;margin:16px 0 0;padding:12px 16px;background:#f8f6f1;border-radius:10px}
+  .motto{font-size:19px!important;font-weight:800;margin:18px 0 0;padding:14px 18px;background:#13202a;color:#fff;border-radius:12px;line-height:1.55}
+  /* 단계 (사이트 .steps 모양) */
+  .steps{display:flex;flex-direction:column;gap:18px;margin:0;padding:0;list-style:none;counter-reset:st}
+  .steps>li{position:relative;margin:0;padding-left:48px;min-height:34px;counter-increment:st}
+  .steps>li::before{content:counter(st);position:absolute;top:0;left:0;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#0a7779;color:#fff;font-size:17px;font-weight:800}
+  .steps>li>b{display:block}
+  .steps>li>span{display:block;color:#41525c}
+  .figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .fig{margin:10px 0 0}
+  .fig img{display:block;width:100%;max-width:560px;height:auto;border-radius:12px;border:1px solid #d8d5cc}
+  .figs .fig img{max-width:none}
+  .fig figcaption{font-size:17px;color:#4a5961;margin-top:6px}
+  /* 레시피 · 꿀팁 */
+  .tips{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .tips li{margin:0;padding:14px 16px;background:#f8f6f1;border-radius:12px;border-left:5px solid #20b6b0}
+  .tips b{display:block;font-size:19px}
+  /* 부탁 카드 (업무별 안내서와 같은 모양·동작) */
+  .asks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+  .g-prompt{position:relative;margin:0;padding:16px 18px 18px;border-radius:14px;background:var(--ink,#102A43);color:#EAF6F2}
   .g-prompt-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
-  .g-prompt-lab{display:inline-block;padding:4px 10px;border-radius:6px;background:#FFE58A;color:#3A2C00;font-size:15px;font-weight:800}
+  .g-prompt-lab{display:inline-block;padding:4px 10px;border-radius:6px;background:#FFE58A;color:#3A2C00;font-size:17px;font-weight:800}
   .g-prompt pre{margin:12px 0 0;color:#fff;font-family:inherit;font-size:18px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
-  .g-copybtn{display:inline-flex;min-width:82px;min-height:44px;align-items:center;justify-content:center;padding:0 16px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:#fff;color:var(--ink,#102A43);font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}
+  .g-copybtn{display:inline-flex;min-width:82px;min-height:44px;align-items:center;justify-content:center;padding:0 16px;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:#fff;color:var(--ink,#102A43);font-size:17px;font-weight:800;cursor:pointer;font-family:inherit}
   .g-copybtn:hover{background:#EAF4FF}
   .g-copybtn.is-done{background:#D9F5E4;color:#14532D}
-  .g-copyhint{display:block;margin-top:8px;color:#fff;font-size:15px;font-weight:700}
+  .g-copyhint{display:block;margin-top:8px;color:#fff;font-size:17px;font-weight:700}
   .g-copyhint[hidden]{display:none}
-  .asks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .asks .g-prompt{margin:0}
-  .tips{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px}
-  .tips li{font-size:18px;line-height:1.55;padding:10px 14px;background:#f8f6f1;border-radius:10px}
-  .tips b{display:block}
-  .steps{margin:10px 0 0;padding-left:26px}
-  .dl{display:inline-flex;align-items:center;min-height:44px}
-  @media(max-width:700px){.asks{grid-template-columns:1fr}.rows>div{grid-template-columns:5.4em 1fr}.card{padding:20px}}
-  /* 시작 가이드 (#start-guide) — 사이트 단계·표 모양(shared/site.css .steps · .tw table)을 이 페이지 색으로 */
-  .sg-date{display:inline-block;font-size:15px;font-weight:700;color:#7a3e00;background:#fff4e0;border-radius:8px;padding:4px 10px;margin:4px 0 0}
-  .sg-jump{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px}
-  .sg-jump a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid #B5E3E0;border-radius:999px;background:#E8F6F5;color:#0a5f61;font-size:16px;font-weight:800;text-decoration:none}
-  .sg-h{font-size:22px;margin:30px 0 12px;padding-top:18px;border-top:1px solid #e6e2d8;scroll-margin-top:16px}
-  .sg-tag{display:inline-block;margin-left:6px;padding:2px 9px;border-radius:6px;background:#FFE58A;color:#3A2C00;font-size:15px;font-weight:800;vertical-align:middle}
-  .card .sg-steps{display:flex;flex-direction:column;gap:18px;margin:0;padding:0;list-style:none;counter-reset:sg-step}
-  .card .sg-steps>li{position:relative;margin:0;padding-left:48px;min-height:34px;counter-increment:sg-step;font-size:18px;line-height:1.6}
-  .sg-steps>li::before{content:counter(sg-step);position:absolute;top:0;left:0;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#0a7779;color:#fff;font-size:17px;font-weight:800}
-  .sg-steps>li>b{display:block}
-  .sg-steps>li>span{display:block;color:#41525c}
-  .sg-figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .sg-fig{margin:10px 0 0}
-  .sg-fig img{display:block;width:100%;max-width:560px;height:auto;border-radius:12px;border:1px solid #d8d5cc}
-  .sg-figs .sg-fig img{max-width:none}
-  .sg-fig figcaption{font-size:15px;color:#4a5961;margin-top:6px}
-  .card p.sg-note{font-size:17px;line-height:1.6;margin:16px 0 0;padding:12px 16px;background:#f8f6f1;border-radius:10px}
-  .sg-table{margin:12px 0 0}
-  .sg-table table{width:100%;border-collapse:collapse;text-align:left;font-size:17px;line-height:1.55}
-  .sg-cap{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-  .sg-table th,.sg-table td{padding:14px;border-bottom:1px solid #d8d5cc;vertical-align:top}
-  .sg-table thead th{border-bottom:2px solid #13202a;color:#41525c;font-size:17px;white-space:nowrap}
-  .sg-table thead th:nth-child(2){color:#0a5f61}
-  .sg-table tbody th{font-weight:800;width:22%;color:#13202a}
-  .sg-table tbody td:nth-child(2){background:#f1faf9}
-  .sg-warn{margin:22px 0 0;padding:18px 20px;border:2px solid #c2410c;border-radius:14px;background:#fff6ef}
-  .sg-warn h3{font-size:20px;color:#9a3412;margin:0 0 8px}
-  .card .sg-warn ul{margin:0;padding-left:22px}
-  .sg-warn li{font-size:18px;line-height:1.6}
+  /* 접기 */
+  details.fold{margin:12px 0 0;border:1px solid #d8d5cc;border-radius:12px;background:#fff}
+  details.fold>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:10px 16px;font-size:18px;font-weight:800;cursor:pointer;list-style:none}
+  details.fold>summary::-webkit-details-marker{display:none}
+  details.fold>summary::after{content:'+';flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#E8F6F5;color:#0a5f61;font-size:22px;line-height:1}
+  details.fold[open]>summary::after{content:'−'}
+  details.fold>summary:focus-visible{outline:3px solid #0a7779;outline-offset:2px;border-radius:12px}
+  .fold-body{padding:0 16px 16px}
+  .fold-body>:first-child{margin-top:0}
+  .fold .asks{margin-top:0}
+  /* 비교 표 (사이트 .tw table 모양) */
+  .cmp table{width:100%;border-collapse:collapse;text-align:left;font-size:17px;line-height:1.55;margin-top:12px}
+  .cmp caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .cmp th,.cmp td{padding:14px;border-bottom:1px solid #d8d5cc;vertical-align:top}
+  .cmp thead th{border-bottom:2px solid #13202a;color:#41525c;white-space:nowrap}
+  .cmp thead th:nth-child(2){color:#0a5f61}
+  .cmp tbody th{font-weight:800;width:22%}
+  .cmp tbody td:nth-child(2){background:#f1faf9}
+  /* 하네스 */
+  .rows{display:grid;gap:8px;margin:12px 0;padding:0}
+  .rows>div{display:grid;grid-template-columns:6.2em 1fr;gap:10px;align-items:baseline}
+  .rows dt{font-size:17px;font-weight:800;color:#41525c;margin:0}
+  .rows dd{font-size:18px;line-height:1.55;margin:0}
+  .rows .is-good dd{font-weight:800;color:#0a5f61}
+  .horse{margin:14px 0 0}
+  .horse img{display:block;width:100%;max-width:640px;height:auto;border-radius:12px;border:1px solid #d8d5cc}
+  .horse figcaption{font-size:17px;color:#4a5961;line-height:1.55;margin-top:6px}
+  /* 경고 */
+  .warn{margin:20px 0 0;padding:18px 20px;border:2px solid #c2410c;border-radius:14px;background:#fff6ef}
+  .warn h3{font-size:20px;color:#9a3412;margin:0 0 8px}
+  .warn ul{margin:0;padding-left:22px}
+  /* 선택 자료 */
+  .more{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+  .more>div{padding:18px;border:1px solid #d8d5cc;border-radius:14px;background:#f8f6f1}
+  .more h3{font-size:20px;margin:0 0 6px}
+  .more p{margin:0 0 10px}
+  .more .button{background:#13202a;color:#fff;min-height:48px;font-size:18px;display:inline-flex}
+  .more .g-prompt{margin-top:10px}
+  @media(max-width:860px){.toc ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:700px){
-    .sg-figs{grid-template-columns:1fr}
-    .card .sg-steps>li{padding-left:44px}
-    .sg-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-    .sg-table table,.sg-table tbody,.sg-table tr,.sg-table th,.sg-table td{display:block;width:auto}
-    .sg-table tbody th{width:auto}
-    .sg-table tr{border:1px solid #d8d5cc;border-radius:12px;margin:0 0 12px;overflow:hidden}
-    .sg-table tbody th{background:#13202a;color:#fff;border:0;padding:10px 14px}
-    .sg-table td{border:0;padding:10px 14px}
-    .sg-table td+td{border-top:1px solid #e6e2d8}
-    .sg-table td::before{content:attr(data-label);display:block;font-size:15px;font-weight:800;color:#0a5f61}
-    .sg-table tbody td:nth-child(3)::before{color:#41525c}
+    .wrap{padding:12px 16px 60px}
+    .buttons{grid-template-columns:1fr;gap:10px}
+    .card{padding:20px 18px}
+    .card>h2{font-size:23px}
+    .asks,.tips,.figs,.more{grid-template-columns:1fr}
+    .steps>li{padding-left:44px}
+    .rows>div{grid-template-columns:5.4em 1fr}
+    .cmp thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .cmp table,.cmp tbody,.cmp tr,.cmp th,.cmp td{display:block;width:auto}
+    .cmp tbody th{width:auto;background:#13202a;color:#fff;border:0;padding:10px 14px}
+    .cmp tr{border:1px solid #d8d5cc;border-radius:12px;margin:0 0 12px;overflow:hidden}
+    .cmp td{border:0;padding:10px 14px}
+    .cmp td+td{border-top:1px solid #e6e2d8}
+    .cmp td::before{content:attr(data-label);display:block;font-weight:800;color:#0a5f61}
+    .cmp tbody td:nth-child(3)::before{color:#41525c}
   }
+  @media(max-width:380px){.toc ol{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <main class="wrap">
   <a class="back" href="index.html">← 연수 목록</a>
   <header class="hero">
-    <span class="eyebrow">노안중학교 교원연수 · 2회차 · 11/23(월) 오후 2시 · 60분</span>
+    <span class="eyebrow">노안중 교원연수 2회차 · 2026. 11. 23.</span>
     <h1>AI에게 무기를 주면</h1>
-    <p>ChatGPT·Claude에 도구·레시피 챙겨 주기 → 직접 설치해 나란히 비교</p>
-    <div class="buttons"><a class="button" href="s2-deck-e.html">슬라이드 열기</a></div>
-    <p class="note-hero">약 10MB · 와이파이에서 한 번 열면 다음부터 인터넷 없이</p>
+    <p class="hero-lead">오늘 연수 자료 · 이어서 해 보기</p>
+    <nav class="buttons" aria-label="바로 열기">
+      <a class="button main" href="s2-deck-e.html">슬라이드 열기</a>
+      <a class="button" href="#start-guide">시작 가이드</a>
+      <a class="button" href="#asks">부탁 예시</a>
+    </nav>
+    <p class="note-hero">슬라이드는 약 10MB · 와이파이에서 한 번 열면 다음부터 인터넷 없이</p>
   </header>
 
-  <section class="can" aria-labelledby="h-can">
-    <h2 id="h-can">이 페이지에서 할 수 있는 것</h2>
+  <nav class="toc" aria-labelledby="h-toc">
+    <h2 id="h-toc">이 페이지 차례</h2>
     <ol>
-      <li><b>슬라이드 열기</b> 2회차 발표자료</li>
-      <li><b>시작 가이드</b> ChatGPT · Claude 쓰는 법 · 아이모두와 다른 점</li>
-      <li><b>하네스란?</b> 한 줄 뜻 · 유래 · 김치볶음밥 이야기</li>
-      <li><b>부탁 복사</b> 오늘 쓴 부탁 8개 · 꿀팁 3줄 · 막히면</li>
+      <li><a href="#start-guide"><span>1</span>시작 가이드</a></li>
+      <li><a href="#asks"><span>2</span>부탁 예시</a></li>
+      <li><a href="#recipe"><span>3</span>잘 쓰는 요령</a></li>
+      <li><a href="#compare"><span>4</span>아이모두와 다른 점</a></li>
+      <li><a href="#harness"><span>5</span>하네스란?</a></li>
+      <li><a href="#stuck"><span>6</span>막혔을 때</a></li>
+      <li><a href="#more"><span>7</span>선택 자료</a></li>
     </ol>
-  </section>
+  </nav>
 
-  <section class="card sec sg" id="start-guide" aria-labelledby="h-start">
-    <h2 id="h-start">집에서 · 학교에서 이어서 해 보기</h2>
-    <p class="lead">오늘 연수처럼, 내 컴퓨터에서 다시 해 보는 ChatGPT · Claude 시작 가이드</p>
-    <p class="sg-date">2026년 11월 기준 · 자주 바뀌어요 · 메뉴 이름은 앱·요금제마다 달라요</p>
-    <nav class="sg-jump" aria-label="시작 가이드 바로가기">
-      <a href="#sg-chatgpt">ChatGPT로 시작</a><a href="#sg-claude">Claude로 시작</a><a href="#sg-recipe">잘 쓰는 요령</a><a href="#sg-compare">아이모두와 비교</a><a href="#sg-rules">꼭 지켜 주세요</a>
-    </nav>
+  <section class="card" id="start-guide" aria-labelledby="h-start">
+    <h2 id="h-start"><span class="no" aria-hidden="true">1</span>시작 가이드</h2>
+    <p class="lead">집에서 · 학교에서 오늘처럼 다시 해 보기</p>
+    <p class="date">2026년 11월 기준 · 메뉴 이름은 앱·요금제마다 달라요</p>
 
-    <h3 class="sg-h" id="sg-chatgpt">ChatGPT로 시작하기 <span class="sg-tag">오늘 연수에서 쓴 방법</span></h3>
-    <ol class="sg-steps">
+    <h3 class="sub" id="sg-chatgpt">ChatGPT로 시작하기 <span class="tag">오늘 연수 방법</span></h3>
+    <ol class="steps">
       <li><b>컴퓨터용 ChatGPT 앱 설치 · 로그인</b><span>휴대폰·웹 말고 컴퓨터용 앱으로 해요.</span></li>
       <li><b>위쪽 「Chat | Work」에서 「Work」 누르기</b><span>Work = AI가 파일을 직접 만들어 주는 작업 모드</span>
-        <figure class="sg-fig"><img src="../assets/training/chatgpt-step1.webp" alt="화면 위쪽 Chat과 Work 두 단추 중 Work에 빨간 동그라미" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 1 · 「Work」 누르기</figcaption></figure></li>
-      <li><b>입력창 아래에서 모델(AI) 고르기</b><span>모르면 기본값 그대로 두면 돼요.</span></li>
-      <li><b>한 줄로 부탁 + 「파일」로 양식 붙이기</b><span>우리 학교 양식 파일을 붙이고, 평소 말하듯 한 줄로 부탁해요.</span>
-        <div class="sg-figs">
-          <figure class="sg-fig"><img src="../assets/training/chatgpt-step2.webp" alt="입력창 아래 「파일」 단추에 빨간 동그라미, 우리 학교 양식 붙이기" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 2 · 「파일」로 양식 붙이기</figcaption></figure>
-          <figure class="sg-fig"><img src="../assets/training/chatgpt-step3.webp" alt="입력창에 「다음 주 시설 안전 점검 안내문 한글 파일로 만들어 줘」를 쓰고 보내기 단추를 누르는 예시" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 3 · 한 줄 부탁 쓰고 보내기</figcaption></figure>
+        <figure class="fig"><img src="../assets/training/chatgpt-step1.webp" alt="화면 위쪽 Chat과 Work 두 단추 중 Work에 빨간 동그라미" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 1 · 「Work」 누르기</figcaption></figure></li>
+      <li><b>입력창 아래에서 모델(AI) 고르기</b><span>모르면 기본값 그대로.</span></li>
+      <li><b>한 줄로 부탁 + 「파일」로 양식 붙이기</b><span>평소 말하듯 한 줄이면 돼요.</span>
+        <div class="figs">
+          <figure class="fig"><img src="../assets/training/chatgpt-step2.webp" alt="입력창 아래 「파일」 단추에 빨간 동그라미, 우리 학교 양식 붙이기" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 2 · 「파일」로 양식 붙이기</figcaption></figure>
+          <figure class="fig"><img src="../assets/training/chatgpt-step3.webp" alt="입력창에 「다음 주 시설 안전 점검 안내문 한글 파일로 만들어 줘」를 쓰고 보내기 단추를 누르는 예시" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 3 · 한 줄 부탁 쓰고 보내기</figcaption></figure>
         </div></li>
-      <li><b>나온 파일 열어 확인 · 「여기 고쳐 줘」</b><span>마음에 안 드는 곳은 한마디로 다시 부탁해요.</span>
-        <figure class="sg-fig"><img src="../assets/training/chatgpt-step4.webp" alt="AI가 만든 교직원 시설 안전 점검 일정 안내 한글 문서 미리보기, 일정이 표로 정리됨" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 4 · 나온 한글 파일 확인 (가상 내용)</figcaption></figure></li>
+      <li><b>나온 파일 열어 확인 · 「여기 고쳐 줘」</b><span>마음에 안 들면 한마디 더.</span>
+        <figure class="fig"><img src="../assets/training/chatgpt-step4.webp" alt="AI가 만든 교직원 시설 안전 점검 일정 안내 한글 문서 미리보기, 일정이 표로 정리됨" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 4 · 나온 한글 파일 확인 (가상 내용)</figcaption></figure></li>
     </ol>
-    <p class="sg-note"><b>요금</b> 무료로도 들어가 볼 수 있지만, 많이 쓰려면 유료예요. 공식 안내 기준(2026년 11월): <b>컴퓨터용 앱의 Work는 모든 요금제</b>, 웹·휴대폰의 Work는 유료 요금제.</p>
+    <p class="note"><b>요금</b> 무료로도 들어가 볼 수 있어요. 많이 쓰려면 유료예요. 공식 안내 기준(2026년 11월): <b>컴퓨터용 앱의 Work는 모든 요금제</b>, 웹·휴대폰의 Work는 유료 요금제.</p>
 
-    <h3 class="sg-h" id="sg-claude">Claude로 시작하기</h3>
-    <ol class="sg-steps">
+    <h3 class="sub" id="sg-claude">Claude로 시작하기</h3>
+    <ol class="steps">
       <li><b>컴퓨터용 Claude 앱 설치 · 로그인</b></li>
-      <li><b>입력창 아래에서 모델 고르기</b><span>모르면 기본값 그대로 두면 돼요.</span></li>
-      <li><b>파일을 직접 만들고 고치는 작업 모드(Cowork)는 유료 요금제부터</b><span>무료라면 일반 채팅으로 먼저 해 보세요.</span></li>
+      <li><b>입력창 아래에서 모델 고르기</b><span>모르면 기본값 그대로.</span></li>
+      <li><b>파일을 직접 만드는 작업 모드(Cowork)는 유료 요금제부터</b><span>무료라면 일반 채팅으로 먼저.</span></li>
     </ol>
-    <p class="sg-note">메뉴 이름은 앱·요금제마다 달라요. 안 보이면 비슷한 이름을 찾아보세요.</p>
+    <p class="note">메뉴 이름은 앱·요금제마다 달라요. 안 보이면 비슷한 이름을 찾아보세요.</p>
+  </section>
 
-    <h3 class="sg-h" id="sg-recipe">잘 쓰는 요령 · 노안중 레시피</h3>
-    <ul class="tips sg-recipe">
-      <li><b>양식 파일 한 장</b>우리 학교 양식을 「파일」로 같이 붙이기</li>
-      <li><b>잘된 예시 하나</b>마음에 들었던 지난 문서 하나를 같이 주기</li>
-      <li><b>규칙 한 줄</b>「학생 이름 · 연락처는 넣지 마」</li>
-      <li><b>물어볼 땐 채팅, 맡길 땐 Work</b>궁금한 건 채팅으로, 파일을 만들 땐 작업 모드로</li>
-    </ul>
-
-    <h3 class="sg-h" id="sg-compare">아이모두와 무엇이 다른가요?</h3>
-    <p class="sg-date">2026년 11월 기준 · 자주 바뀌어요</p>
-    <div class="sg-table">
-      <table>
-        <caption class="sg-cap">아이모두와 ChatGPT · Claude 비교</caption>
-        <thead><tr><th scope="col">살펴볼 점</th><th scope="col">아이모두</th><th scope="col">ChatGPT · Claude</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">누가 만들고 운영하나</th><td data-label="아이모두">교육청의 AI 교수학습 플랫폼 (ai.jne.kr)</td><td data-label="ChatGPT · Claude">AI 회사가 만든 앱 · 내가 직접 설치</td></tr>
-          <tr><th scope="row">비용</th><td data-label="아이모두">학교에서 받은 계정으로 써요 · 미리캔버스는 아이모두를 거쳐 들어가면 교육용 Pro</td><td data-label="ChatGPT · Claude">무료로 들어가 볼 수 있어요 · 많이 쓰려면 유료</td></tr>
-          <tr><th scope="row">계정</th><td data-label="아이모두">학교에서 받은 아이모두 계정 · 처음 한 번 간편인증·공동인증서 둘 다 등록</td><td data-label="ChatGPT · Claude">내 계정으로 컴퓨터용 앱에 로그인</td></tr>
-          <tr><th scope="row">학생과 함께 써도 되나</th><td data-label="아이모두">학생 등록 가능 · 보호자 동의서(PDF)를 붙여야 등록돼요 · 구글 클래스룸 연결</td><td data-label="ChatGPT · Claude">이 가이드는 선생님 업무용이에요 (학생과 쓰기는 다루지 않아요)</td></tr>
-          <tr><th scope="row">개인정보</th><td data-label="아이모두">개인정보 든 문서는 올리지 않아요 · 이름·연락처·성적은 지우고</td><td data-label="ChatGPT · Claude">넣지 않아요 · 부탁에 「학생 이름 · 연락처는 넣지 마」 한 줄</td></tr>
-          <tr><th scope="row">잘하는 일</th><td data-label="아이모두">로그인 한 번으로 교육청 도구 46개 · JneGPT(가정통신문·회의록 글) · Gemini·Notebook(긴 공문 정리) · 미리캔버스 · 구글 클래스룸</td><td data-label="ChatGPT · Claude">양식을 붙여 한 줄로 부탁 → 파일로 받기 · 「여기 고쳐 줘」로 다듬기</td></tr>
-          <tr><th scope="row">파일을 직접 만들어 주나 (작업 모드)</th><td data-label="아이모두"><b>오늘 같은 작업 모드(파일 직접 만들기)는 아이모두에서는 안 돼요.</b> 나온 글은 초안 → 내가 문서에 옮겨요</td><td data-label="ChatGPT · Claude">돼요 · ChatGPT Work(컴퓨터용 앱은 모든 요금제) · Claude Cowork(유료 요금제부터)</td></tr>
-          <tr><th scope="row">언제 쓰면 좋나</th><td data-label="아이모두">학생과 함께 · 학교 안에서 · 교육청 도구를 열 때</td><td data-label="ChatGPT · Claude">내 업무 파일(안내문·발표자료 등)을 맡길 때</td></tr>
-        </tbody>
-      </table>
+  <section class="card" id="asks" aria-labelledby="h-asks">
+    <h2 id="h-asks"><span class="no" aria-hidden="true">2</span>부탁 예시</h2>
+    <p class="lead">「지시서 복사」 → 입력창에 붙여넣기. 내 말로 바꿔도 돼요.</p>
+    <div class="asks">
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">한글 안내문</span><button type="button" class="g-copybtn" data-target="ask-1">지시서 복사</button></div><pre id="ask-1" tabindex="0">다음 주 시설 안전 점검 교직원 안내문 한글 파일로 만들어 줘. 일정은 표로, A4 한 장.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">PPT</span><button type="button" class="g-copybtn" data-target="ask-2">지시서 복사</button></div><pre id="ask-2" tabindex="0">학부모 총회 10분 발표 PPT 5장. 차분하고 믿음직하게, 장마다 그림 하나, 글은 짧게.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">퀴즈쇼 게임</span><button type="button" class="g-copybtn" data-target="ask-3">지시서 복사</button></div><pre id="ask-3" tabindex="0">중1 과학 '빛과 그림자' 복습 퀴즈쇼 게임 만들어 줘. TV에 띄워서 4모둠 대항, 문제 8개, 20초 타이머, 정답이면 축하 효과, 마지막에 순위 시상대. 인터넷 없이 열리는 파일 하나로.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">교실 도구</span><button type="button" class="g-copybtn" data-target="ask-4">지시서 복사</button></div><pre id="ask-4" tabindex="0">TV에 띄우는 수업 도우미 만들어 줘. 발표 순서 뽑기(1~28번), 4모둠 나누기, 1 · 3 · 5분 타이머를 탭으로. 이름 없이 번호만.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
     </div>
-    <p class="motto">학생과 함께 · 학교 안에서는 아이모두, 내 업무 파일을 맡길 땐 ChatGPT·Claude의 작업 모드 — 단, 개인정보는 어디에도 넣지 않아요</p>
-    <p class="sg-note">아이모두 칸은 이 사이트의 <a href="../iamodu/index.html">아이모두 완전 정복</a>과 <a href="../index.html#08b">카드 08b(학생과 쓰기 전에)</a>에 적힌 내용만 옮겼어요.</p>
+    <details class="fold">
+      <summary>부탁 4개 더 보기</summary>
+      <div class="fold-body asks">
+        <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">안내 웹페이지</span><button type="button" class="g-copybtn" data-target="ask-5">지시서 복사</button></div><pre id="ask-5" tabindex="0">12월 5일 과학관 체험학습 안내 웹페이지 만들어 줘. 휴대폰에서 보기 좋게, 일정 타임라인, 준비물 체크리스트, 간단한 지도, 비 올 때 안내. 학생 이름 · 연락처는 넣지 마.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+        <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">성적 분석</span><button type="button" class="g-copybtn" data-target="ask-6">지시서 복사</button></div><pre id="ask-6" tabindex="0">이 엑셀로 반별 평균 비교 보고서 만들어 줘. 학생 이름은 빼고.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+        <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">모션 홍보</span><button type="button" class="g-copybtn" data-target="ask-7">지시서 복사</button></div><pre id="ask-7" tabindex="0">우리 학교 가을 축제 30초 홍보 화면 만들어 줘. 큰 글자가 날아들고, 단풍잎이 떨어지고, 행사 카드 3개가 차례로 나오게. 마지막 3초는 날짜와 장소.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+        <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">타이포 오프닝</span><button type="button" class="g-copybtn" data-target="ask-8">지시서 복사</button></div><pre id="ask-8" tabindex="0">다음 수업 주제 '광합성'을 소개하는 10초 오프닝 화면 만들어 줘. 글자가 한 자씩 떨어지고, 핵심 단어만 색이 바뀌게.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      </div>
+    </details>
+    <p class="note">한 번에 안 나오면 한마디 더: 「글자 더 크게」 · 「우리 학교 색(파랑)으로」 · 「여기 고쳐 줘」. 같은 부탁도 결과는 조금씩 달라요.</p>
+  </section>
 
-    <div class="sg-warn" id="sg-rules" role="note" aria-labelledby="h-rules">
+  <section class="card" id="recipe" aria-labelledby="h-recipe">
+    <h2 id="h-recipe"><span class="no" aria-hidden="true">3</span>잘 쓰는 요령 · 노안중 레시피</h2>
+    <ul class="tips">
+      <li><b>양식 파일 한 장</b>우리 학교 양식을 「파일」로 같이 붙이기</li>
+      <li><b>잘된 예시 하나</b>마음에 들었던 지난 문서를 같이 주기</li>
+      <li><b>규칙 한 줄</b>「학생 이름 · 연락처는 넣지 마」</li>
+      <li><b>물어볼 땐 채팅, 맡길 땐 Work</b>파일을 만들 땐 작업 모드로</li>
+    </ul>
+    <div class="warn" role="note" aria-labelledby="h-rules">
       <h3 id="h-rules">⚠ 꼭 지켜 주세요</h3>
       <ul>
         <li><b>개인정보 넣지 않기</b> 학생 이름 · 연락처 · 성적은 지우고</li>
@@ -200,70 +220,76 @@
     </div>
   </section>
 
-  <section class="card sec" aria-labelledby="h-harness">
-    <h2 id="h-harness">하네스란?</h2>
+  <section class="card cmp" id="compare" aria-labelledby="h-compare">
+    <h2 id="h-compare"><span class="no" aria-hidden="true">4</span>아이모두와 무엇이 다른가요?</h2>
+    <p class="date">2026년 11월 기준 · 자주 바뀌어요</p>
+    <table>
+      <caption>아이모두와 ChatGPT · Claude 비교</caption>
+      <thead><tr><th scope="col">살펴볼 점</th><th scope="col">아이모두</th><th scope="col">ChatGPT · Claude</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">누가 만들고 운영하나</th><td data-label="아이모두">교육청의 AI 교수학습 플랫폼 (ai.jne.kr)</td><td data-label="ChatGPT · Claude">AI 회사가 만든 앱 · 내가 직접 설치</td></tr>
+        <tr><th scope="row">비용</th><td data-label="아이모두">학교에서 받은 계정으로 써요 · 미리캔버스는 아이모두를 거쳐 들어가면 교육용 Pro</td><td data-label="ChatGPT · Claude">무료로 들어가 볼 수 있어요 · 많이 쓰려면 유료</td></tr>
+        <tr><th scope="row">계정</th><td data-label="아이모두">학교에서 받은 아이모두 계정 · 처음 한 번 간편인증·공동인증서 둘 다 등록</td><td data-label="ChatGPT · Claude">내 계정으로 컴퓨터용 앱에 로그인</td></tr>
+        <tr><th scope="row">학생과 함께 써도 되나</th><td data-label="아이모두">학생 등록 가능 · 보호자 동의서(PDF)를 붙여야 등록돼요 · 구글 클래스룸 연결</td><td data-label="ChatGPT · Claude">이 가이드는 선생님 업무용이에요 (학생과 쓰기는 다루지 않아요)</td></tr>
+        <tr><th scope="row">개인정보</th><td data-label="아이모두">개인정보 든 문서는 올리지 않아요 · 이름·연락처·성적은 지우고</td><td data-label="ChatGPT · Claude">넣지 않아요 · 부탁에 「학생 이름 · 연락처는 넣지 마」 한 줄</td></tr>
+        <tr><th scope="row">잘하는 일</th><td data-label="아이모두">로그인 한 번으로 교육청 도구 46개 · JneGPT(가정통신문·회의록 글) · Gemini·Notebook(긴 공문 정리) · 미리캔버스 · 구글 클래스룸</td><td data-label="ChatGPT · Claude">양식을 붙여 한 줄로 부탁 → 파일로 받기 · 「여기 고쳐 줘」로 다듬기</td></tr>
+        <tr><th scope="row">파일을 직접 만들어 주나 (작업 모드)</th><td data-label="아이모두"><b>오늘 같은 작업 모드(파일 직접 만들기)는 아이모두에서는 안 돼요.</b> 나온 글은 초안 → 내가 문서에 옮겨요</td><td data-label="ChatGPT · Claude">돼요 · ChatGPT Work(컴퓨터용 앱은 모든 요금제) · Claude Cowork(유료 요금제부터)</td></tr>
+        <tr><th scope="row">언제 쓰면 좋나</th><td data-label="아이모두">학생과 함께 · 학교 안에서 · 교육청 도구를 열 때</td><td data-label="ChatGPT · Claude">내 업무 파일(안내문·발표자료 등)을 맡길 때</td></tr>
+      </tbody>
+    </table>
+    <p class="motto">학생과 함께 · 학교 안에서는 아이모두, 내 업무 파일을 맡길 땐 ChatGPT·Claude의 작업 모드 — 단, 개인정보는 어디에도 넣지 않아요</p>
+    <p class="note">아이모두 칸은 이 사이트의 <a href="../iamodu/index.html">아이모두 완전 정복</a>과 <a href="../index.html#08b">카드 08b(학생과 쓰기 전에)</a>에 적힌 내용만 옮겼어요.</p>
+  </section>
+
+  <section class="card" id="harness" aria-labelledby="h-harness">
+    <h2 id="h-harness"><span class="no" aria-hidden="true">5</span>하네스란?</h2>
     <p class="lead"><b>하네스</b> = AI에게 도구와 레시피를 주는 것</p>
-    <dl class="rows">
-      <div><dt>유래</dt><dd>말에 채우는 마구(하네스) → 힘센 말의 힘을 원하는 방향으로</dd></div>
-    </dl>
-    <figure class="horse">
-      <img src="assets/s2/horse.jpg" alt="목걸이와 끄는 줄을 채우고 밭을 가는 말 세 마리" width="800" height="450" loading="lazy" decoding="async">
-      <figcaption>사진: 「Three horse power.」 Bernard Spragg. NZ · Wikimedia Commons · CC0</figcaption>
-    </figure>
-    <h3 style="font-size:19px;margin:20px 0 0">김치볶음밥 이야기</h3>
-    <dl class="rows">
-      <div><dt>그냥 AI</dt><dd>밥만 따로</dd></div>
-      <div><dt>하네스 AI</dt><dd>셰프 레시피 + 도구</dd></div>
-      <div class="is-good"><dt>결과</dt><dd>한 번에 완성</dd></div>
-    </dl>
     <p class="motto">그냥 시키지 말고, 도구와 길을 같이</p>
-    <p style="font-size:18px;margin:14px 0 0"><a href="../terms/index.html#t-harness">AI 알기 · 하네스 20초 그림 보기</a></p>
+    <details class="fold">
+      <summary>유래 · 김치볶음밥 이야기 펼치기</summary>
+      <div class="fold-body">
+        <dl class="rows">
+          <div><dt>유래</dt><dd>말에 채우는 마구(하네스) → 힘센 말의 힘을 원하는 방향으로</dd></div>
+        </dl>
+        <figure class="horse">
+          <img src="assets/s2/horse.jpg" alt="목걸이와 끄는 줄을 채우고 밭을 가는 말 세 마리" width="800" height="450" loading="lazy" decoding="async">
+          <figcaption>사진: 「Three horse power.」 Bernard Spragg. NZ · Wikimedia Commons · CC0</figcaption>
+        </figure>
+        <h3 style="font-size:19px;margin:18px 0 0">김치볶음밥 이야기</h3>
+        <dl class="rows">
+          <div><dt>그냥 AI</dt><dd>밥만 따로</dd></div>
+          <div><dt>하네스 AI</dt><dd>셰프 레시피 + 도구</dd></div>
+          <div class="is-good"><dt>결과</dt><dd>한 번에 완성</dd></div>
+        </dl>
+        <p style="margin:12px 0 0"><a href="../terms/index.html#t-harness">AI 알기 · 하네스 20초 그림 보기</a></p>
+      </div>
+    </details>
   </section>
 
-  <section class="card sec" aria-labelledby="h-asks">
-    <h2 id="h-asks">오늘 쓴 부탁 모음</h2>
-    <p style="font-size:18px;margin:0">「지시서 복사」 → ChatGPT·Claude 입력창에 붙여넣기</p>
-    <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">설치 한 줄</span><button type="button" class="g-copybtn" data-target="ask-1">지시서 복사</button></div><pre id="ask-1" tabindex="0">github.com/zln02/teacher-studio
-내가 준 링크에 하네스 세팅해 줘</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-    <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">시연</span><button type="button" class="g-copybtn" data-target="ask-2">지시서 복사</button></div><pre id="ask-2" tabindex="0">나는 중학교 선생님인데 오늘 수업에 쓸 AI 코딩 도우미 만들어 줘. 나한테 물어보지 말고 네가 알아서 만들어.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-    <h3 style="font-size:19px;margin:22px 0 10px">예시 부탁 6가지</h3>
-    <div class="asks">
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">게임</span><button type="button" class="g-copybtn" data-target="ask-3">지시서 복사</button></div><pre id="ask-3" tabindex="0">중2 과학 '빛의 반사' 복습 퀴즈 게임 만들어 줘. TV로 띄워서 모둠 대항으로.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">슬라이드</span><button type="button" class="g-copybtn" data-target="ask-4">지시서 복사</button></div><pre id="ask-4" tabindex="0">학부모 설명회 10분 발표 자료 만들어 줘. 차분하고 믿음직한 느낌으로.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">가정통신문</span><button type="button" class="g-copybtn" data-target="ask-5">지시서 복사</button></div><pre id="ask-5" tabindex="0">현장체험학습 안내 가정통신문을 한글 파일로. 회신서도 붙여 줘.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">수업 도구</span><button type="button" class="g-copybtn" data-target="ask-6">지시서 복사</button></div><pre id="ask-6" tabindex="0">발표 순서 뽑기 + 3분 타이머. 교실 TV에서 크게 보이게.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">성적 분석</span><button type="button" class="g-copybtn" data-target="ask-7">지시서 복사</button></div><pre id="ask-7" tabindex="0">이 엑셀로 반별 평균 비교 보고서 만들어 줘. 학생 이름은 빼고.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">프로그램</span><button type="button" class="g-copybtn" data-target="ask-8">지시서 복사</button></div><pre id="ask-8" tabindex="0">모둠 활동 점수판 프로그램 만들어 줘. 인터넷 없이 열리게.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-    </div>
-    <h3 style="font-size:19px;margin:22px 0 10px">부탁 예시 (그대로 써도, 내 말로 바꿔도 돼요)</h3>
-    <p style="font-size:16px;margin:0 0 10px">한 번에 안 나오면 한마디 더: 「글자 더 크게」 · 「우리 학교 색(파랑)으로」 · 「움직임 더 부드럽게」 · 「여기 고쳐 줘」</p>
-    <div class="asks">
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">퀴즈쇼 게임</span><button type="button" class="g-copybtn" data-target="ask-9">지시서 복사</button></div><pre id="ask-9" tabindex="0">중1 과학 '빛과 그림자' 복습 퀴즈쇼 게임 만들어 줘. TV에 띄워서 4모둠 대항, 문제 8개, 20초 타이머, 정답이면 축하 효과, 마지막에 순위 시상대. 인터넷 없이 열리는 파일 하나로.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">모션 홍보</span><button type="button" class="g-copybtn" data-target="ask-10">지시서 복사</button></div><pre id="ask-10" tabindex="0">우리 학교 가을 축제 30초 홍보 화면 만들어 줘. 큰 글자가 날아들고, 단풍잎이 떨어지고, 행사 카드 3개가 차례로 나오게. 마지막 3초는 날짜와 장소.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">타이포 오프닝</span><button type="button" class="g-copybtn" data-target="ask-11">지시서 복사</button></div><pre id="ask-11" tabindex="0">다음 수업 주제 '광합성'을 소개하는 10초 오프닝 화면 만들어 줘. 글자가 한 자씩 떨어지고, 핵심 단어만 색이 바뀌게.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">안내 웹페이지</span><button type="button" class="g-copybtn" data-target="ask-12">지시서 복사</button></div><pre id="ask-12" tabindex="0">12월 5일 과학관 체험학습 안내 웹페이지 만들어 줘. 휴대폰에서 보기 좋게, 일정 타임라인, 준비물 체크리스트, 간단한 지도, 비 올 때 안내. 학생 이름 · 연락처는 넣지 마.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">교실 도구</span><button type="button" class="g-copybtn" data-target="ask-13">지시서 복사</button></div><pre id="ask-13" tabindex="0">TV에 띄우는 수업 도우미 만들어 줘. 발표 순서 뽑기(1~28번), 4모둠 나누기, 1 · 3 · 5분 타이머를 탭으로. 이름 없이 번호만.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">한글 안내문</span><button type="button" class="g-copybtn" data-target="ask-14">지시서 복사</button></div><pre id="ask-14" tabindex="0">다음 주 시설 안전 점검 교직원 안내문 한글 파일로 만들어 줘. 일정은 표로, A4 한 장.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-      <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">PPT</span><button type="button" class="g-copybtn" data-target="ask-15">지시서 복사</button></div><pre id="ask-15" tabindex="0">학부모 총회 10분 발표 PPT 5장. 차분하고 믿음직하게, 장마다 그림 하나, 글은 짧게.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
-    </div>
-    <p style="font-size:15px;margin:10px 0 0">한글 안내문은 「파일」로 우리 학교 양식을 같이 붙이면 더 좋아요. 같은 부탁도 결과는 조금씩 달라요.</p>
-    <h3 style="font-size:19px;margin:22px 0 0">꿀팁 3줄</h3>
-    <ul class="tips">
-      <li><b>그냥 시키지 않기</b>도구와 레시피(하네스)를 켜고 시작</li>
-      <li><b>한 번 제대로 말하기</b>누구에게 · 어디에 · 어떤 느낌 · 어떤 재료</li>
-      <li><b>끝나면 확인</b>사실·숫자·출처는 원문으로 · 학생 정보는 넣지 않기</li>
-    </ul>
+  <section class="card" id="stuck" aria-labelledby="h-stuck">
+    <h2 id="h-stuck"><span class="no" aria-hidden="true">6</span>막혔을 때</h2>
+    <p class="lead">궁금한 줄을 눌러 펼쳐요.</p>
+    <details class="fold"><summary>「Work」가 안 보여요</summary><div class="fold-body"><p>컴퓨터용 ChatGPT 앱인지 확인해요. 웹·휴대폰의 Work는 유료 요금제에서만 돼요(2026년 11월 공식 안내 기준). 메뉴 이름은 앱·요금제마다 달라요.</p></div></details>
+    <details class="fold"><summary>파일 대신 글만 나와요</summary><div class="fold-body"><p>Work(작업 모드)에서 부탁했는지 확인해요. 「한글 파일로」 「PPT로」처럼 파일 종류를 말해 주세요.</p></div></details>
+    <details class="fold"><summary>결과가 마음에 안 들어요</summary><div class="fold-body"><p>한마디 더: 「글자 더 크게」 · 「우리 학교 색(파랑)으로」 · 「여기 고쳐 줘」. 우리 학교 양식을 「파일」로 붙이면 모양이 맞아요.</p></div></details>
+    <details class="fold"><summary>아이모두 로그인이 막혀요</summary><div class="fold-body"><p>간편인증·공동인증서를 둘 다 등록했는지 확인해요. <a href="../iamodu/index.html#sec-stuck">아이모두 완전 정복 · 막혔을 때</a></p></div></details>
+    <details class="fold"><summary>그래도 안 돼요</summary><div class="fold-body"><p>막힌 화면을 캡처해 학교 정보 담당 선생님께 보여 주세요. 학생 이름이 보이면 가리고 보내요.</p></div></details>
   </section>
 
-  <section class="card sec" aria-labelledby="h-stuck">
-    <h2 id="h-stuck">막히면</h2>
-    <p style="font-size:18px;margin:0">링크 설치가 안 될 때 — zip으로</p>
-    <ol class="steps">
-      <li>github.com/zln02/teacher-studio 에서 zip 받기</li>
-      <li>Claude 앱 Customize → Skills</li>
-      <li>zip 파일 올리기</li>
-    </ol>
-    <p style="font-size:18px;margin:14px 0 0"><a href="#start-guide">ChatGPT · Claude 시작 가이드 보기</a></p>
+  <section class="card" id="more" aria-labelledby="h-more">
+    <h2 id="h-more"><span class="no" aria-hidden="true">7</span>선택 자료</h2>
+    <div class="more">
+      <div>
+        <h3>AI와 시험 부정행위</h3>
+        <p>따로 떼어 낸 8장 · 의심이 들 때 할 일 · 평가 준비 5가지</p>
+        <a class="button" href="s2-ai-cheating.html">자료 열기</a>
+      </div>
+      <div>
+        <h3>(선택·시험 중) 학교용 하네스</h3>
+        <p>AI에게 선생님 업무용 도구·레시피를 챙겨 주는 묶음. 아직 시험 중이에요.</p>
+        <div class="g-prompt"><div class="g-prompt-head"><span class="g-prompt-lab">설치 부탁</span><button type="button" class="g-copybtn" data-target="ask-9">지시서 복사</button></div><pre id="ask-9" tabindex="0">https://github.com/zln02/teacher-studio 의 INSTALL.md를 읽고 그대로 설치해 줘. 나는 선생님이고 코딩은 몰라.</pre><span class="g-copyhint" role="status" aria-live="polite" hidden></span></div>
+      </div>
+    </div>
   </section>
 </main>
 <script>
