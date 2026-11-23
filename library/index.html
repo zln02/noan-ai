@@ -89,6 +89,8 @@
         <span class="badge"><span data-icon="googlegemini" data-icon-size="24"></span>Gemini</span>
         <h3 class="card-title">긴 공문을 읽고 근거를 댑니다</h3>
         <p class="card-lede">아이모두 계정에 포함되어 있습니다. 공문 PDF를 올리고 "우리 학교가 해야 할 일만 정리해줘"라고 물어보세요. 개인정보가 들어간 공문은 올리지 않습니다.</p>
+        <p class="rd-ask"><span class="rd-ask-t">우리 학교가 해야 할 일만 정리해줘</span><button type="button" class="btn btn-primary rd-copy" data-copy="우리 학교가 해야 할 일만 정리해줘">복사</button></p>
+        <p class="card-lede small"><a href="../index.html#02">더 자세한 지시서 — 업무별 안내서 02</a></p>
       </div>
 
       <div class="card tilt" id="card-classroom" tabindex="-1">
@@ -267,6 +269,25 @@
     .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
     .then(render)
     .catch(function () { if (!fallback()) fail(); });
+})();
+</script>
+<script>
+/* 예시 부탁 복사 — 공통 알림(NoanApp.toast). ES2017 */
+(function () {
+  'use strict';
+  function say(t) { if (window.NoanApp && window.NoanApp.toast) window.NoanApp.toast(t); }
+  Array.prototype.forEach.call(document.querySelectorAll('.rd-copy'), function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      function ok() { say('복사했어요. 입력창에 붙여넣으세요'); }
+      function manual() {
+        var box = btn.parentNode.querySelector('.rd-ask-t');
+        try { var r = document.createRange(); r.selectNodeContents(box); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch (e) {}
+        say('글을 선택했어요. Ctrl+C 를 누르세요');
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, manual); else manual();
+    });
+  });
 })();
 </script>
 </body>
