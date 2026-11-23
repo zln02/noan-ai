@@ -327,3 +327,6 @@ body:not(.page-training) .g-tabs button small { color: #33445C; }
 body:not(.page-training) .g-first-arrow { color: #5D6C80; }
 body:not(.page-training) .g-card-arrow { color: #3C4F66; }
 body:not(.page-training) .guide-official, body:not(.page-training) .section li > a[target="_blank"] { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* 16. 카드 맨 위 아이콘 칸 (수업 주제 등) */
+.card > .ab-ico:first-child { display: block; width: 48px; height: 48px; padding: 10px; margin-bottom: 10px; }
