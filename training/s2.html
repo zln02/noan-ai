@@ -64,6 +64,48 @@
   .steps{margin:10px 0 0;padding-left:26px}
   .dl{display:inline-flex;align-items:center;min-height:44px}
   @media(max-width:700px){.asks{grid-template-columns:1fr}.rows>div{grid-template-columns:5.4em 1fr}.card{padding:20px}}
+  /* 시작 가이드 (#start-guide) — 사이트 단계·표 모양(shared/site.css .steps · .tw table)을 이 페이지 색으로 */
+  .sg-date{display:inline-block;font-size:15px;font-weight:700;color:#7a3e00;background:#fff4e0;border-radius:8px;padding:4px 10px;margin:4px 0 0}
+  .sg-jump{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px}
+  .sg-jump a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid #B5E3E0;border-radius:999px;background:#E8F6F5;color:#0a5f61;font-size:16px;font-weight:800;text-decoration:none}
+  .sg-h{font-size:22px;margin:30px 0 12px;padding-top:18px;border-top:1px solid #e6e2d8;scroll-margin-top:16px}
+  .sg-tag{display:inline-block;margin-left:6px;padding:2px 9px;border-radius:6px;background:#FFE58A;color:#3A2C00;font-size:15px;font-weight:800;vertical-align:middle}
+  .card .sg-steps{display:flex;flex-direction:column;gap:18px;margin:0;padding:0;list-style:none;counter-reset:sg-step}
+  .card .sg-steps>li{position:relative;margin:0;padding-left:48px;min-height:34px;counter-increment:sg-step;font-size:18px;line-height:1.6}
+  .sg-steps>li::before{content:counter(sg-step);position:absolute;top:0;left:0;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#0a7779;color:#fff;font-size:17px;font-weight:800}
+  .sg-steps>li>b{display:block}
+  .sg-steps>li>span{display:block;color:#41525c}
+  .sg-figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .sg-fig{margin:10px 0 0}
+  .sg-fig img{display:block;width:100%;max-width:560px;height:auto;border-radius:12px;border:1px solid #d8d5cc}
+  .sg-figs .sg-fig img{max-width:none}
+  .sg-fig figcaption{font-size:15px;color:#4a5961;margin-top:6px}
+  .card p.sg-note{font-size:17px;line-height:1.6;margin:16px 0 0;padding:12px 16px;background:#f8f6f1;border-radius:10px}
+  .sg-table{margin:12px 0 0}
+  .sg-table table{width:100%;border-collapse:collapse;text-align:left;font-size:17px;line-height:1.55}
+  .sg-cap{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .sg-table th,.sg-table td{padding:14px;border-bottom:1px solid #d8d5cc;vertical-align:top}
+  .sg-table thead th{border-bottom:2px solid #13202a;color:#41525c;font-size:17px;white-space:nowrap}
+  .sg-table thead th:nth-child(2){color:#0a5f61}
+  .sg-table tbody th{font-weight:800;width:22%;color:#13202a}
+  .sg-table tbody td:nth-child(2){background:#f1faf9}
+  .sg-warn{margin:22px 0 0;padding:18px 20px;border:2px solid #c2410c;border-radius:14px;background:#fff6ef}
+  .sg-warn h3{font-size:20px;color:#9a3412;margin:0 0 8px}
+  .card .sg-warn ul{margin:0;padding-left:22px}
+  .sg-warn li{font-size:18px;line-height:1.6}
+  @media(max-width:700px){
+    .sg-figs{grid-template-columns:1fr}
+    .card .sg-steps>li{padding-left:44px}
+    .sg-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .sg-table table,.sg-table tbody,.sg-table tr,.sg-table th,.sg-table td{display:block;width:auto}
+    .sg-table tbody th{width:auto}
+    .sg-table tr{border:1px solid #d8d5cc;border-radius:12px;margin:0 0 12px;overflow:hidden}
+    .sg-table tbody th{background:#13202a;color:#fff;border:0;padding:10px 14px}
+    .sg-table td{border:0;padding:10px 14px}
+    .sg-table td+td{border-top:1px solid #e6e2d8}
+    .sg-table td::before{content:attr(data-label);display:block;font-size:15px;font-weight:800;color:#0a5f61}
+    .sg-table tbody td:nth-child(3)::before{color:#41525c}
+  }
 </style>
 </head>
 <body>
@@ -73,18 +115,89 @@
     <span class="eyebrow">노안중학교 교원연수 · 2회차 · 11/23(월) 오후 2시 · 60분</span>
     <h1>AI에게 무기를 주면</h1>
     <p>ChatGPT·Claude에 도구·레시피 챙겨 주기 → 직접 설치해 나란히 비교</p>
-    <div class="buttons"><a class="button" href="s2-deck-e.html">슬라이드 열기</a> <a class="button" href="s2-deck-v3.html" style="background:#fff;color:inherit;border:1px solid #ccc">이전 슬라이드(예비)</a></div>
+    <div class="buttons"><a class="button" href="s2-deck-e.html">슬라이드 열기</a></div>
     <p class="note-hero">약 10MB · 와이파이에서 한 번 열면 다음부터 인터넷 없이</p>
-    <div class="buttons" style="margin-top:14px"><a class="button" href="assets/s2/pumui-demo.hwpx" download="품의서-시연용.hwpx" style="background:#fff;color:inherit;border:1px solid #ccc">📝 품의서 시연용(hwpx)</a> <a class="button" href="assets/s2/pumui-blank.hwpx" download="품의서-빈양식.hwpx" style="background:#fff;color:inherit;border:1px solid #ccc">📝 품의서 빈 양식(hwpx)</a></div>
   </header>
 
   <section class="can" aria-labelledby="h-can">
     <h2 id="h-can">이 페이지에서 할 수 있는 것</h2>
     <ol>
       <li><b>슬라이드 열기</b> 2회차 발표자료</li>
+      <li><b>시작 가이드</b> ChatGPT · Claude 쓰는 법 · 아이모두와 다른 점</li>
       <li><b>하네스란?</b> 한 줄 뜻 · 유래 · 김치볶음밥 이야기</li>
       <li><b>부탁 복사</b> 오늘 쓴 부탁 8개 · 꿀팁 3줄 · 막히면</li>
     </ol>
+  </section>
+
+  <section class="card sec sg" id="start-guide" aria-labelledby="h-start">
+    <h2 id="h-start">집에서 · 학교에서 이어서 해 보기</h2>
+    <p class="lead">오늘 연수처럼, 내 컴퓨터에서 다시 해 보는 ChatGPT · Claude 시작 가이드</p>
+    <p class="sg-date">2026년 11월 기준 · 자주 바뀌어요 · 메뉴 이름은 앱·요금제마다 달라요</p>
+    <nav class="sg-jump" aria-label="시작 가이드 바로가기">
+      <a href="#sg-chatgpt">ChatGPT로 시작</a><a href="#sg-claude">Claude로 시작</a><a href="#sg-recipe">잘 쓰는 요령</a><a href="#sg-compare">아이모두와 비교</a><a href="#sg-rules">꼭 지켜 주세요</a>
+    </nav>
+
+    <h3 class="sg-h" id="sg-chatgpt">ChatGPT로 시작하기 <span class="sg-tag">오늘 연수에서 쓴 방법</span></h3>
+    <ol class="sg-steps">
+      <li><b>컴퓨터용 ChatGPT 앱 설치 · 로그인</b><span>휴대폰·웹 말고 컴퓨터용 앱으로 해요.</span></li>
+      <li><b>위쪽 「Chat | Work」에서 「Work」 누르기</b><span>Work = AI가 파일을 직접 만들어 주는 작업 모드</span>
+        <figure class="sg-fig"><img src="../assets/training/chatgpt-step1.webp" alt="화면 위쪽 Chat과 Work 두 단추 중 Work에 빨간 동그라미" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 1 · 「Work」 누르기</figcaption></figure></li>
+      <li><b>입력창 아래에서 모델(AI) 고르기</b><span>모르면 기본값 그대로 두면 돼요.</span></li>
+      <li><b>한 줄로 부탁 + 「파일」로 양식 붙이기</b><span>우리 학교 양식 파일을 붙이고, 평소 말하듯 한 줄로 부탁해요.</span>
+        <div class="sg-figs">
+          <figure class="sg-fig"><img src="../assets/training/chatgpt-step2.webp" alt="입력창 아래 「파일」 단추에 빨간 동그라미, 우리 학교 양식 붙이기" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 2 · 「파일」로 양식 붙이기</figcaption></figure>
+          <figure class="sg-fig"><img src="../assets/training/chatgpt-step3.webp" alt="입력창에 「다음 주 시설 안전 점검 안내문 한글 파일로 만들어 줘」를 쓰고 보내기 단추를 누르는 예시" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 3 · 한 줄 부탁 쓰고 보내기</figcaption></figure>
+        </div></li>
+      <li><b>나온 파일 열어 확인 · 「여기 고쳐 줘」</b><span>마음에 안 드는 곳은 한마디로 다시 부탁해요.</span>
+        <figure class="sg-fig"><img src="../assets/training/chatgpt-step4.webp" alt="AI가 만든 교직원 시설 안전 점검 일정 안내 한글 문서 미리보기, 일정이 표로 정리됨" width="1400" height="700" loading="lazy" decoding="async"><figcaption>그림 4 · 나온 한글 파일 확인 (가상 내용)</figcaption></figure></li>
+    </ol>
+    <p class="sg-note"><b>요금</b> 무료로도 들어가 볼 수 있지만, 많이 쓰려면 유료예요. 공식 안내 기준(2026년 11월): <b>컴퓨터용 앱의 Work는 모든 요금제</b>, 웹·휴대폰의 Work는 유료 요금제.</p>
+
+    <h3 class="sg-h" id="sg-claude">Claude로 시작하기</h3>
+    <ol class="sg-steps">
+      <li><b>컴퓨터용 Claude 앱 설치 · 로그인</b></li>
+      <li><b>입력창 아래에서 모델 고르기</b><span>모르면 기본값 그대로 두면 돼요.</span></li>
+      <li><b>파일을 직접 만들고 고치는 작업 모드(Cowork)는 유료 요금제부터</b><span>무료라면 일반 채팅으로 먼저 해 보세요.</span></li>
+    </ol>
+    <p class="sg-note">메뉴 이름은 앱·요금제마다 달라요. 안 보이면 비슷한 이름을 찾아보세요.</p>
+
+    <h3 class="sg-h" id="sg-recipe">잘 쓰는 요령 · 노안중 레시피</h3>
+    <ul class="tips sg-recipe">
+      <li><b>양식 파일 한 장</b>우리 학교 양식을 「파일」로 같이 붙이기</li>
+      <li><b>잘된 예시 하나</b>마음에 들었던 지난 문서 하나를 같이 주기</li>
+      <li><b>규칙 한 줄</b>「학생 이름 · 연락처는 넣지 마」</li>
+      <li><b>물어볼 땐 채팅, 맡길 땐 Work</b>궁금한 건 채팅으로, 파일을 만들 땐 작업 모드로</li>
+    </ul>
+
+    <h3 class="sg-h" id="sg-compare">아이모두와 무엇이 다른가요?</h3>
+    <p class="sg-date">2026년 11월 기준 · 자주 바뀌어요</p>
+    <div class="sg-table">
+      <table>
+        <caption class="sg-cap">아이모두와 ChatGPT · Claude 비교</caption>
+        <thead><tr><th scope="col">살펴볼 점</th><th scope="col">아이모두</th><th scope="col">ChatGPT · Claude</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">누가 만들고 운영하나</th><td data-label="아이모두">교육청의 AI 교수학습 플랫폼 (ai.jne.kr)</td><td data-label="ChatGPT · Claude">AI 회사가 만든 앱 · 내가 직접 설치</td></tr>
+          <tr><th scope="row">비용</th><td data-label="아이모두">학교에서 받은 계정으로 써요 · 미리캔버스는 아이모두를 거쳐 들어가면 교육용 Pro</td><td data-label="ChatGPT · Claude">무료로 들어가 볼 수 있어요 · 많이 쓰려면 유료</td></tr>
+          <tr><th scope="row">계정</th><td data-label="아이모두">학교에서 받은 아이모두 계정 · 처음 한 번 간편인증·공동인증서 둘 다 등록</td><td data-label="ChatGPT · Claude">내 계정으로 컴퓨터용 앱에 로그인</td></tr>
+          <tr><th scope="row">학생과 함께 써도 되나</th><td data-label="아이모두">학생 등록 가능 · 보호자 동의서(PDF)를 붙여야 등록돼요 · 구글 클래스룸 연결</td><td data-label="ChatGPT · Claude">이 가이드는 선생님 업무용이에요 (학생과 쓰기는 다루지 않아요)</td></tr>
+          <tr><th scope="row">개인정보</th><td data-label="아이모두">개인정보 든 문서는 올리지 않아요 · 이름·연락처·성적은 지우고</td><td data-label="ChatGPT · Claude">넣지 않아요 · 부탁에 「학생 이름 · 연락처는 넣지 마」 한 줄</td></tr>
+          <tr><th scope="row">잘하는 일</th><td data-label="아이모두">로그인 한 번으로 교육청 도구 46개 · JneGPT(가정통신문·회의록 글) · Gemini·Notebook(긴 공문 정리) · 미리캔버스 · 구글 클래스룸</td><td data-label="ChatGPT · Claude">양식을 붙여 한 줄로 부탁 → 파일로 받기 · 「여기 고쳐 줘」로 다듬기</td></tr>
+          <tr><th scope="row">파일을 직접 만들어 주나 (작업 모드)</th><td data-label="아이모두"><b>오늘 같은 작업 모드(파일 직접 만들기)는 아이모두에서는 안 돼요.</b> 나온 글은 초안 → 내가 문서에 옮겨요</td><td data-label="ChatGPT · Claude">돼요 · ChatGPT Work(컴퓨터용 앱은 모든 요금제) · Claude Cowork(유료 요금제부터)</td></tr>
+          <tr><th scope="row">언제 쓰면 좋나</th><td data-label="아이모두">학생과 함께 · 학교 안에서 · 교육청 도구를 열 때</td><td data-label="ChatGPT · Claude">내 업무 파일(안내문·발표자료 등)을 맡길 때</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="motto">학생과 함께 · 학교 안에서는 아이모두, 내 업무 파일을 맡길 땐 ChatGPT·Claude의 작업 모드 — 단, 개인정보는 어디에도 넣지 않아요</p>
+    <p class="sg-note">아이모두 칸은 이 사이트의 <a href="../iamodu/index.html">아이모두 완전 정복</a>과 <a href="../index.html#08b">카드 08b(학생과 쓰기 전에)</a>에 적힌 내용만 옮겼어요.</p>
+
+    <div class="sg-warn" id="sg-rules" role="note" aria-labelledby="h-rules">
+      <h3 id="h-rules">⚠ 꼭 지켜 주세요</h3>
+      <ul>
+        <li><b>개인정보 넣지 않기</b> 학생 이름 · 연락처 · 성적은 지우고</li>
+        <li><b>남의 사진 · 음악 · 캐릭터 쓰지 않기</b></li>
+        <li><b>사실 · 숫자 확인</b> AI가 만든 건 초안 · 마지막 책임은 우리에게</li>
+      </ul>
+    </div>
   </section>
 
   <section class="card sec" aria-labelledby="h-harness">
@@ -150,8 +263,7 @@
       <li>Claude 앱 Customize → Skills</li>
       <li>zip 파일 올리기</li>
     </ol>
-    <p style="font-size:18px;margin:14px 0 0"><a href="../start/index.html">설치·시작 가이드 보기</a></p>
-    <p style="font-size:18px;margin:10px 0 0"><strong>시연용 품의서 양식(한글 hwpx) 내려받기</strong><br><a class="dl" href="assets/s2/pumui-demo.hwpx" download="품의서-시연용.hwpx">품의서 시연용(품목 채움)</a> · <a class="dl" href="assets/s2/pumui-blank.hwpx" download="품의서-빈양식.hwpx">품의서 빈 양식</a></p>
+    <p style="font-size:18px;margin:14px 0 0"><a href="#start-guide">ChatGPT · Claude 시작 가이드 보기</a></p>
   </section>
 </main>
 <script>
