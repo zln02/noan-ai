@@ -239,7 +239,7 @@
   if (!btn) return;
   function say(t) { if (window.NoanApp && window.NoanApp.toast) window.NoanApp.toast(t); }
   btn.addEventListener('click', function () {
-    var text = btn.getAttribute('data-copy');
+    var text = btn.getAttribute('data-copy').replace(/\r\n?/g, '\n');
     function ok() { say('복사했어요. 입력창에 붙여넣으세요'); }
     function manual() {
       var box = document.querySelector('.st-copy');
